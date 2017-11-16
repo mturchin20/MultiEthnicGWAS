@@ -1,0 +1,131 @@
+#!/bin/sh
+
+###20171108 -- MultiEthnicGWAS
+
+
+
+
+##20171108 -- PCAEffects
+
+#/users/mturchin/data/ukbiobank
+
+#mkdir /users/mturchin/LabMisc/RamachandranLab/IntroProjs
+#mkdir /users/mturchin/LabMisc/RamachandranLab/IntroProjs/MultiEthnGWAS
+#mkdir /users/mturchin/LabMisc/RamachandranLab/IntroProjs/MultiEthnGWAS/PCAEffects
+mkdir /users/mturchin/LabMisc/RamachandranLab/MultiEthnicGWAS; 
+#mv /users/mturchin/LabMisc/RamachandranLab/IntroProjs/MultiEthnGWAS/* /users/mturchin/LabMisc/RamachandranLab/MultiEthnicGWAS/.; rm -r /users/mturchin/LabMisc/RamachandranLab/IntroProjs/ 
+
+mkdir /users/mturchin/data/ukbiobank/mturchin
+
+# interact -t 72:00:00 -m 8g
+
+# (from MacBook Air) jupyter notebook /Users/mturchin20/Documents/Work/LabMisc/RamachandranLab/IntroProjs/MultiEthnGWAS/20171108_SS_Pipeline_Version_2.ipynb
+
+##./gconv 
+./gconv chrom21.cal mturchin/tempMisc/chrom21.basic.cal basic
+#chrom18+ missing from *.int and *.con filetypes for some reason
+./gconv chrom17.int mturchin/tempMisc/chrom17.basic.int basic
+./gconv chrom17.con mturchin/tempMisc/chrom17.basic.con basic
+
+#Retrieved from http://biobank.ctsu.ox.ac.uk/crystal/list.cgi and note the inclusion of `\` in front of each `&` in the URLs (manually did this after copy/pasting each URL)
+#note -- don't actually need to include the `\` in front of the `&s` like I need to do from the command-line; interestingly enough including the `\s` produces the issue I was trying to avoid from the get-go, so kind of a reverse behavior going on here
+urls1="http://biobank.ctsu.ox.ac.uk/crystal/list.cgi?it=0&vt=11 http://biobank.ctsu.ox.ac.uk/crystal/list.cgi?it=0&vt=21 http://biobank.ctsu.ox.ac.uk/crystal/list.cgi?it=0&vt=22 http://biobank.ctsu.ox.ac.uk/crystal/list.cgi?it=0&vt=31 http://biobank.ctsu.ox.ac.uk/crystal/list.cgi?it=0&vt=41 http://biobank.ctsu.ox.ac.uk/crystal/list.cgi?it=0&vt=51 http://biobank.ctsu.ox.ac.uk/crystal/list.cgi?it=0&vt=61 http://biobank.ctsu.ox.ac.uk/crystal/list.cgi?it=0&vt=101" 
+
+rm -f /users/mturchin/LabMisc/RamachandranLab/IntroProjs/MultiEthnGWAS/UKBioBank.HTMLScraping.FieldCategories.Field_Name.vs.txt; for i in $urls1; do echo $i; GET $i | perl -lane 'my $line = join(" ", @F); if ($line =~ m/.*.a class="basic" href="field.cgi\?id=(\d+)"..*.a class="subtle" href="field.cgi\?id=\d+".(.*).\/a..\/td..*/) { print $1, "\t", $2 ; }' >> /users/mturchin/LabMisc/RamachandranLab/IntroProjs/MultiEthnGWAS/UKBioBank.HTMLScraping.FieldCategories.Field_Name.vs.txt; done
+
+rm -f /users/mturchin/LabMisc/RamachandranLab/IntroProjs/MultiEthnGWAS/UKBioBank.HTMLScraping.IndividualFields.Field_Name_Participants.vs.txt; for i in `cat /users/mturchin/LabMisc/RamachandranLab/IntroProjs/MultiEthnGWAS/UKBioBank.HTMLScraping.FieldCategories.Field_Name.vs.txt | perl -F"\t" -lane 'chomp(@F); print join(";", @F);' | sed 's/ /_/g'`; do 
+#rm -f /users/mturchin/LabMisc/RamachandranLab/IntroProjs/MultiEthnGWAS/UKBioBank.HTMLScraping.IndividualFields.Field_Name_Participants.vs.txt; for i in `cat /users/mturchin/LabMisc/RamachandranLab/IntroProjs/MultiEthnGWAS/UKBioBank.HTMLScraping.FieldCategories.Field_Name.vs.txt | sed 's/\t/;/g' | sed 's/\s/_/g'`; do 
+#	echo $i; done
+	Field1=`echo $i | perl -F\; -ane 'print $F[0];'`
+	Name1=`echo $i | perl -F\; -ane 'print $F[1];'`
+	
+#	echo $i $Field1 $Name1; 
+#	echo $Field1 $Name1; 
+
+	GET http://biobank.ctsu.ox.ac.uk/crystal/field.cgi?id=$Field1 | perl -slane 'my $line = join(" ", @F); if ($line =~ m/.* (\d+,\d+) participants.*/) { print $Field2, "\t", $Name2, "\t", $1; }' -- -Field2=$Field1 -Name2=$Name1 | sed 's/,//g' >> /users/mturchin/LabMisc/RamachandranLab/IntroProjs/MultiEthnGWAS/UKBioBank.HTMLScraping.IndividualFields.Field_Name_Participants.vs.txt;
+done
+
+cat UKBioBank.HTMLScraping.IndividualFields.Field_Name_Participants.vs.txt | awk '{ print $3 }' | R -q -e "Data1 <- read.table(file('stdin'), header=F); png(\"nana.png\", height=650, width=650, res=150); hist(Data1[,1]); dev.off();"
+
+% cat MainScript.IntroProjs.MultiEthnGWAS.vs1.sh | perl -lane 'if ($. == 1) { $flag1 = 0; } my $line1 = join(" ", @F); if ($line1 =~ m/^-->.*/) { $flag1 = 0; close $fh1; } if ($flag1 == 1) { print $fh1 join("\t", @F); } if ($line1 =~ m/^<!-- (.*Rmd).*/) { $flag1 = 1; $file1 = $1; open($fh1, ">", $file1) }'
+
+<!-- Example.Rmd
+
+# Would
+## You
+### Look
+#### At
+#### That
+
+-->
+
+
+```
+[  mturchin@login002  ~]$GET http://biobank.ctsu.ox.ac.uk/crystal/field.cgi?id=53 | perl -lane 'my $line = join(" ", @F); if ($line =~ m/.*(\d+,\d+ participants).*/) { print $line; }'
+540,184 items of data are available, covering 502,620 participants.<br>Defined-instances run from 0 to 2, labelled using Instancing <a class="basic" href="instance.cgi?id=2">2</a>.
+502,620 participants, 502,620 items
+20,348 participants, 20,348 items
+17,216 participants, 17,216 items
+[  mturchin@login002  ~]$GET http://biobank.ctsu.ox.ac.uk/crystal/list.cgi?it=0\&vt=11 | perl -lane 'my $line = join(" ", @F); if ($line =~ m/.*.a class="basic" href="field.cgi\?id=(\d+)"..*.a class="subtle" href="field.cgi\?id=\d+".(.*).\/a..\/td..*/) { print $1, "\t", $2 ; }' | head -n 10
+5111    3mm asymmetry angle (left)
+5108    3mm asymmetry angle (right)
+5112    3mm cylindrical power angle (left)
+5115    3mm cylindrical power angle (right)
+5292    3mm index of best keratometry results (left)
+5237    3mm index of best keratometry results (right)
+5104    3mm strong meridian angle (left)
+5107    3mm strong meridian angle (right)
+5103    3mm weak meridian angle (left)
+5100    3mm weak meridian angle (right)
+[  mturchin@login002  ~]$echo $urls1
+http://biobank.ctsu.ox.ac.uk/crystal/list.cgi?it=0&vt=11 http://biobank.ctsu.ox.ac.uk/crystal/list.cgi?it=0&vt=21 http://biobank.ctsu.ox.ac.uk/crystal/list.cgi?it=0&vt=22 http://biobank.ctsu.ox.ac.uk/crystal/list.cgi?it=0&vt=31 http://biobank.ctsu.ox.ac.uk/crystal/list.cgi?it=0&vt=41 http://biobank.ctsu.ox.ac.uk/crystal/list.cgi?it=0&vt=51 http://biobank.ctsu.ox.ac.uk/crystal/list.cgi?it=0&vt=61 http://biobank.ctsu.ox.ac.uk/crystal/list.cgi?it=0&vt=101
+[  mturchin@login002  ~]$for i in urls1; do echo $i; done
+urls1
+[  mturchin@login002  ~]$for i in $urls1; do echo $i; done
+http://biobank.ctsu.ox.ac.uk/crystal/list.cgi?it=0&vt=11
+http://biobank.ctsu.ox.ac.uk/crystal/list.cgi?it=0&vt=21
+http://biobank.ctsu.ox.ac.uk/crystal/list.cgi?it=0&vt=22
+http://biobank.ctsu.ox.ac.uk/crystal/list.cgi?it=0&vt=31
+http://biobank.ctsu.ox.ac.uk/crystal/list.cgi?it=0&vt=41
+http://biobank.ctsu.ox.ac.uk/crystal/list.cgi?it=0&vt=51
+http://biobank.ctsu.ox.ac.uk/crystal/list.cgi?it=0&vt=61
+http://biobank.ctsu.ox.ac.uk/crystal/list.cgi?it=0&vt=101
+[  mturchin@login002  ~]$for i in `echo "http://biobank.ctsu.ox.ac.uk/crystal/list.cgi?it=0\&vt=11"`; do echo $i; GET "$i" | wc; done
+http://biobank.ctsu.ox.ac.uk/crystal/list.cgi?it=0\&vt=11
+     74     279    3872
+[  mturchin@login002  ~]$for i in `echo "http://biobank.ctsu.ox.ac.uk/crystal/list.cgi?it=0&vt=11"`; do echo $i; GET "$i" | wc; done
+http://biobank.ctsu.ox.ac.uk/crystal/list.cgi?it=0&vt=11
+    398    6529  107322
+[  mturchin@login002  ~]$for i in $urls1; do echo $i; GET $i | wc; done
+http://biobank.ctsu.ox.ac.uk/crystal/list.cgi?it=0&vt=11
+    398    6529  107322
+http://biobank.ctsu.ox.ac.uk/crystal/list.cgi?it=0&vt=21
+    943   15794  273946
+http://biobank.ctsu.ox.ac.uk/crystal/list.cgi?it=0&vt=22
+    166    2241   37668
+http://biobank.ctsu.ox.ac.uk/crystal/list.cgi?it=0&vt=31
+   1444   29862  452672
+http://biobank.ctsu.ox.ac.uk/crystal/list.cgi?it=0&vt=41
+     86     781   12146
+http://biobank.ctsu.ox.ac.uk/crystal/list.cgi?it=0&vt=51
+     80     699   10641
+http://biobank.ctsu.ox.ac.uk/crystal/list.cgi?it=0&vt=61
+     66     437    6288
+http://biobank.ctsu.ox.ac.uk/crystal/list.cgi?it=0&vt=101
+     63     366    5296
+[  mturchin@login002  ~]$cat /users/mturchin/LabMisc/RamachandranLab/IntroProjs/MultiEthnGWAS/UKBioBank.HTMLScraping.Field_Name.vs.txt | wc
+   2821   19813  132241
+[  mturchin@login002  ~]$GET http://biobank.ctsu.ox.ac.uk/crystal/field.cgi?id=20434 | perl -lane 'my $line = join(" ", @F); if ($line =~ m/.*(\d+,\d+ participants).*/) { print $line; }'
+89,048 items of data are available, covering 89,048 participants.<br>Some values have special meanings defined by Data-Coding <a class="basic" href="coding.cgi?id=513">513</a>.
+[  mturchin@login002  ~]$GET http://biobank.ctsu.ox.ac.uk/crystal/field.cgi?id=20434 | perl -lane 'my $line = join(" ", @F); if ($line =~ m/.*(\d+,\d+ participants).*/) { print $1; }'
+9,048 participants
+[  mturchin@login002  ~]$GET http://biobank.ctsu.ox.ac.uk/crystal/field.cgi?id=20434 | perl -lane 'my $line = join(" ", @F); if ($line =~ m/.*(\d*,\d+ participants).*/) { print $1; }'
+,048 participants
+[  mturchin@login002  ~]$GET http://biobank.ctsu.ox.ac.uk/crystal/field.cgi?id=20434 | perl -lane 'my $line = join(" ", @F); if ($line =~ m/.*(\d+,\d+ participants).*/) { print $1; }'
+9,048 participants
+[  mturchin@login002  ~]$GET http://biobank.ctsu.ox.ac.uk/crystal/field.cgi?id=20434 | perl -lane 'my $line = join(" ", @F); if ($line =~ m/.* (\d+,\d+ participants).*/) { print $1; }'
+89,048 participants
+
+
+```
+
