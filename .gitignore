@@ -1,3 +1,15 @@
+.Rproj.user
+.Rhistory
+.RData
+.Ruserdata
+.Rapp.history
+.DS_Store
+analysis/figure
+analysis/*html
+analysis/*_cache
+website/figure
+website/*html
+website/*_cache
 *swp
 *pdf
 *png

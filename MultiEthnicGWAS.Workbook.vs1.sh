@@ -3,7 +3,12 @@
 ###20171108 -- MultiEthnicGWAS
 
 
+##20171117 -- Dealing with sockets/missing screen issue
 
+#From https://superuser.com/questions/58525/how-do-i-reconnect-to-a-lost-screen-detached-missing-socket
+
+# ps aux | grep mturchin
+# kill -CHLD 16830 
 
 ##20171108 -- PCAEffects
 
@@ -47,7 +52,20 @@ done
 
 cat UKBioBank.HTMLScraping.IndividualFields.Field_Name_Participants.vs.txt | awk '{ print $3 }' | R -q -e "Data1 <- read.table(file('stdin'), header=F); png(\"nana.png\", height=650, width=650, res=150); hist(Data1[,1]); dev.off();"
 
-% cat MainScript.IntroProjs.MultiEthnGWAS.vs1.sh | perl -lane 'if ($. == 1) { $flag1 = 0; } my $line1 = join(" ", @F); if ($line1 =~ m/^-->.*/) { $flag1 = 0; close $fh1; } if ($flag1 == 1) { print $fh1 join("\t", @F); } if ($line1 =~ m/^<!-- (.*Rmd).*/) { $flag1 = 1; $file1 = $1; open($fh1, ">", $file1) }'
+cat MainScript.IntroProjs.MultiEthnGWAS.vs1.sh | perl -lane 'if ($. == 1) { $flag1 = 0; } my $line1 = join(" ", @F); if ($line1 =~ m/^-->.*/) { $flag1 = 0; close $fh1; } if ($flag1 == 1) { print $fh1 join("\t", @F); } if ($line1 =~ m/^<!-- (.*Rmd).*/) { $flag1 = 1; $file1 = $1; open($fh1, ">", $file1) }'
+
+#Getting .Rmd/.html/git directory stuff worked out by copying some base content from workflowr (https://github.com/jdblischak/workflowr) that I have stored in a previously temp workflowr test run at https://github.com/mturchin20/misc 
+#cd /users/mturchin/LabMisc/RamachandranLab/
+#clone https://github.com/mturchin20/misc
+
+mkdir /users/mturchin/LabMisc/RamachandranLab/MultiEthnicGWAS/docs
+mkdir /users/mturchin/LabMisc/RamachandranLab/MultiEthnicGWAS/website
+
+cp -rp /users/mturchin/LabMisc/RamachandranLab/misc/docs/site_libs/* /users/mturchin/LabMisc/RamachandranLab/MultiEthnicGWAS/docs/site_libs/.
+cp -rp /users/mturchin/LabMisc/RamachandranLab/misc/analysis/* /users/mturchin/LabMisc/RamachandranLab/MultiEthnicGWAS/website/.
+
+#some helpful comments from here re: knitr related commands https://stackoverflow.com/questions/10646665/how-to-convert-r-markdown-to-html-i-e-what-does-knit-html-do-in-rstudio-0-9
+#R -e "library(\"knitr\"); knitr::knit2html(\"Example.Rmd\");"
 
 <!-- Example.Rmd
 
@@ -56,6 +74,16 @@ cat UKBioBank.HTMLScraping.IndividualFields.Field_Name_Participants.vs.txt | awk
 ### Look
 #### At
 #### That
+
+-->
+
+<!-- Example2.Rmd
+
+# Let's
+## Go
+### Again
+#### Round
+#### Two
 
 -->
 
