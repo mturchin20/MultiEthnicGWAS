@@ -1,18 +1,18 @@
 ---
-title:	"Home"
+title: "Home"
 output:
 html_document:
-toc:	true
+toc: false
 ---
 
-Homepage	for	the	Ramachandran	Lab	project	`MultiEthnic	GWAS`.
+Homepage for the Ramachandran Lab project `MultiEthnic GWAS`.
 
-*	[Example	1][example1]
-*	[Example	2][example2]
+* [Example 1][example1]
+* [Example 2][example2]
 
-Github	[repo][gitrepo1]	page
+Github [repo][gitrepo1] page
 
-[example1]:	https://mturchin20.github.io/MultiEthnicGWAS/Example1.html
-[example2]:	url
-[gitrepo1]:	https://github.com/mturchin20/MultiEthnicGWAS
+[example1]: https://mturchin20.github.io/MultiEthnicGWAS/Example1.html
+[example2]: url
+[gitrepo1]: https://github.com/mturchin20/MultiEthnicGWAS
 
