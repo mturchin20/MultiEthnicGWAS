@@ -13,7 +13,7 @@ html: $(HTML_FILES)
 %.html: %.Rmd
 #	@echo $(MAKEFILE_LIST) $(MKFILE_PATH) $(CURRENT_PATH) $(CURRENT_DIR)
 	R --slave -e "set.seed(100);rmarkdown::render('$<')"
-	mv $(CURRENT_PATH)website/$(notdir $@) $(CURRENT_PATH)docs/$(notdir $@) 
+	cp -p $(CURRENT_PATH)website/$(notdir $@) $(CURRENT_PATH)docs/$(notdir $@) 
 	head -n 15 $(CURRENT_PATH)docs/$(notdir $@) > $(CURRENT_PATH)docs/$(notdir $@).tmp1
 	cat $(CURRENT_PATH)docs/$(notdir $@) | awk '{ if (NR > 25) { print $0 } }' > $(CURRENT_PATH)docs/$(notdir $@).tmp2
 	cat $(CURRENT_PATH)docs/$(notdir $@).tmp1 $(CURRENT_PATH)docs/20171127.CorrectHTML.html $(CURRENT_PATH)docs/$(notdir $@).tmp2 > $(CURRENT_PATH)docs/$(notdir $@)
@@ -21,7 +21,11 @@ html: $(HTML_FILES)
 
 %.html: %.md
 	R --slave -e "set.seed(100);rmarkdown::render('$<')"
-	mv $(CURRENT_PATH)website/$(notdir $@) $(CURRENT_PATH)docs/$(notdir $@) 
+	cp -p $(CURRENT_PATH)website/$(notdir $@) $(CURRENT_PATH)docs/$(notdir $@) 
+	head -n 15 $(CURRENT_PATH)docs/$(notdir $@) > $(CURRENT_PATH)docs/$(notdir $@).tmp1
+	cat $(CURRENT_PATH)docs/$(notdir $@) | awk '{ if (NR > 25) { print $0 } }' > $(CURRENT_PATH)docs/$(notdir $@).tmp2
+	cat $(CURRENT_PATH)docs/$(notdir $@).tmp1 $(CURRENT_PATH)docs/20171127.CorrectHTML.html $(CURRENT_PATH)docs/$(notdir $@).tmp2 > $(CURRENT_PATH)docs/$(notdir $@)
+	rm $(CURRENT_PATH)docs/$(notdir $@).tmp1 $(CURRENT_PATH)docs/$(notdir $@).tmp2
 
 .PHONY: clean
 clean:
