@@ -34,7 +34,7 @@ Homepage for the Ramachandran Lab project `MultiEthnic GWAS`.
 
 Github [repo][gitrepo1] page
 
-[example1]: url
+[example1]: https://github.com/mturchin20/MultiEthnicGWAS/docs/Example1.html
 [example2]: url
 [gitrepo1]: https://github.com/mturchin20/MultiEthnicGWAS
 
