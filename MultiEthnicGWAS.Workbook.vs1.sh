@@ -10,7 +10,38 @@
 # ps aux | grep mturchin
 # kill -CHLD 16830 
 
+#20171128 NOTE -- might be helpful here, shows the use of `autodetach on` at the end from this person's defaults, which I was not originally including in my `.screenrc` file, `https://remysharp.com/2015/04/27/screen`
+
+
 ##20171108 -- PCAEffects
+
+#20171128 -- git webpage TOC main .Rmd file setup here
+
+cat /users/mturchin/LabMisc/RamachandranLab/MultiEthnicGWAS/MultiEthnicGWAS.Workbook.vs1.sh | perl -lane 'if ($. == 1) { $flag1 = 0; } my $line1 = join(" ", @F); if ($line1 =~ m/^-->.*/) { $flag1 = 0; close $fh1; } if ($flag1 == 1) { print $fh1 join("\t", @F); } if ($line1 =~ m/^<!-- (.*Rmd).*/) { $flag1 = 1; $file1 = "/users/mturchin/LabMisc/RamachandranLab/MultiEthnicGWAS/website/" . $1; open($fh1, ">", $file1) }'
+
+<!-- index.Rmd
+---
+title: "Home"
+output:
+  html_document:
+    toc: false
+---
+
+Homepage for the Ramachandran Lab project `MultiEthnic GWAS`.
+
+* [Example 1][Example1]
+* [Example 2][Example2]
+
+Github [repo][gitrepo1] page
+
+[example1]: url
+[example2]: url
+[gitrepo1]: https://github.com/mturchin20/MultiEthnicGWAS
+
+-->
+
+
+
 
 #/users/mturchin/data/ukbiobank
 
@@ -52,8 +83,6 @@ done
 
 cat UKBioBank.HTMLScraping.IndividualFields.Field_Name_Participants.vs.txt | awk '{ print $3 }' | R -q -e "Data1 <- read.table(file('stdin'), header=F); png(\"nana.png\", height=650, width=650, res=150); hist(Data1[,1]); dev.off();"
 
-cat MainScript.IntroProjs.MultiEthnGWAS.vs1.sh | perl -lane 'if ($. == 1) { $flag1 = 0; } my $line1 = join(" ", @F); if ($line1 =~ m/^-->.*/) { $flag1 = 0; close $fh1; } if ($flag1 == 1) { print $fh1 join("\t", @F); } if ($line1 =~ m/^<!-- (.*Rmd).*/) { $flag1 = 1; $file1 = $1; open($fh1, ">", $file1) }'
-
 #Getting .Rmd/.html/git directory stuff worked out by copying some base content from workflowr (https://github.com/jdblischak/workflowr) that I have stored in a previously temp workflowr test run at https://github.com/mturchin20/misc 
 #cd /users/mturchin/LabMisc/RamachandranLab/
 #clone https://github.com/mturchin20/misc
@@ -66,10 +95,15 @@ cp -rp /users/mturchin/LabMisc/RamachandranLab/misc/analysis/* /users/mturchin/L
 
 #some helpful comments on Makefile misc -- https://stackoverflow.com/questions/3220277/what-do-the-makefile-symbols-and-mean, https://stackoverflow.com/questions/18136918/how-to-get-current-relative-directory-of-your-makefile, https://stackoverflow.com/questions/3707517/make-file-echo-displaying-path-string, https://www.gnu.org/software/make/manual/html_node/File-Name-Functions.html, https://www.gnu.org/software/make/manual/html_node/Text-Functions.html
 
+#20171128 NOTE -- copy and pasted the correct `<img src =....` lines from files such as `https://github.com/mturchin20/misc/blob/master/docs/index.html` into `/users/mturchin/LabMisc/RamachandranLab/MultiEthnicGWAS/docs/20171127.CorrectHTML.html` and then coming up with the `head`, `awk if (NR >...`, and `cat tmp1 CorrectHTML tmp2` commands found in the `Makefile` now  
+
 #some helpful comments from here re: knitr related commands https://stackoverflow.com/questions/10646665/how-to-convert-r-markdown-to-html-i-e-what-does-knit-html-do-in-rstudio-0-9
 #R -e "library(\"knitr\"); knitr::knit2html(\"Example.Rmd\");"
 
-<!-- Example.Rmd
+#cat MainScript.IntroProjs.MultiEthnGWAS.vs1.sh | 
+#cat /users/mturchin/LabMisc/RamachandranLab/MultiEthnicGWAS/MultiEthnicGWAS.Workbook.vs1.sh | perl -lane 'if ($. == 1) { $flag1 = 0; } my $line1 = join(" ", @F); if ($line1 =~ m/^-->.*/) { $flag1 = 0; close $fh1; } if ($flag1 == 1) { print $fh1 join("\t", @F); } if ($line1 =~ m/^<!-- (.*Rmd).*/) { $flag1 = 1; $file1 = "/users/mturchin/LabMisc/RamachandranLab/MultiEthnicGWAS/website/" . $1; open($fh1, ">", $file1) }'
+
+<!-- Example1.Rmd
 
 # Would
 ## You

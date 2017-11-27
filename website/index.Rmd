@@ -1,15 +1,18 @@
 ---
-title: "Home"
+title:	"Home"
 output:
-  html_document:
-    toc: false
+html_document:
+toc:	false
 ---
 
-The goal of this new template is to simplify the setup and maintenance of a research website.
-Specifically,
+Homepage	for	the	Ramachandran	Lab	project	`MultiEthnic	GWAS`.
 
-*  Easier to build and extend the website using the new tools in the [rmarkdown][] package and [latest RStudio release][rstudio]
-*  Easier to deploy the website with Git and GitHub by only using one branch
+*	[Example	1][Example1]
+*	[Example	2][Example2]
 
-[rmarkdown]: http://rmarkdown.rstudio.com/rmarkdown_websites.htm
-[rstudio]: https://www.rstudio.com/products/rstudio/download/preview/
+Github	[repo][gitrepo1]	page
+
+[example1]:	url
+[example2]:	url
+[gitrepo1]:	https://github.com/mturchin20/MultiEthnicGWAS
+

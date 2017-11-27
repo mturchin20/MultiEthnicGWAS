@@ -15,7 +15,8 @@ html: $(HTML_FILES)
 	R --slave -e "set.seed(100);rmarkdown::render('$<')"
 	cp -p $(CURRENT_PATH)website/$(notdir $@) $(CURRENT_PATH)docs/$(notdir $@) 
 	head -n 15 $(CURRENT_PATH)docs/$(notdir $@) > $(CURRENT_PATH)docs/$(notdir $@).tmp1
-	cat $(CURRENT_PATH)docs/$(notdir $@) | awk '{ if (NR > 25) { print $0 } }' > $(CURRENT_PATH)docs/$(notdir $@).tmp2
+#	cat $(CURRENT_PATH)docs/$(notdir $@) | awk '{ if (NR > 25) { print $0 } }' > $(CURRENT_PATH)docs/$(notdir $@).tmp2
+	cat $(CURRENT_PATH)docs/$(notdir $@) | perl -lane 'if ($$. == 1) { $$flag1 = 0; } my $$line1 = join(" ", @F); if ($$line1 eq "<style type=\"text/css\">code{white-space: pre;}</style>") { $$flag1 = 1; } if ($$flag1 == 1) { print join(" ", @F); }' > $(CURRENT_PATH)docs/$(notdir $@).tmp2
 	cat $(CURRENT_PATH)docs/$(notdir $@).tmp1 $(CURRENT_PATH)docs/20171127.CorrectHTML.html $(CURRENT_PATH)docs/$(notdir $@).tmp2 > $(CURRENT_PATH)docs/$(notdir $@)
 	rm $(CURRENT_PATH)docs/$(notdir $@).tmp1 $(CURRENT_PATH)docs/$(notdir $@).tmp2
 
