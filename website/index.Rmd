@@ -1,8 +1,8 @@
 ---
 title: "Home"
 output:
-html_document:
-toc: false
+  html_document:
+    toc: false
 ---
 
 Homepage for the Ramachandran Lab project `MultiEthnic GWAS`.
