@@ -29,8 +29,8 @@ output:
 
 Homepage for the Ramachandran Lab project `MultiEthnic GWAS`.
 
-* [Example 1][Example1]
-* [Example 2][Example2]
+* [Example 1][example1]
+* [Example 2][example2]
 
 Github [repo][gitrepo1] page
 
