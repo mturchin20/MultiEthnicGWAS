@@ -1,3 +1,9 @@
+---
+title:	"Home"
+output:
+html_document:
+toc:	true
+---
 
 Homepage	for	the	Ramachandran	Lab	project	`MultiEthnic	GWAS`.
 
