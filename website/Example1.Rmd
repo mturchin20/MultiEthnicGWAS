@@ -1,7 +1,13 @@
+---
+title: "Example 1"
+output:
+  html_document:
+    toc: false
+---
 
-#	Would
-##	You
-###	Look
-####	At
-####	That
+# Would
+## You
+### Look
+#### At
+#### That
 

@@ -37,7 +37,7 @@ Homepage for the Ramachandran Lab project `MultiEthnic GWAS`.
 Github [repo][gitrepo1] page
 
 [example1]: https://mturchin20.github.io/MultiEthnicGWAS/Example1.html 
-[example2]: url
+[example2]: https://mturchin20.github.io/MultiEthnicGWAS/Example2.html 
 [gitrepo1]: https://github.com/mturchin20/MultiEthnicGWAS
 
 -->
@@ -106,6 +106,12 @@ cp -rp /users/mturchin/LabMisc/RamachandranLab/misc/analysis/* /users/mturchin/L
 #cat /users/mturchin/LabMisc/RamachandranLab/MultiEthnicGWAS/MultiEthnicGWAS.Workbook.vs1.sh | perl -lane 'if ($. == 1) { $flag1 = 0; } my $line1 = join(" ", @F); if ($line1 =~ m/^-->.*/) { $flag1 = 0; close $fh1; } if ($flag1 == 1) { print $fh1 join("\t", @F); } if ($line1 =~ m/^<!-- (.*Rmd).*/) { $flag1 = 1; $file1 = "/users/mturchin/LabMisc/RamachandranLab/MultiEthnicGWAS/website/" . $1; open($fh1, ">", $file1) }'
 
 <!-- Example1.Rmd
+---
+title: "Example 1"
+output:
+  html_document:
+    toc: false
+---
 
 # Would
 ## You

@@ -13,6 +13,6 @@ Homepage for the Ramachandran Lab project `MultiEthnic GWAS`.
 Github [repo][gitrepo1] page
 
 [example1]: https://mturchin20.github.io/MultiEthnicGWAS/Example1.html
-[example2]: url
+[example2]: https://mturchin20.github.io/MultiEthnicGWAS/Example2.html
 [gitrepo1]: https://github.com/mturchin20/MultiEthnicGWAS
 
