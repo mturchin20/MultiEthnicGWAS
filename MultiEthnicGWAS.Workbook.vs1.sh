@@ -2,8 +2,42 @@
 
 ###20171108 -- MultiEthnicGWAS
 
+#20171227
+#TOC
 
-##20171117 -- Dealing with sockets/missing screen issue
+ - 20171108: PCAEffects
+
+
+#20171227
+#Conda environment setup/details/etc
+#See `/users/mturchin/RamachandranLab.CCV_General.Workbook.vs1.sh` for initial setup 
+
+module load conda
+conda config --add channels r
+conda config --add channels defaults
+conda config --add channels conda-forge
+conda config --add channels bioconda
+conda create -n MultiEthnicGWAS
+source activate MultiEthnicGWAS
+conda install R
+#conda install python #already installed as part of base package I guess
+conda install perl
+conda install java
+conda install plink
+conda install vcftools
+conda install bcftools
+conda install bwa
+conda install samtools
+conda install picard
+conda install gatk
+conda install eigensoft
+conda install r-devtools
+conda install r-knitr
+conda install r-testthat
+
+
+#20171117
+#Dealing with sockets/missing screen issue
 
 #From https://superuser.com/questions/58525/how-do-i-reconnect-to-a-lost-screen-detached-missing-socket
 
@@ -11,6 +45,7 @@
 # kill -CHLD 16830 
 
 #20171128 NOTE -- might be helpful here, shows the use of `autodetach on` at the end from this person's defaults, which I was not originally including in my `.screenrc` file, `https://remysharp.com/2015/04/27/screen`
+#20171227 NOTE -- the end result of this, which was troubleshooted by the IT department (via e-mail correspondence), was that there are two login nodes, 001 and 002, and if I setup screens on on one they'll appear as `dead` when logged onto the other login node; the solution then is to ssh into the appropriate login node if I'm randomly logged into the wrong one initially (and therefore in general work off of one login in node in particular from here on out).
 
 
 ##20171108 -- PCAEffects
@@ -236,6 +271,8 @@ sbatch -e /users/mturchin/data/ukbiobank_jun17/2017WinterHack/British/ukb_chr${i
 #
 #done
 
+#post-retreat extra work to clean things up/actually partially use?
+
 mkdir /users/mturchin/data/ukbiobank_jun17/subsets/
 
 val1hg19=`echo "HaemgenRBC2016;HaemgenRBC2016;8.31e-9;RBC,MCV,PCV,MCH,Hb,MCHC GEFOS2015;GEFOS2015;1.2e-8;FA,FN,LS SSGAC2016;SSGAC2016;5e-8;NEB_Pooled,AFB_Pooled EMERGE22015;EMERGE22015;7.1e-9;ICV,Accumbens,Amygdala,Caudate,Hippocampus,Pallidum,Putamen,Thalamus"`;
@@ -266,7 +303,8 @@ for j in `cat | head -n 2`; do
 	done
 done
 
-#post-retreat extra work to clean things up/actually partially use?
+
+#From https://stackoverflow.com/questions/2920301/clear-a-file-without-changing-its-timestamp
 
 
 21000 Ethnic_background 501726
