@@ -55,7 +55,6 @@ conda install r-testthat
 #cat /users/mturchin/LabMisc/RamachandranLab/MultiEthnicGWAS/MultiEthnicGWAS.Workbook.vs1.sh | perl -F" " -lane 'if ($. == 1) { $flag1 = 0; } my $line1 = join(" ", @F); if ($line1 =~ m/^-->.*/) { $flag1 = 0; close $fh1; } if ($flag1 == 1) { print $fh1 join(" ", @F); } if ($line1 =~ m/^<!-- (.*Rmd).*/) { $flag1 = 1; $file1 = "/users/mturchin/LabMisc/RamachandranLab/MultiEthnicGWAS/website/" . $1; open($fh1, ">", $file1) }'
 cat /users/mturchin/LabMisc/RamachandranLab/MultiEthnicGWAS/MultiEthnicGWAS.Workbook.vs1.sh | sed 's/ /,/g' | perl -F, -lane 'if ($. == 1) { $flag1 = 0; } my $line1 = join(" ", @F); if ($line1 =~ m/^-->.*/) { $flag1 = 0; close $fh1; } if ($flag1 == 1) { print $fh1 join(" ", @F); } if ($line1 =~ m/^<!-- (.*Rmd).*/) { $flag1 = 1; $file1 = "/users/mturchin/LabMisc/RamachandranLab/MultiEthnicGWAS/website/" . $1; open($fh1, ">", $file1) }'
 
-
 <!-- index.Rmd
 ---
 title: "Home"
@@ -77,7 +76,7 @@ Github [repo][gitrepo1] page
 
 -->
 
-#Beginning Work
+#beginning Work
 
 #/users/mturchin/data/ukbiobank , /users/mturchin/data/ukbiobank_jun17/mturchin
 
@@ -90,7 +89,6 @@ mkdir /users/mturchin/LabMisc/RamachandranLab/MultiEthnicGWAS;
 mkdir /users/mturchin/data/ukbiobank/mturchin
 
 # interact -t 72:00:00 -m 8g
-
 # (from MacBook Air) jupyter notebook /Users/mturchin20/Documents/Work/LabMisc/RamachandranLab/IntroProjs/MultiEthnGWAS/20171108_SS_Pipeline_Version_2.ipynb
 
 ##./gconv 
@@ -191,7 +189,6 @@ cat /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.Field_Name_Participant
 
 plink --bfile /users/mturchin/data/ukbiobank_jun17/calls/ukb_snp_chr21_v2 --recode --out /users/mturchin/data/ukbiobank_jun17/mturchin/ukb_snp_chr21_v2 --noweb
 
-
 #20171218
 
 ##cat /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.csv | perl -F, -lane 'if ($. == 1) { @colsUse; for (my $i = 0; $i <= $#F; $i++) { if ($F[$i] =~ m/(21000|21001|21003|22000|22001|22006|22007|22008|22009|22011|22012|22013|31|34|48|49|50|)/) { push(@colsUse, $i); } } } print join(",", @F[@colsUse]);' > /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.PrepWork.txt
@@ -250,15 +247,16 @@ plink --bfile /users/mturchin/data/ukbiobank_jun17/2017WinterHack/British/ukb_ch
 
 #NOTE -- changed/played around with a few permissions to help get other members of the retreat group access to some of the files that were created during this process; first used chmod 777 just to brute force fix things, then changed to be more specific (eg give just group users permission but not necessarily just anyone), and then afterwards cleaned things up be removing write-access to group users as well (some info for said steps from: https://en.wikipedia.org/wiki/Chmod)
 
-#Saved the below code into a file via ':218,227w! /users/mturchin/data/ukbiobank_jun17/2017WinterHack/2017WinterHack.plink.GetAncestrySubsets.vs2.sh'; moved to the 'vs2' version after the retreat 
+#20171228 NOTE -- think I'm going to ditch this idea and just do the normal 'create file separately and edit/do things/etc in the file itself'; by uploading the file to the github space it should be made accessible for later downstream linking and reports/summaries/logs/etc...
+#Saved the below code into a file via ':251,259w! /users/mturchin/data/ukbiobank_jun17/2017WinterHack/2017WinterHack.plink.GetAncestrySubsets.vs2.sh'; moved to the 'vs2' version after the retreat 
 #!/bin/sh
 
-ancestry="$1"
+ancestry1="$1"
 ancestry2="$2"
 keep="$3"
 chr="$4"
 
-plink --bed /users/mturchin/data/ukbiobank_jun17/calls/ukb_cal_chr${chr}_v2.bed --bim /users/mturchin/data/ukbiobank_jun17/calls/ukb_snp_chr${chr}_v2.bim --fam /users/mturchin/data/ukbiobank_jun17/ukb2241_cal_chr1_v2_s488363.fam --make-bed --keep $keep --out /users/mturchin/data/ukbiobank_jun17/2017WinterHack/$ancestry/ukb_chr${chr}_v2.${ancestry2} --noweb
+plink --bed /users/mturchin/data/ukbiobank_jun17/calls/ukb_cal_chr${chr}_v2.bed --bim /users/mturchin/data/ukbiobank_jun17/calls/ukb_snp_chr${chr}_v2.bim --fam /users/mturchin/data/ukbiobank_jun17/ukb2241_cal_chr1_v2_s488363.fam --make-bed --keep $keep --out /users/mturchin/data/ukbiobank_jun17/2017WinterHack/$ancestry1/ukb_chr${chr}_v2.${ancestry2} --noweb
 
 ##srun -e /users/mturchin/data/ukbiobank_jun17/2017WinterHack/error -o /users/mturchin/data/ukbiobank_jun17/2017WinterHack/out bash /users/mturchin/data/ukbiobank_jun17/2017WinterHack/2017WinterHack.plink.GetAncestrySubsets.sh British /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.Covars.British.Ran4000.FIDIIDs 21
 sbatch -e /users/mturchin/data/ukbiobank_jun17/2017WinterHack/British/ukb_chr${i}_v2.British.Ran4000.slurm.error /users/mturchin/data/ukbiobank_jun17/2017WinterHack/2017WinterHack.plink.GetAncestrySubsets.sh British British.Ran4000 /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.Covars.British.Ran4000.FIDIIDs 21
@@ -271,59 +269,180 @@ sbatch -e /users/mturchin/data/ukbiobank_jun17/2017WinterHack/British/ukb_chr${i
 #
 #done
 
-#post-retreat extra work to clean things up/actually partially use?
+#post-retreat extra work to clean things up/actually partially use/follow-up; just continuing on here with things I think
 
 mkdir /users/mturchin/data/ukbiobank_jun17/subsets/
 
-val1hg19=`echo "HaemgenRBC2016;HaemgenRBC2016;8.31e-9;RBC,MCV,PCV,MCH,Hb,MCHC GEFOS2015;GEFOS2015;1.2e-8;FA,FN,LS SSGAC2016;SSGAC2016;5e-8;NEB_Pooled,AFB_Pooled EMERGE22015;EMERGE22015;7.1e-9;ICV,Accumbens,Amygdala,Caudate,Hippocampus,Pallidum,Putamen,Thalamus"`;
-                
-for i in `cat <(echo $val1hg19 | perl -lane 'print join("\n", @F);')`; do
-        Dir1=`echo $i | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[0];'`
-        Dir2=`echo $i | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[1];'`
-        pVal1=`echo $i | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[2];'`
+#Put in `/users/mturchin/.bashrc`, from sources such as `http://www.accre.vanderbilt.edu/?page_id=361`, etc...
+#`alias sacct='sacct --format JobID,JobName,Partition,User,Account,Submit,CPUTime,AllocCPUS,State,ExitCode'`
+#`alias squeue='squeue --Format=jobid,partition,name,username,statecompact,starttime,timeused,numnodes,nodelist'`
 
+cat /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.Covars.British.FIDIIDs | sort -R --random-source=/users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.Covars.British.FIDIIDs | head -n 10000 > /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.Covars.British.Ran10000.FIDIIDs
+cat /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.Covars.British.FIDIIDs | sort -R --random-source=/users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.Covars.British.FIDIIDs | head -n 100000 > /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.Covars.British.Ran100000.FIDIIDs
+cat /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.Covars.British.FIDIIDs | sort -R --random-source=/users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.Covars.British.FIDIIDs | head -n 200000 > /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.Covars.British.Ran200000.FIDIIDs
 
+#val1hg19=`echo "HaemgenRBC2016;HaemgenRBC2016;8.31e-9;RBC,MCV,PCV,MCH,Hb,MCHC GEFOS2015;GEFOS2015;1.2e-8;FA,FN,LS SSGAC2016;SSGAC2016;5e-8;NEB_Pooled,AFB_Pooled EMERGE22015;EMERGE22015;7.1e-9;ICV,Accumbens,Amygdala,Caudate,Hippocampus,Pallidum,Putamen,Thalamus"`;
+#                
+#for i in `cat <(echo $val1hg19 | perl -lane 'print join("\n", @F);')`; do
+#        Dir1=`echo $i | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[0];'`
+#        Dir2=`echo $i | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[1];'`
+#        pVal1=`echo $i | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[2];'`
 
-for j in `cat | head -n 2`; do
-	ancestry1=``
-	ancestry2=``
+#UKBioBankPops=`echo "African;African Any_other_Asian_background;Any_other_Asian_background Any_other_mixed_background;Any_other_mixed_background Any_other_white_background;Any_other_white_background British;British British;British.Ran4000 Caribbean;Caribbean Chinese;Chinese Indian;Indian Irish;Irish Pakistani;Pakistani"`;
+#UKBioBankPops=`echo "African;African Any_other_Asian_background;Any_other_Asian_background Any_other_mixed_background;Any_other_mixed_background Any_other_white_background;Any_other_white_background British;British 
+British;British.Ran4000 British;British.Ran10000 British;British.Ran100000 British;British.Ran200000 Caribbean;Caribbean Chinese;Chinese Indian;Indian Irish;Irish Pakistani;Pakistani"`;
+#UKBioBankPops=`echo "British;British.Ran10000 British;British.Ran100000 British;British.Ran200000"`; 
+UKBioBankPops=`echo "African;African Any_other_white_background;Any_other_white_background British;British British;British.Ran10000 British;British.Ran100000 British;British.Ran200000 Caribbean;Caribbean Indian;Indian Irish;Irish"`; 
 
-	for chr1 in {X..X}; do
+#African;African
+#Any_other_Asian_background;Any_other_Asian_background
+#Any_other_Black_background;Any_other_Black_background
+#Any_other_mixed_background;Any_other_mixed_background
+#Any_other_white_background;Any_other_white_background
+#Asian_or_Asian_British;Asian_or_Asian_British
+#Bangladeshi;Bangladeshi
+#Black_or_Black_British;Black_or_Black_British
+#British;British
+#British;British.Ran4000
+#British;British.Ran10000
+#British;British.Ran100000
+#British;British.Ran200000
+#Caribbean;Caribbean
+#Chinese;Chinese
+#Do_not_know;Do_not_know
+#Indian;Indian
+#Irish;Irish
+#Mixed;Mixed
+#Other_ethnic_group;Other_ethnic_group
+#Pakistani;Pakistani
+#Prefer_not_to_answer;Prefer_not_to_answer
+#White;White
+#White_and_Asian;White_and_Asian
+#White_and_Black_African;White_and_Black_African
+#White_and_Black_Caribbean;White_and_Black_Caribbean
+
+for j in `cat <(echo $UKBioBankPops | perl -lane 'print join("\n", @F);')`; do
+	ancestry1=`echo $j | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[0];'`
+	ancestry2=`echo $j | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[1];'`
+
+	for chr in {1..22} X; do
 	
 		if [ ! -d /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1 ]; then
-		
+			mkdir /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1	
 		fi
 		if [ ! -d /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2 ]; then
-		
+			mkdir /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2
 		fi
 	
-		echo $ancestry1 $ancestry2 $chr1	
-		sbatch -t 1:00:00 --mem 8g -e /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/ukb_chr${i}_v2.$ancestry2.slurm.error /users/mturchin/data/ukbiobank_jun17/2017WinterHack/2017WinterHack.plink.GetAncestrySubsets.vs2.sh $ancestry1 $ancestry2 /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.Covars.$ancestry2.FIDIIDs $chr1
+		echo $ancestry1 $ancestry2 $chr	
+		sbatch -t 1:00:00 --mem 8g -o /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/ukb_chr${chr}_v2.$ancestry2.slurm.%j.output -e /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/ukb_chr${chr}_v2.$ancestry2.slurm.%j.error /users/mturchin/data/ukbiobank_jun17/2017WinterHack/2017WinterHack.plink.GetAncestrySubsets.vs2.sh $ancestry1 $ancestry2 /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.Covars.$ancestry2.FIDIIDs $chr
 	
 	done
 done
 
-
 #From https://stackoverflow.com/questions/2920301/clear-a-file-without-changing-its-timestamp
+##!/bin/sh
+#TMPFILE=`mktemp`
+##save the timestamp
+#touch -r file-name $TMPFILE
+#> file_name
+##restore the timestamp after truncation
+#touch -r $TMPFILE file-name
+#rm $TMPFILE
+
+for j in `echo "African Caribbean British"`; do
+	for i in `ls -lrt /users/mturchin/data/ukbiobank_jun17/2017WinterHack/$j/. | awk '{ print $9 }' | grep -E 'bed|bim|fam'`; do
+		echo /users/mturchin/data/ukbiobank_jun17/2017WinterHack/$j/$i
+		
+		TMPFILE=`mktemp`
+		touch -r /users/mturchin/data/ukbiobank_jun17/2017WinterHack/$j/$i $TMPFILE
+		cat /dev/null > /users/mturchin/data/ukbiobank_jun17/2017WinterHack/$j/$i
+		touch -r $TMPFILE /users/mturchin/data/ukbiobank_jun17/2017WinterHack/$j/$i
+		rm $TMPFILE
+	done
+done
+
+for 
+
+#for j in `cat <(echo $UKBioBankPops | perl -lane 'print join("\n", @F);')`; do
+#	ancestry1=`echo $j | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[0];'`
+#	ancestry2=`echo $j | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[1];'`
+#
+#	echo $ancestry1 $ancestry2 /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/ukb_chrAll_v2.${ancestry2}.MergeList.txt
+#
+#	cat /dev/null > /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/ukb_chrAll_v2.${ancestry2}.MergeList.txt
+#	
+#	for chr in {2..22} X; do
+#		echo "/users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/ukb_chr${chr}_v2.${ancestry2}.bed /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/ukb_chr${chr}_v2.${ancestry2}.bim /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/ukb_chr${chr}_v2.${ancestry2}.fam" >> /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/ukb_chrAll_v2.${ancestry2}.MergeList.txt
+#	done
+#
+#done
+#
+#for j in `cat <(echo $UKBioBankPops | perl -lane 'print join("\n", @F);')`; do
+#	ancestry1=`echo $j | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[0];'`
+#	ancestry2=`echo $j | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[1];'`
+#
+#	echo $ancestry1 $ancestry2 /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/ukb_chrAll_v2.${ancestry2}.MergeList.txt
+#
+#	sbatch -t 1:00:00 --mem 100g -o /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/ukb_chrAll_v2.${ancestry2}.slurm.%j.output -e /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/ukb_chrAll_v2.${ancestry2}.slurm.%j.error --comment "$ancestry1 $ancestry2" <(echo -e '#!/bin/sh'; echo -e "\nplink --bfile /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/ukb_chr1_v2.${ancestry2} --merge-list /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/ukb_chrAll_v2.${ancestry2}.MergeList.txt --make-bed --out /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/ukb_chrAll_v2.${ancestry2}") 
+#
+##	rm /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/ukb_chrAll_v2.${ancestry2}.Height.bed /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/ukb_chrAll_v2.${ancestry2}.Height.bim /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/ukb_chrAll_v2.${ancestry2}.Height.fam
+#
+#done
+
+#Below completed with help from `http://zzz.bwh.harvard.edu/plink/dataman.shtml#mergelist`, `https://stackoverflow.com/questions/6907531/generating-a-bash-script-with-echo-problem-with-shebang-line`, & `https://stackoverflow.com/questions/13799789/expansion-of-variable-inside-single-quotes-in-a-command-in-bash` 
+
+#for pheno1 in `echo "Height BMI Waist Hip"`; do
+for pheno1 in `echo "BMI Waist Hip"`; do
+	for j in `cat <(echo $UKBioBankPops | perl -lane 'print join("\n", @F);')`; do
+		ancestry1=`echo $j | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[0];'`
+		ancestry2=`echo $j | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[1];'`
+
+		for i in {1..22} X; do
+			echo $pheno1 $ancestry1 $ancestry2 $i
+	
+			sbatch -t 1:00:00 --mem 20g -o /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/ukb_chr${i}_v2.${ancestry2}.${pheno1}.linear.slurm.output -e /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/ukb_chr${i}_v2.${ancestry2}.${pheno1}.linear.slurm.error --comment "$pheno1 $ancestry1 $ancestry2 $i" <(echo -e '#!/bin/sh'; echo -e "\nplink --bfile /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/ukb_chr${i}_v2.${ancestry2} --pheno /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.Phenos.Edit.txt --pheno-name $pheno1 --linear --covar /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.Covars.txt --covar-name AGE,SEX --out /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/ukb_chr${i}_v2.${ancestry2}.${pheno1}")
+
+		done
+	done	
+done
+
+#		sbatch -t 1:00:00 --mem 8g -o /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/ukb_chrAll_v2.${ancestry2}.${pheno1}.linear.slurm.%j.output -e /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/ukb_chrAll_v2.${ancestry2}.${pheno1}.linear.slurm.%j.error <(echo -e '#!/bin/sh'; echo -e "\nplink --bfile /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/ukb_chr1_v2.${ancestry2} --merge-list /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/ukb_chrAll_v2.${ancestry2}.MergeList.txt --pheno /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.Phenos.Edit.txt --pheno-name $pheno1 --linear --covar /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.Covars.txt --covar-name AGE,SEX --out /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/ukb_chrAll_v2.${ancestry2}.${pheno1}")
+
+#for pheno1 in `echo "Height"`; do
+#	for j in `cat <(echo $UKBioBankPops | perl -lane 'print join("\n", @F);')`; do
+#		ancestry1=`echo $j | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[0];'`
+#		ancestry2=`echo $j | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[1];'`
+#		echo $pheno1 $ancestry1 $ancestry2
+#
+#		for i in {1..22} X; do
+#			if [ ! -e /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/ukb_chr${i}_v2.${ancestry2}.${pheno1}.assoc.linear ]; then 
+#				echo -e "\t" $i
+#			fi
+#		done
+#	done	
+#done
 
 
-21000 Ethnic_background 501726
-21001 Body_mass_index_(BMI) 499579
-21003 Age_when_attended_assessment_centre 502620
-22000 Genotype_measurement_batch 488366
-22001 Genetic_sex 488366
-22006 Genetic_ethnic_grouping 409694
-22007 Genotype_measurement_plate 488366
-22008 Genotype_measurement_well 488366
-22009 Genetic_principal_components 488366
-22011 Genetic_relatedness_pairing 17306
-22012 Genetic_relatedness_factor 17306
-22013 Genetic_relatedness_IBS0 17306
-31 Sex 502620
-34 Year_of_birth 502620
-48 Waist_circumference 500500
-49 Hip_circumference 500438
-50 Standing_height 500130
+
+
+#21000 Ethnic_background 501726
+#21001 Body_mass_index_(BMI) 499579
+#21003 Age_when_attended_assessment_centre 502620
+#22000 Genotype_measurement_batch 488366
+#22001 Genetic_sex 488366
+#22006 Genetic_ethnic_grouping 409694
+#22007 Genotype_measurement_plate 488366
+#22008 Genotype_measurement_well 488366
+#22009 Genetic_principal_components 488366
+#22011 Genetic_relatedness_pairing 17306
+#22012 Genetic_relatedness_factor 17306
+#22013 Genetic_relatedness_IBS0 17306
+#31 Sex 502620
+#34 Year_of_birth 502620
+#48 Waist_circumference 500500
+#49 Hip_circumference 500438
+#50 Standing_height 500130
 
 #21000 Ethnic_background 501726
 #21001 Body_mass_index_(BMI) 499579
@@ -431,11 +550,6 @@ done
 #    831 White_and_Asian
 #    425 White_and_Black_African
 #    620 White_and_Black_Caribbean
-
-
-
-
-
 
 ```
 [  mturchin@login002  ~]$GET http://biobank.ctsu.ox.ac.uk/crystal/field.cgi?id=53 | perl -lane 'my $line = join(" ", @F); if ($line =~ m/.*(\d+,\d+ participants).*/) { print $line; }'
@@ -1048,6 +1162,40 @@ ukb9200.2017_8_WinterRetreat.Covars.Any_other_mixed_background.FIDIIDs  ukb9200.
 ukb9200.2017_8_WinterRetreat.Covars.Any_other_white_background.FIDIIDs  ukb9200.2017_8_WinterRetreat.Covars.Irish.FIDIIDs                       ukb9200.2017_8_WinterRetreat.Covars.txt
 ukb9200.2017_8_WinterRetreat.Covars.Asian_or_Asian_British.FIDIIDs      ukb9200.2017_8_WinterRetreat.Covars.Mixed.FIDIIDs                       
 ukb9200.2017_8_WinterRetreat.Covars.Bangladeshi.FIDIIDs                 ukb9200.2017_8_WinterRetreat.Covars.Other_ethnic_group.FIDIIDs          
+#20171228
+[  mturchin@node462  ~/LabMisc/RamachandranLab/MultiEthnicGWAS]$squeue --Format=jobid,partition,name,username,statecompact,starttime,timeused,numnodes,nodelist | head -n 10
+JOBID               PARTITION           NAME                USER                ST                  START_TIME          TIME                NODES               NODELIST
+18498392            batch                                   ssharm10            PD                  N/A                 0:00                4
+18461427            batch               FRAGMENTS_100[16]   bsevilmi            PD                  N/A                 0:00                1
+18461428            batch               FRAGMENTS_100[17]   bsevilmi            PD                  N/A                 0:00                1
+18461429            batch               FRAGMENTS_100[18]   bsevilmi            PD                  N/A                 0:00                1
+18461430            batch               FRAGMENTS_100[19]   bsevilmi            PD                  N/A                 0:00                1
+18461431            batch               FRAGMENTS_100[20]   bsevilmi            PD                  N/A                 0:00                1
+18461432            batch               FRAGMENTS_100[21]   bsevilmi            PD                  N/A                 0:00                1
+18461433            batch               FRAGMENTS_100[22]   bsevilmi            PD                  N/A                 0:00                1
+18461434            batch               FRAGMENTS_100[23]   bsevilmi            PD                  N/A                 0:00                1
+[  mturchin@node463  ~/LabMisc/RamachandranLab/MultiEthnicGWAS]$for pheno1 in `echo "Height"`; do
+>         for j in `cat <(echo $UKBioBankPops | perl -lane 'print join("\n", @F);')`; do
+>                 ancestry1=`echo $j | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[0];'`
+>                 ancestry2=`echo $j | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[1];'`
+>                 echo $pheno1 $ancestry1 $ancestry2
+> 
+>                 for i in {1..22} X; do
+>                         if [ ! -e /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/ukb_chr${i}_v2.${ancestry2}.${pheno1}.assoc.linear ]; then 
+>                                 echo -e "\t" $i
+>                         fi
+>                 done
+>         done
+> done
+Height African African
+Height Any_other_white_background Any_other_white_background
+Height British British
+Height British British.Ran10000
+Height British British.Ran100000
+Height British British.Ran200000
+Height Caribbean Caribbean
+Height Indian Indian
+Height Irish Irish
 
 
 
