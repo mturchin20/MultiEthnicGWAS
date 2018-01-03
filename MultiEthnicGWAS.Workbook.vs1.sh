@@ -83,7 +83,7 @@ Github [repo][gitrepo1] page
 #mkdir /users/mturchin/LabMisc/RamachandranLab/IntroProjs
 #mkdir /users/mturchin/LabMisc/RamachandranLab/IntroProjs/MultiEthnGWAS
 #mkdir /users/mturchin/LabMisc/RamachandranLab/IntroProjs/MultiEthnGWAS/PCAEffects
-mkdir /users/mturchin/LabMisc/RamachandranLab/MultiEthnicGWAS; 
+mkdir /users/mturchin/LabMisc/RamachandranLab/MultiEthnicGWAS
 #mv /users/mturchin/LabMisc/RamachandranLab/IntroProjs/MultiEthnGWAS/* /users/mturchin/LabMisc/RamachandranLab/MultiEthnicGWAS/.; rm -r /users/mturchin/LabMisc/RamachandranLab/IntroProjs/ 
 
 mkdir /users/mturchin/data/ukbiobank/mturchin
@@ -272,10 +272,14 @@ sbatch -e /users/mturchin/data/ukbiobank_jun17/2017WinterHack/British/ukb_chr${i
 #post-retreat extra work to clean things up/actually partially use/follow-up; just continuing on here with things I think
 
 mkdir /users/mturchin/data/ukbiobank_jun17/subsets/
+mkdir /users/mturchin/LabMisc/RamachandranLab/MultiEthnicGWAS/scripts
+mkdir /users/mturchin/LabMisc/RamachandranLab/MultiEthnicGWAS/scripts/Intro
 
 #Put in `/users/mturchin/.bashrc`, from sources such as `http://www.accre.vanderbilt.edu/?page_id=361`, etc...
-#`alias sacct='sacct --format JobID,JobName,Partition,User,Account,Submit,CPUTime,AllocCPUS,State,ExitCode'`
+##`alias sacct='sacct --format JobID,JobName,Partition,User,Account,Submit,CPUTime,AllocCPUS,State,ExitCode'`
+#`alias sacct='sacct --format JobID,JobName,Partition,User,Account,Submit,CPUTime,AllocCPUS,State,ExitCode,Comment%50'`
 #`alias squeue='squeue --Format=jobid,partition,name,username,statecompact,starttime,timeused,numnodes,nodelist'`
+#sacct --starttime 2014-07-01 #From https://ubccr.freshdesk.com/support/solutions/articles/5000686909-how-to-retrieve-job-history-and-accounting
 
 cat /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.Covars.British.FIDIIDs | sort -R --random-source=/users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.Covars.British.FIDIIDs | head -n 10000 > /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.Covars.British.Ran10000.FIDIIDs
 cat /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.Covars.British.FIDIIDs | sort -R --random-source=/users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.Covars.British.FIDIIDs | head -n 100000 > /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.Covars.British.Ran100000.FIDIIDs
@@ -321,6 +325,9 @@ UKBioBankPops=`echo "African;African Any_other_white_background;Any_other_white_
 #White_and_Black_African;White_and_Black_African
 #White_and_Black_Caribbean;White_and_Black_Caribbean
 
+#cp -p /users/mturchin/data/ukbiobank_jun17/2017WinterHack/2017WinterHack.plink.GetAncestrySubsets.sh /users/mturchin/LabMisc/RamachandranLab/MultiEthnicGWAS/scripts/Intro/2017WinterHack.plink.GetAncestrySubsets.sh
+#cp -p /users/mturchin/data/ukbiobank_jun17/2017WinterHack/2017WinterHack.plink.GetAncestrySubsets.vs2.sh /users/mturchin/LabMisc/RamachandranLab/MultiEthnicGWAS/scripts/Intro/2017WinterHack.plink.GetAncestrySubsets.vs2.sh
+
 for j in `cat <(echo $UKBioBankPops | perl -lane 'print join("\n", @F);')`; do
 	ancestry1=`echo $j | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[0];'`
 	ancestry2=`echo $j | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[1];'`
@@ -335,7 +342,7 @@ for j in `cat <(echo $UKBioBankPops | perl -lane 'print join("\n", @F);')`; do
 		fi
 	
 		echo $ancestry1 $ancestry2 $chr	
-		sbatch -t 1:00:00 --mem 8g -o /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/ukb_chr${chr}_v2.$ancestry2.slurm.%j.output -e /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/ukb_chr${chr}_v2.$ancestry2.slurm.%j.error /users/mturchin/data/ukbiobank_jun17/2017WinterHack/2017WinterHack.plink.GetAncestrySubsets.vs2.sh $ancestry1 $ancestry2 /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.Covars.$ancestry2.FIDIIDs $chr
+		sbatch -t 1:00:00 --mem 8g -o /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/ukb_chr${chr}_v2.$ancestry2.slurm.%j.output -e /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/ukb_chr${chr}_v2.$ancestry2.slurm.%j.error /users/mturchin/LabMisc/RamachandranLab/MultiEthnicGWAS/scripts/Intro/2017WinterHack.plink.GetAncestrySubsets.vs2.sh $ancestry1 $ancestry2 /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.Covars.$ancestry2.FIDIIDs $chr
 	
 	done
 done
@@ -391,9 +398,10 @@ for
 #done
 
 #Below completed with help from `http://zzz.bwh.harvard.edu/plink/dataman.shtml#mergelist`, `https://stackoverflow.com/questions/6907531/generating-a-bash-script-with-echo-problem-with-shebang-line`, & `https://stackoverflow.com/questions/13799789/expansion-of-variable-inside-single-quotes-in-a-command-in-bash` 
+#Note -- did not end up going with `--merge-list` route since it, apparently, creates the merged PLINK files automatically, and I couldn't immediately find an option to by-pass this; one possibly solution would have been to delete these files at the end of the script, but I also realized that running the regressions (and possibly more/later analyses) would take less time if I keep things in a parallelized, per-chromosome state
 
-#for pheno1 in `echo "Height BMI Waist Hip"`; do
-for pheno1 in `echo "BMI Waist Hip"`; do
+for pheno1 in `echo "Height BMI Waist Hip"`; do
+#for pheno1 in `echo "BMI Waist Hip"`; do
 	for j in `cat <(echo $UKBioBankPops | perl -lane 'print join("\n", @F);')`; do
 		ancestry1=`echo $j | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[0];'`
 		ancestry2=`echo $j | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[1];'`
@@ -422,6 +430,44 @@ done
 #		done
 #	done	
 #done
+
+#for pheno1 in `echo "Height BMI Waist Hip"`; do
+for pheno1 in `echo "Height"`; do
+#for pheno1 in `echo "BMI Waist Hip"`; do
+	for j in `cat <(echo $UKBioBankPops | perl -lane 'print join("\n", @F);')`; do
+		ancestry1=`echo $j | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[0];'`
+		ancestry2=`echo $j | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[1];'`
+
+		for i in {1..22} X; do
+			echo $pheno1 $ancestry1 $ancestry2 $i
+
+			#PLINK clump commands version of below
+
+			sbatch -t 1:00:00 --mem 20g -o /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/ukb_chr${i}_v2.${ancestry2}.${pheno1}.linear.slurm.output -e /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/ukb_chr${i}_v2.${ancestry2}.${pheno1}.linear.slurm.error --comment "$pheno1 $ancestry1 $ancestry2 $i" <(echo -e '#!/bin/sh'; echo -e "\nplink --bfile /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/ukb_chr${i}_v2.${ancestry2} --pheno /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.Phenos.Edit.txt --pheno-name $pheno1 --linear --covar /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.Covars.txt --covar-name AGE,SEX --out /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/ukb_chr${i}_v2.${ancestry2}.${pheno1}")
+
+		done
+	done	
+done
+
+#for pheno1 in `echo "Height BMI Waist Hip"`; do
+for pheno1 in `echo "Height"`; do
+#for pheno1 in `echo "BMI Waist Hip"`; do
+	for j in `cat <(echo $UKBioBankPops | perl -lane 'print join("\n", @F);') | head -n 2`; do
+		ancestry1=`echo $j | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[0];'`
+		ancestry2=`echo $j | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[1];'`
+
+		rm -f 
+
+		for i in {1..22} X; do
+			echo $pheno1 $ancestry1 $ancestry2 $i
+
+			cat 
+
+			sbatch -t 1:00:00 --mem 20g -o /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/ukb_chr${i}_v2.${ancestry2}.${pheno1}.linear.slurm.output -e /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/ukb_chr${i}_v2.${ancestry2}.${pheno1}.linear.slurm.error --comment "$pheno1 $ancestry1 $ancestry2 $i" <(echo -e '#!/bin/sh'; echo -e "\nplink --bfile /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/ukb_chr${i}_v2.${ancestry2} --pheno /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.Phenos.Edit.txt --pheno-name $pheno1 --linear --covar /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.Covars.txt --covar-name AGE,SEX --out /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/ukb_chr${i}_v2.${ancestry2}.${pheno1}")
+
+		done
+	done	
+done
 
 
 
