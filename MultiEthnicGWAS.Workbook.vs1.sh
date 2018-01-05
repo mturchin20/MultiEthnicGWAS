@@ -31,10 +31,12 @@ conda install samtools
 conda install picard
 conda install gatk
 conda install eigensoft
+conda install r-base
 conda install r-devtools
 conda install r-knitr
 conda install r-testthat
-
+conda install r-cairo
+conda install imagemagick
 
 #20171117
 #Dealing with sockets/missing screen issue
@@ -295,8 +297,9 @@ cat /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.C
 #UKBioBankPops=`echo "African;African Any_other_Asian_background;Any_other_Asian_background Any_other_mixed_background;Any_other_mixed_background Any_other_white_background;Any_other_white_background British;British British;British.Ran4000 Caribbean;Caribbean Chinese;Chinese Indian;Indian Irish;Irish Pakistani;Pakistani"`;
 #UKBioBankPops=`echo "African;African Any_other_Asian_background;Any_other_Asian_background Any_other_mixed_background;Any_other_mixed_background Any_other_white_background;Any_other_white_background British;British 
 British;British.Ran4000 British;British.Ran10000 British;British.Ran100000 British;British.Ran200000 Caribbean;Caribbean Chinese;Chinese Indian;Indian Irish;Irish Pakistani;Pakistani"`;
-#UKBioBankPops=`echo "British;British.Ran10000 British;British.Ran100000 British;British.Ran200000"`; 
-UKBioBankPops=`echo "African;African Any_other_white_background;Any_other_white_background British;British British;British.Ran10000 British;British.Ran100000 British;British.Ran200000 Caribbean;Caribbean Indian;Indian Irish;Irish"`; 
+#UKBioBankPops=`echo "British;British British;British.Ran100000 British;British.Ran200000"`; 
+UKBioBankPops=`echo "African;African Any_other_white_background;Any_other_white_background British;British British;British.Ran4000 British;British.Ran10000 British;British.Ran100000 British;British.Ran200000 Caribbean;Caribbean Indian;Indian Irish;Irish"`; 
+UKBioBankPops=`echo "British;British.Ran4000"`;
 
 #African;African
 #Any_other_Asian_background;Any_other_Asian_background
@@ -399,8 +402,25 @@ for
 
 #Below completed with help from `http://zzz.bwh.harvard.edu/plink/dataman.shtml#mergelist`, `https://stackoverflow.com/questions/6907531/generating-a-bash-script-with-echo-problem-with-shebang-line`, & `https://stackoverflow.com/questions/13799789/expansion-of-variable-inside-single-quotes-in-a-command-in-bash` 
 #Note -- did not end up going with `--merge-list` route since it, apparently, creates the merged PLINK files automatically, and I couldn't immediately find an option to by-pass this; one possibly solution would have been to delete these files at the end of the script, but I also realized that running the regressions (and possibly more/later analyses) would take less time if I keep things in a parallelized, per-chromosome state
+#20180104 NOTE -- do not use `SEX` as a covariate, the UKBioBank PLINK files (as witnessed in the human-readable .ped/.map formats) already contain this information; additionally, PLINK expects the coding to be 1/2 and the UKBioBank sex coding (currently) is as 1/0, which may cause additional problems (or treat it as some binary covariate called `SEX` but having nothing to do with the actual designation). See results in scratch section showing covariate file lining up with .ped sex column (aside from the 1/2 vs. 1/0 coding issue). 
+	#From https://www.cog-genomics.org/plink2/formats: "This page describes specialized PLINK input and output file formats which are identifiable by file extension. ..... isn't in dataset); Within-family ID of mother ('0' if mother isn't in dataset); Sex code ('1' = male, '2' = female, '0' = unknown); Phenotype value ('1' = control, '2' = case, '-9'/'0'/non-numeric = missing data if case/control)."; from http://biobank.ctsu.ox.ac.uk/crystal/coding.cgi?id=9: "Coding	Meaning 0	Female 1	Male"
+	#From http://zzz.bwh.harvard.edu/plink/faq.shtml#faq9:
+```
+		#How does PLINK handle the X chromosome in association tests?
+		#By default, in the linear and logistic (--linear, --logistic) models, for alleles A and B, males are coded
+		#     A   ->   0
+		#     B   ->   1
+		#and females are coded
+		#     AA  ->   0
+		#     AB  ->   1
+		#     BB  ->   2
+		#and additionally sex (0=male,1=female) is also automatically included as a covariate. It is therefore important not to include sex as a separate covariate in a covariate file ever, but rather to use the special --sex command that tells PLINK to add sex as coded in the PED/FAM file as the covariate (in this way, it is not double entered for X chromosome markers). If the sample is all female or all male, PLINK will know not to add sex as an additional covariate for X chromosome markers.
+		#The basic association tests that are allelic (--assoc, --mh, etc) do not need any special changes for X chromosome markers: the above only applies to the linear and logistic models where the individual, not the allele, is the unit of analysis. Similarly, the TDT remains unchanged. For the --model test and Hardy-Weinberg calculations, male X chromosome genotypes are excluded.
+		#Not all analyses currently handle X chromosomes markers (for example, LD pruning, epistasis, IBS calculations) but support will be added in future.
+```
 
 for pheno1 in `echo "Height BMI Waist Hip"`; do
+#for pheno1 in `echo "Height"`; do
 #for pheno1 in `echo "BMI Waist Hip"`; do
 	for j in `cat <(echo $UKBioBankPops | perl -lane 'print join("\n", @F);')`; do
 		ancestry1=`echo $j | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[0];'`
@@ -408,8 +428,8 @@ for pheno1 in `echo "Height BMI Waist Hip"`; do
 
 		for i in {1..22} X; do
 			echo $pheno1 $ancestry1 $ancestry2 $i
-	
-			sbatch -t 1:00:00 --mem 20g -o /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/ukb_chr${i}_v2.${ancestry2}.${pheno1}.linear.slurm.output -e /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/ukb_chr${i}_v2.${ancestry2}.${pheno1}.linear.slurm.error --comment "$pheno1 $ancestry1 $ancestry2 $i" <(echo -e '#!/bin/sh'; echo -e "\nplink --bfile /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/ukb_chr${i}_v2.${ancestry2} --pheno /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.Phenos.Edit.txt --pheno-name $pheno1 --linear --covar /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.Covars.txt --covar-name AGE,SEX --out /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/ukb_chr${i}_v2.${ancestry2}.${pheno1}")
+
+			sbatch -t 1:00:00 --mem 20g -o /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/ukb_chr${i}_v2.${ancestry2}.${pheno1}.linear.slurm.output -e /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/ukb_chr${i}_v2.${ancestry2}.${pheno1}.linear.slurm.error --comment "$pheno1 $ancestry1 $ancestry2 $i" <(echo -e '#!/bin/sh'; echo -e "\nplink --bfile /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/ukb_chr${i}_v2.${ancestry2} --pheno /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.Phenos.Edit.txt --pheno-name $pheno1 --linear --sex --covar /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.Covars.txt --covar-name AGE --out /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/ukb_chr${i}_v2.${ancestry2}.${pheno1}")
 
 		done
 	done	
@@ -431,9 +451,12 @@ done
 #	done	
 #done
 
+#20180104 NOTE -- for large `British` pops, I reran the clumping code with a more strict set of parameters, just since you would, more naturally for such large sample sizes, use such parameters for them (vs. parameters tuned on ~4k pop sizes); for largest sizes it's possible a p1 of 5-8 is even too liberal still
+#UKBioBankPops=`echo "British;British British;British.Ran100000 British;British.Ran200000"`;
+
 #for pheno1 in `echo "Height BMI Waist Hip"`; do
-for pheno1 in `echo "Height"`; do
-#for pheno1 in `echo "BMI Waist Hip"`; do
+#for pheno1 in `echo "Height"`; do
+for pheno1 in `echo "Waist Hip"`; do
 	for j in `cat <(echo $UKBioBankPops | perl -lane 'print join("\n", @F);')`; do
 		ancestry1=`echo $j | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[0];'`
 		ancestry2=`echo $j | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[1];'`
@@ -441,33 +464,74 @@ for pheno1 in `echo "Height"`; do
 		for i in {1..22} X; do
 			echo $pheno1 $ancestry1 $ancestry2 $i
 
-			#PLINK clump commands version of below
-
-			sbatch -t 1:00:00 --mem 20g -o /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/ukb_chr${i}_v2.${ancestry2}.${pheno1}.linear.slurm.output -e /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/ukb_chr${i}_v2.${ancestry2}.${pheno1}.linear.slurm.error --comment "$pheno1 $ancestry1 $ancestry2 $i" <(echo -e '#!/bin/sh'; echo -e "\nplink --bfile /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/ukb_chr${i}_v2.${ancestry2} --pheno /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.Phenos.Edit.txt --pheno-name $pheno1 --linear --covar /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.Covars.txt --covar-name AGE,SEX --out /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/ukb_chr${i}_v2.${ancestry2}.${pheno1}")
+			cat /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/ukb_chr${i}_v2.${ancestry2}.${pheno1}.assoc.linear | grep -E 'NMISS|ADD' > /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/ukb_chr${i}_v2.${ancestry2}.${pheno1}.ADD.assoc.linear
+			sbatch -t 1:00:00 --mem 20g -o /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/ukb_chr${i}_v2.${ancestry2}.${pheno1}.ADD.linear.clump.slurm.output -e /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/ukb_chr${i}_v2.${ancestry2}.${pheno1}.ADD.linear.clump.slurm.error --comment "clumping $pheno1 $ancestry1 $ancestry2 $i" <(echo -e '#!/bin/sh'; echo -e "\nplink --bfile /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/ukb_chr${i}_v2.${ancestry2} --clump /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/ukb_chr${i}_v2.${ancestry2}.${pheno1}.ADD.assoc.linear --clump-p1 .0001 --clump-p2 0.01 --clump-r2 0.1 --clump-kb 500 --out /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/ukb_chr${i}_v2.${ancestry2}.${pheno1}.ADD.assoc.linear")
 
 		done
 	done	
 done
 
-#for pheno1 in `echo "Height BMI Waist Hip"`; do
-for pheno1 in `echo "Height"`; do
+#			sbatch -t 1:00:00 --mem 20g -o /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/ukb_chr${i}_v2.${ancestry2}.${pheno1}.ADD.strict.linear.clump.slurm.output -e /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/ukb_chr${i}_v2.${ancestry2}.${pheno1}.ADD.strict.linear.clump.slurm.error --comment "clumping $pheno1 $ancestry1 $ancestry2 $i" <(echo -e '#!/bin/sh'; echo -e "\nplink --bfile /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/ukb_chr${i}_v2.${ancestry2} --clump /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/ukb_chr${i}_v2.${ancestry2}.${pheno1}.ADD.assoc.linear --clump-p1 5e-8 --clump-p2 0.0001 --clump-r2 0.1 --clump-kb 500 --out /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/ukb_chr${i}_v2.${ancestry2}.${pheno1}.ADD.strict.assoc.linear")
+#			plink --bfile /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/ukb_chr${i}_v2.${ancestry2} --clump /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/ukb_chr${i}_v2.${ancestry2}.${pheno1}.ADD.assoc.linear --clump-p1 .0001 --clump-p2 0.01 --clump-r2 0.1 --clump-kb 500 --out /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/ukb_chr${i}_v2.${ancestry2}.${pheno1}.ADD.assoc.linear
+#cat /users/mturchin/data/ukbiobank_jun17/subsets/Any_other_white_background/Any_other_white_background/ukb_chrX_v2.Any_other_white_background.Height.assoc.linear | grep -E 'NMISS|ADD' > /users/mturchin/data/ukbiobank_jun17/subsets/Any_other_white_background/Any_other_white_background/ukb_chrX_v2.Any_other_white_background.Height.ADD.assoc.linear
+#plink --bfile /users/mturchin/data/ukbiobank_jun17/subsets/Any_other_white_background/Any_other_white_background/ukb_chrX_v2.Any_other_white_background --clump /users/mturchin/data/ukbiobank_jun17/subsets/Any_other_white_background/Any_other_white_background/ukb_chrX_v2.Any_other_white_background.Height.ADD.assoc.linear --clump-p1 .0001 --clump-p2 0.01 --clump-r2 0.1 --clump-kb 500 --out /users/mturchin/data/ukbiobank_jun17/subsets/Any_other_white_background/Any_other_white_background/ukb_chrX_v2.Any_other_white_background.Height.ADD.assoc.linear
+#plink --bfile /users/mturchin/data/ukbiobank_jun17/subsets/African/African/ukb_chrX_v2.African --clump /users/mturchin/data/ukbiobank_jun17/subsets/African/African/ukb_chrX_v2.African.Height.ADD.assoc.linear --clump-p1 .0001 --clump-p2 0.01 --clump-r2 0.1 --clump-kb 500 --out /users/mturchin/data/ukbiobank_jun17/subsets/African/African/ukb_chrX_v2.African.Height.ADD.assoc.linear
+
+for pheno1 in `echo "Height BMI Waist Hip"`; do
+#for pheno1 in `echo "Height"`; do
 #for pheno1 in `echo "BMI Waist Hip"`; do
-	for j in `cat <(echo $UKBioBankPops | perl -lane 'print join("\n", @F);') | head -n 2`; do
+	for j in `cat <(echo $UKBioBankPops | perl -lane 'print join("\n", @F);')`; do
 		ancestry1=`echo $j | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[0];'`
 		ancestry2=`echo $j | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[1];'`
+			
+		echo $pheno1 $ancestry1 $ancestry2 /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/ukb_chrAll_v2.${ancestry2}.${pheno1}.ADD.assoc.linear.clumped
 
-		rm -f 
-
+		rm -f /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/ukb_chrAll_v2.${ancestry2}.${pheno1}.ADD.assoc.linear.clumped 
 		for i in {1..22} X; do
-			echo $pheno1 $ancestry1 $ancestry2 $i
 
-			cat 
-
-			sbatch -t 1:00:00 --mem 20g -o /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/ukb_chr${i}_v2.${ancestry2}.${pheno1}.linear.slurm.output -e /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/ukb_chr${i}_v2.${ancestry2}.${pheno1}.linear.slurm.error --comment "$pheno1 $ancestry1 $ancestry2 $i" <(echo -e '#!/bin/sh'; echo -e "\nplink --bfile /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/ukb_chr${i}_v2.${ancestry2} --pheno /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.Phenos.Edit.txt --pheno-name $pheno1 --linear --covar /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.Covars.txt --covar-name AGE,SEX --out /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/ukb_chr${i}_v2.${ancestry2}.${pheno1}")
+			cat /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/ukb_chr${i}_v2.${ancestry2}.${pheno1}.ADD.assoc.linear.clumped >> /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/ukb_chrAll_v2.${ancestry2}.${pheno1}.ADD.assoc.linear.clumped 
 
 		done
+	
+		cat /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/ukb_chrAll_v2.${ancestry2}.${pheno1}.ADD.assoc.linear.clumped | sort -g -k 1,1 -k 4,4 | uniq | grep -v NSIG | grep -v ^$ | cat <(echo " CHR    F           SNP         BP        P    TOTAL   NSIG    S05    S01   S001  S0001    SP2") - > /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/ukb_chrAll_v2.${ancestry2}.${pheno1}.ADD.assoc.linear.clumped.temp1
+		mv /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/ukb_chrAll_v2.${ancestry2}.${pheno1}.ADD.assoc.linear.clumped.temp1 /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/ukb_chrAll_v2.${ancestry2}.${pheno1}.ADD.assoc.linear.clumped
+
 	done	
 done
+
+UKBioBankPops=`echo "African;African Any_other_white_background;Any_other_white_background British;British British;British.Ran10000 British;British.Ran100000 British;British.Ran200000 Caribbean;Caribbean Indian;Indian Irish;Irish"`;
+
+cat /users/mturchin/data/ukbiobank_jun17/subsets/British/British/ukb_chrAll_v2.British.Height.ADD.assoc.linear.clumped | wc
+cat /users/mturchin/data/ukbiobank_jun17/subsets/British/British.Ran4000/ukb_chrAll_v2.British.Ran4000.Height.ADD.assoc.linear.clumped | wc
+cat /users/mturchin/data/ukbiobank_jun17/subsets/British/British.Ran10000/ukb_chrAll_v2.British.Ran10000.Height.ADD.assoc.linear.clumped | wc
+cat /users/mturchin/data/ukbiobank_jun17/subsets/British/British.Ran100000/ukb_chrAll_v2.British.Ran100000.Height.ADD.assoc.linear.clumped | wc
+cat /users/mturchin/data/ukbiobank_jun17/subsets/British/British.Ran200000/ukb_chrAll_v2.British.Ran200000.Height.ADD.assoc.linear.clumped | wc
+cat /users/mturchin/data/ukbiobank_jun17/subsets/African/African/ukb_chrAll_v2.African.Height.ADD.assoc.linear.clumped | wc
+cat /users/mturchin/data/ukbiobank_jun17/subsets/Caribbean/Caribbean/ukb_chrAll_v2.Caribbean.Height.ADD.assoc.linear.clumped | wc
+cat /users/mturchin/data/ukbiobank_jun17/subsets/Indian/Indian/ukb_chrAll_v2.Indian.Height.ADD.assoc.linear.clumped | wc
+cat /users/mturchin/data/ukbiobank_jun17/subsets/Irish/Irish/ukb_chrAll_v2.Irish.Height.ADD.assoc.linear.clumped | wc
+cat /users/mturchin/data/ukbiobank_jun17/subsets/Any_other_white_background/Any_other_white_background/ukb_chrAll_v2.Any_other_white_background.Height.ADD.assoc.linear.clumped | wc
+join <(cat /users/mturchin/data/ukbiobank_jun17/subsets/British/British/ukb_chrAll_v2.British.Height.ADD.assoc.linear.clumped | awk '{ print $3 }' | sort -g)  <(cat /users/mturchin/data/ukbiobank_jun17/subsets/British/British.Ran4000/ukb_chrAll_v2.British.Ran4000.Height.ADD.assoc.linear.clumped | awk '{ print $3 }' | sort -g) | wc
+join <(cat /users/mturchin/data/ukbiobank_jun17/subsets/British/British/ukb_chrAll_v2.British.Height.ADD.assoc.linear.clumped | awk '{ print $3 }' | sort -g)  <(cat /users/mturchin/data/ukbiobank_jun17/subsets/British/British.Ran10000/ukb_chrAll_v2.British.Ran10000.Height.ADD.assoc.linear.clumped | awk '{ print $3 }' | sort -g) | wc
+join <(cat /users/mturchin/data/ukbiobank_jun17/subsets/British/British/ukb_chrAll_v2.British.Height.ADD.assoc.linear.clumped | awk '{ print $3 }' | sort -g)  <(cat /users/mturchin/data/ukbiobank_jun17/subsets/British/British.Ran100000/ukb_chrAll_v2.British.Ran100000.Height.ADD.assoc.linear.clumped | awk '{ print $3 }' | sort -g) | wc
+join <(cat /users/mturchin/data/ukbiobank_jun17/subsets/British/British/ukb_chrAll_v2.British.Height.ADD.assoc.linear.clumped | awk '{ print $3 }' | sort -g)  <(cat /users/mturchin/data/ukbiobank_jun17/subsets/British/British.Ran200000/ukb_chrAll_v2.British.Ran200000.Height.ADD.assoc.linear.clumped | awk '{ print $3 }' | sort -g) | wc
+join <(cat /users/mturchin/data/ukbiobank_jun17/subsets/British/British/ukb_chrAll_v2.British.Height.ADD.assoc.linear.clumped | awk '{ print $3 }' | sort -g)  <(cat /users/mturchin/data/ukbiobank_jun17/subsets/African/African/ukb_chrAll_v2.African.Height.ADD.assoc.linear.clumped | awk '{ print $3 }' | sort -g) | wc
+join <(cat /users/mturchin/data/ukbiobank_jun17/subsets/British/British/ukb_chrAll_v2.British.Height.ADD.assoc.linear.clumped | awk '{ print $3 }' | sort -g)  <(cat /users/mturchin/data/ukbiobank_jun17/subsets/Caribbean/Caribbean/ukb_chrAll_v2.Caribbean.Height.ADD.assoc.linear.clumped | awk '{ print $3 }' | sort -g) | wc
+join <(cat /users/mturchin/data/ukbiobank_jun17/subsets/British/British/ukb_chrAll_v2.British.Height.ADD.assoc.linear.clumped | awk '{ print $3 }' | sort -g)  <(cat /users/mturchin/data/ukbiobank_jun17/subsets/Indian/Indian/ukb_chrAll_v2.Indian.Height.ADD.assoc.linear.clumped | awk '{ print $3 }' | sort -g) | wc
+join <(cat /users/mturchin/data/ukbiobank_jun17/subsets/British/British/ukb_chrAll_v2.British.Height.ADD.assoc.linear.clumped | awk '{ print $3 }' | sort -g)  <(cat /users/mturchin/data/ukbiobank_jun17/subsets/Irish/Irish/ukb_chrAll_v2.Irish.Height.ADD.assoc.linear.clumped | awk '{ print $3 }' | sort -g) | wc
+join <(cat /users/mturchin/data/ukbiobank_jun17/subsets/British/British/ukb_chrAll_v2.British.Height.ADD.assoc.linear.clumped | awk '{ print $3 }' | sort -g)  <(cat /users/mturchin/data/ukbiobank_jun17/subsets/Any_other_white_background/Any_other_white_background/ukb_chrAll_v2.Any_other_white_background.Height.ADD.assoc.linear.clumped | awk '{ print $3 }' | sort -g) | wc
+
+
+
+
+
+[  mturchin@node418  ~/LabMisc/RamachandranLab/MultiEthnicGWAS]$join <(cat /users/mturchin/data/ukbiobank_jun17/subsets/British/British.Ran10000/ukb_chrAll_v2.British.Ran10000.Height.ADD.assoc.linear.clumped | awk '{ print $3 }' | sort -g) <(cat /users/mturchin/data/ukbiobank_jun17/subsets/African/African/ukb_chrAll_v2.African.Height.ADD.assoc.linear.clumped | awk '{ print $3 }' | sort -g) | wc
+      1       1       4
+[  mturchin@node418  ~/LabMisc/RamachandranLab/MultiEthnicGWAS]$join <(cat /users/mturchin/data/ukbiobank_jun17/subsets/British/British.Ran10000/ukb_chrAll_v2.British.Ran10000.Height.ADD.assoc.linear.clumped | awk '{ print $3 }' | sort -g) <(cat /users/mturchin/data/ukbiobank_jun17/subsets/African/African/ukb_chrAll_v2.African.Height.ADD.assoc.linear.clumped | awk '{ print $3 }' | sort -g)
+SNP
+[  mturchin@node418  ~/LabMisc/RamachandranLab/MultiEthnicGWAS]$join <(cat /users/mturchin/data/ukbiobank_jun17/subsets/British/British.Ran4000/ukb_chrAll_v2.British.Ran4000.Height.ADD.assoc.linear.clumped | awk '{ print $3 }' | sort -g) <(cat /users/mturchin/data/ukbiobank_jun17/subsets/African/African/ukb_chrAll_v2.African.Height.ADD.assoc.linear.clumped | awk '{ print $3 }' | sort -g) | wc
+      1       1       4
+
 
 
 
@@ -1242,8 +1306,379 @@ Height British British.Ran200000
 Height Caribbean Caribbean
 Height Indian Indian
 Height Irish Irish
+[  mturchin@node418  ~/LabMisc/RamachandranLab/MultiEthnicGWAS]$cat /users/mturchin/data/ukbiobank_jun17/2017WinterHack/ukb_chr21_v2.British.Ran4000.ped | perl -lane 'print join("\t", @F[0..9]);' | head -n 10
+5306119 5306119 0       0       2       -9      A       A       T       T
+5459215 5459215 0       0       1       -9      A       A       T       T
+2723077 2723077 0       0       2       -9      A       A       T       T
+4357190 4357190 0       0       1       -9      A       A       T       T
+2796634 2796634 0       0       1       -9      A       A       T       T
+3270017 3270017 0       0       2       -9      A       A       T       T
+3327488 3327488 0       0       1       -9      A       A       T       T
+2001488 2001488 0       0       2       -9      A       A       T       T
+2459402 2459402 0       0       1       -9      A       A       T       T
+5523857 5523857 0       0       2       -9      A       A       T       T
+[  mturchin@node418  ~/LabMisc/RamachandranLab/MultiEthnicGWAS]$cat /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.Covars.txt | grep 5459215
+5459215 5459215 1       British 66
+[  mturchin@node418  ~/LabMisc/RamachandranLab/MultiEthnicGWAS]$cat /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.Covars.txt | grep 2001488
+2001488 2001488 0       British 56
+[  mturchin@node418  ~/LabMisc/RamachandranLab/MultiEthnicGWAS]$join <(cat /users/mturchin/data/ukbiobank_jun17/2017WinterHack/ukb_chr21_v2.British.Ran4000.ped | awk '{ print $1 "\t" $5 }' | sort -k 1,1) <(cat /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.Covars.txt | awk '{ print $1 "\t" $3 }' | sort -k 1,1) | wc
+   3907   11721   46884
+[  mturchin@node418  ~/LabMisc/RamachandranLab/MultiEthnicGWAS]$cat /users/mturchin/data/ukbiobank_jun17/2017WinterHack/ukb_chr21_v2.British.Ran4000.ped | wc
+   3907 88649830 180126025
+[  mturchin@node418  ~/LabMisc/RamachandranLab/MultiEthnicGWAS]$join <(cat /users/mturchin/data/ukbiobank_jun17/2017WinterHack/ukb_chr21_v2.British.Ran4000.ped | awk '{ print $1 "\t" $5 }' | sort -k 1,1) <(cat /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.Covars.txt | awk '{ print $1 "\t" $3 }' | sort -k 1,1) | head -n 10
+1000254 1 1
+1003024 1 1
+1003681 2 0
+1006073 2 0
+1007485 1 1
+1007736 1 1
+1009728 2 0
+1011305 1 1
+1015310 2 0
+1018866 1 1
+[  mturchin@node418  ~/LabMisc/RamachandranLab/MultiEthnicGWAS]$cat /users/mturchin/data/ukbiobank_jun17/ukb2241_cal_chr1_v2_s488363.fam | head -n 5
+5482808 5482808 0 0 1 Batch_b001
+1423779 1423779 0 0 2 Batch_b001
+3069861 3069861 0 0 2 Batch_b001
+3322840 3322840 0 0 2 Batch_b001
+2016419 2016419 0 0 2 Batch_b001
+[  mturchin@node418  ~/LabMisc/RamachandranLab/MultiEthnicGWAS]$cat /users/mturchin/data/ukbiobank_jun17/ukb2241_cal_chr1_v2_s488363.fam | grep 1000254
+1000254 1000254 0 0 1 UKBiLEVEAX_b1
+[  mturchin@node418  ~/LabMisc/RamachandranLab/MultiEthnicGWAS]$cat /users/mturchin/data/ukbiobank_jun17/ukb2241_cal_chr1_v2_s488363.fam | grep 1003681
+1003681 1003681 0 0 2 Batch_b034
+[  mturchin@node418  ~/LabMisc/RamachandranLab/MultiEthnicGWAS]$cat /users/mturchin/data/ukbiobank_jun17/subsets/African/African/ukb_chrX_v2.African.Height.temp1.assoc.linear | head -n 10
+ CHR             SNP         BP   A1       TEST    NMISS       BETA         STAT            P 
+  23      rs60075487    2699676    A        ADD     3099     0.1525       0.7321       0.4641
+  23      rs60075487    2699676    A        AGE     3099    -0.2295       -16.09    5.152e-56
+  23      rs60075487    2699676    A        SEX     3099      11.22        48.14            0
+  23       rs2306736    2700027    C        ADD     3141     0.1219        0.637       0.5242
+  23       rs2306736    2700027    C        AGE     3141    -0.2286       -16.17    1.456e-56
+  23       rs2306736    2700027    C        SEX     3141      11.22        47.73            0
+  23   Affx-92044070    2700151   AT        ADD     3111     -13.23       -2.111      0.03488
+  23   Affx-92044070    2700151   AT        AGE     3111    -0.2283       -16.09    5.517e-56
+  23   Affx-92044070    2700151   AT        SEX     3111      11.15        49.54            0
+[  mturchin@node418  ~/LabMisc/RamachandranLab/MultiEthnicGWAS]$cat /users/mturchin/data/ukbiobank_jun17/subsets/African/African/ukb_chrX_v2.African.Height.assoc.linear | head -n 10
+ CHR             SNP         BP   A1       TEST    NMISS       BETA         STAT            P 
+  23      rs60075487    2699676    A        ADD     3099         NA           NA           NA
+  23      rs60075487    2699676    A        SEX     3099         NA           NA           NA
+  23      rs60075487    2699676    A        AGE     3099         NA           NA           NA
+  23      rs60075487    2699676    A        SEX     3099         NA           NA           NA
+  23       rs2306736    2700027    C        ADD     3141         NA           NA           NA
+  23       rs2306736    2700027    C        SEX     3141         NA           NA           NA
+  23       rs2306736    2700027    C        AGE     3141         NA           NA           NA
+  23       rs2306736    2700027    C        SEX     3141         NA           NA           NA
+  23   Affx-92044070    2700151   AT        ADD     3111         NA           NA           NA
+[  mturchin@node418  ~/LabMisc/RamachandranLab/MultiEthnicGWAS]$cat /users/mturchin/data/ukbiobank_jun17/subsets/African/African/ukb_chr1_v2.African.Height.temp1.assoc.linear | head -n 10
+ CHR             SNP         BP   A1       TEST    NMISS       BETA         STAT            P 
+   1      rs28659788     723307    C        ADD        0         NA           NA           NA
+   1      rs28659788     723307    C        AGE        0         NA           NA           NA
+   1      rs28659788     723307    C        SEX        0         NA           NA           NA
+   1     rs116587930     727841    A        ADD     2866     0.3683       0.3129       0.7543
+   1     rs116587930     727841    A        AGE     2866    -0.2322       -15.93    7.872e-55
+   1     rs116587930     727841    A        SEX     2866       11.3        48.72            0
+   1     rs116720794     729632    T        ADD     3005      0.267       0.5391       0.5899
+   1     rs116720794     729632    T        AGE     3005    -0.2291       -15.81    3.616e-54
+   1     rs116720794     729632    T        SEX     3005      11.21        48.62            0
+[  mturchin@node418  ~/LabMisc/RamachandranLab/MultiEthnicGWAS]$cat /users/mturchin/data/ukbiobank_jun17/subsets/African/African/ukb_chr1_v2.African.Height.assoc.linear | head -n 10
+ CHR             SNP         BP   A1       TEST    NMISS       BETA         STAT            P 
+   1      rs28659788     723307    C        ADD        0         NA           NA           NA
+   1      rs28659788     723307    C        SEX        0         NA           NA           NA
+   1      rs28659788     723307    C        AGE        0         NA           NA           NA
+   1     rs116587930     727841    A        ADD     2866     0.3683       0.3129       0.7543
+   1     rs116587930     727841    A        SEX     2866       11.3        48.72            0
+   1     rs116587930     727841    A        AGE     2866    -0.2322       -15.93    7.872e-55
+   1     rs116720794     729632    T        ADD     3005      0.267       0.5391       0.5899
+   1     rs116720794     729632    T        SEX     3005      11.21        48.62            0
+   1     rs116720794     729632    T        AGE     3005    -0.2291       -15.81    3.616e-54
+[  mturchin@node418  ~/LabMisc/RamachandranLab/MultiEthnicGWAS]$cat /users/mturchin/data/ukbiobank_jun17/subsets/African/African/ukb_chrX_v2.African.Height.temp1.assoc.linear | head -n 1546 | tail -n 10
+  23     rs139127906    5192983    G        SEX     3033         NA           NA           NA
+  23     rs149932678    5193109    C        ADD     3144    -0.2844     -0.06416       0.9489
+  23     rs149932678    5193109    C        AGE     3144    -0.2288        -16.2    8.963e-57
+  23     rs149932678    5193109    C        SEX     3144      11.18        49.92            0
+  23       rs5961309    5203282    G        ADD     3141    -0.0281      -0.1518       0.8794
+  23       rs5961309    5203282    G        AGE     3141    -0.2284       -16.18     1.33e-56
+  23       rs5961309    5203282    G        SEX     3141      11.16        46.93            0
+  23     rs150262381    5205074    C        ADD     3138     0.3212       0.2225        0.824
+  23     rs150262381    5205074    C        AGE     3138    -0.2289       -16.17    1.601e-56
+  23     rs150262381    5205074    C        SEX     3138      11.17        49.78            0
+[  mturchin@node418  ~/LabMisc/RamachandranLab/MultiEthnicGWAS]$cat /users/mturchin/data/ukbiobank_jun17/subsets/African/African/ukb_chrX_v2.African.Height.assoc.linear | head -n 1546 | tail -n 10
+  23       rs1707492    4385969    G        SEX     3140         NA           NA           NA
+  23       rs5915749    4388580    G        ADD     3132         NA           NA           NA
+  23       rs5915749    4388580    G        SEX     3132         NA           NA           NA
+  23       rs5915749    4388580    G        AGE     3132         NA           NA           NA
+  23       rs5915749    4388580    G        SEX     3132         NA           NA           NA
+  23       rs6638839    4388928    A        ADD     2703         NA           NA           NA
+  23       rs6638839    4388928    A        SEX     2703         NA           NA           NA
+  23       rs6638839    4388928    A        AGE     2703         NA           NA           NA
+  23       rs6638839    4388928    A        SEX     2703         NA           NA           NA
+  23     rs142163080    4424315    A        ADD     3113         NA           NA           NA
+[  mturchin@node418  ~/LabMisc/RamachandranLab/MultiEthnicGWAS]$cat /users/mturchin/data/ukbiobank_jun17/subsets/African/African/ukb_chr1_v2.African.Height.temp1.assoc.linear | head -n 1546 | tail -n 10
+   1      rs12041925    1707740    G        SEX     3142      11.17        49.92            0
+   1     rs116018620    1709119    T        ADD     3145      2.192        1.908      0.05648
+   1     rs116018620    1709119    T        AGE     3145    -0.2284       -16.18    1.287e-56
+   1     rs116018620    1709119    T        SEX     3145      11.18        49.94            0
+   1      rs77787690    1712428    C        ADD     3144    -0.5953       -0.654       0.5132
+   1      rs77787690    1712428    C        AGE     3144    -0.2295       -16.25    4.605e-57
+   1      rs77787690    1712428    C        SEX     3144      11.18        49.95            0
+   1     rs185462709    1720487    T        ADD     3145     0.4056       0.2885       0.7729
+   1     rs185462709    1720487    T        AGE     3145    -0.2289       -16.21    7.842e-57
+   1     rs185462709    1720487    T        SEX     3145      11.18        49.95            0
+[  mturchin@node418  ~/LabMisc/RamachandranLab/MultiEthnicGWAS]$cat /users/mturchin/data/ukbiobank_jun17/subsets/African/African/ukb_chr1_v2.African.Height.assoc.linear | head -n 1546 | tail -n 10
+   1      rs12041925    1707740    G        AGE     3142      -0.23       -16.31    1.835e-57
+   1     rs116018620    1709119    T        ADD     3145      2.192        1.908      0.05648
+   1     rs116018620    1709119    T        SEX     3145      11.18        49.94            0
+   1     rs116018620    1709119    T        AGE     3145    -0.2284       -16.18    1.287e-56
+   1      rs77787690    1712428    C        ADD     3144    -0.5953       -0.654       0.5132
+   1      rs77787690    1712428    C        SEX     3144      11.18        49.95            0
+   1      rs77787690    1712428    C        AGE     3144    -0.2295       -16.25    4.605e-57
+   1     rs185462709    1720487    T        ADD     3145     0.4056       0.2885       0.7729
+   1     rs185462709    1720487    T        SEX     3145      11.18        49.95            0
+   1     rs185462709    1720487    T        AGE     3145    -0.2289       -16.21    7.842e-57
+[  mturchin@node418  ~/LabMisc/RamachandranLab/MultiEthnicGWAS]$cat /users/mturchin/data/ukbiobank_jun17/subsets/African/African/ukb_chrX_v2.African.Height.temp1.assoc.linear | tail -n 10
+  23        rs601290  154865915    A        SEX     3140      11.26         47.4            0
+  23        rs473491  154899846    G        ADD     3132    -0.3918       -1.156       0.2479
+  23        rs473491  154899846    G        AGE     3132    -0.2273       -16.07    6.487e-56
+  23        rs473491  154899846    G        SEX     3132       11.2         49.8            0
+  23     rs150522543  154900890    T        ADD     3135     0.6303       0.1423       0.8869
+  23     rs150522543  154900890    T        AGE     3135    -0.2284       -16.14    2.266e-56
+  23     rs150522543  154900890    T        SEX     3135      11.17        49.84            0
+  23     rs111332691  154923374    A        ADD     3139    -0.1312      -0.0513       0.9591
+  23     rs111332691  154923374    A        AGE     3139     -0.227       -16.08    5.338e-56
+  23     rs111332691  154923374    A        SEX     3139      11.19        50.05            0
+[  mturchin@node418  ~/LabMisc/RamachandranLab/MultiEthnicGWAS]$cat /users/mturchin/data/ukbiobank_jun17/subsets/African/African/ukb_chrX_v2.African.Height.assoc.linear | tail -n 10
+  23        rs473491  154899846    G        AGE     3132         NA           NA           NA
+  23        rs473491  154899846    G        SEX     3132         NA           NA           NA
+  23     rs150522543  154900890    T        ADD     3135         NA           NA           NA
+  23     rs150522543  154900890    T        SEX     3135         NA           NA           NA
+  23     rs150522543  154900890    T        AGE     3135         NA           NA           NA
+  23     rs150522543  154900890    T        SEX     3135         NA           NA           NA
+  23     rs111332691  154923374    A        ADD     3139         NA           NA           NA
+  23     rs111332691  154923374    A        SEX     3139         NA           NA           NA
+  23     rs111332691  154923374    A        AGE     3139         NA           NA           NA
+  23     rs111332691  154923374    A        SEX     3139         NA           NA           NA
+[  mturchin@node418  ~/LabMisc/RamachandranLab/MultiEthnicGWAS]$cat /users/mturchin/data/ukbiobank_jun17/subsets/African/African/ukb_chr1_v2.African.Height.temp1.assoc.linear | tail -n 10
+   1     rs150352847  249211879    A        SEX     3144         NA           NA           NA
+   1      rs41308182  249212878    G        ADD     3108     -2.337       -2.102      0.03567
+   1      rs41308182  249212878    G        AGE     3108    -0.2321       -16.34    1.142e-57
+   1      rs41308182  249212878    G        SEX     3108      11.16        49.66            0
+   1      rs74322946  249218540    A        ADD     3144     0.2623       0.1107       0.9119
+   1      rs74322946  249218540    A        AGE     3144    -0.2295       -16.25    4.566e-57
+   1      rs74322946  249218540    A        SEX     3144      11.17        49.89            0
+   1     rs114152372  249222527    G        ADD     3112      1.903         1.09       0.2757
+   1     rs114152372  249222527    G        AGE     3112    -0.2306       -16.23    6.133e-57
+   1     rs114152372  249222527    G        SEX     3112      11.19        49.61            0
+[  mturchin@node418  ~/LabMisc/RamachandranLab/MultiEthnicGWAS]$cat /users/mturchin/data/ukbiobank_jun17/subsets/African/African/ukb_chr1_v2.African.Height.assoc.linear | tail -n 10
+   1     rs150352847  249211879    A        AGE     3144         NA           NA           NA
+   1      rs41308182  249212878    G        ADD     3108     -2.337       -2.102      0.03567
+   1      rs41308182  249212878    G        SEX     3108      11.16        49.66            0
+   1      rs41308182  249212878    G        AGE     3108    -0.2321       -16.34    1.142e-57
+   1      rs74322946  249218540    A        ADD     3144     0.2623       0.1107       0.9119
+   1      rs74322946  249218540    A        SEX     3144      11.17        49.89            0
+   1      rs74322946  249218540    A        AGE     3144    -0.2295       -16.25    4.566e-57
+   1     rs114152372  249222527    G        ADD     3112      1.903         1.09       0.2757
+   1     rs114152372  249222527    G        SEX     3112      11.19        49.61            0
+   1     rs114152372  249222527    G        AGE     3112    -0.2306       -16.23    6.133e-57
+[  mturchin@node418  ~/LabMisc/RamachandranLab/MultiEthnicGWAS]$for pheno1 in `echo "Height BMI Waist Hip"`; do
+> #for pheno1 in `echo "Height"`; do
+> #for pheno1 in `echo "BMI Waist Hip"`; do
+>         for j in `cat <(echo $UKBioBankPops | perl -lane 'print join("\n", @F);')`; do
+>                 ancestry1=`echo $j | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[0];'`
+>                 ancestry2=`echo $j | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[1];'`
+> 
+>                 echo $pheno1 $ancestry1 $ancestry2 /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/ukb_chrAll_v2.${ancestry2}.${pheno1}.ADD.assoc.linear.clumped
+> 
+>                 rm -f /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/ukb_chrAll_v2.${ancestry2}.${pheno1}.ADD.assoc.linear.clumped
+>                 for i in {1..22} X; do
+> 
+>                         cat /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/ukb_chr${i}_v2.${ancestry2}.${pheno1}.ADD.assoc.linear.clumped >> /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/ukb_chrAll_v2.${ancestry2}.${pheno1}.ADD.assoc.linear.clumped
+> 
+>                 done
+> 
+>                 cat /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/ukb_chrAll_v2.${ancestry2}.${pheno1}.ADD.assoc.linear.clumped | sort -g -k 1,1 -k 4,4 | uniq | grep -v NSIG | grep -v ^$ | cat <(echo " CHR    F           SNP         BP        P    TOTAL   NSIG    S05    S01   S001  S0001    SP2") - > /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/ukb_chrAll_v2.${ancestry2}.${pheno1}.ADD.assoc.linear.clumped.temp1
+>                 mv /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/ukb_chrAll_v2.${ancestry2}.${pheno1}.ADD.assoc.linear.clumped.temp1 /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/ukb_chrAll_v2.${ancestry2}.${pheno1}.ADD.assoc.linear.clumped
+> 
+>         done
+> done
+Height African African /users/mturchin/data/ukbiobank_jun17/subsets/African/African/ukb_chrAll_v2.African.Height.ADD.assoc.linear.clumped
+cat: /users/mturchin/data/ukbiobank_jun17/subsets/African/African/ukb_chr19_v2.African.Height.ADD.assoc.linear.clumped: No such file or directory
+Height Any_other_white_background Any_other_white_background /users/mturchin/data/ukbiobank_jun17/subsets/Any_other_white_background/Any_other_white_background/ukb_chrAll_v2.Any_other_white_background.Height.ADD.assoc.linear.clumped
+Height British British /users/mturchin/data/ukbiobank_jun17/subsets/British/British/ukb_chrAll_v2.British.Height.ADD.assoc.linear.clumped
+cat: /users/mturchin/data/ukbiobank_jun17/subsets/British/British/ukb_chrX_v2.British.Height.ADD.assoc.linear.clumped: No such file or directory
+Height British British.Ran10000 /users/mturchin/data/ukbiobank_jun17/subsets/British/British.Ran10000/ukb_chrAll_v2.British.Ran10000.Height.ADD.assoc.linear.clumped
+cat: /users/mturchin/data/ukbiobank_jun17/subsets/British/British.Ran10000/ukb_chrX_v2.British.Ran10000.Height.ADD.assoc.linear.clumped: No such file or directory
+Height British British.Ran100000 /users/mturchin/data/ukbiobank_jun17/subsets/British/British.Ran100000/ukb_chrAll_v2.British.Ran100000.Height.ADD.assoc.linear.clumped
+cat: /users/mturchin/data/ukbiobank_jun17/subsets/British/British.Ran100000/ukb_chrX_v2.British.Ran100000.Height.ADD.assoc.linear.clumped: No such file or directory
+Height British British.Ran200000 /users/mturchin/data/ukbiobank_jun17/subsets/British/British.Ran200000/ukb_chrAll_v2.British.Ran200000.Height.ADD.assoc.linear.clumped
+cat: /users/mturchin/data/ukbiobank_jun17/subsets/British/British.Ran200000/ukb_chrX_v2.British.Ran200000.Height.ADD.assoc.linear.clumped: No such file or directory
+Height Caribbean Caribbean /users/mturchin/data/ukbiobank_jun17/subsets/Caribbean/Caribbean/ukb_chrAll_v2.Caribbean.Height.ADD.assoc.linear.clumped
+cat: /users/mturchin/data/ukbiobank_jun17/subsets/Caribbean/Caribbean/ukb_chr22_v2.Caribbean.Height.ADD.assoc.linear.clumped: No such file or directory
+cat: /users/mturchin/data/ukbiobank_jun17/subsets/Caribbean/Caribbean/ukb_chrX_v2.Caribbean.Height.ADD.assoc.linear.clumped: No such file or directory
+Height Indian Indian /users/mturchin/data/ukbiobank_jun17/subsets/Indian/Indian/ukb_chrAll_v2.Indian.Height.ADD.assoc.linear.clumped
+cat: /users/mturchin/data/ukbiobank_jun17/subsets/Indian/Indian/ukb_chrX_v2.Indian.Height.ADD.assoc.linear.clumped: No such file or directory
+Height Irish Irish /users/mturchin/data/ukbiobank_jun17/subsets/Irish/Irish/ukb_chrAll_v2.Irish.Height.ADD.assoc.linear.clumped
+cat: /users/mturchin/data/ukbiobank_jun17/subsets/Irish/Irish/ukb_chrX_v2.Irish.Height.ADD.assoc.linear.clumped: No such file or directory
+BMI African African /users/mturchin/data/ukbiobank_jun17/subsets/African/African/ukb_chrAll_v2.African.BMI.ADD.assoc.linear.clumped
+cat: /users/mturchin/data/ukbiobank_jun17/subsets/African/African/ukb_chrX_v2.African.BMI.ADD.assoc.linear.clumped: No such file or directory
+BMI Any_other_white_background Any_other_white_background /users/mturchin/data/ukbiobank_jun17/subsets/Any_other_white_background/Any_other_white_background/ukb_chrAll_v2.Any_other_white_background.BMI.ADD.assoc.linear.clumped
+cat: /users/mturchin/data/ukbiobank_jun17/subsets/Any_other_white_background/Any_other_white_background/ukb_chrX_v2.Any_other_white_background.BMI.ADD.assoc.linear.clumped: No such file or directory
+BMI British British /users/mturchin/data/ukbiobank_jun17/subsets/British/British/ukb_chrAll_v2.British.BMI.ADD.assoc.linear.clumped
+cat: /users/mturchin/data/ukbiobank_jun17/subsets/British/British/ukb_chrX_v2.British.BMI.ADD.assoc.linear.clumped: No such file or directory
+BMI British British.Ran10000 /users/mturchin/data/ukbiobank_jun17/subsets/British/British.Ran10000/ukb_chrAll_v2.British.Ran10000.BMI.ADD.assoc.linear.clumped
+cat: /users/mturchin/data/ukbiobank_jun17/subsets/British/British.Ran10000/ukb_chrX_v2.British.Ran10000.BMI.ADD.assoc.linear.clumped: No such file or directory
+BMI British British.Ran100000 /users/mturchin/data/ukbiobank_jun17/subsets/British/British.Ran100000/ukb_chrAll_v2.British.Ran100000.BMI.ADD.assoc.linear.clumped
+cat: /users/mturchin/data/ukbiobank_jun17/subsets/British/British.Ran100000/ukb_chrX_v2.British.Ran100000.BMI.ADD.assoc.linear.clumped: No such file or directory
+BMI British British.Ran200000 /users/mturchin/data/ukbiobank_jun17/subsets/British/British.Ran200000/ukb_chrAll_v2.British.Ran200000.BMI.ADD.assoc.linear.clumped
+cat: /users/mturchin/data/ukbiobank_jun17/subsets/British/British.Ran200000/ukb_chrX_v2.British.Ran200000.BMI.ADD.assoc.linear.clumped: No such file or directory
+BMI Caribbean Caribbean /users/mturchin/data/ukbiobank_jun17/subsets/Caribbean/Caribbean/ukb_chrAll_v2.Caribbean.BMI.ADD.assoc.linear.clumped
+cat: /users/mturchin/data/ukbiobank_jun17/subsets/Caribbean/Caribbean/ukb_chrX_v2.Caribbean.BMI.ADD.assoc.linear.clumped: No such file or directory
+BMI Indian Indian /users/mturchin/data/ukbiobank_jun17/subsets/Indian/Indian/ukb_chrAll_v2.Indian.BMI.ADD.assoc.linear.clumped
+cat: /users/mturchin/data/ukbiobank_jun17/subsets/Indian/Indian/ukb_chrX_v2.Indian.BMI.ADD.assoc.linear.clumped: No such file or directory
+BMI Irish Irish /users/mturchin/data/ukbiobank_jun17/subsets/Irish/Irish/ukb_chrAll_v2.Irish.BMI.ADD.assoc.linear.clumped
+cat: /users/mturchin/data/ukbiobank_jun17/subsets/Irish/Irish/ukb_chr21_v2.Irish.BMI.ADD.assoc.linear.clumped: No such file or directory
+cat: /users/mturchin/data/ukbiobank_jun17/subsets/Irish/Irish/ukb_chrX_v2.Irish.BMI.ADD.assoc.linear.clumped: No such file or directory
+Waist African African /users/mturchin/data/ukbiobank_jun17/subsets/African/African/ukb_chrAll_v2.African.Waist.ADD.assoc.linear.clumped
+cat: /users/mturchin/data/ukbiobank_jun17/subsets/African/African/ukb_chr13_v2.African.Waist.ADD.assoc.linear.clumped: No such file or directory
+cat: /users/mturchin/data/ukbiobank_jun17/subsets/African/African/ukb_chrX_v2.African.Waist.ADD.assoc.linear.clumped: No such file or directory
+Waist Any_other_white_background Any_other_white_background /users/mturchin/data/ukbiobank_jun17/subsets/Any_other_white_background/Any_other_white_background/ukb_chrAll_v2.Any_other_white_background.Waist.ADD.assoc.linear.clumped
+cat: /users/mturchin/data/ukbiobank_jun17/subsets/Any_other_white_background/Any_other_white_background/ukb_chr22_v2.Any_other_white_background.Waist.ADD.assoc.linear.clumped: No such file or directory
+cat: /users/mturchin/data/ukbiobank_jun17/subsets/Any_other_white_background/Any_other_white_background/ukb_chrX_v2.Any_other_white_background.Waist.ADD.assoc.linear.clumped: No such file or directory
+Waist British British /users/mturchin/data/ukbiobank_jun17/subsets/British/British/ukb_chrAll_v2.British.Waist.ADD.assoc.linear.clumped
+cat: /users/mturchin/data/ukbiobank_jun17/subsets/British/British/ukb_chrX_v2.British.Waist.ADD.assoc.linear.clumped: No such file or directory
+Waist British British.Ran10000 /users/mturchin/data/ukbiobank_jun17/subsets/British/British.Ran10000/ukb_chrAll_v2.British.Ran10000.Waist.ADD.assoc.linear.clumped
+cat: /users/mturchin/data/ukbiobank_jun17/subsets/British/British.Ran10000/ukb_chrX_v2.British.Ran10000.Waist.ADD.assoc.linear.clumped: No such file or directory
+Waist British British.Ran100000 /users/mturchin/data/ukbiobank_jun17/subsets/British/British.Ran100000/ukb_chrAll_v2.British.Ran100000.Waist.ADD.assoc.linear.clumped
+cat: /users/mturchin/data/ukbiobank_jun17/subsets/British/British.Ran100000/ukb_chrX_v2.British.Ran100000.Waist.ADD.assoc.linear.clumped: No such file or directory
+Waist British British.Ran200000 /users/mturchin/data/ukbiobank_jun17/subsets/British/British.Ran200000/ukb_chrAll_v2.British.Ran200000.Waist.ADD.assoc.linear.clumped
+cat: /users/mturchin/data/ukbiobank_jun17/subsets/British/British.Ran200000/ukb_chrX_v2.British.Ran200000.Waist.ADD.assoc.linear.clumped: No such file or directory
+Waist Caribbean Caribbean /users/mturchin/data/ukbiobank_jun17/subsets/Caribbean/Caribbean/ukb_chrAll_v2.Caribbean.Waist.ADD.assoc.linear.clumped
+cat: /users/mturchin/data/ukbiobank_jun17/subsets/Caribbean/Caribbean/ukb_chr14_v2.Caribbean.Waist.ADD.assoc.linear.clumped: No such file or directory
+cat: /users/mturchin/data/ukbiobank_jun17/subsets/Caribbean/Caribbean/ukb_chr20_v2.Caribbean.Waist.ADD.assoc.linear.clumped: No such file or directory
+cat: /users/mturchin/data/ukbiobank_jun17/subsets/Caribbean/Caribbean/ukb_chrX_v2.Caribbean.Waist.ADD.assoc.linear.clumped: No such file or directory
+Waist Indian Indian /users/mturchin/data/ukbiobank_jun17/subsets/Indian/Indian/ukb_chrAll_v2.Indian.Waist.ADD.assoc.linear.clumped
+cat: /users/mturchin/data/ukbiobank_jun17/subsets/Indian/Indian/ukb_chrX_v2.Indian.Waist.ADD.assoc.linear.clumped: No such file or directory
+Waist Irish Irish /users/mturchin/data/ukbiobank_jun17/subsets/Irish/Irish/ukb_chrAll_v2.Irish.Waist.ADD.assoc.linear.clumped
+cat: /users/mturchin/data/ukbiobank_jun17/subsets/Irish/Irish/ukb_chrX_v2.Irish.Waist.ADD.assoc.linear.clumped: No such file or directory
+Hip African African /users/mturchin/data/ukbiobank_jun17/subsets/African/African/ukb_chrAll_v2.African.Hip.ADD.assoc.linear.clumped
+cat: /users/mturchin/data/ukbiobank_jun17/subsets/African/African/ukb_chrX_v2.African.Hip.ADD.assoc.linear.clumped: No such file or directory
+Hip Any_other_white_background Any_other_white_background /users/mturchin/data/ukbiobank_jun17/subsets/Any_other_white_background/Any_other_white_background/ukb_chrAll_v2.Any_other_white_background.Hip.ADD.assoc.linear.clumped
+cat: /users/mturchin/data/ukbiobank_jun17/subsets/Any_other_white_background/Any_other_white_background/ukb_chrX_v2.Any_other_white_background.Hip.ADD.assoc.linear.clumped: No such file or directory
+Hip British British /users/mturchin/data/ukbiobank_jun17/subsets/British/British/ukb_chrAll_v2.British.Hip.ADD.assoc.linear.clumped
+cat: /users/mturchin/data/ukbiobank_jun17/subsets/British/British/ukb_chrX_v2.British.Hip.ADD.assoc.linear.clumped: No such file or directory
+Hip British British.Ran10000 /users/mturchin/data/ukbiobank_jun17/subsets/British/British.Ran10000/ukb_chrAll_v2.British.Ran10000.Hip.ADD.assoc.linear.clumped
+cat: /users/mturchin/data/ukbiobank_jun17/subsets/British/British.Ran10000/ukb_chrX_v2.British.Ran10000.Hip.ADD.assoc.linear.clumped: No such file or directory
+Hip British British.Ran100000 /users/mturchin/data/ukbiobank_jun17/subsets/British/British.Ran100000/ukb_chrAll_v2.British.Ran100000.Hip.ADD.assoc.linear.clumped
+cat: /users/mturchin/data/ukbiobank_jun17/subsets/British/British.Ran100000/ukb_chrX_v2.British.Ran100000.Hip.ADD.assoc.linear.clumped: No such file or directory
+Hip British British.Ran200000 /users/mturchin/data/ukbiobank_jun17/subsets/British/British.Ran200000/ukb_chrAll_v2.British.Ran200000.Hip.ADD.assoc.linear.clumped
+cat: /users/mturchin/data/ukbiobank_jun17/subsets/British/British.Ran200000/ukb_chrX_v2.British.Ran200000.Hip.ADD.assoc.linear.clumped: No such file or directory
+Hip Caribbean Caribbean /users/mturchin/data/ukbiobank_jun17/subsets/Caribbean/Caribbean/ukb_chrAll_v2.Caribbean.Hip.ADD.assoc.linear.clumped
+cat: /users/mturchin/data/ukbiobank_jun17/subsets/Caribbean/Caribbean/ukb_chrX_v2.Caribbean.Hip.ADD.assoc.linear.clumped: No such file or directory
+Hip Indian Indian /users/mturchin/data/ukbiobank_jun17/subsets/Indian/Indian/ukb_chrAll_v2.Indian.Hip.ADD.assoc.linear.clumped
+cat: /users/mturchin/data/ukbiobank_jun17/subsets/Indian/Indian/ukb_chrX_v2.Indian.Hip.ADD.assoc.linear.clumped: No such file or directory
+Hip Irish Irish /users/mturchin/data/ukbiobank_jun17/subsets/Irish/Irish/ukb_chrAll_v2.Irish.Hip.ADD.assoc.linear.clumped
+cat: /users/mturchin/data/ukbiobank_jun17/subsets/Irish/Irish/ukb_chr21_v2.Irish.Hip.ADD.assoc.linear.clumped: No such file or directory
+cat: /users/mturchin/data/ukbiobank_jun17/subsets/Irish/Irish/ukb_chrX_v2.Irish.Hip.ADD.assoc.linear.clumped: No such file or directory
+...
+Height British British.Ran4000 /users/mturchin/data/ukbiobank_jun17/subsets/British/British.Ran4000/ukb_chrAll_v2.British.Ran4000.Height.ADD.assoc.linear.clumped
+cat: /users/mturchin/data/ukbiobank_jun17/subsets/British/British.Ran4000/ukb_chr21_v2.British.Ran4000.Height.ADD.assoc.linear.clumped: No such file or directory
+BMI British British.Ran4000 /users/mturchin/data/ukbiobank_jun17/subsets/British/British.Ran4000/ukb_chrAll_v2.British.Ran4000.BMI.ADD.assoc.linear.clumped
+Waist British British.Ran4000 /users/mturchin/data/ukbiobank_jun17/subsets/British/British.Ran4000/ukb_chrAll_v2.British.Ran4000.Waist.ADD.assoc.linear.clumped
+Hip British British.Ran4000 /users/mturchin/data/ukbiobank_jun17/subsets/British/British.Ran4000/ukb_chrAll_v2.British.Ran4000.Hip.ADD.assoc.linear.clumped
+[  mturchin@node418  ~/LabMisc/RamachandranLab/MultiEthnicGWAS]$cat /users/mturchin/data/ukbiobank_jun17/subsets/British/British/ukb_chrAll_v2.British.Height.ADD.assoc.linear.clumped | wc
+   7002   84024 1049612
+[  mturchin@node418  ~/LabMisc/RamachandranLab/MultiEthnicGWAS]$cat /users/mturchin/data/ukbiobank_jun17/subsets/British/British.Ran4000/ukb_chrAll_v2.British.Ran4000.Height.ADD.assoc.linear.clumped | wc
+     81     972   11021
+[  mturchin@node418  ~/LabMisc/RamachandranLab/MultiEthnicGWAS]$cat /users/mturchin/data/ukbiobank_jun17/subsets/British/British.Ran10000/ukb_chrAll_v2.British.Ran10000.Height.ADD.assoc.linear.clumped | wc
+    149    1788   24644
+[  mturchin@node418  ~/LabMisc/RamachandranLab/MultiEthnicGWAS]$cat /users/mturchin/data/ukbiobank_jun17/subsets/British/British.Ran100000/ukb_chrAll_v2.British.Ran100000.Height.ADD.assoc.linear.clumped | wc
+   2057   24684  354566
+[  mturchin@node418  ~/LabMisc/RamachandranLab/MultiEthnicGWAS]$cat /users/mturchin/data/ukbiobank_jun17/subsets/British/British.Ran200000/ukb_chrAll_v2.British.Ran200000.Height.ADD.assoc.linear.clumped | wc
+   4847   58164  771603
+[  mturchin@node418  ~/LabMisc/RamachandranLab/MultiEthnicGWAS]$cat /users/mturchin/data/ukbiobank_jun17/subsets/African/African/ukb_chrAll_v2.African.Height.ADD.assoc.linear.clumped | wc
+    131    1572   13800
+[  mturchin@node418  ~/LabMisc/RamachandranLab/MultiEthnicGWAS]$cat /users/mturchin/data/ukbiobank_jun17/subsets/Caribbean/Caribbean/ukb_chrAll_v2.Caribbean.Height.ADD.assoc.linear.clumped | wc
+    154    1848   16587
+[  mturchin@node418  ~/LabMisc/RamachandranLab/MultiEthnicGWAS]$cat /users/mturchin/data/ukbiobank_jun17/subsets/Indian/Indian/ukb_chrAll_v2.Indian.Height.ADD.assoc.linear.clumped | wc
+   1352   16224  185798
+[  mturchin@node418  ~/LabMisc/RamachandranLab/MultiEthnicGWAS]$cat /users/mturchin/data/ukbiobank_jun17/subsets/Irish/Irish/ukb_chrAll_v2.Irish.Height.ADD.assoc.linear.clumped | wc
+    240    2880   37655
+[  mturchin@node418  ~/LabMisc/RamachandranLab/MultiEthnicGWAS]$cat /users/mturchin/data/ukbiobank_jun17/subsets/Any_other_white_background/Any_other_white_background/ukb_chrAll_v2.Any_other_white_background.Height.ADD.assoc.linear.clumped | wc
+  31630  379560 3982400
+[  mturchin@node410  ~/LabMisc/RamachandranLab/MultiEthnicGWAS]$cat /users/mturchin/data/ukbiobank_jun17/subsets/Any_other_white_background/Any_other_white_background/ukb_chr6_v2.Any_other_white_background.Height.assoc.linear | grep ADD | grep -v NA | sort -g -k 9,9 | head -n 10
+   6       rs2256175   31380449    C        ADD    15725      1.283        17.41    3.027e-67
+   6       rs2596531   31387557    C        ADD    15709      1.238        16.19    1.702e-58
+   6       rs2596530   31387373    G        ADD    15705      1.232        16.11    6.487e-58
+   6       rs2256183   31380529    A        ADD    15561      1.238        16.03    2.217e-57
+   6   Affx-28452229   31322303    G        ADD    15734     -1.186       -15.97    5.878e-57
+   6      rs67841474   31380160   TG        ADD    14926      1.221        15.84    4.814e-56
+   6        rs537160   31916400    A        ADD    15691      1.313        15.55    3.754e-54
+   6       rs2844513   31388214    A        ADD    15678     -1.095       -14.64    3.043e-48
+   6       rs2844514   31380340    T        ADD    15687     -1.096       -14.64    3.178e-48
+   6        rs630379   31922254    A        ADD    15694      1.292        14.62    4.416e-48
+[  mturchin@node410  ~/LabMisc/RamachandranLab/MultiEthnicGWAS]$cat /users/mturchin/data/ukbiobank_jun17/subsets/British/British/ukb_chr6_v2.British.Height.assoc.linear | grep ADD | grep -v NA | sort -g -k 9,9 | head -n 10
+   6      rs41271299   19839415    T        ADD   428962     0.8564        27.51   2.065e-166
+   6       rs6570507  142679572    A        ADD   429196    -0.3922       -25.77   2.486e-146
+   6       rs7776375  142777064    G        ADD   428707    -0.3858       -25.35   1.211e-141
+   6       rs3748069  142767633    G        ADD   425265    -0.3844       -25.22   3.393e-140
+   6       rs7763064  142797289    A        ADD   428723    -0.3769       -24.98   1.416e-137
+   6       rs7742369   34165721    G        ADD   429011     0.4481         24.8   1.104e-135
+   6       rs7766641   26184102    A        ADD   421986    -0.3948       -24.69   1.649e-134
+   6        rs806794   26200677    G        ADD   429099    -0.3813       -24.68   2.118e-134
+   6        rs262121  142839498    C        ADD   428622    -0.3703       -24.48   3.265e-132
+   6       rs2050157  142658162    A        ADD   382230    -0.3941       -24.45   6.076e-132
+[  mturchin@node410  ~/LabMisc/RamachandranLab/MultiEthnicGWAS]$cat /users/mturchin/data/ukbiobank_jun17/subsets/British/British/ukb_chr6_v2.British.Height.assoc.linear | grep ADD | grep -v NA | if ($9 < 5e-8) { print $0 } } ' | wc
+bash: syntax error near unexpected token `{'
+[  mturchin@node410  ~/LabMisc/RamachandranLab/MultiEthnicGWAS]$cat /users/mturchin/data/ukbiobank_jun17/subsets/British/British/ukb_chr6_v2.British.Height.assoc.linear | grep ADD | grep -v NA | awk '{ if ($9 < 5e-8) { print $0 } } ' | wc
+   4077   36693  383504
+[  mturchin@node410  ~/LabMisc/RamachandranLab/MultiEthnicGWAS]$cat /users/mturchin/data/ukbiobank_jun17/subsets/Any_other_white_background/Any_other_white_background/ukb_chr6_v2.Any_other_white_background.Height.assoc.linear | grep ADD | grep -v NA | awk '{ if ($9 < 5e-8) { print $0 } } ' | wc
+   2768   24912  260433
+[  mturchin@node410  ~/LabMisc/RamachandranLab/MultiEthnicGWAS]$cat /users/mturchin/data/ukbiobank_jun17/subsets/Any_other_white_background/Any_other_white_background/ukb_chr6_v2.Any_other_white_background.Height.assoc.linear | grep ADD | grep -v NA | awk '{ if ($9 < 5e-2) { print $0 } } ' | wc
+  22485  202365 2113841
+[  mturchin@node410  ~/LabMisc/RamachandranLab/MultiEthnicGWAS]$cat /users/mturchin/data/ukbiobank_jun17/subsets/British/British/ukb_chr6_v2.British.Height.assoc.linear | grep ADD | grep -v NA | awk '{ if ($9 < 5e-2) { print $0 } } ' | wc
+  17949  161541 1687475
+[  mturchin@node410  ~/LabMisc/RamachandranLab/MultiEthnicGWAS]$cat /users/mturchin/data/ukbiobank_jun17/subsets/Any_other_white_background/Any_other_white_background/ukb_chr6_v2.Any_other_white_background.Height.assoc.linear | grep ADD | grep -v NA | awk '{ if ($9 < 5e-4) { print $0 } } ' | wc
+   9158   82422  861093
+[  mturchin@node410  ~/LabMisc/RamachandranLab/MultiEthnicGWAS]$cat /users/mturchin/data/ukbiobank_jun17/subsets/British/British/ukb_chr6_v2.British.Height.assoc.linear | grep ADD | grep -v NA | awk '{ if ($9 < 5e-4) { print $0 } } ' | wc
+   7948   71532  747380
+[  mturchin@node410  ~/LabMisc/RamachandranLab/MultiEthnicGWAS]$cat /users/mturchin/data/ukbiobank_jun17/subsets/Any_other_white_background/Any_other_white_background/ukb_chr6_v2.Any_other_white_background.Height.assoc.linear | grep ADD | grep -v NA | awk '{ print $9 }' | R -q -e "Data1 <- read.table(file('stdin'), header=T); table(cut(Data1[,1], c(0,1e-100,1e-75,1e-50,1e-25,1e-10,1e-9,1e-8,1e-7,1e-6,1e-5,1e-4,1e-3,1e-2,.1,1)));"
+> Data1 <- read.table(file('stdin'), header=T); table(cut(Data1[,1], c(0,1e-100,1e-75,1e-50,1e-25,1e-10,1e-9,1e-8,1e-7,1e-6,1e-5,1e-4,1e-3,1e-2,.1,1)));
+
+    (0,1e-100] (1e-100,1e-75]  (1e-75,1e-50]  (1e-50,1e-25]  (1e-25,1e-10] 
+             0              0              7            180           1312 
+ (1e-10,1e-09]  (1e-09,1e-08]  (1e-08,1e-07]  (1e-07,1e-06]  (1e-06,1e-05] 
+           366            471            629            884           1259 
+(1e-05,0.0001] (0.0001,0.001]   (0.001,0.01]     (0.01,0.1]        (0.1,1] 
+          1972           3305           5625          10462          25932 
+> 
+> 
+[  mturchin@node410  ~/LabMisc/RamachandranLab/MultiEthnicGWAS]$cat /users/mturchin/data/ukbiobank_jun17/subsets/British/British/ukb_chr6_v2.British.Height.assoc.linear | grep ADD | grep -v NA | awk '{ print $9 }' | R -q -e "Data1 <- read.table(file('stdin'), header=T); table(cut(Data1[,1], c(0,1e-100,1e-75,1e-50,1e-25,1e-10,1e-9,1e-8,1e-7,1e-6,1e-5,1e-4,1e-3,1e-2,.1,1)));"
+> Data1 <- read.table(file('stdin'), header=T); table(cut(Data1[,1], c(0,1e-100,1e-75,1e-50,1e-25,1e-10,1e-9,1e-8,1e-7,1e-6,1e-5,1e-4,1e-3,1e-2,.1,1)));
+
+    (0,1e-100] (1e-100,1e-75]  (1e-75,1e-50]  (1e-50,1e-25]  (1e-25,1e-10] 
+            33             22            116            634           2309 
+ (1e-10,1e-09]  (1e-09,1e-08]  (1e-08,1e-07]  (1e-07,1e-06]  (1e-06,1e-05] 
+           299            360            464            539            775 
+(1e-05,0.0001] (0.0001,0.001]   (0.001,0.01]     (0.01,0.1]        (0.1,1] 
+          1138           1969           3833           9348          31759 
+[  mturchin@node410  ~/LabMisc/RamachandranLab/MultiEthnicGWAS]$cat /users/mturchin/data/ukbiobank_jun17/subsets/Any_other_white_background/Any_other_white_background/ukb_chr6_v2.Any_other_white_background.Height.ADD.assoc.linear.clumped | awk '{ print $6 }' | R -q -e "Data1 <- read.table(file('stdin'), header=T); table(cut(Data1[,1], c(0,10,25,50,100,250,500,1000)));"
+> Data1 <- read.table(file('stdin'), header=T); table(cut(Data1[,1], c(0,10,25,50,100,250,500,1000)));
+
+     (0,10]     (10,25]     (25,50]    (50,100]   (100,250]   (250,500] 
+       1455         195          46          26          16           4 
+(500,1e+03] 
+          0 
+> 
+> 
+[  mturchin@node410  ~/LabMisc/RamachandranLab/MultiEthnicGWAS]$cat /users/mturchin/data/ukbiobank_jun17/subsets/British/British/ukb_chr6_v2.British.Height.ADD.assoc.linear.clumped | awk '{ print $6 }' | R -q -e "Data1 <- read.table(file('stdin'), header=T); table(cut(Data1[,1], c(0,10,25,50,100,250,500,1000)));"
+> Data1 <- read.table(file('stdin'), header=T); table(cut(Data1[,1], c(0,10,25,50,100,250,500,1000)));
+
+     (0,10]     (10,25]     (25,50]    (50,100]   (100,250]   (250,500] 
+        153          41          21          25          14           4 
+(500,1e+03] 
+          1 
 
 
+
+cat /users/mturchin/data/ukbiobank_jun17/subsets/British/British/ukb_chr6_v2.British.Height.assoc.linear | grep ADD | grep -v NA | awk '{ print $9 }' | R -q -e "Data1 <- read.table(file('stdin'), header=T); table(cut(Data1[,1], c(0,1e-100,1e-75,1e-50,1e-25,1e-10,1e-9,1e-8,1e-7,1e-6,1e-5,1e-4,1e-3,1e-2,.1,1))); png(\"/users/mturchin/data/ukbiobank_jun17/subsets/British/British/ukb_chr6_v2.British.Height.assoc.linear.hist.png\", height=1250, width=1250, res=300); hist(Data1[,1]); dev.off()"
 
 
 ```
