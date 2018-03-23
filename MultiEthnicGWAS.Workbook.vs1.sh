@@ -1470,7 +1470,6 @@ png(\"/users/mturchin/data/ukbiobank_jun17/subsets/African/African/mturchin20/uk
 plot(Data3[,3], Data3[,4], xlab=\"PC1\", ylab=\"PC2\", pch=Data3[,ncol(Data3)], col=as.character(Data3[,ncol(Data3)-1]), cex=1.5, cex.main=1.5, cex.axis=1.5, cex.lab=1.5); plotLegend2(\"bottomleft\"); abline(.005, .555); \
 plot(Data3[,5], Data3[,6], xlab=\"PC3\", ylab=\"PC4\", pch=Data3[,ncol(Data3)], col=as.character(Data3[,ncol(Data3)-1]), cex=1.5, cex.main=1.5, cex.axis=1.5, cex.lab=1.5); plotLegend2(\"topleft\"); dev.off();"  
 
-
 #From MacBook Air
 #scp -p mturchin@ssh.ccv.brown.edu:/users/mturchin/data/ukbiobank_jun17/subsets/African/African/mturchin20/ukb_chrAll_v2.African.QCed.pruned.QCed.dropRltvs.noX.1kG.flashpca.wRltvs.PCplots.vs1.png /Users/mturchin20/Documents/Work/LabMisc/RamachandranLab/MultiEthnicGWAS/Rnd1/UKBioBank/.
 #scp -p mturchin@ssh.ccv.brown.edu:/users/mturchin/data/ukbiobank_jun17/subsets/African/African/mturchin20/ukb_chrAll_v2.AFR.1kG.flashpca.wRltvs.PCplots.*png /Users/mturchin20/Documents/Work/LabMisc/RamachandranLab/MultiEthnicGWAS/Rnd1/UKBioBank/.
@@ -1499,14 +1498,19 @@ plot(Data3[,5], Data3[,6], xlab=\"PC3\", ylab=\"PC4\", pch=Data3[,ncol(Data3)], 
 #Data1[Data1[ncol(Data1)-1] == \"1kG_ASW\", ncol(Data1)] <- \"green\"; \ 
 
 
-
 UKBioBankPops=`echo "African;African Any_other_Asian_background;Any_other_Asian_background Any_other_mixed_background;Any_other_mixed_background Any_other_white_background;Any_other_white_background British;British British;British.Ran4000 British;British.Ran10000 British;British.Ran100000 British;British.Ran200000 Caribbean;Caribbean Chinese;Chinese Indian;Indian Irish;Irish Pakistani;Pakistani"`;
 
+#Below because this one SNP was messing up the downstream merge between ukb and 1kG, so just removing it for ease here
+#cp -p /users/mturchin/data/ukbiobank_jun17/subsets/Chinese/Chinese/mturchin20/ukb_chrAll_v2.Chinese.QCed.pruned.QCed.bim.noX.rsIDs /users/mturchin/data/ukbiobank_jun17/subsets/Chinese/Chinese/mturchin20/ukb_chrAll_v2.Chinese.QCed.pruned.QCed.bim.noX.rsIDs.vs1
+cat /users/mturchin/data/ukbiobank_jun17/subsets/Chinese/Chinese/mturchin20/ukb_chrAll_v2.Chinese.QCed.pruned.QCed.bim.noX.rsIDs | grep -v rs57154009 > /users/mturchin/data/ukbiobank_jun17/subsets/Chinese/Chinese/mturchin20/ukb_chrAll_v2.Chinese.QCed.pruned.QCed.bim.noX.rsIDs.tmp
+mv /users/mturchin/data/ukbiobank_jun17/subsets/Chinese/Chinese/mturchin20/ukb_chrAll_v2.Chinese.QCed.pruned.QCed.bim.noX.rsIDs.tmp /users/mturchin/data/ukbiobank_jun17/subsets/Chinese/Chinese/mturchin20/ukb_chrAll_v2.Chinese.QCed.pruned.QCed.bim.noX.rsIDs 
+
 #for i in `echo "CEU GBR YRI ESN CHB JPT ACB ASW"`; do
-for i in `echo "CEU GBR YRI ESN CHB JPT 
-for i in `echo "ASW MXL PEL ITU PJL"`; do
+#for i in `echo "CEU GBR YRI ESN CHB JPT 
+#for i in `echo "ASW MXL PEL ITU PJL"`; do
+for i in `echo "CEU GBR YRI ESN CHB JPT ACB ASW MXL PEL ITU PJL"`; do
 #for i in `echo "CEU"`; do
-	for k in `cat <(echo $UKBioBankPops | perl -lane 'print join("\n", @F);')`; do
+	for k in `cat <(echo $UKBioBankPops | perl -lane 'print join("\n", @F);') | grep Chinese`; do
 		ancestry1=`echo $k | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[0];'`
 		ancestry2=`echo $k | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[1];'`
 		
@@ -1532,50 +1536,109 @@ for i in `echo "CEU GBR YRI ESN CHB JPT ACB ASW MXL PEL ITU PJL"`; do
 	done
 done
 
-
-
-
-
-	
-#for i in `echo "CEU GBR YRI ESN CHB JPT ACB ASW"`; do
-for i in `echo "MXL PEL ITU PJL"`; do
-	echo $i
-
-        cat /dev/null > /users/mturchin/data/1000G/subsets/$i/$i.chrAll.phase3.genotypes.SNPs.ukb.MergeList.Vs1.txt 
-
-        for j in {2..22}; do
-                echo "/users/mturchin/data/1000G/subsets/$i/mturchin20/$i.chr${j}.phase3_shapeit2_mvncall_integrated_v5a.20130502.genotypes.SNPs.ukb.bed /users/mturchin/data/1000G/subsets/$i/mturchin20/$i.chr${j}.phase3_shapeit2_mvncall_integrated_v5a.20130502.genotypes.SNPs.ukb.bim /users/mturchin/data/1000G/subsets/$i/mturchin20/$i.chr${j}.phase3_shapeit2_mvncall_integrated_v5a.20130502.genotypes.SNPs.ukb.fam" >> /users/mturchin/data/1000G/subsets/$i/$i.chrAll.phase3.genotypes.SNPs.ukb.MergeList.Vs1.txt
-        done
-
-done
-	
-#for i in `echo "CEU GBR YRI ESN CHB JPT ACB ASW"`; do
+for i in `echo "CEU GBR YRI ESN CHB JPT ACB ASW MXL PEL ITU PJL"`; do
+#for i in `echo "CEU"`; do
 	echo $i /users/mturchin/data/1000G/subsets/$i/$i.chrAll.phase3.genotypes.SNPs.MergeList.Vs1.txt
+	for k in `cat <(echo $UKBioBankPops | perl -lane 'print join("\n", @F);') | grep Chinese`; do
+		ancestry1=`echo $k | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[0];'`
+		ancestry2=`echo $k | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[1];'`
 
-        sbatch -t 72:00:00 --mem 100g -o /users/mturchin/data/1000G/subsets/$i/mturchin20/$i.chrAll.phase3.genotypes.slurm.merge.output -e /users/mturchin/data/1000G/subsets/$i/mturchin20/$i.chrAll.phase3.genotypes.slurm.merge.error --comment "MergeList $i" <(echo -e '#!/bin/sh'; echo -e "\nplink --bfile /users/mturchin/data/1000G/subsets/$i/mturchin20/$i.chr1.phase3_shapeit2_mvncall_integrated_v5a.20130502.genotypes.SNPs.ukb --merge-list /users/mturchin/data/1000G/subsets/$i/$i.chrAll.phase3.genotypes.SNPs.ukb.MergeList.Vs1.txt --make-bed --out /users/mturchin/data/1000G/subsets/$i/mturchin20/$i.chrAll.phase3_shapeit2_mvncall_integrated_v5a.20130502.genotypes.SNPs.ukb") 
+	        sbatch -t 72:00:00 --mem 2g -o /users/mturchin/data/1000G/subsets/$i/mturchin20/$i.chrAll.phase3.genotypes.ukb.${ancestry2}.slurm.merge.output -e /users/mturchin/data/1000G/subsets/$i/mturchin20/$i.chrAll.phase3.genotypes.ukb.${ancestry2}.slurm.merge.error --comment "MergeList $i $k" <(echo -e '#!/bin/sh'; echo -e "\nplink --bfile /users/mturchin/data/1000G/subsets/$i/mturchin20/$i.chr1.phase3_shapeit2_mvncall_integrated_v5a.20130502.genotypes.SNPs.ukb.${ancestry2} --merge-list /users/mturchin/data/1000G/subsets/$i/$i.chrAll.phase3.genotypes.SNPs.ukb.${ancestry2}.MergeList.Vs1.txt --make-bed --out /users/mturchin/data/1000G/subsets/$i/mturchin20/$i.chrAll.phase3_shapeit2_mvncall_integrated_v5a.20130502.genotypes.SNPs.ukb.${ancestry2}") 
+	done
 
 done
 
-cat /dev/null > /users/mturchin/data/1000G/subsets/All.chrAll.phase3.genotypes.SNPs.ukb.MergeList.Vs1.txt
-for i in `echo "GBR YRI ESN CHB JPT ACB ASW"`; do
-	echo "/users/mturchin/data/1000G/subsets/$i/mturchin20/$i.chrAll.phase3_shapeit2_mvncall_integrated_v5a.20130502.genotypes.SNPs.ukb.bed /users/mturchin/data/1000G/subsets/$i/mturchin20/$i.chrAll.phase3_shapeit2_mvncall_integrated_v5a.20130502.genotypes.SNPs.ukb.bim /users/mturchin/data/1000G/subsets/$i/mturchin20/$i.chrAll.phase3_shapeit2_mvncall_integrated_v5a.20130502.genotypes.SNPs.ukb.fam" >> /users/mturchin/data/1000G/subsets/All.chrAll.phase3.genotypes.SNPs.ukb.MergeList.Vs1.txt
+for i in `echo "CEU GBR YRI ESN CHB JPT ACB ASW MXL PEL ITU PJL"`; do
+	for k in `cat <(echo $UKBioBankPops | perl -lane 'print join("\n", @F);') | grep Chinese`; do
+		ancestry1=`echo $k | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[0];'`
+		ancestry2=`echo $k | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[1];'`
+        
+		for j in `echo {1..22}`; do 
+			rm /users/mturchin/data/1000G/subsets/$i/mturchin20/$i.chr${j}.phase3_shapeit2_mvncall_integrated_v5a.20130502.genotypes.SNPs.ukb.${ancestry2}.bed /users/mturchin/data/1000G/subsets/$i/mturchin20/$i.chr${j}.phase3_shapeit2_mvncall_integrated_v5a.20130502.genotypes.SNPs.ukb.${ancestry2}.bim /users/mturchin/data/1000G/subsets/$i/mturchin20/$i.chr${j}.phase3_shapeit2_mvncall_integrated_v5a.20130502.genotypes.SNPs.ukb.${ancestry2}.fam /users/mturchin/data/1000G/subsets/$i/mturchin20/$i.chr${j}.phase3_shapeit2_mvncall_integrated_v5a.20130502.genotypes.SNPs.ukb.${ancestry2}.log /users/mturchin/data/1000G/subsets/$i/mturchin20/$i.chr${j}.phase3_shapeit2_mvncall_integrated_v5a.20130502.genotypes.SNPs.ukb.${ancestry2}.nosex
+		done
+	done
 done
 
-plink --bfile /users/mturchin/data/1000G/subsets/CEU/mturchin20/CEU.chrAll.phase3_shapeit2_mvncall_integrated_v5a.20130502.genotypes.SNPs.ukb --merge-list /users/mturchin/data/1000G/subsets/All.chrAll.phase3.genotypes.SNPs.ukb.MergeList.Vs1.txt --make-bed --out /users/mturchin/data/1000G/mturchin20/subsets/All.chrAll.phase3.genotypes.SNPs.ukb 
-cat /users/mturchin/data/1000G/mturchin20/subsets/All.chrAll.phase3.genotypes.SNPs.ukb.bim | awk '{ print $2 }' > /users/mturchin/data/1000G/mturchin20/subsets/All.chrAll.phase3.genotypes.SNPs.ukb.bim.rsIDs
-plink --bfile /users/mturchin/data/ukbiobank_jun17/subsets/African/African/mturchin20/ukb_chrAll_v2.African.QCed.pruned.QCed.dropRltvs.noX --extract /users/mturchin/data/1000G/mturchin20/subsets/All.chrAll.phase3.genotypes.SNPs.ukb.bim.rsIDs --make-bed --out /users/mturchin/data/ukbiobank_jun17/subsets/African/African/mturchin20/ukb_chrAll_v2.African.QCed.pruned.QCed.dropRltvs.noX.1kG.pre
-plink --bfile /users/mturchin/data/ukbiobank_jun17/subsets/African/African/mturchin20/ukb_chrAll_v2.African.QCed.pruned.QCed.onlyRltvs.noX --extract /users/mturchin/data/1000G/mturchin20/subsets/All.chrAll.phase3.genotypes.SNPs.ukb.bim.rsIDs --make-bed --out /users/mturchin/data/ukbiobank_jun17/subsets/African/African/mturchin20/ukb_chrAll_v2.African.QCed.pruned.QCed.onlyRltvs.noX.1kG
-plink --bfile /users/mturchin/data/ukbiobank_jun17/subsets/African/African/mturchin20/ukb_chrAll_v2.African.QCed.pruned.QCed.dropRltvs.noX.1kG.pre --bmerge /users/mturchin/data/1000G/mturchin20/subsets/All.chrAll.phase3.genotypes.SNPs.ukb --make-bed --out /users/mturchin/data/ukbiobank_jun17/subsets/African/African/mturchin20/ukb_chrAll_v2.African.QCed.pruned.QCed.dropRltvs.noX.1kG
-
-
-#/users/mturchin/data/ukbiobank_jun17/subsets/African/African/mturchin20/ukb_chrAll_v2.African.QCed.pruned.QCed.dropRltvs.noX.1kG
-#/users/mturchin/data/ukbiobank_jun17/subsets/African/African/mturchin20/ukb_chrAll_v2.African.QCed.pruned.QCed.onlyRltvs.noX.1kG
-
-/users/mturchin/Software/flashpca/flashpca --bfile /users/mturchin/data/ukbiobank_jun17/subsets/African/African/mturchin20/ukb_chrAll_v2.African.QCed.pruned.QCed.dropRltvs.noX.1kG -d 20 --outpc /users/mturchin/data/ukbiobank_jun17/subsets/African/African/mturchin20/ukb_chrAll_v2.African.QCed.pruned.QCed.dropRltvs.noX.1kG.flashpca.pcs.txt --outload /users/mturchin/data/ukbiobank_jun17/subsets/African/African/mturchin20/ukb_chrAll_v2.African.QCed.pruned.QCed.dropRltvs.noX.1kG.flashpca.loads.txt --outvec /users/mturchin/data/ukbiobank_jun17/subsets/African/African/mturchin20/ukb_chrAll_v2.African.QCed.pruned.QCed.dropRltvs.noX.1kG.flashpca.vecs.txt --outval /users/mturchin/data/ukbiobank_jun17/subsets/African/African/mturchin20/ukb_chrAll_v2.African.QCed.pruned.QCed.dropRltvs.noX.1kG.flashpca.vals.txt --outpve /users/mturchin/data/ukbiobank_jun17/subsets/African/African/mturchin20/ukb_chrAll_v2.African.QCed.pruned.QCed.dropRltvs.noX.1kG.flashpca.pve.txt --outmeansd /users/mturchin/data/ukbiobank_jun17/subsets/African/African/mturchin20/ukb_chrAll_v2.African.QCed.pruned.QCed.dropRltvs.noX.1kG.flashpca.meansd.txt
+for k in `cat <(echo $UKBioBankPops | perl -lane 'print join("\n", @F);')`; do
+	ancestry1=`echo $k | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[0];'`
+	ancestry2=`echo $k | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[1];'`
 	
-/users/mturchin/Software/flashpca/flashpca --bfile /users/mturchin/data/ukbiobank_jun17/subsets/African/African/mturchin20/ukb_chrAll_v2.African.QCed.pruned.QCed.onlyRltvs.noX.1kG --project --inmeansd /users/mturchin/data/ukbiobank_jun17/subsets/African/African/mturchin20/ukb_chrAll_v2.African.QCed.pruned.QCed.dropRltvs.noX.1kG.flashpca.meansd.txt --outproj /users/mturchin/data/ukbiobank_jun17/subsets/African/African/mturchin20/ukb_chrAll_v2.African.QCed.pruned.QCed.dropRltvs.noX.1kG.flashpca.projRltvs.txt --inload /users/mturchin/data/ukbiobank_jun17/subsets/African/African/mturchin20/ukb_chrAll_v2.African.QCed.pruned.QCed.dropRltvs.noX.1kG.flashpca.loads.txt
+	cat /dev/null > /users/mturchin/data/1000G/mturchin20/subsets/All.chrAll.phase3.genotypes.SNPs.ukb.${ancestry2}.MergeList.Vs1.txt
+	for i in `echo "GBR YRI ESN CHB JPT ACB ASW MXL PEL ITU PJL"`; do
+		echo "/users/mturchin/data/1000G/subsets/$i/mturchin20/$i.chrAll.phase3_shapeit2_mvncall_integrated_v5a.20130502.genotypes.SNPs.ukb.${ancestry2}.bed /users/mturchin/data/1000G/subsets/$i/mturchin20/$i.chrAll.phase3_shapeit2_mvncall_integrated_v5a.20130502.genotypes.SNPs.ukb.${ancestry2}.bim /users/mturchin/data/1000G/subsets/$i/mturchin20/$i.chrAll.phase3_shapeit2_mvncall_integrated_v5a.20130502.genotypes.SNPs.ukb.${ancestry2}.fam" >> /users/mturchin/data/1000G/mturchin20/subsets/All.chrAll.phase3.genotypes.SNPs.ukb.${ancestry2}.MergeList.Vs1.txt
+	
+	done
+done
 
-join <(cat /users/mturchin/data/ukbiobank_jun17/subsets/African/African/mturchin20/ukb_chrAll_v2.African.QCed.pruned.QCed.dropRltvs.noX.1kG.flashpca.pcs.txt | awk '{ print $1 "_" $2 "\t" $0 }' | sort -k 1,1) <(cat <(cat /users/mturchin/data/ukbiobank_jun17/subsets/African/African/mturchin20/ukb_chrAll_v2.African.QCed.pruned.QCed.dropRltvs.noX.fam | awk '{ print $1 "_" $2 "\tukb_AFR" }') <(cat /users/mturchin/data/1000G/subsets/CEU/mturchin20/CEU.chrAll.phase3_shapeit2_mvncall_integrated_v5a.20130502.genotypes.SNPs.ukb.fam | awk '{ print $1 "_" $2 "\t1kG_CEU" }') <(cat /users/mturchin/data/1000G/subsets/GBR/mturchin20/GBR.chrAll.phase3_shapeit2_mvncall_integrated_v5a.20130502.genotypes.SNPs.ukb.fam | awk '{ print $1 "_" $2 "\t1kG_GBR" }') <(cat /users/mturchin/data/1000G/subsets/YRI/mturchin20/YRI.chrAll.phase3_shapeit2_mvncall_integrated_v5a.20130502.genotypes.SNPs.ukb.fam | awk '{ print $1 "_" $2 "\t1kG_YRI" }') <(cat /users/mturchin/data/1000G/subsets/ESN/mturchin20/ESN.chrAll.phase3_shapeit2_mvncall_integrated_v5a.20130502.genotypes.SNPs.ukb.fam | awk '{ print $1 "_" $2 "\t1kG_ESN" }') <(cat /users/mturchin/data/1000G/subsets/CHB/mturchin20/CHB.chrAll.phase3_shapeit2_mvncall_integrated_v5a.20130502.genotypes.SNPs.ukb.fam | awk '{ print $1 "_" $2 "\t1kG_CHB" }') <(cat /users/mturchin/data/1000G/subsets/JPT/mturchin20/JPT.chrAll.phase3_shapeit2_mvncall_integrated_v5a.20130502.genotypes.SNPs.ukb.fam | awk '{ print $1 "_" $2 "\t1kG_JPT" }') <(cat /users/mturchin/data/1000G/subsets/ACB/mturchin20/ACB.chrAll.phase3_shapeit2_mvncall_integrated_v5a.20130502.genotypes.SNPs.ukb.fam | awk '{ print $1 "_" $2 "\t1kG_ACB" }') <(cat /users/mturchin/data/1000G/subsets/ASW/mturchin20/ASW.chrAll.phase3_shapeit2_mvncall_integrated_v5a.20130502.genotypes.SNPs.ukb.fam | awk '{ print $1 "_" $2 "\t1kG_ASW" }') | sort -k 1,1) | perl -lane 'print join("\t", @F[1..$#F]);' | cat <(cat /users/mturchin/data/ukbiobank_jun17/subsets/African/African/mturchin20/ukb_chrAll_v2.African.QCed.pruned.QCed.dropRltvs.noX.1kG.flashpca.pcs.txt | head -n 1 | perl -lane 'push (@F, "POP"); print join("\t", @F);') - > /users/mturchin/data/ukbiobank_jun17/subsets/African/African/mturchin20/ukb_chrAll_v2.African.QCed.pruned.QCed.dropRltvs.noX.1kG.flashpca.pcs.wAncs.txt
+for k in `cat <(echo $UKBioBankPops | perl -lane 'print join("\n", @F);') | grep Chinese`; do
+	ancestry1=`echo $k | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[0];'`
+	ancestry2=`echo $k | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[1];'`
+
+	plink --bfile /users/mturchin/data/1000G/subsets/CEU/mturchin20/CEU.chrAll.phase3_shapeit2_mvncall_integrated_v5a.20130502.genotypes.SNPs.ukb.${ancestry2} --merge-list /users/mturchin/data/1000G/mturchin20/subsets/All.chrAll.phase3.genotypes.SNPs.ukb.${ancestry2}.MergeList.Vs1.txt --out /users/mturchin/data/1000G/mturchin20/subsets/All.chrAll.phase3.genotypes.SNPs.ukb.${ancestry2}	
+	cat /users/mturchin/data/1000G/mturchin20/subsets/All.chrAll.phase3.genotypes.SNPs.ukb.${ancestry2}.bim | awk '{ print $2 }' > /users/mturchin/data/1000G/mturchin20/subsets/All.chrAll.phase3.genotypes.SNPs.ukb.${ancestry2}.bim.rsIDs
+	plink --bfile /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v2.${ancestry2}.QCed.pruned.QCed.dropRltvs.noX --extract /users/mturchin/data/1000G/mturchin20/subsets/All.chrAll.phase3.genotypes.SNPs.ukb.${ancestry2}.bim.rsIDs --make-bed --out /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v2.${ancestry2}.QCed.pruned.QCed.dropRltvs.noX.1kG.pre
+	plink --bfile /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v2.${ancestry2}.QCed.pruned.QCed.onlyRltvs.noX --extract /users/mturchin/data/1000G/mturchin20/subsets/All.chrAll.phase3.genotypes.SNPs.ukb.${ancestry2}.bim.rsIDs --make-bed --out /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v2.${ancestry2}.QCed.pruned.QCed.onlyRltvs.noX.1kG
+	plink --bfile /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v2.${ancestry2}.QCed.pruned.QCed.dropRltvs.noX.1kG.pre --bmerge /users/mturchin/data/1000G/mturchin20/subsets/All.chrAll.phase3.genotypes.SNPs.ukb.${ancestry2} --make-bed --out /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v2.${ancestry2}.QCed.pruned.QCed.dropRltvs.noX.1kG 
+	rm /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v2.${ancestry2}.QCed.pruned.QCed.dropRltvs.noX.1kG.pre*
+	
+done
+
+UKBioBankPops=`echo "African;African;ukb_Afr Any_other_Asian_background;Any_other_Asian_background;ukb_Asian Any_other_mixed_background;Any_other_mixed_background;ukb_Mixed Any_other_white_background;Any_other_white_background;ukb_White British;British;ukb_Brit British;British.Ran4000;ukb_Brit4k British;British.Ran10000;ukb_Brit10k British;British.Ran100000;ukb_Brit100k British;British.Ran200000;ukb_Brit200k Caribbean;Caribbean;ukb_Carib Chinese;Chinese;ukb_Chi Indian;Indian;ukb_Indn Irish;Irish;ukb_Irish Pakistani;Pakistani;ukb_Pkstn"`;
+
+for j in `cat <(echo $UKBioBankPops | perl -lane 'print join("\n", @F);')`; do
+	ancestry1=`echo $j | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[0];'`
+	ancestry2=`echo $j | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[1];'`
+	ancestry3=`echo $j | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[2];'`
+
+	echo $ancestry1 $ancestry2
+
+#	echo -e "\n/users/mturchin/Software/flashpca/flashpca --bfile /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v2.${ancestry2}.QCed.pruned.QCed.dropRltvs.noX.1kG -d 20 --outpc /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v2.${ancestry2}.QCed.pruned.QCed.dropRltvs.noX.1kG.flashpca.pcs.txt --outload /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v2.${ancestry2}.QCed.pruned.QCed.dropRltvs.noX.1kG.flashpca.loads.txt --outvec /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v2.${ancestry2}.QCed.pruned.QCed.dropRltvs.noX.1kG.flashpca.vecs.txt --outval /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v2.${ancestry2}.QCed.pruned.QCed.dropRltvs.noX.1kG.flashpca.vals.txt --outpve /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v2.${ancestry2}.QCed.pruned.QCed.dropRltvs.noX.1kG.flashpca.pve.txt --outmeansd /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v2.${ancestry2}.QCed.pruned.QCed.dropRltvs.noX.1kG.flashpca.meansd.txt"; \
+#	echo -e "\n/users/mturchin/Software/flashpca/flashpca --bfile /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v2.${ancestry2}.QCed.pruned.QCed.onlyRltvs.noX.1kG --project --inmeansd /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v2.${ancestry2}.QCed.pruned.QCed.dropRltvs.noX.1kG.flashpca.meansd.txt --outproj /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v2.${ancestry2}.QCed.pruned.QCed.dropRltvs.noX.1kG.flashpca.projRltvs.txt --inload /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v2.${ancestry2}.QCed.pruned.QCed.dropRltvs.noX.1kG.flashpca.loads.txt"; \ 
+	sbatch -t 72:00:00 --mem 8g -o /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v2.${ancestry2}.1kG.fastpca.run.slurm.output -e /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v2.${ancestry2}.1kG.fastpca.run.slurm.error --comment "fastpca $ancestry1 $ancestry2 $i" <(echo -e '#!/bin/bash'; \
+	echo -e "\njoin <(cat /users/mturchin/data/ukbiobank_jun17/subsets/${ancestry1}/${ancestry2}/mturchin20/ukb_chrAll_v2.${ancestry2}.QCed.pruned.QCed.dropRltvs.noX.1kG.flashpca.pcs.txt | 
+awk '{ print \$1 \"_\" \$2 \"\t\" \$0 }' | sort -k 1,1) <(cat <(cat /users/mturchin/data/ukbiobank_jun17/subsets/${ancestry1}/${ancestry2}/mturchin20/ukb_chrAll_v2.${ancestry2}.QCed.pruned.QCed.dropRltvs.noX.fam | 
+awk -v ancestry3b=$ancestry3  '{ print \$1 \"_\" \$2 \"\t\" ancestry3b "\t 4" }') <(cat /users/mturchin/data/1000G/subsets/CEU/mturchin20/CEU.chrAll.phase3_shapeit2_mvncall_integrated_v5a.20130502.genotypes.SNPs.ukb.${ancestry2}.fam | 
+awk '{ print \$1 \"_\" \$2 \"\t1kG_CEU\t \t16\" }') <(cat /users/mturchin/data/1000G/subsets/GBR/mturchin20/GBR.chrAll.phase3_shapeit2_mvncall_integrated_v5a.20130502.genotypes.SNPs.ukb.${ancestry2}.fam | 
+awk '{ print \$1 \"_\" \$2 \"\t1kG_GBR\t \t16\" }') <(cat /users/mturchin/data/1000G/subsets/YRI/mturchin20/YRI.chrAll.phase3_shapeit2_mvncall_integrated_v5a.20130502.genotypes.SNPs.ukb.${ancestry2}.fam | 
+awk '{ print \$1 \"_\" \$2 \"\t1kG_YRI\t \t16\" }') <(cat /users/mturchin/data/1000G/subsets/ESN/mturchin20/ESN.chrAll.phase3_shapeit2_mvncall_integrated_v5a.20130502.genotypes.SNPs.ukb.${ancestry2}.fam | 
+awk '{ print \$1 \"_\" \$2 \"\t1kG_ESN\t \t16\" }') <(cat /users/mturchin/data/1000G/subsets/CHB/mturchin20/CHB.chrAll.phase3_shapeit2_mvncall_integrated_v5a.20130502.genotypes.SNPs.ukb.${ancestry2}.fam | 
+awk '{ print \$1 \"_\" \$2 \"\t1kG_CHB\t \t16\" }') <(cat /users/mturchin/data/1000G/subsets/JPT/mturchin20/JPT.chrAll.phase3_shapeit2_mvncall_integrated_v5a.20130502.genotypes.SNPs.ukb.${ancestry2}.fam | 
+awk '{ print \$1 \"_\" \$2 \"\t1kG_JPT\t \t16\" }') <(cat /users/mturchin/data/1000G/subsets/ACB/mturchin20/ACB.chrAll.phase3_shapeit2_mvncall_integrated_v5a.20130502.genotypes.SNPs.ukb.${ancestry2}.fam | 
+awk '{ print \$1 \"_\" \$2 \"\t1kG_ACB\t \t16\" }') <(cat /users/mturchin/data/1000G/subsets/ASW/mturchin20/ASW.chrAll.phase3_shapeit2_mvncall_integrated_v5a.20130502.genotypes.SNPs.ukb.${ancestry2}.fam | 
+awk '{ print \$1 \"_\" \$2 \"\t1kG_ASW\t \t16\" }') <(cat /users/mturchin/data/1000G/subsets/MXL/mturchin20/MXL.chrAll.phase3_shapeit2_mvncall_integrated_v5a.20130502.genotypes.SNPs.ukb.${ancestry2}.fam | 
+awk '{ print \$1 \"_\" \$2 \"\t1kG_MXL\t \t16\" }') <(cat /users/mturchin/data/1000G/subsets/PEL/mturchin20/PEL.chrAll.phase3_shapeit2_mvncall_integrated_v5a.20130502.genotypes.SNPs.ukb.${ancestry2}.fam | 
+awk '{ print \$1 \"_\" \$2 \"\t1kG_PEL\t \t16\" }') <(cat /users/mturchin/data/1000G/subsets/ITU/mturchin20/ITU.chrAll.phase3_shapeit2_mvncall_integrated_v5a.20130502.genotypes.SNPs.ukb.${ancestry2}.fam | 
+awk '{ print \$1 \"_\" \$2 \"\t1kG_ITU\t \t16\" }') <(cat /users/mturchin/data/1000G/subsets/PJL/mturchin20/PJL.chrAll.phase3_shapeit2_mvncall_integrated_v5a.20130502.genotypes.SNPs.ukb.${ancestry2}.fam | 
+awk '{ print \$1 \"_\" \$2 \"\t1kG_PJL\t \t16\" }') | sort -k 1,1) | perl -lane 'print join(\"\t\", @F[1..\$#F]);' | cat <(cat /users/mturchin/data/ukbiobank_jun17/subsets/${ancestry1}/${ancestry2}/mturchin20/ukb_chrAll_v2.${ancestry2}.QCed.pruned.QCed.dropRltvs.noX.1kG.flashpca.pcs.txt | head -n 1 | perl -lane 'push(@F, \"POP\"); print join(\"\t\", @F);') - > /users/mturchin/data/ukbiobank_jun17/subsets/${ancestry1}/${ancestry2}/mturchin20/ukb_chrAll_v2.${ancestry2}.QCed.pruned.QCed.dropRltvs.noX.1kG.flashpca.pcs.wAncs.txt";)
+
+done	
+
+#African;African Any_other_Asian_background;Any_other_Asian_background Any_other_mixed_background;Any_other_mixed_background Any_other_white_background;Any_other_white_background British;British British;British.Ran4000 British;British.Ran10000 British;British.Ran100000 British;British.Ran200000 Caribbean;Caribbean Chinese;Chinese Indian;Indian Irish;Irish Pakistani;Pakistani
+
+cat /users/mturchin/data/ukbiobank_jun17/subsets/African/African/mturchin20/ukb_chrAll_v2.African.QCed.pruned.QCed.dropRltvs.noX.1kG.flashpca.pcs.wAncs.txt | sed 's/African/ukb_Afr/g' > /users/mturchin/data/ukbiobank_jun17/subsets/African/African/mturchin20/ukb_chrAll_v2.African.QCed.pruned.QCed.dropRltvs.noX.1kG.flashpca.pcs.wAncs.txt.tmp; mv /users/mturchin/data/ukbiobank_jun17/subsets/African/African/mturchin20/ukb_chrAll_v2.African.QCed.pruned.QCed.dropRltvs.noX.1kG.flashpca.pcs.wAncs.txt.tmp /users/mturchin/data/ukbiobank_jun17/subsets/African/African/mturchin20/ukb_chrAll_v2.African.QCed.pruned.QCed.dropRltvs.noX.1kG.flashpca.pcs.wAncs.txt
+cat /users/mturchin/data/ukbiobank_jun17/subsets/Any_other_Asian_background/Any_other_Asian_background/mturchin20/ukb_chrAll_v2.Any_other_Asian_background.QCed.pruned.QCed.dropRltvs.noX.1kG.flashpca.pcs.wAncs.txt | sed 's/Any_other_Asian_background/ukb_Asian/g' > /users/mturchin/data/ukbiobank_jun17/subsets/Any_other_Asian_background/Any_other_Asian_background/mturchin20/ukb_chrAll_v2.Any_other_Asian_background.QCed.pruned.QCed.dropRltvs.noX.1kG.flashpca.pcs.wAncs.txt.tmp; mv /users/mturchin/data/ukbiobank_jun17/subsets/Any_other_Asian_background/Any_other_Asian_background/mturchin20/ukb_chrAll_v2.Any_other_Asian_background.QCed.pruned.QCed.dropRltvs.noX.1kG.flashpca.pcs.wAncs.txt.tmp /users/mturchin/data/ukbiobank_jun17/subsets/Any_other_Asian_background/Any_other_Asian_background/mturchin20/ukb_chrAll_v2.Any_other_Asian_background.QCed.pruned.QCed.dropRltvs.noX.1kG.flashpca.pcs.wAncs.txt
+cat /users/mturchin/data/ukbiobank_jun17/subsets/Any_other_mixed_background/Any_other_mixed_background/mturchin20/ukb_chrAll_v2.Any_other_mixed_background.QCed.pruned.QCed.dropRltvs.noX.1kG.flashpca.pcs.wAncs.txt | sed 's/Any_other_mixed_background/ukb_Mixed/g' > /users/mturchin/data/ukbiobank_jun17/subsets/Any_other_mixed_background/Any_other_mixed_background/mturchin20/ukb_chrAll_v2.Any_other_mixed_background.QCed.pruned.QCed.dropRltvs.noX.1kG.flashpca.pcs.wAncs.txt.tmp; mv /users/mturchin/data/ukbiobank_jun17/subsets/Any_other_mixed_background/Any_other_mixed_background/mturchin20/ukb_chrAll_v2.Any_other_mixed_background.QCed.pruned.QCed.dropRltvs.noX.1kG.flashpca.pcs.wAncs.txt.tmp /users/mturchin/data/ukbiobank_jun17/subsets/Any_other_mixed_background/Any_other_mixed_background/mturchin20/ukb_chrAll_v2.Any_other_mixed_background.QCed.pruned.QCed.dropRltvs.noX.1kG.flashpca.pcs.wAncs.txt
+cat /users/mturchin/data/ukbiobank_jun17/subsets/Any_other_white_background/Any_other_white_background/mturchin20/ukb_chrAll_v2.Any_other_white_background.QCed.pruned.QCed.dropRltvs.noX.1kG.flashpca.pcs.wAncs.txt | sed 's/Any_other_white_background/ukb_White/g' > /users/mturchin/data/ukbiobank_jun17/subsets/Any_other_white_background/Any_other_white_background/mturchin20/ukb_chrAll_v2.Any_other_white_background.QCed.pruned.QCed.dropRltvs.noX.1kG.flashpca.pcs.wAncs.txt.tmp; mv /users/mturchin/data/ukbiobank_jun17/subsets/Any_other_white_background/Any_other_white_background/mturchin20/ukb_chrAll_v2.Any_other_white_background.QCed.pruned.QCed.dropRltvs.noX.1kG.flashpca.pcs.wAncs.txt.tmp /users/mturchin/data/ukbiobank_jun17/subsets/Any_other_white_background/Any_other_white_background/mturchin20/ukb_chrAll_v2.Any_other_white_background.QCed.pruned.QCed.dropRltvs.noX.1kG.flashpca.pcs.wAncs.txt
+cat /users/mturchin/data/ukbiobank_jun17/subsets/British/British/mturchin20/ukb_chrAll_v2.British.QCed.pruned.QCed.dropRltvs.noX.1kG.flashpca.pcs.wAncs.txt | sed 's/British/ukb_Brit/g' > /users/mturchin/data/ukbiobank_jun17/subsets/British/British/mturchin20/ukb_chrAll_v2.British.QCed.pruned.QCed.dropRltvs.noX.1kG.flashpca.pcs.wAncs.txt.tmp; mv /users/mturchin/data/ukbiobank_jun17/subsets/British/British/mturchin20/ukb_chrAll_v2.British.QCed.pruned.QCed.dropRltvs.noX.1kG.flashpca.pcs.wAncs.txt.tmp /users/mturchin/data/ukbiobank_jun17/subsets/British/British/mturchin20/ukb_chrAll_v2.British.QCed.pruned.QCed.dropRltvs.noX.1kG.flashpca.pcs.wAncs.txt
+cat /users/mturchin/data/ukbiobank_jun17/subsets/British/British.Ran4000/mturchin20/ukb_chrAll_v2.British.Ran4000.QCed.pruned.QCed.dropRltvs.noX.1kG.flashpca.pcs.wAncs.txt | sed 's/British/ukb_Brit10k/g' > /users/mturchin/data/ukbiobank_jun17/subsets/British/British.Ran4000/mturchin20/ukb_chrAll_v2.British.Ran4000.QCed.pruned.QCed.dropRltvs.noX.1kG.flashpca.pcs.wAncs.txt.tmp; mv /users/mturchin/data/ukbiobank_jun17/subsets/British/British.Ran4000/mturchin20/ukb_chrAll_v2.British.Ran4000.QCed.pruned.QCed.dropRltvs.noX.1kG.flashpca.pcs.wAncs.txt.tmp /users/mturchin/data/ukbiobank_jun17/subsets/British/British.Ran4000/mturchin20/ukb_chrAll_v2.British.Ran4000.QCed.pruned.QCed.dropRltvs.noX.1kG.flashpca.pcs.wAncs.txt
+cat /users/mturchin/data/ukbiobank_jun17/subsets/British/British.Ran10000/mturchin20/ukb_chrAll_v2.British.Ran10000.QCed.pruned.QCed.dropRltvs.noX.1kG.flashpca.pcs.wAncs.txt | sed 's/British/ukb_Brit100k/g' > /users/mturchin/data/ukbiobank_jun17/subsets/British/British.Ran10000/mturchin20/ukb_chrAll_v2.British.Ran10000.QCed.pruned.QCed.dropRltvs.noX.1kG.flashpca.pcs.wAncs.txt.tmp; mv /users/mturchin/data/ukbiobank_jun17/subsets/British/British.Ran10000/mturchin20/ukb_chrAll_v2.British.Ran10000.QCed.pruned.QCed.dropRltvs.noX.1kG.flashpca.pcs.wAncs.txt.tmp /users/mturchin/data/ukbiobank_jun17/subsets/British/British.Ran10000/mturchin20/ukb_chrAll_v2.British.Ran10000.QCed.pruned.QCed.dropRltvs.noX.1kG.flashpca.pcs.wAncs.txt
+cat /users/mturchin/data/ukbiobank_jun17/subsets/British/British.Ran100000/mturchin20/ukb_chrAll_v2.British.Ran100000.QCed.pruned.QCed.dropRltvs.noX.1kG.flashpca.pcs.wAncs.txt | sed 's/British/ukb_Brit200k/g' > /users/mturchin/data/ukbiobank_jun17/subsets/British/British.Ran100000/mturchin20/ukb_chrAll_v2.British.Ran100000.QCed.pruned.QCed.dropRltvs.noX.1kG.flashpca.pcs.wAncs.txt.tmp; mv /users/mturchin/data/ukbiobank_jun17/subsets/British/British.Ran100000/mturchin20/ukb_chrAll_v2.British.Ran100000.QCed.pruned.QCed.dropRltvs.noX.1kG.flashpca.pcs.wAncs.txt.tmp /users/mturchin/data/ukbiobank_jun17/subsets/British/British.Ran100000/mturchin20/ukb_chrAll_v2.British.Ran100000.QCed.pruned.QCed.dropRltvs.noX.1kG.flashpca.pcs.wAncs.txt
+cat /users/mturchin/data/ukbiobank_jun17/subsets/British/British.Ran200000/mturchin20/ukb_chrAll_v2.British.Ran200000.QCed.pruned.QCed.dropRltvs.noX.1kG.flashpca.pcs.wAncs.txt | sed 's/Caribbean/ukb_Carib/g' > /users/mturchin/data/ukbiobank_jun17/subsets/British/British.Ran200000/mturchin20/ukb_chrAll_v2.British.Ran200000.QCed.pruned.QCed.dropRltvs.noX.1kG.flashpca.pcs.wAncs.txt.tmp; mv /users/mturchin/data/ukbiobank_jun17/subsets/British/British.Ran200000/mturchin20/ukb_chrAll_v2.British.Ran200000.QCed.pruned.QCed.dropRltvs.noX.1kG.flashpca.pcs.wAncs.txt.tmp /users/mturchin/data/ukbiobank_jun17/subsets/British/British.Ran200000/mturchin20/ukb_chrAll_v2.British.Ran200000.QCed.pruned.QCed.dropRltvs.noX.1kG.flashpca.pcs.wAncs.txt
+cat /users/mturchin/data/ukbiobank_jun17/subsets/Caribbean/Caribbean/mturchin20/ukb_chrAll_v2.Caribbean.QCed.pruned.QCed.dropRltvs.noX.1kG.flashpca.pcs.wAncs.txt | sed 's/Chinese/ukb_Chin/g' > /users/mturchin/data/ukbiobank_jun17/subsets/Caribbean/Caribbean/mturchin20/ukb_chrAll_v2.Caribbean.QCed.pruned.QCed.dropRltvs.noX.1kG.flashpca.pcs.wAncs.txt.tmp; mv /users/mturchin/data/ukbiobank_jun17/subsets/Caribbean/Caribbean/mturchin20/ukb_chrAll_v2.Caribbean.QCed.pruned.QCed.dropRltvs.noX.1kG.flashpca.pcs.wAncs.txt.tmp /users/mturchin/data/ukbiobank_jun17/subsets/Caribbean/Caribbean/mturchin20/ukb_chrAll_v2.Caribbean.QCed.pruned.QCed.dropRltvs.noX.1kG.flashpca.pcs.wAncs.txt
+cat /users/mturchin/data/ukbiobank_jun17/subsets/Indian/Indian/mturchin20/ukb_chrAll_v2.Indian.QCed.pruned.QCed.dropRltvs.noX.1kG.flashpca.pcs.wAncs.txt | sed 's/Indian/ukb_Indn/g' > /users/mturchin/data/ukbiobank_jun17/subsets/Indian/Indian/mturchin20/ukb_chrAll_v2.Indian.QCed.pruned.QCed.dropRltvs.noX.1kG.flashpca.pcs.wAncs.txt.tmp; mv /users/mturchin/data/ukbiobank_jun17/subsets/Indian/Indian/mturchin20/ukb_chrAll_v2.Indian.QCed.pruned.QCed.dropRltvs.noX.1kG.flashpca.pcs.wAncs.txt.tmp /users/mturchin/data/ukbiobank_jun17/subsets/Indian/Indian/mturchin20/ukb_chrAll_v2.Indian.QCed.pruned.QCed.dropRltvs.noX.1kG.flashpca.pcs.wAncs.txt
+cat /users/mturchin/data/ukbiobank_jun17/subsets/Irish/Irish/mturchin20/ukb_chrAll_v2.Irish.QCed.pruned.QCed.dropRltvs.noX.1kG.flashpca.pcs.wAncs.txt | sed 's/Irish/ukb_Irish/g' > /users/mturchin/data/ukbiobank_jun17/subsets/Irish/Irish/mturchin20/ukb_chrAll_v2.Irish.QCed.pruned.QCed.dropRltvs.noX.1kG.flashpca.pcs.wAncs.txt.tmp; mv /users/mturchin/data/ukbiobank_jun17/subsets/Irish/Irish/mturchin20/ukb_chrAll_v2.Irish.QCed.pruned.QCed.dropRltvs.noX.1kG.flashpca.pcs.wAncs.txt.tmp /users/mturchin/data/ukbiobank_jun17/subsets/Irish/Irish/mturchin20/ukb_chrAll_v2.Irish.QCed.pruned.QCed.dropRltvs.noX.1kG.flashpca.pcs.wAncs.txt
+cat /users/mturchin/data/ukbiobank_jun17/subsets/Pakistani/Pakistani/mturchin20/ukb_chrAll_v2.Pakistani.QCed.pruned.QCed.dropRltvs.noX.1kG.flashpca.pcs.wAncs.txt | sed 's/Pakistani/ukb_Pkstn/g' > /users/mturchin/data/ukbiobank_jun17/subsets/Pakistani/Pakistani/mturchin20/ukb_chrAll_v2.Pakistani.QCed.pruned.QCed.dropRltvs.noX.1kG.flashpca.pcs.wAncs.txt.tmp; mv /users/mturchin/data/ukbiobank_jun17/subsets/Pakistani/Pakistani/mturchin20/ukb_chrAll_v2.Pakistani.QCed.pruned.QCed.dropRltvs.noX.1kG.flashpca.pcs.wAncs.txt.tmp /users/mturchin/data/ukbiobank_jun17/subsets/Pakistani/Pakistani/mturchin20/ukb_chrAll_v2.Pakistani.QCed.pruned.QCed.dropRltvs.noX.1kG.flashpca.pcs.wAncs.txt
+
+
+
+
+
+
+
+
+
+
+
 
 R -q -e "library(\"RColorBrewer\"); Data1 <- read.table(\"/users/mturchin/data/ukbiobank_jun17/subsets/African/African/mturchin20/ukb_chrAll_v2.African.QCed.pruned.QCed.dropRltvs.noX.1kG.flashpca.pcs.wAncs.txt\", header=T); Data2 <- read.table(\"/users/mturchin/data/ukbiobank_jun17/subsets/African/African/mturchin20/ukb_chrAll_v2.African.QCed.pruned.QCed.dropRltvs.noX.1kG.flashpca.projRltvs.txt\", header=T); \ 
 Data1 <- cbind(Data1, rep(\"black\", nrow(Data1))); Data1[,ncol(Data1)] <- factor(Data1[,ncol(Data1)], levels=c(colors(), brewer.pal(12, \"Paired\"))); \ 
@@ -1584,7 +1647,7 @@ Data1[Data1[ncol(Data1)-2] != \"ukb_AFR\", ncol(Data1)] <- 4; \
 Data2 <- cbind(Data2, rep(\"ukb_AFR\", nrow(Data2))); Data2 <- cbind(Data2, rep(brewer.pal(12, \"Paired\")[11], nrow(Data2))); Data2 <- cbind(Data2, rep(16, nrow(Data2))); Data2[,ncol(Data2)-2] <- factor(Data2[,ncol(Data2)-2], levels=levels(Data1[,ncol(Data1)-2])); Data2[,ncol(Data2)-1] <- factor(Data2[,ncol(Data2)-1], levels=c(colors(), brewer.pal(12, \"Paired\"))); \ 
 names(Data2) <- names(Data1); Data3 <- rbind(Data1, Data2); \ 
 plotLegend <- function(x) { return(legend(x, c(\"ukb_AFR\", \"AFR_rel\", \"1kG_CEU\", \"1kG_GBR\", \"1kG_YRI\", \"1kG_ESN\", \"1kG_CHB\", \"1kG_JPT\", \"1kG_ACB\", \"1kG_ASW\"), pch=c(16, 16, 4, 4, 4, 4, 4, 4, 4, 4), col=c(\"BLACK\", brewer.pal(12, \"Paired\")[11], brewer.pal(12, \"Paired\")[2], brewer.pal(12, \"Paired\")[1], brewer.pal(12, \"Paired\")[6], brewer.pal(12, \"Paired\")[5], brewer.pal(12, \"Paired\")[4], brewer.pal(12, \"Paired\")[3], brewer.pal(12, \"Paired\")[10], brewer.pal(12, \"Paired\")[9]), bg=\"transparent\", cex=1.25)); }; \
-png(\"/users/mturchin/data/ukbiobank_jun17/subsets/African/African/mturchin20/ukb_chrAll_v2.AFR.1kG.flashpca.wRltvs.PCplots.vs1.png\", height=8000, width=4000, res=300); par(oma=c(5,5,4,2), mfrow=c(4,2)); \ 
+png(\"/users/mturchin/data/ukbiobank_jun17/subsets/African/African/mturchin20/ukb_chrAll_v2.AFR.1kG.flashpca.wRltvs.PCplots.vs2.png\", height=8000, width=4000, res=300); par(oma=c(5,5,4,2), mfrow=c(4,2)); \ 
 plot(Data3[,3], Data3[,4], xlab=\"PC1\", ylab=\"PC2\", pch=Data3[,ncol(Data3)], col=as.character(Data3[,ncol(Data3)-1]), cex=1.5, cex.main=1.5, cex.axis=1.5, cex.lab=1.5); plotLegend(\"bottomleft\"); abline(.005, .555); \
 plot(Data3[,5], Data3[,6], xlab=\"PC3\", ylab=\"PC4\", pch=Data3[,ncol(Data3)], col=as.character(Data3[,ncol(Data3)-1]), cex=1.5, cex.main=1.5, cex.axis=1.5, cex.lab=1.5); plotLegend(\"topleft\"); \ 
 plot(Data3[,7], Data3[,8], xlab=\"PC5\", ylab=\"PC6\", pch=Data3[,ncol(Data3)], col=as.character(Data3[,ncol(Data3)-1]), cex=1.5, cex.main=1.5, cex.axis=1.5, cex.lab=1.5); plotLegend(\"bottomright\"); \
@@ -1596,7 +1659,7 @@ plot(Data3[,17], Data3[,18], xlab=\"PC15\", ylab=\"PC16\", pch=Data3[,ncol(Data3
 aboveLnrThrsh <- function(x,y) { returnVal1 <- FALSE; if (y >= ((x * .555) + .005) ) { returnVal1 <- TRUE; }; return(returnVal1); }; \
 Data3[(Data3[,ncol(Data3)-2] == \"ukb_AFR\" & (! mapply(aboveLnrThrsh, Data3[, 3], Data3[, 4]))), ncol(Data3)-1] <- \"brown\"; \
 plotLegend2 <- function(x) { return(legend(x, c(\"ukb_AFR\", \"AFR_rel\", \"AFR_Outlr\", \"1kG_CEU\", \"1kG_GBR\", \"1kG_YRI\", \"1kG_ESN\", \"1kG_CHB\", \"1kG_JPT\", \"1kG_ACB\", \"1kG_ASW\"), pch=c(16, 16, 16, 4, 4, 4, 4, 4, 4, 4, 4), col=c(\"BLACK\", brewer.pal(12, \"Paired\")[11], \"BROWN\", brewer.pal(12, \"Paired\")[2], brewer.pal(12, \"Paired\")[1], brewer.pal(12, \"Paired\")[6], brewer.pal(12, \"Paired\")[5], brewer.pal(12, \"Paired\")[4], brewer.pal(12, \"Paired\")[3], brewer.pal(12, \"Paired\")[10], brewer.pal(12, \"Paired\")[9]), bg=\"transparent\", cex=1.25)); }; \
-png(\"/users/mturchin/data/ukbiobank_jun17/subsets/African/African/mturchin20/ukb_chrAll_v2.AFR.1kG.flashpca.wRltvs.PCplots.ctOff.vs1.png\", height=3500, width=6000, res=300); par(oma=c(5,5,4,2), mfrow=c(1,2)); \
+png(\"/users/mturchin/data/ukbiobank_jun17/subsets/African/African/mturchin20/ukb_chrAll_v2.AFR.1kG.flashpca.wRltvs.PCplots.ctOff.vs2.png\", height=3500, width=6000, res=300); par(oma=c(5,5,4,2), mfrow=c(1,2)); \
 plot(Data3[,3], Data3[,4], xlab=\"PC1\", ylab=\"PC2\", pch=Data3[,ncol(Data3)], col=as.character(Data3[,ncol(Data3)-1]), cex=1.5, cex.main=1.5, cex.axis=1.5, cex.lab=1.5); plotLegend2(\"bottomleft\"); abline(.005, .555); \
 plot(Data3[,5], Data3[,6], xlab=\"PC3\", ylab=\"PC4\", pch=Data3[,ncol(Data3)], col=as.character(Data3[,ncol(Data3)-1]), cex=1.5, cex.main=1.5, cex.axis=1.5, cex.lab=1.5); plotLegend2(\"topleft\"); dev.off();"  
 
