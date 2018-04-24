@@ -2107,18 +2107,9 @@ for pheno1 in `echo "Height BMI Waist Hip" | perl -lane 'print join("\n", @F);'`
 	done	
 done
 
-#CHANGE/MOVE THE MV COMMANDS AFTER DOING THEM ONCE-THROUGH, AND CHANGE THE SLURM OUTPUT STUFF FOR THE ORIGINAL LINEAR REGRESSION COMMANDS THAT THEY CAME FROM
 # :. s/ADD.assoc.linear/ADD.assoc.linear.strict/g
 #		mv /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/$pheno1/ukb_chrAll_v2.${ancestry2}.${pheno1}.linear.PCs.slurm.output /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/$pheno1/ukb_chrAll_v2.${ancestry2}.QCed.QCed.dropRltvs.PCAdrop.noX.${pheno1}.linear.PCs.slurm.output
 #		mv /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/$pheno1/ukb_chrAll_v2.${ancestry2}.${pheno1}.linear.PCs.slurm.error /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/$pheno1/ukb_chrAll_v2.${ancestry2}.QCed.QCed.dropRltvs.PCAdrop.noX.${pheno1}.linear.PCs.slurm.error
-
-
-
-
-
-
-
-
 
 for pheno1 in `echo "Height BMI Waist Hip" | perl -lane 'print join("\n", @F);' | grep -E "Height|BMI"`; do
 #	for j in `cat <(echo $UKBioBankPops | perl -lane 'print join("\n", @F);') | grep -v Ran100000\; | grep -v Ran200000\; | grep -v British.British\;`; do
@@ -2129,12 +2120,18 @@ for pheno1 in `echo "Height BMI Waist Hip" | perl -lane 'print join("\n", @F);' 
 		echo $pheno1 $ancestry1 $ancestry2 
 		zcat /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/$pheno1/ukb_chrAll_v2.${ancestry2}.QCed.QCed.dropRltvs.PCAdrop.noX.${pheno1}.assoc.linear.gz | wc
 		zcat /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/$pheno1/ukb_chrAll_v2.${ancestry2}.QCed.QCed.dropRltvs.PCAdrop.noX.${pheno1}.ADD.assoc.linear.gz | wc 
-		zcat /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/$pheno1/ukb_chrAll_v2.${ancestry2}.QCed.QCed.dropRltvs.PCAdrop.noX.${pheno1}.ADD.assoc.linear.strict.clumped.gz | wc
+		zcat /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/$pheno1/ukb_chrAll_v2.${ancestry2}.QCed.QCed.dropRltvs.PCAdrop.noX.${pheno1}.ADD.assoc.linear.clumped.gz | wc
 	
 	done
 done
 
-# :. s/ADD.assoc.linear/ADD.assoc.linear.strict/g
+
+
+
+
+
+
+
 
 for pheno1 in `echo "Height BMI Waist Hip" | perl -lane 'print join("\n", @F);'`; do
 #	for j in `cat <(echo $UKBioBankPops | perl -lane 'print join("\n", @F);') | grep -v Ran100000\; | grep -v Ran200000\; | grep -v British.British\;`; do
@@ -2144,9 +2141,16 @@ for pheno1 in `echo "Height BMI Waist Hip" | perl -lane 'print join("\n", @F);'`
 			
 		echo $pheno1 $ancestry1 $ancestry2 /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/$pheno1/ukb_chrAll_v2.${ancestry2}.QCed.QCed.dropRltvs.PCAdrop.${pheno1}.ADD.assoc.linear.clumped
 		
-		tar -cvzf /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/$pheno1/ukb_chrIndiv_v2.${ancestry2}.QCed.QCed.dropRltvs.PCAdrop.${pheno1}.assoc.linear.tar.gz /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/$pheno1/ukb_chr*_v2.${ancestry2}.QCed.QCed.dropRltvs.PCAdrop.${pheno1}.assoc.linear
-		tar -cvzf /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/$pheno1/ukb_chrIndiv_v2.${ancestry2}.QCed.QCed.dropRltvs.PCAdrop.${pheno1}.ADD.assoc.linear.tar.gz /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/$pheno1/ukb_chr*_v2.${ancestry2}.QCed.QCed.dropRltvs.PCAdrop.${pheno1}.ADD.assoc.linear 
-		tar -cvzf /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/$pheno1/ukb_chrIndiv_v2.${ancestry2}.QCed.QCed.dropRltvs.PCAdrop.${pheno1}.ADD.assoc.linear.strict.clumped.tar.gz /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/$pheno1/ukb_chr*_v2.${ancestry2}.QCed.QCed.dropRltvs.PCAdrop.${pheno1}.ADD.assoc.linear.strict.clumped 
+#		tar -cvzf /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/$pheno1/ukb_chrIndv_v2.${ancestry2}.QCed.QCed.dropRltvs.PCAdrop.${pheno1}.assoc.linear.tar.gz /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/$pheno1/ukb_chr*_v2.${ancestry2}.QCed.QCed.dropRltvs.PCAdrop.${pheno1}.assoc.linear
+#		tar -cvzf /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/$pheno1/ukb_chrIndv_v2.${ancestry2}.QCed.QCed.dropRltvs.PCAdrop.${pheno1}.ADD.assoc.linear.tar.gz /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/$pheno1/ukb_chr*_v2.${ancestry2}.QCed.QCed.dropRltvs.PCAdrop.${pheno1}.ADD.assoc.linear 
+#		tar -cvzf /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/$pheno1/ukb_chrIndv_v2.${ancestry2}.QCed.QCed.dropRltvs.PCAdrop.${pheno1}.ADD.assoc.linear.strict.clumped.tar.gz /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/$pheno1/ukb_chr*_v2.${ancestry2}.QCed.QCed.dropRltvs.PCAdrop.${pheno1}.ADD.assoc.linear.strict.clumped 
+#		ln -s /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/$pheno1/ukb_chrIndv_v2.${ancestry2}.QCed.QCed.dropRltvs.PCAdrop.${pheno1}.ADD.assoc.linear.strict.clumped.tar.gz /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/$pheno1/ukb_chrIndv_v2.${ancestry2}.QCed.QCed.dropRltvs.PCAdrop.${pheno1}.ADD.assoc.linear.clumped.tar.gz
+
+		mv /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/$pheno1/ukb_chrIndiv_v2.${ancestry2}.QCed.QCed.dropRltvs.PCAdrop.${pheno1}.assoc.linear.tar.gz /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/$pheno1/ukb_chrIndv_v2.${ancestry2}.QCed.QCed.dropRltvs.PCAdrop.${pheno1}.assoc.linear.tar.gz
+		mv /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/$pheno1/ukb_chrIndiv_v2.${ancestry2}.QCed.QCed.dropRltvs.PCAdrop.${pheno1}.ADD.assoc.linear.tar.gz /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/$pheno1/ukb_chrIndv_v2.${ancestry2}.QCed.QCed.dropRltvs.PCAdrop.${pheno1}.ADD.assoc.linear.tar.gz
+		mv /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/$pheno1/ukb_chrIndiv_v2.${ancestry2}.QCed.QCed.dropRltvs.PCAdrop.${pheno1}.ADD.assoc.linear.strict.clumped.tar.gz /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/$pheno1/ukb_chrIndv_v2.${ancestry2}.QCed.QCed.dropRltvs.PCAdrop.${pheno1}.ADD.assoc.linear.strict.clumped.tar.gz
+		rm /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/$pheno1/ukb_chrIndiv_v2.${ancestry2}.QCed.QCed.dropRltvs.PCAdrop.${pheno1}.ADD.assoc.linear.clumped.tar.gz
+		ln -s /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/$pheno1/ukb_chrIndv_v2.${ancestry2}.QCed.QCed.dropRltvs.PCAdrop.${pheno1}.ADD.assoc.linear.strict.clumped.tar.gz /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/$pheno1/ukb_chrIndv_v2.${ancestry2}.QCed.QCed.dropRltvs.PCAdrop.${pheno1}.ADD.assoc.linear.clumped.tar.gz
 
 	done
 done
@@ -5115,6 +5119,43 @@ BMI Pakistani Pakistani
 6794555 61150995 373707145
  522659 4703931 28817848
      73     876    8399
+(MultiEthnicGWAS) [  mturchin@login002  ~/data/ukbiobank_jun17/subsets/African/African/mturchin20]$for pheno1 in `echo "Height BMI Waist Hip" | perl -lane 'print join("\n", @F);' | grep -E "Height|BMI"`; do
+> #       for j in `cat <(echo $UKBioBankPops | perl -lane 'print join("\n", @F);') | grep -v Ran100000\; | grep -v Ran200000\; | grep -v British.British\;`; do
+>         for j in `cat <(echo $UKBioBankPops | perl -lane 'print join("\n", @F);') | grep British | grep -v Ran4000\; | grep -v Ran10000\;`; do
+>                 ancestry1=`echo $j | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[0];'`
+>                 ancestry2=`echo $j | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[1];'`
+> 
+>                 echo $pheno1 $ancestry1 $ancestry2
+>                 zcat /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/$pheno1/ukb_chrAll_v2.${ancestry2}.QCed.QCed.dropRltvs.PCAdrop.noX.${pheno1}.assoc.linear.gz | wc
+>                 zcat /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/$pheno1/ukb_chrAll_v2.${ancestry2}.QCed.QCed.dropRltvs.PCAdrop.noX.${pheno1}.ADD.assoc.linear.gz | wc
+>                 zcat /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/$pheno1/ukb_chrAll_v2.${ancestry2}.QCed.QCed.dropRltvs.PCAdrop.noX.${pheno1}.ADD.assoc.linear.clumped.gz | wc
+> 
+>         done
+> done
+Height British British
+7206707 64860363 405871574
+ 554363 4989267 32268257
+   2151   25812  371181
+Height British British.Ran100000
+7533423 67800807 423429108
+ 579495 5215455 32984034
+    358    4296   76396
+Height British British.Ran200000
+7399055 66591495 414626717
+ 569159 5122431 33043081
+    846   10152  166100
+BMI British British
+7206707 64860363 413599776
+ 554363 4989267 32307830
+    469    5628   88974
+BMI British British.Ran100000
+7533423 67800807 419061659
+ 579495 5215455 33054893
+     30     360    6193
+BMI British British.Ran200000
+7399055 66591495 426211471
+ 569159 5122431 33101239
+    116    1392   22422
 
 
 ~~~
