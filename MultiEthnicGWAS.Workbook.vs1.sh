@@ -2098,6 +2098,9 @@ for pheno1 in `echo "Height BMI Waist Hip" | perl -lane 'print join("\n", @F);'`
 			cat /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/$pheno1/ukb_chr${i}_v2.${ancestry2}.QCed.QCed.dropRltvs.PCAdrop.${pheno1}.log
 		done > /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/$pheno1/ukb_chrAll_v2.${ancestry2}.QCed.QCed.dropRltvs.PCAdrop.${pheno1}.log	
 		for i in {1..22}; do
+			cat /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/$pheno1/ukb_chr${i}_v2.${ancestry2}.QCed.QCed.dropRltvs.PCAdrop.${pheno1}.ADD.assoc.linear.log
+		done > /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/$pheno1/ukb_chrAll_v2.${ancestry2}.QCed.QCed.dropRltvs.PCAdrop.${pheno1}.ADD.assoc.linear.log	
+		for i in {1..22}; do
 			cat /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/$pheno1/ukb_chr${i}_v2.${ancestry2}.QCed.pruned.QCed.dropRltvs.noX.PCAdrop.${pheno1}.ADD.linear.clump.slurm.output
 		done > /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/$pheno1/ukb_chrAll_v2.${ancestry2}.QCed.QCed.dropRltvs.PCAdrop.noX.${pheno1}.ADD.linear.clump.slurm.output
 		for i in {1..22}; do
@@ -2105,6 +2108,19 @@ for pheno1 in `echo "Height BMI Waist Hip" | perl -lane 'print join("\n", @F);'`
 		done > /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/$pheno1/ukb_chrAll_v2.${ancestry2}.QCed.QCed.dropRltvs.PCAdrop.noX.${pheno1}.ADD.linear.clump.slurm.error 
 		
 	done	
+done
+
+for pheno1 in `echo "Height BMI Waist Hip" | perl -lane 'print join("\n", @F);'`; do
+#       for j in `cat <(echo $UKBioBankPops | perl -lane 'print join("\n", @F);') | grep -v Ran100000\; | grep -v Ran200000\; | grep -v British.British\;`; do
+        for j in `cat <(echo $UKBioBankPops | perl -lane 'print join("\n", @F);') | grep British | grep -v Ran4000\; | grep -v Ran10000\;`; do
+                ancestry1=`echo $j | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[0];'`
+                ancestry2=`echo $j | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[1];'`
+                echo $pheno1 $ancestry1 $ancestry2 $HOME/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/$pheno1/ukb_chrAll_v2.${ancestry2}.QCed.QCed.dropRltvs.PCAdrop.${pheno1}.ADD.assoc.linear.clumped
+
+		for i in {1..22}; do
+			cat /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/$pheno1/ukb_chr${i}_v2.${ancestry2}.QCed.QCed.dropRltvs.PCAdrop.${pheno1}.ADD.assoc.linear.strict.log
+		done > /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/$pheno1/ukb_chrAll_v2.${ancestry2}.QCed.QCed.dropRltvs.PCAdrop.${pheno1}.ADD.assoc.linear.strict.log	
+	done
 done
 
 # :. s/ADD.assoc.linear/ADD.assoc.linear.strict/g
@@ -2125,46 +2141,6 @@ for pheno1 in `echo "Height BMI Waist Hip" | perl -lane 'print join("\n", @F);' 
 	done
 done
 
-
-
-
-
-
-
-
-
-for pheno1 in `echo "Height BMI Waist Hip" | perl -lane 'print join("\n", @F);'`; do
-#	for j in `cat <(echo $UKBioBankPops | perl -lane 'print join("\n", @F);') | grep -v Ran100000\; | grep -v Ran200000\; | grep -v British.British\;`; do
-	for j in `cat <(echo $UKBioBankPops | perl -lane 'print join("\n", @F);') | grep British | grep -v Ran4000\; | grep -v Ran10000\;`; do
-		ancestry1=`echo $j | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[0];'`
-		ancestry2=`echo $j | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[1];'`
-			
-		echo $pheno1 $ancestry1 $ancestry2 /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/$pheno1/ukb_chrAll_v2.${ancestry2}.QCed.QCed.dropRltvs.PCAdrop.${pheno1}.ADD.assoc.linear.clumped
-		
-#		tar -cvzf /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/$pheno1/ukb_chrIndv_v2.${ancestry2}.QCed.QCed.dropRltvs.PCAdrop.${pheno1}.assoc.linear.tar.gz /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/$pheno1/ukb_chr*_v2.${ancestry2}.QCed.QCed.dropRltvs.PCAdrop.${pheno1}.assoc.linear
-#		tar -cvzf /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/$pheno1/ukb_chrIndv_v2.${ancestry2}.QCed.QCed.dropRltvs.PCAdrop.${pheno1}.ADD.assoc.linear.tar.gz /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/$pheno1/ukb_chr*_v2.${ancestry2}.QCed.QCed.dropRltvs.PCAdrop.${pheno1}.ADD.assoc.linear 
-#		tar -cvzf /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/$pheno1/ukb_chrIndv_v2.${ancestry2}.QCed.QCed.dropRltvs.PCAdrop.${pheno1}.ADD.assoc.linear.strict.clumped.tar.gz /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/$pheno1/ukb_chr*_v2.${ancestry2}.QCed.QCed.dropRltvs.PCAdrop.${pheno1}.ADD.assoc.linear.strict.clumped 
-#		ln -s /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/$pheno1/ukb_chrIndv_v2.${ancestry2}.QCed.QCed.dropRltvs.PCAdrop.${pheno1}.ADD.assoc.linear.strict.clumped.tar.gz /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/$pheno1/ukb_chrIndv_v2.${ancestry2}.QCed.QCed.dropRltvs.PCAdrop.${pheno1}.ADD.assoc.linear.clumped.tar.gz
-
-		mv /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/$pheno1/ukb_chrIndiv_v2.${ancestry2}.QCed.QCed.dropRltvs.PCAdrop.${pheno1}.assoc.linear.tar.gz /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/$pheno1/ukb_chrIndv_v2.${ancestry2}.QCed.QCed.dropRltvs.PCAdrop.${pheno1}.assoc.linear.tar.gz
-		mv /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/$pheno1/ukb_chrIndiv_v2.${ancestry2}.QCed.QCed.dropRltvs.PCAdrop.${pheno1}.ADD.assoc.linear.tar.gz /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/$pheno1/ukb_chrIndv_v2.${ancestry2}.QCed.QCed.dropRltvs.PCAdrop.${pheno1}.ADD.assoc.linear.tar.gz
-		mv /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/$pheno1/ukb_chrIndiv_v2.${ancestry2}.QCed.QCed.dropRltvs.PCAdrop.${pheno1}.ADD.assoc.linear.strict.clumped.tar.gz /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/$pheno1/ukb_chrIndv_v2.${ancestry2}.QCed.QCed.dropRltvs.PCAdrop.${pheno1}.ADD.assoc.linear.strict.clumped.tar.gz
-		rm /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/$pheno1/ukb_chrIndiv_v2.${ancestry2}.QCed.QCed.dropRltvs.PCAdrop.${pheno1}.ADD.assoc.linear.clumped.tar.gz
-		ln -s /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/$pheno1/ukb_chrIndv_v2.${ancestry2}.QCed.QCed.dropRltvs.PCAdrop.${pheno1}.ADD.assoc.linear.strict.clumped.tar.gz /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/$pheno1/ukb_chrIndv_v2.${ancestry2}.QCed.QCed.dropRltvs.PCAdrop.${pheno1}.ADD.assoc.linear.clumped.tar.gz
-
-	done
-done
-
-# :. s/ADD.assoc.linear/ADD.assoc.linear.strict/g
-
-
-
-
-
-
-
-
-
 for pheno1 in `echo "Height BMI Waist Hip" | perl -lane 'print join("\n", @F);'`; do
 	for j in `cat <(echo $UKBioBankPops | perl -lane 'print join("\n", @F);') | grep -v Ran100000\; | grep -v Ran200000\; | grep -v British.British\;`; do
 #	for j in `cat <(echo $UKBioBankPops | perl -lane 'print join("\n", @F);') | grep British | grep -v Ran4000\; | grep -v Ran10000\;`; do
@@ -2173,17 +2149,52 @@ for pheno1 in `echo "Height BMI Waist Hip" | perl -lane 'print join("\n", @F);'`
 			
 		echo $pheno1 $ancestry1 $ancestry2 /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/$pheno1/ukb_chrAll_v2.${ancestry2}.QCed.QCed.dropRltvs.PCAdrop.${pheno1}.ADD.assoc.linear.clumped
 		
-		for i in {1..22}; do
-#			rm /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/$pheno1/ukb_chr${i}_v2.${ancestry2}.QCed.QCed.dropRltvs.PCAdrop.${pheno1}.assoc.linear
-#			rm /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/$pheno1/ukb_chr${i}_v2.${ancestry2}.QCed.QCed.dropRltvs.PCAdrop.${pheno1}.ADD.assoc.linear
-#			rm /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/$pheno1/ukb_chr${i}_v2.${ancestry2}.QCed.QCed.dropRltvs.PCAdrop.${pheno1}.ADD.assoc.linear.clumped
-			rm /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/$pheno1/ukb_chr${i}_v2.${ancestry2}.${pheno1}.linear.PCs.slurm.output*
-			rm /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/$pheno1/ukb_chr${i}_v2.${ancestry2}.QCed.QCed.dropRltvs.PCAdrop.${pheno1}.ADD.linear.clump.slurm.*
+		tar -cvzf /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/$pheno1/ukb_chrIndv_v2.${ancestry2}.QCed.QCed.dropRltvs.PCAdrop.${pheno1}.assoc.linear.tar.gz /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/$pheno1/ukb_chr*_v2.${ancestry2}.QCed.QCed.dropRltvs.PCAdrop.${pheno1}.assoc.linear
+		tar -cvzf /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/$pheno1/ukb_chrIndv_v2.${ancestry2}.QCed.QCed.dropRltvs.PCAdrop.${pheno1}.ADD.assoc.linear.tar.gz /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/$pheno1/ukb_chr*_v2.${ancestry2}.QCed.QCed.dropRltvs.PCAdrop.${pheno1}.ADD.assoc.linear 
+		tar -cvzf /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/$pheno1/ukb_chrIndv_v2.${ancestry2}.QCed.QCed.dropRltvs.PCAdrop.${pheno1}.ADD.assoc.linear.clumped.tar.gz /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/$pheno1/ukb_chr*_v2.${ancestry2}.QCed.QCed.dropRltvs.PCAdrop.${pheno1}.ADD.assoc.linear.clumped 
+#		ln -s /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/$pheno1/ukb_chrIndv_v2.${ancestry2}.QCed.QCed.dropRltvs.PCAdrop.${pheno1}.ADD.assoc.linear.strict.clumped.tar.gz /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/$pheno1/ukb_chrIndv_v2.${ancestry2}.QCed.QCed.dropRltvs.PCAdrop.${pheno1}.ADD.assoc.linear.clumped.tar.gz
+
+	done
+done
+
+# :. s/ADD.assoc.linear/ADD.assoc.linear.strict/g
+#		mv /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/$pheno1/ukb_chrIndiv_v2.${ancestry2}.QCed.QCed.dropRltvs.PCAdrop.${pheno1}.assoc.linear.tar.gz /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/$pheno1/ukb_chrIndv_v2.${ancestry2}.QCed.QCed.dropRltvs.PCAdrop.${pheno1}.assoc.linear.tar.gz
+#		mv /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/$pheno1/ukb_chrIndiv_v2.${ancestry2}.QCed.QCed.dropRltvs.PCAdrop.${pheno1}.ADD.assoc.linear.tar.gz /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/$pheno1/ukb_chrIndv_v2.${ancestry2}.QCed.QCed.dropRltvs.PCAdrop.${pheno1}.ADD.assoc.linear.tar.gz
+#		mv /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/$pheno1/ukb_chrIndiv_v2.${ancestry2}.QCed.QCed.dropRltvs.PCAdrop.${pheno1}.ADD.assoc.linear.strict.clumped.tar.gz /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/$pheno1/ukb_chrIndv_v2.${ancestry2}.QCed.QCed.dropRltvs.PCAdrop.${pheno1}.ADD.assoc.linear.strict.clumped.tar.gz
+#		rm /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/$pheno1/ukb_chrIndiv_v2.${ancestry2}.QCed.QCed.dropRltvs.PCAdrop.${pheno1}.ADD.assoc.linear.clumped.tar.gz
+#		ln -s /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/$pheno1/ukb_chrIndv_v2.${ancestry2}.QCed.QCed.dropRltvs.PCAdrop.${pheno1}.ADD.assoc.linear.strict.clumped.tar.gz /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/$pheno1/ukb_chrIndv_v2.${ancestry2}.QCed.QCed.dropRltvs.PCAdrop.${pheno1}.ADD.assoc.linear.clumped.tar.gz
+
+
+
+
+
+
+
+
+
+for pheno1 in `echo "Height BMI Waist Hip" | perl -lane 'print join("\n", @F);' | head -n 1`; do
+	for j in `cat <(echo $UKBioBankPops | perl -lane 'print join("\n", @F);') | grep -v Ran100000\; | grep -v Ran200000\; | grep -v British.British\; | head -n 1`; do
+#	for j in `cat <(echo $UKBioBankPops | perl -lane 'print join("\n", @F);') | grep British | grep -v Ran4000\; | grep -v Ran10000\;`; do
+		ancestry1=`echo $j | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[0];'`
+		ancestry2=`echo $j | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[1];'`
+			
+		echo $pheno1 $ancestry1 $ancestry2 /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/$pheno1/ukb_chrAll_v2.${ancestry2}.QCed.QCed.dropRltvs.PCAdrop.${pheno1}.ADD.assoc.linear.clumped
+		
+		for i in {20..22}; do
+			rm /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/$pheno1/ukb_chr${i}_v2.${ancestry2}.QCed.QCed.dropRltvs.PCAdrop.${pheno1}.assoc.linear
+			rm /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/$pheno1/ukb_chr${i}_v2.${ancestry2}.QCed.QCed.dropRltvs.PCAdrop.${pheno1}.ADD.assoc.linear
+			rm /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/$pheno1/ukb_chr${i}_v2.${ancestry2}.QCed.QCed.dropRltvs.PCAdrop.${pheno1}.ADD.assoc.linear.clumped
+			rm /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/$pheno1/ukb_chr${i}_v2.${ancestry2}.${pheno1}.linear.PCs.slurm.*
+			rm /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/$pheno1/ukb_chr${i}_v2.${ancestry2}.QCed.pruned.QCed.dropRltvs.noX.PCAdrop.${pheno1}.ADD.linear.clump.slurm.*
 		done
 	done
 done
 
 # :. s/ADD.assoc.linear/ADD.assoc.linear.strict/g
+
+
+
+
 
 
 
