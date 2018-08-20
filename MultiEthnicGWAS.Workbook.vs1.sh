@@ -63,6 +63,7 @@ conda install tabix
 ##ln -s /users/mturchin/conda/MultiEthnicGWAS/ /users/mturchin/miniconda2/envs/MultiEthnicGWAS
 #20180815
 conda install git
+#From https://stackoverflow.com/questions/42231764/how-can-i-rename-a-conda-environment (but 'cloning' didn't seem to really work in the end?....see comments below)
 #20180815 NOTE -- re-install for movement from '/users/mturchin/conda/MultiEthnicGWAS/' to '/users/mturchin/miniconda2/envs/MultiEthnicGWAS' since 'clone' didn't seem to be working like it should have (would copy libraries over and a few other folders but not all of them, including /bin/, so loading the new 'cloned' environment wouldn't end up working for anything or recognizing commands such as 'R'...couldn't find any info via Google on whether there was another step to 'initialize' the new cloned copy or do some other step to get everything going) 
 ###conda install R perl git plink bedtools vcftools bcftools bwa samtools picard gatk imagemagick gnuplot eigensoft
 ###conda install r-base r-devtools 
@@ -2884,7 +2885,7 @@ for j in `cat <(echo $UKBioBankPops | perl -lane 'print join("\n", @F);')`; do
 
 	echo $ancestry1 $ancestry2
 
-	join <(cat /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.Covars.txt | sort -k 1,1) <(cat /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v2.${ancestry2}.QCed.pruned.QCed.dropRltvs.noX.PCAdrop.flashpca.pcs.txt | awk '{ print $1 "\t" $3 "\t" $4 "\t" $5 "\t" $6 "\t" $7 "\t" $8 "\t" $9 "\t" $10 "\t" $11 "\t" $12 }' | sort -k 1,1) | cat <(echo -e "FID\tIID\tSEX\tANCESTRY\tAGE\tPC1\tPC2\tPC3\tPC4\tPC5\tPC6\tPC7\tPC8\tPC9\tPC10") - > /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v2.${ancestry2}.QCed.pruned.QCed.dropRltvs.noX.PCAdrop.flashpca.pcs.wFullCovars.txt
+	join <(cat /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.Covars.txt | sort -k 1,1) <(cat /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v2.${ancestry2}.QCed.pruned.QCed.dropRltvs.noX.PCAdrop.flashpca.pcs.txt | awk '{ print $1 "\t" $3 "\t" $4 "\t" $5 "\t" $6 "\t" $7 "\t" $8 "\t" $9 "\t" $10 "\t" $11 "\t" $12 }' | sort -k 1,1) | grep -v PC1 | cat <(echo -e "FID\tIID\tSEX\tANCESTRY\tAGE\tPC1\tPC2\tPC3\tPC4\tPC5\tPC6\tPC7\tPC8\tPC9\tPC10") - > /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v2.${ancestry2}.QCed.pruned.QCed.dropRltvs.noX.PCAdrop.flashpca.pcs.wFullCovars.txt
 
 done	
 
