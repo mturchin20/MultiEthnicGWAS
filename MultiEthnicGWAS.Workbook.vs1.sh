@@ -97,60 +97,6 @@ cat /users/mturchin/LabMisc/RamachandranLab/MultiEthnicGWAS/MultiEthnicGWAS.Work
 <!-- index.Rmd
 ---
 title: "Home"
-output:
-  html_document:
-    toc: false
----
-
-Homepage for the Ramachandran Lab project `MultiEthnic GWAS`.
-
-* [Example 1][example1]
-* [Example 2][example2]
-
-Github [repo][gitrepo1] page
-
-[example1]: https://mturchin20.github.io/MultiEthnicGWAS/Example1.html 
-[example2]: https://mturchin20.github.io/MultiEthnicGWAS/Example2.html 
-[gitrepo1]: https://github.com/mturchin20/MultiEthnicGWAS
-
--->
-
-#beginning Work
-
-#/users/mturchin/data/ukbiobank , /users/mturchin/data/ukbiobank_jun17/mturchin
-
-#mkdir /users/mturchin/LabMisc/RamachandranLab/IntroProjs
-#mkdir /users/mturchin/LabMisc/RamachandranLab/IntroProjs/MultiEthnGWAS
-#mkdir /users/mturchin/LabMisc/RamachandranLab/IntroProjs/MultiEthnGWAS/PCAEffects
-mkdir /users/mturchin/LabMisc/RamachandranLab/MultiEthnicGWAS
-#mv /users/mturchin/LabMisc/RamachandranLab/IntroProjs/MultiEthnGWAS/* /users/mturchin/LabMisc/RamachandranLab/MultiEthnicGWAS/.; rm -r /users/mturchin/LabMisc/RamachandranLab/IntroProjs/ 
-
-mkdir /users/mturchin/data/ukbiobank/mturchin
-
-# interact -t 72:00:00 -m 8g
-# (from MacBook Air) jupyter notebook /Users/mturchin20/Documents/Work/LabMisc/RamachandranLab/IntroProjs/MultiEthnGWAS/20171108_SS_Pipeline_Version_2.ipynb
-
-##./gconv 
-./gconv chrom21.cal mturchin/tempMisc/chrom21.basic.cal basic
-#chrom18+ missing from *.int and *.con filetypes for some reason
-./gconv chrom17.int mturchin/tempMisc/chrom17.basic.int basic
-./gconv chrom17.con mturchin/tempMisc/chrom17.basic.con basic
-
-#Retrieved from http://biobank.ctsu.ox.ac.uk/crystal/list.cgi and note the inclusion of `\` in front of each `&` in the URLs (manually did this after copy/pasting each URL)
-#note -- don't actually need to include the `\` in front of the `&s` like I need to do from the command-line; interestingly enough including the `\s` produces the issue I was trying to avoid from the get-go, so kind of a reverse behavior going on here
-urls1="http://biobank.ctsu.ox.ac.uk/crystal/list.cgi?it=0&vt=11 http://biobank.ctsu.ox.ac.uk/crystal/list.cgi?it=0&vt=21 http://biobank.ctsu.ox.ac.uk/crystal/list.cgi?it=0&vt=22 http://biobank.ctsu.ox.ac.uk/crystal/list.cgi?it=0&vt=31 http://biobank.ctsu.ox.ac.uk/crystal/list.cgi?it=0&vt=41 http://biobank.ctsu.ox.ac.uk/crystal/list.cgi?it=0&vt=51 http://biobank.ctsu.ox.ac.uk/crystal/list.cgi?it=0&vt=61 http://biobank.ctsu.ox.ac.uk/crystal/list.cgi?it=0&vt=101" 
-
-rm -f /users/mturchin/LabMisc/RamachandranLab/MultiEthnicGWAS/UKBioBank.HTMLScraping.FieldCategories.Field_Name.vs.txt; for i in $urls1; do echo $i; GET $i | perl -lane 'my $line = join(" ", @F); if ($line =~ m/.*.a class="basic" href="field.cgi\?id=(\d+)"..*.a class="subtle" href="field.cgi\?id=\d+".(.*).\/a..\/td..*/) { print $1, "\t", $2 ; }' >> /users/mturchin/LabMisc/RamachandranLab/MultiEthnicGWAS/UKBioBank.HTMLScraping.FieldCategories.Field_Name.vs.txt; done
-
-rm -f /users/mturchin/LabMisc/RamachandranLab/MultiEthnicGWAS/UKBioBank.HTMLScraping.IndividualFields.Field_Name_Participants.vs.txt; for i in `cat /users/mturchin/LabMisc/RamachandranLab/MultiEthnicGWAS/UKBioBank.HTMLScraping.FieldCategories.Field_Name.vs.txt | perl -F"\t" -lane 'chomp(@F); print join(";", @F);' | sed 's/ /_/g'`; do 
-#rm -f /users/mturchin/LabMisc/RamachandranLab/IntroProjs/MultiEthnGWAS/UKBioBank.HTMLScraping.IndividualFields.Field_Name_Participants.vs.txt; for i in `cat /users/mturchin/LabMisc/RamachandranLab/IntroProjs/MultiEthnGWAS/UKBioBank.HTMLScraping.FieldCategories.Field_Name.vs.txt | sed 's/\t/;/g' | sed 's/\s/_/g'`; do 
-#	echo $i; done
-	Field1=`echo $i | perl -F\; -ane 'print $F[0];'`
-	Name1=`echo $i | perl -F\; -ane 'print $F[1];'`
-	
-#	echo $i $Field1 $Name1; 
-#	echo $Field1 $Name1; 
-
 	GET http://biobank.ctsu.ox.ac.uk/crystal/field.cgi?id=$Field1 | perl -slane 'my $line = join(" ", @F); if ($line =~ m/.* (\d+,\d+) participants.*/) { print $Field2, "\t", $Name2, "\t", $1; }' -- -Field2=$Field1 -Name2=$Name1 | sed 's/,//g' >> /users/mturchin/LabMisc/RamachandranLab/MultiEthnicGWAS/UKBioBank.HTMLScraping.IndividualFields.Field_Name_Participants.vs.txt;
 done
 
@@ -332,7 +278,7 @@ print(\"Waist\"); quantile(Data1\$Waist, na.rm=TRUE); c(mean(Data1\$Waist, na.rm
 #From MacBook Air
 #scp -p mturchin@ssh.ccv.brown.edu:/users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.Phenos.Edit.pre.wCovars.VarChecks.plots.vs1.png /Users/mturchin20/Documents/Work/LabMisc/RamachandranLab/MultiEthnicGWAS/Rnd1/UKBioBank/.
 
-#From https://media.nature.com/original/nature-assets/nature/journal/v490/n7419/extref/nature11401-s1.pdf
+#From https://media.nature.com/original/nature-assets/nature/journal/v490/n7419/extref/nature11401-s1.pdf, https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3674993/, https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5414044/
 #y <- qnorm((rank(x, na.last=\"keep\") - .5) / sum(!is.na(x)))
 #From http://biobank.ctsu.ox.ac.uk/crystal/field.cgi?id=31: Female 273,453; Male 229,164
 #(MultiEthnicGWAS) [  mturchin@node944  ~/data/ukbiobank_jun17/subsets/African/African/mturchin20]$cat /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.Phenos.Edit.pre.wCovars.txt | awk '{ print $4 }' | sort | uniq -c
@@ -341,6 +287,12 @@ print(\"Waist\"); quantile(Data1\$Waist, na.rm=TRUE); c(mean(Data1\$Waist, na.rm
 #      1 SEX
 
 cat /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.Phenos.Edit.pre.wCovars.txt | R -q -e "Data1 <- read.table(file('stdin'), header=T); InverseNorm <- function(x) { y <- qnorm((rank(x, na.last=\"keep\") - .5) / sum(! is.na(x))); return(y); }; Data1.M <- Data1[Data1\$SEX == 1,]; Data1.F <- Data1[Data1\$SEX == 0,]; Data1.M.Height.NA <- Data1.M[is.na(Data1.M\$Height),]; Data1.M.Height.NotNA <- Data1.M[! is.na(Data1.M\$Height),]; Data1.M.Height.NotNA.Resids <- lm(Data1.M.Height.NotNA\$Height ~ Data1.M.Height.NotNA\$AGE)\$residuals; Data1.M.Height.NotNA.Resids.InverseNorm <- InverseNorm(Data1.M.Height.NotNA.Resids); Data1.M.Height.NotNA\$Height <- Data1.M.Height.NotNA.Resids.InverseNorm; Data1.M.Height <- rbind(Data1.M.Height.NA[,c(\"FID_IID\", \"Height\")], Data1.M.Height.NotNA[,c(\"FID_IID\", \"Height\")]); Data1.F.Height.NA <- Data1.F[is.na(Data1.F\$Height),]; Data1.F.Height.NotNA <- Data1.F[! is.na(Data1.F\$Height),]; Data1.F.Height.NotNA.Resids <- lm(Data1.F.Height.NotNA\$Height ~ Data1.F.Height.NotNA\$AGE)\$residuals; Data1.F.Height.NotNA.Resids.InverseNorm <- InverseNorm(Data1.F.Height.NotNA.Resids); Data1.F.Height.NotNA\$Height <- Data1.F.Height.NotNA.Resids.InverseNorm; Data1.F.Height <- rbind(Data1.F.Height.NA[,c(\"FID_IID\", \"Height\")], Data1.F.Height.NotNA[,c(\"FID_IID\", \"Height\")]); Data1.Height <- rbind(Data1.M.Height, Data1.F.Height); Data1.M.BMI.NA <- Data1.M[is.na(Data1.M\$BMI),]; Data1.M.BMI.NotNA <- Data1.M[! is.na(Data1.M\$BMI),]; Data1.M.BMI.NotNA.Resids <- lm(Data1.M.BMI.NotNA\$BMI ~ Data1.M.BMI.NotNA\$AGE)\$residuals; Data1.M.BMI.NotNA.Resids.InverseNorm <- InverseNorm(Data1.M.BMI.NotNA.Resids); Data1.M.BMI.NotNA\$BMI <- Data1.M.BMI.NotNA.Resids.InverseNorm; Data1.M.BMI <- rbind(Data1.M.BMI.NA[,c(\"FID_IID\", \"BMI\")], Data1.M.BMI.NotNA[,c(\"FID_IID\", \"BMI\")]); Data1.F.BMI.NA <- Data1.F[is.na(Data1.F\$BMI),]; Data1.F.BMI.NotNA <- Data1.F[! is.na(Data1.F\$BMI),]; Data1.F.BMI.NotNA.Resids <- lm(Data1.F.BMI.NotNA\$BMI ~ Data1.F.BMI.NotNA\$AGE)\$residuals; Data1.F.BMI.NotNA.Resids.InverseNorm <- InverseNorm(Data1.F.BMI.NotNA.Resids); Data1.F.BMI.NotNA\$BMI <- Data1.F.BMI.NotNA.Resids.InverseNorm; Data1.F.BMI <- rbind(Data1.F.BMI.NA[,c(\"FID_IID\", \"BMI\")], Data1.F.BMI.NotNA[,c(\"FID_IID\", \"BMI\")]); Data1.BMI <- rbind(Data1.M.BMI, Data1.F.BMI); Data1.M.Waist.NA <- Data1.M[is.na(Data1.M\$Waist),]; Data1.M.Waist.NotNA <- Data1.M[! is.na(Data1.M\$Waist),]; Data1.M.Waist.NotNA.Resids <- lm(Data1.M.Waist.NotNA\$Waist ~ Data1.M.Waist.NotNA\$AGE)\$residuals; Data1.M.Waist.NotNA.Resids.InverseNorm <- InverseNorm(Data1.M.Waist.NotNA.Resids); Data1.M.Waist.NotNA\$Waist <- Data1.M.Waist.NotNA.Resids.InverseNorm; Data1.M.Waist <- rbind(Data1.M.Waist.NA[,c(\"FID_IID\", \"Waist\")], Data1.M.Waist.NotNA[,c(\"FID_IID\", \"Waist\")]); Data1.F.Waist.NA <- Data1.F[is.na(Data1.F\$Waist),]; Data1.F.Waist.NotNA <- Data1.F[! is.na(Data1.F\$Waist),]; Data1.F.Waist.NotNA.Resids <- lm(Data1.F.Waist.NotNA\$Waist ~ Data1.F.Waist.NotNA\$AGE)\$residuals; Data1.F.Waist.NotNA.Resids.InverseNorm <- InverseNorm(Data1.F.Waist.NotNA.Resids); Data1.F.Waist.NotNA\$Waist <- Data1.F.Waist.NotNA.Resids.InverseNorm; Data1.F.Waist <- rbind(Data1.F.Waist.NA[,c(\"FID_IID\", \"Waist\")], Data1.F.Waist.NotNA[,c(\"FID_IID\", \"Waist\")]); Data1.Waist <- rbind(Data1.M.Waist, Data1.F.Waist); Data1.M.Hip.NA <- Data1.M[is.na(Data1.M\$Hip),]; Data1.M.Hip.NotNA <- Data1.M[! is.na(Data1.M\$Hip),]; Data1.M.Hip.NotNA.Resids <- lm(Data1.M.Hip.NotNA\$Hip ~ Data1.M.Hip.NotNA\$AGE)\$residuals; Data1.M.Hip.NotNA.Resids.InverseNorm <- InverseNorm(Data1.M.Hip.NotNA.Resids); Data1.M.Hip.NotNA\$Hip <- Data1.M.Hip.NotNA.Resids.InverseNorm; Data1.M.Hip <- rbind(Data1.M.Hip.NA[,c(\"FID_IID\", \"Hip\")], Data1.M.Hip.NotNA[,c(\"FID_IID\", \"Hip\")]); Data1.F.Hip.NA <- Data1.F[is.na(Data1.F\$Hip),]; Data1.F.Hip.NotNA <- Data1.F[! is.na(Data1.F\$Hip),]; Data1.F.Hip.NotNA.Resids <- lm(Data1.F.Hip.NotNA\$Hip ~ Data1.F.Hip.NotNA\$AGE)\$residuals; Data1.F.Hip.NotNA.Resids.InverseNorm <- InverseNorm(Data1.F.Hip.NotNA.Resids); Data1.F.Hip.NotNA\$Hip <- Data1.F.Hip.NotNA.Resids.InverseNorm; Data1.F.Hip <- rbind(Data1.F.Hip.NA[,c(\"FID_IID\", \"Hip\")], Data1.F.Hip.NotNA[,c(\"FID_IID\", \"Hip\")]); Data1.Hip <- rbind(Data1.M.Hip, Data1.F.Hip); Data2 <- merge(Data1.Height, Data1.BMI, by=\"FID_IID\"); Data3 <- merge(Data2, Data1.Waist, by=\"FID_IID\"); Data2 <- merge(Data3, Data1.Hip, by=\"FID_IID\"); Data3 <- merge(Data1[,c(\"FID_IID\", \"SEX\", \"ANCESTRY\", \"AGE\")], Data2, by=\"FID_IID\"); rm(Data2); write.table(Data3, quote=FALSE, row.names=FALSE);" | grep -v \> | sed 's/_/ /' | awk '{ print $1 "_" $2 "\t" $0 }' > /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.Phenos.Transformed.wCovars.txt
+
+cat /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.Phenos.Edit.pre.wCovars.txt | R -q -e "Data1 <- read.table(file('stdin'), header=T); InverseNorm <- function(x) { y <- qnorm((rank(x, na.last=\"keep\") - .5) / sum(! is.na(x))); return(y); }; Data1.M <- Data1[Data1\$SEX == 1,]; Data1.F <- Data1[Data1\$SEX == 0,]; Data1.M.Height.NA <- Data1.M[is.na(Data1.M\$Height),]; Data1.M.Height.NotNA <- Data1.M[! is.na(Data1.M\$Height),]; Data1.M.Height.NotNA.Resids <- lm(Data1.M.Height.NotNA\$Height ~ Data1.M.Height.NotNA\$AGE)\$residuals; Data1.M.Height.NotNA.Resids.InverseNorm <- InverseNorm(Data1.M.Height.NotNA.Resids); Data1.M.Height.NotNA\$Height <- Data1.M.Height.NotNA.Resids.InverseNorm; Data1.M.Height <- rbind(Data1.M.Height.NA[,c(\"FID_IID\", \"Height\")], Data1.M.Height.NotNA[,c(\"FID_IID\", \"Height\")]); Data1.F.Height.NA <- Data1.F[is.na(Data1.F\$Height),]; Data1.F.Height.NotNA <- Data1.F[! is.na(Data1.F\$Height),]; Data1.F.Height.NotNA.Resids <- lm(Data1.F.Height.NotNA\$Height ~ Data1.F.Height.NotNA\$AGE)\$residuals; Data1.F.Height.NotNA.Resids.InverseNorm <- InverseNorm(Data1.F.Height.NotNA.Resids); Data1.F.Height.NotNA\$Height <- Data1.F.Height.NotNA.Resids.InverseNorm; Data1.F.Height <- rbind(Data1.F.Height.NA[,c(\"FID_IID\", \"Height\")], Data1.F.Height.NotNA[,c(\"FID_IID\", \"Height\")]); Data1.Height <- rbind(Data1.M.Height, Data1.F.Height); Data1.M.BMI.NA <- Data1.M[is.na(Data1.M\$BMI),]; Data1.M.BMI.NotNA <- Data1.M[! is.na(Data1.M\$BMI),]; Data1.M.BMI.NotNA.Resids <- lm(Data1.M.BMI.NotNA\$BMI ~ Data1.M.BMI.NotNA\$AGE)\$residuals; Data1.M.BMI.NotNA.Resids.InverseNorm <- InverseNorm(Data1.M.BMI.NotNA.Resids); Data1.M.BMI.NotNA\$BMI <- Data1.M.BMI.NotNA.Resids.InverseNorm; Data1.M.BMI <- rbind(Data1.M.BMI.NA[,c(\"FID_IID\", \"BMI\")], Data1.M.BMI.NotNA[,c(\"FID_IID\", \"BMI\")]); Data1.F.BMI.NA <- Data1.F[is.na(Data1.F\$BMI),]; Data1.F.BMI.NotNA <- Data1.F[! is.na(Data1.F\$BMI),]; Data1.F.BMI.NotNA.Resids <- lm(Data1.F.BMI.NotNA\$BMI ~ Data1.F.BMI.NotNA\$AGE)\$residuals; Data1.F.BMI.NotNA.Resids.InverseNorm <- InverseNorm(Data1.F.BMI.NotNA.Resids); Data1.F.BMI.NotNA\$BMI <- Data1.F.BMI.NotNA.Resids.InverseNorm; Data1.F.BMI <- rbind(Data1.F.BMI.NA[,c(\"FID_IID\", \"BMI\")], Data1.F.BMI.NotNA[,c(\"FID_IID\", \"BMI\")]); Data1.BMI <- rbind(Data1.M.BMI, Data1.F.BMI); Data1.M.Waist.NA <- Data1.M[is.na(Data1.M\$Waist),]; Data1.M.Waist.NotNA <- Data1.M[! is.na(Data1.M\$Waist),]; Data1.M.Waist.NotNA.Resids <- lm(Data1.M.Waist.NotNA\$Waist ~ Data1.M.Waist.NotNA\$AGE)\$residuals; Data1.M.Waist.NotNA.Resids.InverseNorm <- InverseNorm(Data1.M.Waist.NotNA.Resids); Data1.M.Waist.NotNA\$Waist <- Data1.M.Waist.NotNA.Resids.InverseNorm; Data1.M.Waist <- rbind(Data1.M.Waist.NA[,c(\"FID_IID\", \"Waist\")], Data1.M.Waist.NotNA[,c(\"FID_IID\", \"Waist\")]); Data1.F.Waist.NA <- Data1.F[is.na(Data1.F\$Waist),]; Data1.F.Waist.NotNA <- Data1.F[! is.na(Data1.F\$Waist),]; Data1.F.Waist.NotNA.Resids <- lm(Data1.F.Waist.NotNA\$Waist ~ Data1.F.Waist.NotNA\$AGE)\$residuals; Data1.F.Waist.NotNA.Resids.InverseNorm <- InverseNorm(Data1.F.Waist.NotNA.Resids); Data1.F.Waist.NotNA\$Waist <- Data1.F.Waist.NotNA.Resids.InverseNorm; Data1.F.Waist <- rbind(Data1.F.Waist.NA[,c(\"FID_IID\", \"Waist\")], Data1.F.Waist.NotNA[,c(\"FID_IID\", \"Waist\")]); Data1.Waist <- rbind(Data1.M.Waist, Data1.F.Waist); Data1.M.Hip.NA <- Data1.M[is.na(Data1.M\$Hip),]; Data1.M.Hip.NotNA <- Data1.M[! is.na(Data1.M\$Hip),]; Data1.M.Hip.NotNA.Resids <- lm(Data1.M.Hip.NotNA\$Hip ~ Data1.M.Hip.NotNA\$AGE)\$residuals; Data1.M.Hip.NotNA.Resids.InverseNorm <- InverseNorm(Data1.M.Hip.NotNA.Resids); Data1.M.Hip.NotNA\$Hip <- Data1.M.Hip.NotNA.Resids.InverseNorm; Data1.M.Hip <- rbind(Data1.M.Hip.NA[,c(\"FID_IID\", \"Hip\")], Data1.M.Hip.NotNA[,c(\"FID_IID\", \"Hip\")]); Data1.F.Hip.NA <- Data1.F[is.na(Data1.F\$Hip),]; Data1.F.Hip.NotNA <- Data1.F[! is.na(Data1.F\$Hip),]; Data1.F.Hip.NotNA.Resids <- lm(Data1.F.Hip.NotNA\$Hip ~ Data1.F.Hip.NotNA\$AGE)\$residuals; Data1.F.Hip.NotNA.Resids.InverseNorm <- InverseNorm(Data1.F.Hip.NotNA.Resids); Data1.F.Hip.NotNA\$Hip <- Data1.F.Hip.NotNA.Resids.InverseNorm; Data1.F.Hip <- rbind(Data1.F.Hip.NA[,c(\"FID_IID\", \"Hip\")], Data1.F.Hip.NotNA[,c(\"FID_IID\", \"Hip\")]); Data1.Hip <- rbind(Data1.M.Hip, Data1.F.Hip); \ 
+Data1.M.Waist.NotNA.Resids.AdjBMI <- residuals(lm(Data1.M.Waist.NotNA.Resids ~ Data1.M.Waist.NotNA\$BMI, na.action=na.exclude)); Data1.M.Waist.NotNA.Resids.AdjBMI.InverseNorm <- InverseNorm(Data1.M.Waist.NotNA.Resids.AdjBMI); print(c(length(Data1.M.Waist.NotNA.Resids), length(Data1.M.Waist.NotNA.Resids.AdjBMI), length(Data1.M.Waist.NotNA.Resids.AdjBMI.InverseNorm))); Data1.M.Waist.NotNA\$AdjBMI <- Data1.M.Waist.NotNA.Resids.AdjBMI.InverseNorm; Data1.M.WaistAdjBMI <- rbind(Data1.M.Waist.NA[,c(\"FID_IID\", \"Waist\")], Data1.M.Waist.NotNA[,c(\"FID_IID\", \"AdjBMI\")]); Data1.F.Waist.NotNA.Resids.AdjBMI <- lm(Data1.F.Waist.NotNA.Resids ~ Data1.F.Waist.NotNA\$BMI)\$residuals; Data1.F.Waist.NotNA.Resids.AdjBMI.InverseNorm <- InverseNorm(Data1.F.Waist.NotNA.Resids.AdjBMI); Data1.F.Waist.NotNA\$AdjBMI <- Data1.F.Waist.NotNA.Resids.AdjBMI.InverseNorm; Data1.F.WaistAdjBMI <- rbind(Data1.F.Waist.NA[,c(\"FID_IID\", \"Waist\")], Data1.F.Waist.NotNA[,c(\"FID_IID\", \"AdjBMI\")]); Data1.WaistAdjBMI <- rbind(Data1.M.WaistAdjBMI, Data1.F.WaistAdjBMI); \ 
+Data1.M.Hip.NotNA.Resids.AdjBMI <- residuals(lm(Data1.M.Hip.NotNA.Resids ~ Data1.M.Hip.NotNA\$BMI, na.action=na.exclude)); Data1.M.Hip.NotNA.Resids.AdjBMI.InverseNorm <- InverseNorm(Data1.M.Hip.NotNA.Resids.AdjBMI); Data1.M.Hip.NotNA\$AdjBMI <- Data1.M.Hip.NotNA.Resids.AdjBMI.InverseNorm; Data1.M.HipAdjBMI <- rbind(Data1.M.Hip.NA[,c(\"FID_IID\", \"Hip\")], Data1.M.Hip.NotNA[,c(\"FID_IID\", \"AdjBMI\")]); Data1.F.Hip.NotNA.Resids.AdjBMI <- lm(Data1.F.Hip.NotNA.Resids ~ Data1.F.Hip.NotNA\$BMI)\$residuals; Data1.F.Hip.NotNA.Resids.AdjBMI.InverseNorm <- InverseNorm(Data1.F.Hip.NotNA.Resids.AdjBMI); Data1.F.Hip.NotNA\$AdjBMI <- Data1.F.Hip.NotNA.Resids.AdjBMI.InverseNorm; Data1.F.HipAdjBMI <- rbind(Data1.F.Hip.NA[,c(\"FID_IID\", \"Hip\")], Data1.F.Hip.NotNA[,c(\"FID_IID\", \"AdjBMI\")]); Data1.HipAdjBMI <- rbind(Data1.M.HipAdjBMI, Data1.F.HipAdjBMI); \
+Data2 <- merge(Data1.Height, Data1.BMI, by=\"FID_IID\"); Data3 <- merge(Data2, Data1.Waist, by=\"FID_IID\"); Data2 <- merge(Data3, Data1.Hip, by=\"FID_IID\"); Data3 <- merge(Data2, Data1.WaistAdjBMI, by=\"FID_IID\"); Data2 <- merge(Data3, Data1.HipAdjBMI, by=\"FID_IID\"); Data3 <- merge(Data1[,c(\"FID_IID\", \"SEX\", \"ANCESTRY\", \"AGE\")], Data2, by=\"FID_IID\"); rm(Data2); write.table(Data3, quote=FALSE, row.names=FALSE);" | grep -v \> | sed 's/_/ /' | awk '{ print $1 "_" $2 "\t" $0 }' > /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.Phenos.Transformed.BMIAdj.wCovars.txt
+
 
 #From https://stackoverflow.com/questions/3541713/how-to-plot-two-histograms-together-in-r
 R -q -e "Data1 <- read.table(\"/users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.Phenos.Edit.pre.wCovars.txt\", header=T); Data2 <- read.table(\"/users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.Phenos.Transformed.wCovars.txt\", header=T); Data1.M <- Data1[Data1\$SEX == 1,]; Data1.F <- Data1[Data1\$SEX == 0,]; Data2.M <- Data2[Data2\$SEX == 1,]; Data2.F <- Data2[Data2\$SEX == 0,]; \ 
@@ -2476,57 +2428,6 @@ done
 #c("ukb_AFR", "AFR_rel", "1kG_CEU", "1kG_GBR", "1kG_YRI", "1kG_ESN", "1kG_CHB", "1kG_JPT", "1kG_ACB", "1kG_ASW")
 	ancestry1=`echo $j | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[0];'`
 	ancestry2=`echo $j | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[1];'`
-	mtext(\"${ancestry2}\", line=-.75, outer=TRUE, cex=2.75); par(fig = c(0, 1, 0, 1), mfrow=c(1,1), oma = c(0, 0, 0, 0), mar = c(0, 0, 0, 0), new = TRUE); plot(0, 0, type = \"n\", bty = \"n\", xaxt = \"n\", yaxt = \"n\"); legend(\"topright\", c(\"ukb_${ancestry3}\", \"${ancestry3}_rel\", \"${ancestry3}_Outlr\", \"1kG_CEU\", \"1kG_GBR\", \"1kG_YRI\", \"1kG_ESN\", \"1kG_CHB\", \"1kG_JPT\", \"1kG_ACB\", \"1kG_ASW\", \"1kG_MXL\", \"1kG_PEL\", \"1kG_ITU\", \"1kG_PJL\"), pch=c(16, 16, 16, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4), col=c(\"BLACK\", \"#C51B7D\", \"BROWN\", brewer.pal(12, \"Paired\")[2], brewer.pal(12, \"Paired\")[1], brewer.pal(12, \"Paired\")[6], brewer.pal(12, \"Paired\")[5], brewer.pal(12, \"Paired\")[12], brewer.pal(12, \"Paired\")[8], brewer.pal(12, \"Paired\")[4], brewer.pal(12, \"Paired\")[3], brewer.pal(12, \"Paired\")[7], brewer.pal(12, \"Paired\")[11], brewer.pal(12, \"Paired\")[10], brewer.pal(12, \"Paired\")[9]), xpd=TRUE, inset=c(.031,.076), bg=\"transparent\", cex=1.55, y.intersp=2); \
-	dev.off();"
-done
-	
-#From MacBook Air
-#scp -p mturchin@ssh.ccv.brown.edu:/users/mturchin/data/ukbiobank_jun17/subsets/*/*/mturchin20/ukb_chrAll_v2*1kG.flashpca.wRltvs.PCplots.ctOff.vs2.png /Users/mturchin20/Documents/Work/LabMisc/RamachandranLab/MultiEthnicGWAS/Rnd1/UKBioBank/.
-
-#	abline(v=.065, lwd=3, lty=2); \ 
-#	aboveLnrThrsh <- function(x,y) { returnVal1 <- FALSE; if (y >= ((x * 3.3) - .3)) { returnVal1 <- TRUE; }; return(returnVal1); }; \
-#	aboveLnrThrsh <- function(x,y) { returnVal1 <- FALSE; if ((y <= ((x * .725) - .1775)) || (x >= .065)) { returnVal1 <- TRUE; }; return(returnVal1); }; \
-##	Data3[(Data3[,ncol(Data3)-2] == \"ukb_AFR\" & (! mapply(aboveLnrThrsh, Data3[, 3], Data3[, 4]))), ncol(Data3)-1] <- \"brown\"; \
-#	Data3[(Data3[,ncol(Data3)-2] == \"${ancestry3}\" & (! mapply(aboveLnrThrsh, Data3[, 3], Data3[, 4]))), ncol(Data3)-1] <- \"brown\"; \
-#	png(\"/users/mturchin/data/ukbiobank_jun17/subsets/African/African/mturchin20/ukb_chrAll_v2.AFR.1kG.flashpca.wRltvs.PCplots.ctOff.vs2.png\", height=3500, width=6000, res=300); par(oma=c(5,5,4,2), mfrow=c(1,2)); \
-#	plot(Data3[,3], Data3[,4], xlab=\"PC1\", ylab=\"PC2\", pch=Data3[,ncol(Data3)], col=as.character(Data3[,ncol(Data3)-1]), cex=1.5, cex.main=1.5, cex.axis=1.5, cex.lab=1.5); plotLegend2(\"bottomleft\"); abline(.005, .555); \
-#	plot(Data3[,5], Data3[,6], xlab=\"PC3\", ylab=\"PC4\", pch=Data3[,ncol(Data3)], col=as.character(Data3[,ncol(Data3)-1]), cex=1.5, cex.main=1.5, cex.axis=1.5, cex.lab=1.5); plotLegend2(\"topleft\"); dev.off();"  
-
-#African;African;Afr 
-#	aboveLnrThrsh <- function(x,y) { returnVal1 <- FALSE; if (y <= ((x * -.5) - .04) ) { returnVal1 <- TRUE; }; return(returnVal1); }; \
-#Any_other_Asian_background;Any_other_Asian_background;Asian 
-#	aboveLnrThrsh <- function(x,y) { returnVal1 <- FALSE; if ((y <= ((x * .625) - .1775)) || (x >= .065)) { returnVal1 <- TRUE; }; return(returnVal1); }; \
-#Any_other_mixed_background;Any_other_mixed_background;Mixed 
-#	N/A
-#Any_other_white_background;Any_other_white_background;White 
-#	aboveLnrThrsh <- function(x,y) { returnVal1 <- FALSE; if (y >= ((x * 3.3) - .3)) { returnVal1 <- TRUE; }; return(returnVal1); }; \
-#British;British;Brit 
-#	aboveLnrThrsh <- function(x,y) { returnVal1 <- FALSE; if (y >= ((x * 11.5) - 1.5)) { returnVal1 <- TRUE; }; return(returnVal1); }; \
-#British;British.Ran4000;Brit4k 
-#	aboveLnrThrsh <- function(x,y) { returnVal1 <- FALSE; if (y >= ((x * 2.5) + .005)) { returnVal1 <- TRUE; }; return(returnVal1); }; \
-#British;British.Ran10000;Brit10k 
-#	aboveLnrThrsh <- function(x,y) { returnVal1 <- FALSE; if (y >= ((x * -4.6) - .15)) { returnVal1 <- TRUE; }; return(returnVal1); }; \
-#British;British.Ran100000;Brit100k 
-#	aboveLnrThrsh <- function(x,y) { returnVal1 <- FALSE; if (y >= ((x * 12) - 1.4)) { returnVal1 <- TRUE; }; return(returnVal1); }; \
-#British;British.Ran200000;Brit200k 
-#	aboveLnrThrsh <- function(x,y) { returnVal1 <- FALSE; if (y >= ((x * 11.5) - 1.4)) { returnVal1 <- TRUE; }; return(returnVal1); }; \
-#Caribbean;Caribbean;Carib 
-#	aboveLnrThrsh <- function(x,y) { returnVal1 <- FALSE; if (y >= ((x * -.68) + .024)) { returnVal1 <- TRUE; }; return(returnVal1); }; \
-#Chinese;Chinese;Chi 
-#	aboveLnrThrsh <- function(x,y) { returnVal1 <- FALSE; if ((y >= ((x * 1.3) + .13)) && (x <= -.04)) { returnVal1 <- TRUE; }; return(returnVal1); }; \
-#Indian;Indian;Indn 
-#	aboveLnrThrsh <- function(x,y) { returnVal1 <- FALSE; if ((y <= ((x * 67.5) - 1.4)) && (y <= ((x * .7) + .0825))) { returnVal1 <- TRUE; }; return(returnVal1); }; \
-#Irish;Irish;Irish 
-#	aboveLnrThrsh <- function(x,y) { returnVal1 <- FALSE; if (y >= ((x * 2.75) - .06)) { returnVal1 <- TRUE; }; return(returnVal1); }; \
-#Pakistani;Pakistani;Pkstn
-#	aboveLnrThrsh <- function(x,y) { returnVal1 <- FALSE; if ((y >= ((x * 1.6) + .02)) && (y <= .05)) { returnVal1 <- TRUE; }; return(returnVal1); }; \
-
-cat /users/mturchin/data/ukbiobank_jun17/subsets/African/African/mturchin20/ukb_chrAll_v2.African.QCed.pruned.QCed.dropRltvs.noX.1kG.flashpca.pcs.wAncs.txt | awk '{ if ($23 ~ /1kG/ || ($4 <= (($3 * -.5) - .04))) { print $0 } }' > /users/mturchin/data/ukbiobank_jun17/subsets/African/African/mturchin20/ukb_chrAll_v2.African.QCed.pruned.QCed.dropRltvs.noX.1kG.flashpca.pcs.wAncs.QCed.txt
-cat /users/mturchin/data/ukbiobank_jun17/subsets/Any_other_Asian_background/Any_other_Asian_background/mturchin20/ukb_chrAll_v2.Any_other_Asian_background.QCed.pruned.QCed.dropRltvs.noX.1kG.flashpca.pcs.wAncs.txt | awk '{ if ($23 ~ /1kG/ || (($4 <= (($3 * .625) - .1775)) || ($3 >= .065))) { print $0 } }' > /users/mturchin/data/ukbiobank_jun17/subsets/Any_other_Asian_background/Any_other_Asian_background/mturchin20/ukb_chrAll_v2.Any_other_Asian_background.QCed.pruned.QCed.dropRltvs.noX.1kG.flashpca.pcs.wAncs.QCed.txt
-ln -s /users/mturchin/data/ukbiobank_jun17/subsets/Any_other_mixed_background/Any_other_mixed_background/mturchin20/ukb_chrAll_v2.Any_other_mixed_background.QCed.pruned.QCed.dropRltvs.noX.1kG.flashpca.pcs.wAncs.txt /users/mturchin/data/ukbiobank_jun17/subsets/Any_other_mixed_background/Any_other_mixed_background/mturchin20/ukb_chrAll_v2.Any_other_mixed_background.QCed.pruned.QCed.dropRltvs.noX.1kG.flashpca.pcs.wAncs.QCed.txt
-cat /users/mturchin/data/ukbiobank_jun17/subsets/Any_other_white_background/Any_other_white_background/mturchin20/ukb_chrAll_v2.Any_other_white_background.QCed.pruned.QCed.dropRltvs.noX.1kG.flashpca.pcs.wAncs.txt | awk '{ if ($23 ~ /1kG/ || ($4 >= (($3 * 3.3) - .3))) { print $0 } }' > /users/mturchin/data/ukbiobank_jun17/subsets/Any_other_white_background/Any_other_white_background/mturchin20/ukb_chrAll_v2.Any_other_white_background.QCed.pruned.QCed.dropRltvs.noX.1kG.flashpca.pcs.wAncs.QCed.txt
-cat /users/mturchin/data/ukbiobank_jun17/subsets/British/British/mturchin20/ukb_chrAll_v2.British.QCed.pruned.QCed.dropRltvs.noX.1kG.flashpca.pcs.wAncs.txt | awk '{ if ($23 ~ /1kG/ || ($4 >= (($3 * 11.5) - 1.5))) { print $0 } }' > /users/mturchin/data/ukbiobank_jun17/subsets/British/British/mturchin20/ukb_chrAll_v2.British.QCed.pruned.QCed.dropRltvs.noX.1kG.flashpca.pcs.wAncs.QCed.txt
-cat /users/mturchin/data/ukbiobank_jun17/subsets/British/British.Ran4000/mturchin20/ukb_chrAll_v2.British.Ran4000.QCed.pruned.QCed.dropRltvs.noX.1kG.flashpca.pcs.wAncs.txt | awk '{ if ($23 ~ /1kG/ || ($4 >= (($3 * 2.5) + .005))) { print $0 } }' > /users/mturchin/data/ukbiobank_jun17/subsets/British/British.Ran4000/mturchin20/ukb_chrAll_v2.British.Ran4000.QCed.pruned.QCed.dropRltvs.noX.1kG.flashpca.pcs.wAncs.QCed.txt
 cat /users/mturchin/data/ukbiobank_jun17/subsets/British/British.Ran10000/mturchin20/ukb_chrAll_v2.British.Ran10000.QCed.pruned.QCed.dropRltvs.noX.1kG.flashpca.pcs.wAncs.txt | awk '{ if ($23 ~ /1kG/ || ($4 >= (($3 * -4.6) - .15))) { print $0 } }' > /users/mturchin/data/ukbiobank_jun17/subsets/British/British.Ran10000/mturchin20/ukb_chrAll_v2.British.Ran10000.QCed.pruned.QCed.dropRltvs.noX.1kG.flashpca.pcs.wAncs.QCed.txt
 cat /users/mturchin/data/ukbiobank_jun17/subsets/British/British.Ran100000/mturchin20/ukb_chrAll_v2.British.Ran100000.QCed.pruned.QCed.dropRltvs.noX.1kG.flashpca.pcs.wAncs.txt | awk '{ if ($23 ~ /1kG/ || ($4 >= (($3 * 12) - 1.4))) { print $0 } }' > /users/mturchin/data/ukbiobank_jun17/subsets/British/British.Ran100000/mturchin20/ukb_chrAll_v2.British.Ran100000.QCed.pruned.QCed.dropRltvs.noX.1kG.flashpca.pcs.wAncs.QCed.txt
 cat /users/mturchin/data/ukbiobank_jun17/subsets/British/British.Ran200000/mturchin20/ukb_chrAll_v2.British.Ran200000.QCed.pruned.QCed.dropRltvs.noX.1kG.flashpca.pcs.wAncs.txt | awk '{ if ($23 ~ /1kG/ || ($4 >= (($3 * 11.5) - 1.4))) { print $0 } }' > /users/mturchin/data/ukbiobank_jun17/subsets/British/British.Ran200000/mturchin20/ukb_chrAll_v2.British.Ran200000.QCed.pruned.QCed.dropRltvs.noX.1kG.flashpca.pcs.wAncs.QCed.txt
@@ -5917,183 +5818,6 @@ Pakistani Pakistani
 >         zcat /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v2.${ancestry2}.QCed.pruned.QCed.ukb22419_rel_s488363.wukbDrops.gz | awk '{ if ($5 >= .0884) { print $0 } }' | wc
 >         zcat /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v2.${ancestry2}.QCed.pruned.QCed.ukb22419_rel_s488363.wukbDrops.gz | awk '{ if ($5 >= .0442) { print $0 } }' | wc
 >
-> done
-African African
-     58     290    2063
-     85     425    3027
-Any_other_Asian_background Any_other_Asian_background
-     29     145    1022
-     55     275    1947
-Any_other_mixed_background Any_other_mixed_background
-      5      25     180
-     12      60     432
-Any_other_white_background Any_other_white_background
-    161     805    5693
-    235    1175    8339
-British British
-  36120  180600 1272685
-  93356  466780 3321302
-British British.Ran4000
-      6      30     201
-     16      80     561
-British British.Ran10000
-     23     115     796
-     54     270    1907
-British British.Ran100000
-   1802    9010   63498
-   4792   23960  170500
-British British.Ran200000
-   7312   36560  257642
-  18971   94855  674863
-Caribbean Caribbean
-    287    1435   10204
-    514    2570   18335
-Chinese Chinese
-     37     185    1313
-     58     290    2067
-Indian Indian
-    333    1665   11755
-    515    2575   18211
-Irish Irish
-    548    2740   19441
-   1169    5845   41665
-Pakistani Pakistani
-     65     325    2283
-    158     790    5585
-(MultiEthnicGWAS) [  mturchin@login002  ~/data/ukbiobank_jun17/subsets/African/African/mturchin20]$cat /users/mturchin/data/ukbiobank_jun17/subsets/African/African/mturchin20/ukb_chrAll_v2.African.QCed.pruned.QCed.dropRltvs.noX.1kG.flashpca.pcs.wAncs.txt | head -n 10
-FID     IID     PC1     PC2     PC3     PC4     PC5  PC6        PC7     PC8     PC9     PC10    PC11    PC12    PC13    PC14    PC15    PC16    PC17    PC18    PC19    PC20    POP
-1001592 1001592 -0.1095837      -0.01515011     -0.01299081     0.06432943      0.0004121108    0.005383313     -0.001550409    0.001556439     -0.01007402     0.02734633      0.05144904      -0.004063994    -0.00563374    -0.006742348     0.003090609     -0.03031161     0.01395377      0.0005988888    -0.003488019    -0.01845045     ukb_AFR
-1002560 1002560 -0.05126679     0.01461728      -0.09106646     0.06192548      -0.01045421     -0.05226747     0.003786898     0.06353808 0.03447247   -0.001364029    -0.01710308     0.004304632     0.0008717392    -0.0190005      0.002827138     -0.003705134    -0.001473413 0.006044929        -0.01078054     -0.00504672     ukb_AFR
-1003036 1003036 -0.1145061      -0.02159879     0.02185083      -0.01156626     0.04841836      -0.004632897    0.004002478     -0.001414412    -0.004499457    -0.008808905    -0.01325884     0.002775132     0.01051974     -0.01290876 -0.001648434 -0.0006329809   -0.001934886 -0.001784676       0.01192168      -0.003431602    ukb_AFR
-1004593 1004593 -0.105218       -0.009862499    0.02077679      -0.03174682     -0.05550549     0.001125085     0.001835        0.0002043254    0.01929151      0.003552434     0.004783147     0.0209848       -0.00339979    -0.008797007     0.007934304     -0.01611764     -0.005007673    0.008720545     -0.01115624     0.008553487     ukb_AFR
-1008167 1008167 -0.09890507     -0.01256736     -0.02229432     0.09879038      -0.01613772     0.01430709      0.007016346     -0.001621529    -0.001749475    0.03302946      0.009270534     -0.01728505     -0.001844066   -0.001911498     -0.003486211    0.01333747      -0.0009225445   -0.01091033     0.006612811     0.003111421     ukb_AFR
-1009965 1009965 -0.1144646      -0.01678158     0.02794845      -0.04601943     -0.04276241     0.007667866     -0.005256418    0.002732381     0.02931379      -0.006780359    -0.007257382    -0.005660453    0.009554902    -0.0003548697    -0.01683475     0.0232335 -0.004298369  0.004904626     -0.0002858674   0.002191906     ukb_AFR
-1010953 1010953 -0.1162987      -0.0151895      0.01291233      -0.01975639     0.03860272      -0.01059661     0.00272378      -0.0003544893   -0.005087682    -0.004873468    -0.00357997     -0.00276457     -0.001642033   -0.007122534     0.01784744      0.01115313      -0.002351923    -0.00989843     0.004442268     -0.003581949    ukb_AFR
-1012491 1012491 0.1974823       0.1503154 -0.256167  -0.1034129 0.02580212      0.1380414       0.001870625     0.08676538      -0.01502852     0.01928159      0.01958468      -0.009928409    -0.02209873     -0.01688895    0.04805649  -0.005137369 -0.0004968546   -0.0002838343   0.005522082     -0.008147094    ukb_AFR
-1013297 1013297 -0.09335199     -0.004760656    0.03134298      -0.03298155     -0.03455676     0.008409651     -0.001868769    -0.01697865     0.01136585      0.007146101     0.006084252     -0.00285834     -0.007547934   0.004043744 -0.01031373  0.01298586      0.004537263  -0.002993897       -0.008761168    -0.006562762    ukb_AFR
-(MultiEthnicGWAS) [  mturchin@login002  ~/data/ukbiobank_jun17/subsets/African/African/mturchin20]$cat /users/mturchin/data/ukbiobank_jun17/subsets/African/African/mturchin20/ukb_chrAll_v2.African.QCed.pruned.QCed.dropRltvs.noX.1kG.flashpca.pcs.wAncs.txt | wc            
-   3904   89792 1026520
-(MultiEthnicGWAS) [  mturchin@login002  ~/data/ukbiobank_jun17/subsets/African/African/mturchin20]$cat /users/mturchin/data/ukbiobank_jun17/subsets/African/African/mturchin20/ukb_chrAll_v2.African.QCed.pruned.QCed.dropRltvs.noX.1kG.flashpca.pcs.wAncs.txt | grep ukb_AFR | wc
-   3142   72266  827184
-[  mturchin@node847  ~/data/ukbiobank_jun17/subsets/African/African/mturchin20]$for j in `cat <(echo $UKBioBankPops | perl -lane 'print join("\n", @F);')`; do
->         ancestry1=`echo $j | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[0];'`                                                                                                                                    
-          ancestry2=`echo $j | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[1];'`
->                                                                                                                                                                                                                              
-  #       cat /users/mturchin/data/ukbiobank_jun17/subsets/${ancestry1}/${ancestry2}/mturchin20/ukb_chrAll_v2.${ancestry2}.QCed.pruned.QCed.dropRltvs.noX.1kG.flashpca.pcs.wAncs.QCed.txt | grep -v PC1 | grep -v 1kG | awk '{ 
-print $1 "\t" $2 }' > /users/mturchin/data/ukbiobank_jun17/subsets/${ancestry1}/${ancestry2}/mturchin20/ukb_chrAll_v2.${ancestry2}.QCed.pruned.QCed.dropRltvs.noX.1kG.flashpca.pcs.wAncs.QCed.no1kG.FIDIIDs
-> #       plink --bfile /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v2.${ancestry2}.QCed.pruned.QCed.dropRltvs.noX --keep /users/mturchin/data/ukbiobank_jun17/subsets/${ancestry1
-}/${ancestry2}/mturchin20/ukb_chrAll_v2.${ancestry2}.QCed.pruned.QCed.dropRltvs.noX.1kG.flashpca.pcs.wAncs.QCed.no1kG.FIDIIDs --make-bed --out /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/uk
-b_chrAll_v2.${ancestry2}.QCed.pruned.QCed.dropRltvs.noX.PCAdrop
->
->         echo $ancestry1 $ancestry2
->
->         cat /users/mturchin/data/ukbiobank_jun17/subsets/${ancestry1}/${ancestry2}/mturchin20/ukb_chrAll_v2.${ancestry2}.QCed.pruned.QCed.dropRltvs.noX.fam | wc
->         cat /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v2.${ancestry2}.QCed.pruned.QCed.dropRltvs.noX.PCAdrop.fam | wc
->
-> done
-African African
-   3115   18690   77875
-   3080   18480   77000
-Any_other_Asian_background Any_other_Asian_background
-   1697   10182   42425
-   1657    9942   41425
-Any_other_mixed_background Any_other_mixed_background
-    983    5898   24575
-    983    5898   24575
-Any_other_white_background Any_other_white_background
-  15503   93018  387575
-  15282   91692  382050
-British British
- 351434 2108604 8785850
- 351248 2107488 8781200
-British British.Ran4000
-   3876   23256   96900
-   3867   23202   96675
-British British.Ran10000
-   9658   57948  241450
-   9641   57846  241025
-British British.Ran100000
-  92394  554364 2309850
-  92367  554202 2309175
-British British.Ran200000
- 176694 1060164 4417350
- 176624 1059744 4415600
-Caribbean Caribbean
-   3854   23124   96350
-   3662   21972   91550
-Chinese Chinese
-   1455    8730   36375
-   1424    8544   35600
-Indian Indian
-   5203   31218  130075
-   5158   30948  128950
-Irish Irish
-  11630   69780  290750
-  11601   69606  290025
-Pakistani Pakistani
-   1604    9624   40100
-   1597    9582   39925
-(MultiEthnicGWAS) [  mturchin@node633  ~/data/ukbiobank_jun17/subsets/African/African/mturchin20]$cat /users/mturchin/data/ukbiobank_jun17/subsets/*/*/mturchin20/ukb_chrAll_v2.*.QCed.pruned.QCed.bim.noX.rsIDs | sort | uniq | wc
- 314385  314385 3367027
-(MultiEthnicGWAS) [  mturchin@login002  ~/data/ukbiobank_jun17/subsets/African/African/mturchin20]$for j in `cat <(echo $UKBioBankPops | perl -lane 'print join("\n", @F);')`; do
->         ancestry1=`echo $j | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[0];'`
->         ancestry2=`echo $j | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[1];'`
->         ancestry3=`echo $j | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[2];'`
->
->         echo $j
->         for i in {1..2}; do
->                 paste <(cat /users/mturchin/data/ukbiobank_jun17/subsets/${ancestry1}/${ancestry2}/mturchin20/ukb_chrAll_v2.${ancestry2}.QCed.pruned.QCed.dropRltvs.noX.PCAdrop.flashpca.pcs.wFullCovars.txt | awk -v iAwk=$i '{ print $(5+iAwk)}') <(cat /users/mturchin/data/ukbiobank_jun17/subsets/${ancestry1}/${ancestry2}/mturchin20/ukb_chrAll_v2.${ancestry2}.QCed.pruned.QCed.dropRltvs.noX.PCAdrop.flashpca.pcs.txt | awk -v iAwk=$i '{ print $(2+iAwk) }') | awk '{ if ($1 != $2) { print $0 } }' | wc
->         done
-> done
-African;African;Afr
-      1       1       5
-      1       1       5
-Any_other_Asian_background;Any_other_Asian_background;Asian
-      1       1       5
-      1       1       5
-Any_other_mixed_background;Any_other_mixed_background;Mixed
-      1       1       5
-      1       1       5
-Any_other_white_background;Any_other_white_background;White
-      1       1       5
-      1       1       5
-British;British;Brit
-      1       1       5
-      1       1       5
-British;British.Ran4000;Brit4k
-      1       1       5
-      1       1       5
-British;British.Ran10000;Brit10k
-      1       1       5
-      1       1       5
-British;British.Ran100000;Brit100k
-      1       1       5
-      1       1       5
-British;British.Ran200000;Brit200k
-      1       1       5
-      1       1       5
-Caribbean;Caribbean;Carib
-      1       1       5
-      1       1       5
-Chinese;Chinese;Chi
-      1       1       5
-      1       1       5
-Indian;Indian;Indn
-      1       1       5
-      1       1       5
-Irish;Irish;Irish
-      1       1       5
-      1       1       5
-Pakistani;Pakistani;Pkstn
-      1       1       5
-      1       1       5
-(MultiEthnicGWAS) [  mturchin@login002  ~/data/ukbiobank_jun17/subsets/African/African/mturchin20]$for j in `cat <(echo $UKBioBankPops | perl -lane 'print join("\n", @F);')`; do
->         ancestry1=`echo $j | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[0];'`
->         ancestry2=`echo $j | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[1];'`
->         ancestry3=`echo $j | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[2];'`
-> 
->         echo $j
->         for i in {1..10}; do
 >                 paste <(cat /users/mturchin/data/ukbiobank_jun17/subsets/${ancestry1}/${ancestry2}/mturchin20/ukb_chrAll_v2.${ancestry2}.QCed.pruned.QCed.dropRltvs.noX.PCAdrop.flashpca.pcs.wFullCovars.txt | awk -v iAwk=$i '{ print $(5+iAwk)}') <(cat /users/mturchin/data/ukbiobank_jun17/subsets/${ancestry1}/${ancestry2}/mturchin20/ukb_chrAll_v2.${ancestry2}.QCed.pruned.QCed.dropRltvs.noX.PCAdrop.flashpca.pcs.txt | awk -v iAwk=$i '{ print $(2+iAwk) }') | awk '{ if ($1 != $2) { print $0 } }' | awk '{ if (NR > 1) { print $0 } }'
 >         done
 > done
