@@ -71,6 +71,25 @@ conda install git
 ###conda install eigen boost gcc r-essentials tabix
 ###conda install -c anaconda fonts-anaconda
 ###conda install -c bioconda r-extrafont
+#20190319 NOTE -- previously had moved from '/users/mturchin/data/mturchin/miniconda2' to '/users/mturchin/data/mturchin/miniconda2RH' for something involving 'InterPath' env, and never setup 'MultiEthnicGWAS' since hadn't needed to use it yet; going to now setup 'MultiEthnicGWAS' on the new install location of '/users/mturchin/data/mturchin/miniconda2RH' as well
+#For current, correct priority channel ranking re: bioconda, see: https://bioconda.github.io/
+conda config --add channels r
+conda config --add channels defaults
+conda config --add channels bioconda
+conda config --add channels conda-forge
+conda create -n MultiEthnicGWAS
+conda update -n root conda
+conda install armadillo eigen boost gcc libgcc
+conda install R perl java-jdk
+conda install git qpdf
+conda install plink bedtools vcftools bwa samtools
+conda install picard gatk
+conda install imagemagick gnuplot eigensoft tabix
+conda install r-base r-devtools r-knitr r-testthat r-roxygen2 r-cairo r-ashr r-rcolorbrewer r-essentials r-extrafont fonts-anaconda
+conda install r-doParallel r-Rcpp r-RcppArmadillo r-RcppParallel r-CompQuadForm r-Matrix r-MASS r-truncnorm
+conda install r-data.table r-bigmemory
+#NOTE -- fixes for the 'GOMP_4.0' and 'libstdc++.so.6' issues previously seen on the UChicago/Midway2 clusters, making it seem like this is conda-specific atm (possibly with the most recent update and such?)
+
 
 
 
@@ -1112,6 +1131,27 @@ cd /users/mturchin/data/dbGaP/MESA
 
 
 
+#20190319
+mkdir /users/mturchin/data/dbGaP/PAGE/SHS
+cd /users/mturchin/data/dbGaP/PAGE/SHS
+/users/mturchin/.aspera/connect/bin/ascp -QTr -l 300M -k 1 -i /users/mturchin/.aspera/connect/etc/asperaweb_id_dsa.openssh -W
+dbtest@gap-upload.ncbi.nlm.nih.gov:data/instant/mturchin20/ 
+.
+mkdir /users/mturchin/data/dbGaP/MESA/Priya; mv /users/mturchin/data/dbGaP/MESA/* /users/mturchin/data/dbGaP/MESA/Priya/.
+mkdir /users/mturchin/data/dbGaP/MESA/HMB
+cd /users/mturchin/data/dbGaP/MESA/HMB
+/users/mturchin/.aspera/connect/bin/ascp -QTr -l 300M -k 1 -i /users/mturchin/.aspera/connect/etc/asperaweb_id_dsa.openssh -W
+dbtest@gap-upload.ncbi.nlm.nih.gov:data/instant/mturchin20/ 
+.
+mkdir /users/mturchin/data/dbGaP/MESA/HMB_NPU
+cd /users/mturchin/data/dbGaP/MESA/HMB_NPU
+/users/mturchin/.aspera/connect/bin/ascp -QTr -l 300M -k 1 -i /users/mturchin/.aspera/connect/etc/asperaweb_id_dsa.openssh -W
+dbtest@gap-upload.ncbi.nlm.nih.gov:data/instant/mturchin20/ 
+.
+
+
+
+
 
 
 
@@ -1730,6 +1770,11 @@ done
 
 
 
+
+
+
+
+=
 
 
 
@@ -3235,6 +3280,7 @@ for pheno1 in `echo "Height BMI Waist Hip" | perl -lane 'print join("\n", @F);'`
 done
 #rm -f /users/mturchin/LabMisc/RamachandranLab/MultiEthnicGWAS/Rnd1/ukb_chrAll_v2.British.QCed.QCed.dropRltvs.PCAdrop.noX.AllPhenos.ADD.assoc.linear.ashr.results.5eNeg8.NoNAs.AllPopComps
 
+#201808**
 zcat /users/mturchin/data/ukbiobank_jun17/subsets/British/British/mturchin20/Height/ukb_chrAll_v2.British.QCed.reqDrop.QCed.dropRltvs.PCAdrop.noX.Height.Trans.ADD.assoc.linear.gz | awk '{ print "chr" $1 "\t" $3 "\t" $3 "\t" $2 "," $4 "," $7 "," $9 }' | sed 's/chrCHR/CHR/g' | gzip > /users/mturchin/data/ukbiobank_jun17/subsets/British/British/mturchin20/Height/ukb_chrAll_v2.British.QCed.reqDrop.QCed.dropRltvs.PCAdrop.noX.Height.Trans.ADD.assoc.linear.edits.bed.gz
 join <(cat /users/mturchin/data/ukbiobank_jun17/subsets/British/British/mturchin20/Height/ukb_chrAll_v2.British.QCed.reqDrop.QCed.dropRltvs.PCAdrop.noX.Height.Trans.ADD.assoc.linear.clumped.5eNeg8.bed | awk '{ print $1 "_" $2 "\t" $0 }' | sort -k 1,1) <(zcat /users/mturchin/data/ukbiobank_jun17/subsets/British/British/mturchin20/Height/ukb_chrAll_v2.British.QCed.reqDrop.QCed.dropRltvs.PCAdrop.noX.Height.Trans.ADD.assoc.linear.edits.bed.gz | awk '{ print $1 "_" $2 "\t" $4 }' | sort -k 1,1) | awk '{ print $2 "\t" $3 "\t" $4 "\t" $6 }' > /users/mturchin/data/ukbiobank_jun17/subsets/British/British/mturchin20/Height/ukb_chrAll_v2.British.QCed.reqDrop.QCed.dropRltvs.PCAdrop.noX.Height.Trans.ADD.assoc.linear.clumped.5eNeg8.wInfo.bed
 cat /users/mturchin/data/ukbiobank_jun17/subsets/British/British/mturchin20/Height/ukb_chrAll_v2.British.QCed.reqDrop.QCed.dropRltvs.PCAdrop.noX.Height.Trans.ADD.assoc.linear.clumped.5eNeg8.wInfo.bed | sed 's/,/ /g' | awk '{ print $4 "\t" $1 "\t" $2 "\t" $5 "\t" $6 "\t" $7 }' | sed 's/chr//g' | cat <(echo -e "SNP\tCHR\tBP\tA1\tBETA\tPVAL") - | gzip > /users/mturchin/LabMisc/HirschhornLab/SohailRspnd/ukb_chrAll_v2.British.QCed.Height.linear.ADD.clumped.txt.gz
