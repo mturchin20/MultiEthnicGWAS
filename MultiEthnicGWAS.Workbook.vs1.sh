@@ -89,8 +89,8 @@ conda install r-base r-devtools r-knitr r-testthat r-roxygen2 r-cairo r-ashr r-r
 conda install r-doParallel r-Rcpp r-RcppArmadillo r-RcppParallel r-CompQuadForm r-Matrix r-MASS r-truncnorm
 conda install r-data.table r-bigmemory
 #NOTE -- fixes for the 'GOMP_4.0' and 'libstdc++.so.6' issues previously seen on the UChicago/Midway2 clusters, making it seem like this is conda-specific atm (possibly with the most recent update and such?)
-
-
+#conda update -f libstdcxx-ng
+#cp -p /gpfs/runtime/opt/gcc/6.2/lib64/libgomp.so.1 /gpfs/data/sramacha/mturchin/miniconda2RH/envs/MultiEthnicGWAS/lib/R/bin/exec/../../lib/../../libgomp.so.1
 
 
 #20171117
