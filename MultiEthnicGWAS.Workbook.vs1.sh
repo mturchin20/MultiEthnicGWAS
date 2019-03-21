@@ -116,6 +116,60 @@ cat /users/mturchin/LabMisc/RamachandranLab/MultiEthnicGWAS/MultiEthnicGWAS.Work
 <!-- index.Rmd
 ---
 title: "Home"
+output:
+  html_document:
+    toc: false
+---
+
+Homepage for the Ramachandran Lab project `MultiEthnic GWAS`.
+
+* [Example 1][example1]
+* [Example 2][example2]
+
+Github [repo][gitrepo1] page
+
+[example1]: https://mturchin20.github.io/MultiEthnicGWAS/Example1.html 
+[example2]: https://mturchin20.github.io/MultiEthnicGWAS/Example2.html 
+[gitrepo1]: https://github.com/mturchin20/MultiEthnicGWAS
+
+-->
+
+#beginning Work
+
+#/users/mturchin/data/ukbiobank , /users/mturchin/data/ukbiobank_jun17/mturchin
+
+#mkdir /users/mturchin/LabMisc/RamachandranLab/IntroProjs
+#mkdir /users/mturchin/LabMisc/RamachandranLab/IntroProjs/MultiEthnGWAS
+#mkdir /users/mturchin/LabMisc/RamachandranLab/IntroProjs/MultiEthnGWAS/PCAEffects
+mkdir /users/mturchin/LabMisc/RamachandranLab/MultiEthnicGWAS
+#mv /users/mturchin/LabMisc/RamachandranLab/IntroProjs/MultiEthnGWAS/* /users/mturchin/LabMisc/RamachandranLab/MultiEthnicGWAS/.; rm -r /users/mturchin/LabMisc/RamachandranLab/IntroProjs/ 
+
+mkdir /users/mturchin/data/ukbiobank/mturchin
+
+# interact -t 72:00:00 -m 8g
+# (from MacBook Air) jupyter notebook /Users/mturchin20/Documents/Work/LabMisc/RamachandranLab/IntroProjs/MultiEthnGWAS/20171108_SS_Pipeline_Version_2.ipynb
+
+##./gconv 
+./gconv chrom21.cal mturchin/tempMisc/chrom21.basic.cal basic
+#chrom18+ missing from *.int and *.con filetypes for some reason
+./gconv chrom17.int mturchin/tempMisc/chrom17.basic.int basic
+./gconv chrom17.con mturchin/tempMisc/chrom17.basic.con basic
+
+#Retrieved from http://biobank.ctsu.ox.ac.uk/crystal/list.cgi and note the inclusion of `\` in front of each `&` in the URLs (manually did this after copy/pasting each URL)
+#note -- don't actually need to include the `\` in front of the `&s` like I need to do from the command-line; interestingly enough including the `\s` produces the issue I was trying to avoid from the get-go, so kind of a reverse behavior going on here
+urls1="http://biobank.ctsu.ox.ac.uk/crystal/list.cgi?it=0&vt=11 http://biobank.ctsu.ox.ac.uk/crystal/list.cgi?it=0&vt=21 http://biobank.ctsu.ox.ac.uk/crystal/list.cgi?it=0&vt=22 http://biobank.ctsu.ox.ac.uk/crystal/list.cgi?it=0&vt=31 http://biobank.ctsu.ox.ac.uk/crystal/list.cgi?it=0&vt=41 http://biobank.ctsu.ox.ac.uk/crystal/list.cgi?it=0&vt=51 http://biobank.ctsu.ox.ac.uk/crystal/list.cgi?it=0&vt=61 http://biobank.ctsu.ox.ac.uk/crystal/list.cgi?it=0&vt=101" 
+
+rm -f /users/mturchin/LabMisc/RamachandranLab/MultiEthnicGWAS/UKBioBank.HTMLScraping.FieldCategories.Field_Name.vs.txt; for i in $urls1; do echo $i; GET $i | perl -lane 'my $line = join(" ", @F); if ($line =~ m/.*.a class="basic" href="field.cgi\?id=(\d+)"..*.a class="subtle" href="field.cgi\?id=\d+".(.*).\/a..\/td..*/) { print $1, "\t", $2 ; }' >> /users/mturchin/LabMisc/RamachandranLab/MultiEthnicGWAS/UKBioBank.HTMLScraping.FieldCategories.Field_Name.vs.txt; done
+
+rm -f /users/mturchin/LabMisc/RamachandranLab/MultiEthnicGWAS/UKBioBank.HTMLScraping.IndividualFields.Field_Name_Participants.vs.txt; for i in `cat /users/mturchin/LabMisc/RamachandranLab/MultiEthnicGWAS/UKBioBank.HTMLScraping.FieldCategories.Field_Name.vs.txt | perl -F"\t" -lane 'chomp(@F); print join(";", @F);' | sed 's/ /_/g'`; do 
+#rm -f /users/mturchin/LabMisc/RamachandranLab/IntroProjs/MultiEthnGWAS/UKBioBank.HTMLScraping.IndividualFields.Field_Name_Participants.vs.txt; for i in `cat /users/mturchin/LabMisc/RamachandranLab/IntroProjs/MultiEthnGWAS/UKBioBank.HTMLScraping.FieldCategories.Field_Name.vs.txt | sed 's/\t/;/g' | sed 's/\s/_/g'`; do 
+#	echo $i; done
+	Field1=`echo $i | perl -F\; -ane 'print $F[0];'`
+	Name1=`echo $i | perl -F\; -ane 'print $F[1];'`
+	
+#	echo $i $Field1 $Name1; 
+#	echo $Field1 $Name1; 
+
 	GET http://biobank.ctsu.ox.ac.uk/crystal/field.cgi?id=$Field1 | perl -slane 'my $line = join(" ", @F); if ($line =~ m/.* (\d+,\d+) participants.*/) { print $Field2, "\t", $Name2, "\t", $1; }' -- -Field2=$Field1 -Name2=$Name1 | sed 's/,//g' >> /users/mturchin/LabMisc/RamachandranLab/MultiEthnicGWAS/UKBioBank.HTMLScraping.IndividualFields.Field_Name_Participants.vs.txt;
 done
 
