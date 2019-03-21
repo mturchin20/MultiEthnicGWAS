@@ -1071,7 +1071,8 @@ cd /users/mturchin/data/dbGaP
 mkdir /users/mturchin/data/dbGaP/PAGE
 mkdir /users/mturchin/data/dbGaP/PAGE/MEC
 cd /users/mturchin/data/dbGaP/PAGE/MEC
-/users/mturchin/.aspera/connect/bin/ascp -QTr -l 300M -k 1 -i /users/mturchin/.aspera/connect/etc/asperaweb_id_dsa.openssh -W *** dbtest@gap-upload.ncbi.nlm.nih.gov:data/instant/mturchin20/60828 .
+#/users/mturchin/.aspera/connect/bin/ascp -QTr -l 300M -k 1 -i /users/mturchin/.aspera/connect/etc/asperaweb_id_dsa.openssh -W *** dbtest@gap-upload.ncbi.nlm.nih.gov:data/instant/mturchin20/60828 .
+#/users/mturchin/.aspera/connect/bin/ascp -QTr -l 300M -k 1 -i /users/mturchin/.aspera/connect/etc/asperaweb_id_dsa.openssh -W *** dbtest@gap-upload.ncbi.nlm.nih.gov:data/instant/mturchin20/67689 . #20190320 NOTE -- there was an e-mail/request from dbGaP to redownload a more recent release from MEC
 
 mkdir /users/mturchin/data/dbGaP/PAGE/Summary
 cd /users/mturchin/data/dbGaP/PAGE/Summary
@@ -1131,26 +1132,65 @@ cd /users/mturchin/data/dbGaP/MESA
 
 
 
+
 #20190319
 mkdir /users/mturchin/data/dbGaP/PAGE/SHS
 cd /users/mturchin/data/dbGaP/PAGE/SHS
-/users/mturchin/.aspera/connect/bin/ascp -QTr -l 300M -k 1 -i /users/mturchin/.aspera/connect/etc/asperaweb_id_dsa.openssh -W
-dbtest@gap-upload.ncbi.nlm.nih.gov:data/instant/mturchin20/ 
-.
+/users/mturchin/.aspera/connect/bin/ascp -QTr -l 300M -k 1 -i /users/mturchin/.aspera/connect/etc/asperaweb_id_dsa.openssh -W AFC7492A7851C4E36BF72434DDB8F24B555933E2278F6496190CB342082E6DC0CB32C4A4593D64D5D9AA7E4AB1BFF1B70D dbtest@gap-upload.ncbi.nlm.nih.gov:data/instant/mturchin20/67684 .
 mkdir /users/mturchin/data/dbGaP/MESA/Priya; mv /users/mturchin/data/dbGaP/MESA/* /users/mturchin/data/dbGaP/MESA/Priya/.
 mkdir /users/mturchin/data/dbGaP/MESA/HMB
 cd /users/mturchin/data/dbGaP/MESA/HMB
-/users/mturchin/.aspera/connect/bin/ascp -QTr -l 300M -k 1 -i /users/mturchin/.aspera/connect/etc/asperaweb_id_dsa.openssh -W
-dbtest@gap-upload.ncbi.nlm.nih.gov:data/instant/mturchin20/ 
-.
+/users/mturchin/.aspera/connect/bin/ascp -QTr -l 300M -k 1 -i /users/mturchin/.aspera/connect/etc/asperaweb_id_dsa.openssh -W  *** dbtest@gap-upload.ncbi.nlm.nih.gov:data/instant/mturchin20/67685 .
 mkdir /users/mturchin/data/dbGaP/MESA/HMB_NPU
 cd /users/mturchin/data/dbGaP/MESA/HMB_NPU
-/users/mturchin/.aspera/connect/bin/ascp -QTr -l 300M -k 1 -i /users/mturchin/.aspera/connect/etc/asperaweb_id_dsa.openssh -W
-dbtest@gap-upload.ncbi.nlm.nih.gov:data/instant/mturchin20/ 
-.
+/users/mturchin/.aspera/connect/bin/ascp -QTr -l 300M -k 1 -i /users/mturchin/.aspera/connect/etc/asperaweb_id_dsa.openssh -W *** dbtest@gap-upload.ncbi.nlm.nih.gov:data/instant/mturchin20/67686 .
+#NOTE -- currently downloaded MESA files to local external due to space issues; will move to CCV once space becomes available
+mkdir /Volumes/Elements/dbGaP; mkdir /Volumes/Elements/dbGaP/MESA; 
+mkdir /Volumes/Elements/dbGaP/MESA/HMB
+cd /Volumes/Elements/dbGaP/MESA/HMB
+/Users/mturchin20/Applications/Aspera\ Connect.app/Contents/Resources/ascp -QTr -l 300M -k 1 -i /Users/mturchin20/Applications/Aspera\ Connect.app/Contents/Resources/asperaweb_id_dsa.openssh -W A193F3F83E09045AE8ED68B5C33139CB759544F4453F149929439D5A1A2E1AB1A9F45B5D5D5384E85A356B2441B3725EFD dbtest@gap-upload.ncbi.nlm.nih.gov:data/instant/mturchin20/67685 .
+mkdir /Volumes/Elements/dbGaP/MESA/HMB_NPU
+cd /Volumes/Elements/dbGaP/MESA/HMB_NPU
+/Users/mturchin20/Applications/Aspera\ Connect.app/Contents/Resources/ascp -QTr -l 300M -k 1 -i /Users/mturchin20/Applications/Aspera\ Connect.app/Contents/Resources/asperaweb_id_dsa.openssh -W A19415187BC4D42D6B2D417D461A51EF8F572EE255DF944919375B355F69C304BA3CE5FF9D29344749D294B35D1A2D38ED .
+#NOTE -- same done with redownload of newer MEC version/data
+mkdir /Volumes/Elements/dbGaP/PAGE; mkdir /Volumes/Elements/dbGaP/PAGE/MEC;
+cd /Volumes/Elements/dbGaP/PAGE/MEC
+/Users/mturchin20/Applications/Aspera\ Connect.app/Contents/Resources/ascp -QTr -l 300M -k 1 -i /Users/mturchin20/Applications/Aspera\ Connect.app/Contents/Resources/asperaweb_id_dsa.openssh -W A5B12F40262704E0C9BDA905631B740CB2D539E8A470947288727F4FE54A9B790E33D6499D9CB40CE9BAF18EC63D8E067D dbtest@gap-upload.ncbi.nlm.nih.gov:data/instant/mturchin20/67689 .
 
-
-
+#Software download for decryption
+cd /users/mturchin/Software
+wget https://ftp-trace.ncbi.nlm.nih.gov/sra/sdk/2.9.6/sratoolkit.2.9.6-centos_linux64.tar.gz
+tar -xvzf sratoolkit.2.9.6-centos_linux64.tar.gz
+mkdir /users/mturchin/data2/dbGaP/Keys
+mv /users/mturchin/data2 /users/mturchin/Data2
+#From MacBook Pro: 
+#scp -p /Users/mturchin20/Documents/Work/LabMisc/Data/dbGaP/Keys/*.ngc mturchin@ssh.ccv.brown.edu:/users/mturchin/Data2/dbGaP/Keys/. 
+#For decrypting procedures, see: https://medium.com/@trashystats/downloading-and-decrypting-non-sra-dbgap-data-6b51e6d0bd3a
+#Example of procedure:
+#mkdir /users/mturchin/data/mturchin/ncbi; /users/mturchin/data/mturchin/ncbi/public;
+#/users/mturchin/Software/sratoolkit.2.9.6-centos_linux64/bin/vdb-config -i
+#Change default to /users/mturchin/data/mturchin/ncbi/public
+#Load dbGaP keys, ie *.ngc files
+#cd /users/mturchin/data/mturchin/ncbi/dbGaP-17483 
+#mv /users/mturchin/data/dbGaP/eMERGE/NetworkPhenos/HMB .
+#/users/mturchin/Software/sratoolkit.2.9.6-centos_linux64/bin/vdb-decrypt .
+#mv HMB /users/mturchin/data/dbGaP/eMERGE/NetworkPhenos/.
+Decrypted?
+Y /users/mturchin/data/dbGaP/eMERGE/NetworkPhenos/HMB
+Y /users/mturchin/data/dbGaP/eMERGE/NetworkPhenos/HMB_Gene
+Y /users/mturchin/data/dbGaP/eMERGE/NetworkPhenos/HMB_GSO
+Y /users/mturchin/data/dbGaP/eMERGE/41Phenos/General
+Y /users/mturchin/data/dbGaP/eMERGE/41Phenos/HMB_Gene
+Y /users/mturchin/data/dbGaP/eMERGE/41Phenos/HMB_GSO
+Y /users/mturchin/data/dbGaP/CHARGE/GRU
+N /users/mturchin/data/dbGaP/MESA/HMB
+N /users/mturchin/data/dbGaP/MESA/HMB_NPU
+Y /users/mturchin/data/dbGaP/PAGE/GblRefPnl
+Y /users/mturchin/data/dbGaP/PAGE/IPMBioME
+Y /users/mturchin/data/dbGaP/PAGE/MEC
+Y /users/mturchin/data/dbGaP/PAGE/Summary
+Y /users/mturchin/data/dbGaP/PAGE/BioVU
+Y /users/mturchin/data/dbGaP/PAGE/SHS
 
 
 
@@ -1774,7 +1814,10 @@ done
 
 
 
-=
+
+
+
+
 
 
 
