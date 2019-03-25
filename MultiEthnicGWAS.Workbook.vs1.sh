@@ -1221,6 +1221,46 @@ cd /users/mturchin/data/dbGaP/MESA/HMB_NPU
 #cd /Volumes/Elements/dbGaP/PAGE/HCHS-SOL/HMB_NPU
 #/Users/mturchin20/Applications/Aspera\ Connect.app/Contents/Resources/ascp -QTr -l 1000M -k 1 -i /Users/mturchin20/Applications/Aspera\ Connect.app/Contents/Resources/asperaweb_id_dsa.openssh -W *** dbtest@gap-upload.ncbi.nlm.nih.gov:data/instant/mturchin20/67703 .
 
+
+#Centralizing genotype information
+mkdir /users/mturchin/data/dbGaP/mturchin20
+mkdir /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS
+mkdir /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PhenoGenos
+MEC
+mkdir /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PhenoGenos/MEC
+ln -s /users/mturchin/data/dbGaP/PAGE/MEC/67689/PhenoGenotypeFiles/RootStudyConsentSet_phs000220.PAGE_MEC.v2.p2.c2.GRU/PhenotypeFiles/phs000220.v2.pht002387.v2.p2.c2.PAGE_MEC_Metabochip_Subject_Phenotypes.GRU.txt.gz phs000220.v2.pht002387.v2.p2.c2.PAGE_MEC_Metabochip_Subject_Phenotypes.GRU.txt.gz
+ln -s /users/mturchin/data/dbGaP/PAGE/MEC/67689/PhenoGenotypeFiles/RootStudyConsentSet_phs000220.PAGE_MEC.v2.p2.c2.GRU/GenotypeFiles/phg001051.v1.NHGRI_PAGE_MEC_v2_phase3.genotype-calls-matrixfmt.c2/sample_level_PLINK_sets/freeze2.v2.mec.pageii.mega_c2.bed freeze2.v2.mec.pageii.mega_c2.bed
+ln -s /users/mturchin/data/dbGaP/PAGE/MEC/67689/PhenoGenotypeFiles/RootStudyConsentSet_phs000220.PAGE_MEC.v2.p2.c2.GRU/GenotypeFiles/phg001051.v1.NHGRI_PAGE_MEC_v2_phase3.genotype-calls-matrixfmt.c2/sample_level_PLINK_sets/freeze2.v2.mec.pageii.mega_c2.bim freeze2.v2.mec.pageii.mega_c2.bim
+ln -s /users/mturchin/data/dbGaP/PAGE/MEC/67689/PhenoGenotypeFiles/RootStudyConsentSet_phs000220.PAGE_MEC.v2.p2.c2.GRU/GenotypeFiles/phg001051.v1.NHGRI_PAGE_MEC_v2_phase3.genotype-calls-matrixfmt.c2/sample_level_PLINK_sets/freeze2.v2.mec.pageii.mega_c2.fam freeze2.v2.mec.pageii.mega_c2.fam
+GlobalReferencePanel
+mkdir /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PhenoGenos/GlobalReferencePanel
+ln -s $HOME/data/dbGaP/PAGE/GblRefPnl/60844/PhenoGenotypeFiles/RootStudyConsentSet_phs001033.PAGE_GlobalRP.v1.p1.c1.GRU/GenotypeFiles/phg000768.v1.PAGE_GlobalRP.genotype-calls-matrixfmt.c1/subject_level_PLINK_set/PAGEII_GlobalRP_TOP_subject_level_filtered.bed PAGEII_GlobalRP_TOP_subject_level_filtered.bed
+ln -s $HOME/data/dbGaP/PAGE/GblRefPnl/60844/PhenoGenotypeFiles/RootStudyConsentSet_phs001033.PAGE_GlobalRP.v1.p1.c1.GRU/GenotypeFiles/phg000768.v1.PAGE_GlobalRP.genotype-calls-matrixfmt.c1/subject_level_PLINK_set/PAGEII_GlobalRP_TOP_subject_level_filtered.bim PAGEII_GlobalRP_TOP_subject_level_filtered.bim
+ln -s $HOME/data/dbGaP/PAGE/GblRefPnl/60844/PhenoGenotypeFiles/RootStudyConsentSet_phs001033.PAGE_GlobalRP.v1.p1.c1.GRU/GenotypeFiles/phg000768.v1.PAGE_GlobalRP.genotype-calls-matrixfmt.c1/subject_level_PLINK_set/PAGEII_GlobalRP_TOP_subject_level_filtered.fam PAGEII_GlobalRP_TOP_subject_level_filtered.fam
+IPMBioMe
+mkdir /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PhenoGenos/IPMBioMe
+ln -s /users/mturchin/data/dbGaP/PAGE/IPMBioME/60845/PhenoGenotypeFiles/RootStudyConsentSet_phs000925.PAGE_IPM_BioMe.v1.p1.c1.GRU/PhenotypeFiles/phs000925.v1.pht006203.v1.p1.c1.PAGE_IPM_BioMe_Biobank_Subject_Phenotypes.GRU.txt.gz phs000925.v1.pht006203.v1.p1.c1.PAGE_IPM_BioMe_Biobank_Subject_Phenotypes.GRU.txt.gz
+ln -s $HOME/data/dbGaP/PAGE/IPMBioME/60845/PhenoGenotypeFiles/RootStudyConsentSet_phs000925.PAGE_IPM_BioMe.v1.p1.c1.GRU/GenotypeFiles/phg000770.v1.PAGE_IPM_BioMe.genotype-calls-matrixfmt.c1/subject_level_PLINK_set/PAGEII_IPM_BioMe_TOP_subject_level_filtered.bed PAGEII_IPM_BioMe_TOP_subject_level_filtered.bed
+ln -s $HOME/data/dbGaP/PAGE/IPMBioME/60845/PhenoGenotypeFiles/RootStudyConsentSet_phs000925.PAGE_IPM_BioMe.v1.p1.c1.GRU/GenotypeFiles/phg000770.v1.PAGE_IPM_BioMe.genotype-calls-matrixfmt.c1/subject_level_PLINK_set/PAGEII_IPM_BioMe_TOP_subject_level_filtered.bim PAGEII_IPM_BioMe_TOP_subject_level_filtered.bim
+ln -s $HOME/data/dbGaP/PAGE/IPMBioME/60845/PhenoGenotypeFiles/RootStudyConsentSet_phs000925.PAGE_IPM_BioMe.v1.p1.c1.GRU/GenotypeFiles/phg000770.v1.PAGE_IPM_BioMe.genotype-calls-matrixfmt.c1/subject_level_PLINK_set/PAGEII_IPM_BioMe_TOP_subject_level_filtered.fam PAGEII_IPM_BioMe_TOP_subject_level_filtered.fam
+HCHS-SOL
+mkdir /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PhenoGenos/HCHS-SOL
+mkdir /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PhenoGenos/HCHS-SOL/HMB
+ln -s /users/mturchin/data/dbGaP/PAGE/HCHS-SOL/HMB/67701/PhenoGenotypeFiles/RootStudyConsentSet_phs000810.HCHS_SOL.v1.p1.c2.HMB/PhenotypeFiles/phs000810.v1.pht004715.v1.p1.c2.HCHS_SOL_Cohort_Subject_Phenotypes.HMB.txt.gz phs000810.v1.pht004715.v1.p1.c2.HCHS_SOL_Cohort_Subject_Phenotypes.HMB.txt.gz
+ln -s /users/mturchin/data/dbGaP/PAGE/HCHS-SOL/HMB/67701/PhenoGenotypeFiles/ChildStudyConsentSet_phs000880.HCHS_SOL.v1.p1.c2.HMB/GenotypeFiles/phg000663.v1.HCHS_SOL_HispCommunityHS.genotype-calls-matrixfmt.c2/subject_level_filtered_PLINK_set/SOL_TOP_subject_level_filtered_c2.bed SOL_TOP_subject_level_filtered_c2.bed
+ln -s /users/mturchin/data/dbGaP/PAGE/HCHS-SOL/HMB/67701/PhenoGenotypeFiles/ChildStudyConsentSet_phs000880.HCHS_SOL.v1.p1.c2.HMB/GenotypeFiles/phg000663.v1.HCHS_SOL_HispCommunityHS.genotype-calls-matrixfmt.c2/subject_level_filtered_PLINK_set/SOL_TOP_subject_level_filtered_c2.bim SOL_TOP_subject_level_filtered_c2.bim
+ln -s /users/mturchin/data/dbGaP/PAGE/HCHS-SOL/HMB/67701/PhenoGenotypeFiles/ChildStudyConsentSet_phs000880.HCHS_SOL.v1.p1.c2.HMB/GenotypeFiles/phg000663.v1.HCHS_SOL_HispCommunityHS.genotype-calls-matrixfmt.c2/subject_level_filtered_PLINK_set/SOL_TOP_subject_level_filtered_c2.fam SOL_TOP_subject_level_filtered_c2.fam
+mkdir /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PhenoGenos/HCHS-SOL/HMB_NPU
+ln -s /users/mturchin/data/dbGaP/PAGE/HCHS-SOL/HMB_NPU/67703/PhenoGenotypeFiles/RootStudyConsentSet_phs000810.HCHS_SOL.v1.p1.c1.HMB-NPU/PhenotypeFiles/phs000810.v1.pht004715.v1.p1.c1.HCHS_SOL_Cohort_Subject_Phenotypes.HMB-NPU.txt.gz phs000810.v1.pht004715.v1.p1.c1.HCHS_SOL_Cohort_Subject_Phenotypes.HMB-NPU.txt.gz
+ln -s /users/mturchin/data/dbGaP/PAGE/HCHS-SOL/HMB_NPU/67703/PhenoGenotypeFiles/ChildStudyConsentSet_phs000880.HCHS_SOL.v1.p1.c1.HMB-NPU/GenotypeFiles/phg000663.v1.HCHS_SOL_HispCommunityHS.genotype-calls-matrixfmt.c1/subject_level_filtered_PLINK_set/SOL_TOP_subject_level_filtered_c1.bed SOL_TOP_subject_level_filtered_c1.bed
+ln -s /users/mturchin/data/dbGaP/PAGE/HCHS-SOL/HMB_NPU/67703/PhenoGenotypeFiles/ChildStudyConsentSet_phs000880.HCHS_SOL.v1.p1.c1.HMB-NPU/GenotypeFiles/phg000663.v1.HCHS_SOL_HispCommunityHS.genotype-calls-matrixfmt.c1/subject_level_filtered_PLINK_set/SOL_TOP_subject_level_filtered_c1.bim SOL_TOP_subject_level_filtered_c1.bim
+ln -s /users/mturchin/data/dbGaP/PAGE/HCHS-SOL/HMB_NPU/67703/PhenoGenotypeFiles/ChildStudyConsentSet_phs000880.HCHS_SOL.v1.p1.c1.HMB-NPU/GenotypeFiles/phg000663.v1.HCHS_SOL_HispCommunityHS.genotype-calls-matrixfmt.c1/subject_level_filtered_PLINK_set/SOL_TOP_subject_level_filtered_c1.fam SOL_TOP_subject_level_filtered_c1.fam
+MESA 
+mkdir /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PhenoGenos/MESA
+
+
+
+
 #Software download for decryption
 cd /users/mturchin/Software
 wget https://ftp-trace.ncbi.nlm.nih.gov/sra/sdk/2.9.6/sratoolkit.2.9.6-centos_linux64.tar.gz
@@ -1252,14 +1292,12 @@ Y /users/mturchin/data/dbGaP/MESA/HMB_NPU
 Y /users/mturchin/data/dbGaP/PAGE/GblRefPnl
 Y /users/mturchin/data/dbGaP/PAGE/IPMBioME
 Y /users/mturchin/data/dbGaP/PAGE/MEC (v1)
-N /users/mturchin/data/dbGaP/PAGE/MEC (v2)
+Y /users/mturchin/data/dbGaP/PAGE/MEC (v2)
 Y /users/mturchin/data/dbGaP/PAGE/Summary
 Y /users/mturchin/data/dbGaP/PAGE/BioVU
 Y /users/mturchin/data/dbGaP/PAGE/SHS
-N /users/mturchin/data/dbGaP/PAGE/HCHS-SOL/HMB
-N /users/mturchin/data/dbGaP/PAGE/HCHS-SOL/HMB_NPU
-
-
+Y /users/mturchin/data/dbGaP/PAGE/HCHS-SOL/HMB
+Y /users/mturchin/data/dbGaP/PAGE/HCHS-SOL/HMB_NPU
 
 
 
