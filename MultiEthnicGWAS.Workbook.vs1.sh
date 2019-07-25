@@ -421,6 +421,7 @@ British;British.Ran4000 British;British.Ran10000 British;British.Ran100000 Briti
 #UKBioBankPops=`echo "British;British British;British.Ran100000 British;British.Ran200000"`; 
 UKBioBankPops=`echo "African;African Any_other_white_background;Any_other_white_background British;British British;British.Ran4000 British;British.Ran10000 British;British.Ran100000 British;British.Ran200000 Caribbean;Caribbean Indian;Indian Irish;Irish"`; 
 UKBioBankPops=`echo "British;British.Ran4000"`;
+UKBioBankPops=`echo "African;African;Afr;472840 British;British.Ran4000;Brit4k;138503 British;British.Ran10000;Brit10k;9827442 Caribbean;Caribbean;Carib;328593 Chinese;Chinese;Chi;842743 Indian;Indian;Indn;549281 Irish;Irish;Irish;902143 Pakistani;Pakistani;Pkstn;232849"`;
 
 #African;African
 #Any_other_Asian_background;Any_other_Asian_background
@@ -3753,7 +3754,17 @@ ln -s /users/mturchin/data/ukbiobank_jun17/subsets/British/British/mturchin20/He
 #PCA outlier comparison work
 #20190725
 
-for j in `cat <(echo $UKBioBankPops | perl -lane 'print join("\n", @F);')`; do
+for j in `cat <(echo $UKBioBankPops | perl -lane 'print join("\n", @F);') | head -n 1`; do
+        ancestry1=`echo $j | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[0];'`
+        ancestry2=`echo $j | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[1];'`
+                
+	echo $ancestry1 $ancestry2
+
+	join -v 1 <(cat /users/mturchin/data/ukbiobank_jun17/subsets/${ancestry1}/${ancestry2}/mturchin20/ukb_chrAll_v2.${ancestry2}.QCed.pruned.QCed.dropRltvs.noX.1kG.flashpca.pcs.wAncs.txt | grep -v 1kG | grep -v PC1 | awk '{ print $1 "_" $2 }') <(cat /users/mturchin/data/ukbiobank_jun17/subsets/${ancestry1}/${ancestry2}/mturchin20/ukb_chrAll_v2.${ancestry2}.QCed.pruned.QCed.dropRltvs.noX.1kG.flashpca.pcs.wAncs.QCed.txt | grep -v 1kG | grep -v PC1 | awk '{ print $1 "_" $2 }') > /users/mturchin/data/ukbiobank_jun17/subsets/${ancestry1}/${ancestry2}/mturchin20/ukb_chrAll_v2.${ancestry2}.QCed.pruned.QCed.dropRltvs.noX.1kG.flashpca.pcs.wAncs.dropped.FIDIIDs
+
+done
+
+for j in `cat <(echo $UKBioBankPops | perl -lane 'print join("\n", @F);') | head -n 1`; do
         ancestry1=`echo $j | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[0];'`
         ancestry2=`echo $j | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[1];'`
                 
@@ -3762,6 +3773,10 @@ for j in `cat <(echo $UKBioBankPops | perl -lane 'print join("\n", @F);')`; do
 done
 
 
+cat /users/mturchin/data/ukbiobank_jun17/subsets/${ancestry1}/${ancestry2}/mturchin20/ukb_chrAll_v2.${ancestry2}.QCed.pruned.QCed.dropRltvs.noX.1kG.flashpca.pcs.wAncs.txt | grep -v 1kG | R -q -e "Data1 <- read.table(file('stdin'), header=T); KeepList <- rep(TRUE, nrow(Data1)); for (i in 3:8) { Mean1 <- mean(Data1[,i]); SD1 <- sd(Data1[,i]); KeepList[Data1[,i] < Mean1 - (SD1 * 6) | Data1[,i] > Mean1 + (SD1 * 4)] <- FALSE; }; write.table(matrix(KeepList, ncol=1), file=\"\", quote=FALSE, row.names=FALSE, col.names=FALSE);" | grep -v \> | sort | uniq -c
+
+cat /users/mturchin/data/ukbiobank_jun17/subsets/${ancestry1}/${ancestry2}/mturchin20/ukb_chrAll_v2.${ancestry2}.QCed.pruned.QCed.dropRltvs.noX.1kG.flashpca.pcs.wAncs.txt | grep -v 1kG | R -q -e "Data1 <- read.table(file('stdin'), header=T); KeepList <- rep(TRUE, nrow(Data1)); for (i in 3:8) { Mean1 <- mean(Data1[,i]); SD1 <- sd(Data1[,i]); KeepList[Data1[,i] < Mean1 - (SD1 * 6) | Data1[,i] > Mean1 + (SD1 * 6)] <- FALSE; }; write.table(Data1[!KeepList,], file=\"\", quote=FALSE, row.names=FALSE, col.names=FALSE);" | grep -v \> | awk '{ print $1 "_" $2 }' | sort
+
 for j in `cat <(echo $UKBioBankPops | perl -lane 'print join("\n", @F);')`; do
         ancestry1=`echo $j | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[0];'`
         ancestry2=`echo $j | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[1];'`
@@ -3769,16 +3784,14 @@ for j in `cat <(echo $UKBioBankPops | perl -lane 'print join("\n", @F);')`; do
 	
 	echo $ancestry1 $ancestry2 $i
 
-	PreAllQC=`cat /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chr${i}_v2.${ancestry2}.fam | wc | awk '{ print $1 }'`
-	PreIndvQC=`cat /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chr${i}_v2.${ancestry2}.QCed.fam | wc | awk '{ print $1 }'`
-	PostReqDrop=`cat /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chr${i}_v2.${ancestry2}.QCed.reqDrop.fam | wc | awk '{ print $1 }'`
-	PostIndvQC=`cat /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chr${i}_v2.${ancestry2}.QCed.reqDrop.QCed.fam | wc | awk '{ print $1 }'`
-	PostRltdDrop=`cat /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chr${i}_v2.${ancestry2}.QCed.reqDrop.QCed.dropRltvs.fam | wc | awk '{ print $1 }'`
-	PostPCA1Drop=`cat /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chr${i}_v2.${ancestry2}.QCed.reqDrop.QCed.dropRltvs.PCAdrop.fam | wc | awk '{ print $1 }'`
-
-	Orig=`cat /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chr${i}_v2.${ancestry2}.QCed.fam | wc | awk '{ print $1 }'`
-	ReqDrops=`cat 
-	IndvQCDrops=`cat
+	cat /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chr${i}_v2.${ancestry2}.QCpostPCA.slurm.output | grep people
+	cat /users/mturchin/data/ukbiobank_jun17/subsets/${ancestry1}/${ancestry2}/mturchin20/ukb_chrAll_v2.${ancestry2}.QCed.pruned.QCed.dropRltvs.noX.1kG.flashpca.pcs.wAncs.dropped.FIDIIDs | wc
+	cat /users/mturchin/data/ukbiobank_jun17/subsets/${ancestry1}/${ancestry2}/mturchin20/ukb_chrAll_v2.${ancestry2}.QCed.pruned.QCed.dropRltvs.noX.1kG.flashpca.pcs.wAncs.txt | grep -v 1kG | R -q -e "Data1 <- read.table(file('stdin'), header=T); KeepList <- rep(TRUE, nrow(Data1)); for (i in 3:8) { Mean1 <- mean(Data1[,i]); SD1 <- sd(Data1[,i]); KeepList[Data1[,i] < Mean1 - (SD1 * 6) | Data1[,i] > Mean1 + (SD1 * 6)] <- FALSE; }; write.table(matrix(KeepList, ncol=1), file=\"\", quote=FALSE, row.names=FALSE, col.names=FALSE);" | grep -v \> | sort | uniq -c
+	join -v 2 <(cat /users/mturchin/data/ukbiobank_jun17/subsets/${ancestry1}/${ancestry2}/mturchin20/ukb_chrAll_v2.${ancestry2}.QCed.pruned.QCed.dropRltvs.noX.1kG.flashpca.pcs.wAncs.dropped.FIDIIDs | sort) <(cat /users/mturchin/data/ukbiobank_jun17/subsets/${ancestry1}/${ancestry2}/mturchin20/ukb_chrAll_v2.${ancestry2}.QCed.pruned.QCed.dropRltvs.noX.1kG.flashpca.pcs.wAncs.txt | grep -v 1kG | R -q -e "Data1 <- read.table(file('stdin'), header=T); KeepList <- rep(TRUE, nrow(Data1)); for (i in 3:8) { Mean1 <- mean(Data1[,i]); SD1 <- sd(Data1[,i]); KeepList[Data1[,i] < Mean1 - (SD1 * 6) | Data1[,i] > Mean1 + (SD1 * 6)] <- FALSE; }; write.table(Data1[!KeepList,], file=\"\", quote=FALSE, row.names=FALSE, col.names=FALSE);" | grep -v \> | awk '{ print $1 "_" $2 }' | sort) | wc
+	cat /users/mturchin/data/ukbiobank_jun17/subsets/${ancestry1}/${ancestry2}/mturchin20/ukb_chrAll_v2.${ancestry2}.QCed.pruned.QCed.dropRltvs.noX.1kG.flashpca.pcs.wAncs.txt | grep -v 1kG | R -q -e "Data1 <- read.table(file('stdin'), header=T); KeepList <- rep(TRUE, nrow(Data1)); for (i in 3:8) { Mean1 <- mean(Data1[,i]); SD1 <- sd(Data1[,i]); KeepList[Data1[,i] < Mean1 - (SD1 * 5) | Data1[,i] > Mean1 + (SD1 * 5)] <- FALSE; }; write.table(matrix(KeepList, ncol=1), file=\"\", quote=FALSE, row.names=FALSE, col.names=FALSE);" | grep -v \> | sort | uniq -c
+	join -v 2 <(cat /users/mturchin/data/ukbiobank_jun17/subsets/${ancestry1}/${ancestry2}/mturchin20/ukb_chrAll_v2.${ancestry2}.QCed.pruned.QCed.dropRltvs.noX.1kG.flashpca.pcs.wAncs.dropped.FIDIIDs | sort) <(cat /users/mturchin/data/ukbiobank_jun17/subsets/${ancestry1}/${ancestry2}/mturchin20/ukb_chrAll_v2.${ancestry2}.QCed.pruned.QCed.dropRltvs.noX.1kG.flashpca.pcs.wAncs.txt | grep -v 1kG | R -q -e "Data1 <- read.table(file('stdin'), header=T); KeepList <- rep(TRUE, nrow(Data1)); for (i in 3:8) { Mean1 <- mean(Data1[,i]); SD1 <- sd(Data1[,i]); KeepList[Data1[,i] < Mean1 - (SD1 * 5) | Data1[,i] > Mean1 + (SD1 * 5)] <- FALSE; }; write.table(Data1[!KeepList,], file=\"\", quote=FALSE, row.names=FALSE, col.names=FALSE);" | grep -v \> | awk '{ print $1 "_" $2 }' | sort) | wc
+	cat /users/mturchin/data/ukbiobank_jun17/subsets/${ancestry1}/${ancestry2}/mturchin20/ukb_chrAll_v2.${ancestry2}.QCed.pruned.QCed.dropRltvs.noX.1kG.flashpca.pcs.wAncs.txt | grep -v 1kG | R -q -e "Data1 <- read.table(file('stdin'), header=T); KeepList <- rep(TRUE, nrow(Data1)); for (i in 3:8) { Mean1 <- mean(Data1[,i]); SD1 <- sd(Data1[,i]); KeepList[Data1[,i] < Mean1 - (SD1 * 4) | Data1[,i] > Mean1 + (SD1 * 4)] <- FALSE; }; write.table(matrix(KeepList, ncol=1), file=\"\", quote=FALSE, row.names=FALSE, col.names=FALSE);" | grep -v \> | sort | uniq -c
+	join -v 2 <(cat /users/mturchin/data/ukbiobank_jun17/subsets/${ancestry1}/${ancestry2}/mturchin20/ukb_chrAll_v2.${ancestry2}.QCed.pruned.QCed.dropRltvs.noX.1kG.flashpca.pcs.wAncs.dropped.FIDIIDs | sort) <(cat /users/mturchin/data/ukbiobank_jun17/subsets/${ancestry1}/${ancestry2}/mturchin20/ukb_chrAll_v2.${ancestry2}.QCed.pruned.QCed.dropRltvs.noX.1kG.flashpca.pcs.wAncs.txt | grep -v 1kG | R -q -e "Data1 <- read.table(file('stdin'), header=T); KeepList <- rep(TRUE, nrow(Data1)); for (i in 3:8) { Mean1 <- mean(Data1[,i]); SD1 <- sd(Data1[,i]); KeepList[Data1[,i] < Mean1 - (SD1 * 4) | Data1[,i] > Mean1 + (SD1 * 4)] <- FALSE; }; write.table(Data1[!KeepList,], file=\"\", quote=FALSE, row.names=FALSE, col.names=FALSE);" | grep -v \> | awk '{ print $1 "_" $2 }' | sort) | wc
 
 done
 
@@ -7846,6 +7859,21 @@ qDrop.QCed.dropRltvs.PCAdrop.noX.Height.Trans.ADD.assoc.linear.clumped.5eNeg8.12
      37 MKK
      12 TSI
      29 YRI
+#20190725
+(MultiEthnicGWAS) [  mturchin@login003  ~/LabMisc/RamachandranLab/MultiEthnicGWAS]$cat /users/mturchin/data/ukbiobank_jun17/subsets/${ancestry1}/${ancestry2}/mturchin20/ukb_chrAll_v2.${ancestry2}.QCed.pruned.QCed.dropRltvs.noX.1kG.flashpca.pcs.wAncs.txt | grep -v 1kG | R -q -e "Data1 <- read.table(file('stdin'), header=T); KeepList <- rep(TRUE, nrow(Data1)); for (i in 3:8) { Mean1 <- mean(Data1[,i]); SD1 <- sd(Data1[,i]); KeepList[Data1[,i] < Mean1 - (SD1 * 7) | Data1[,i] > Mean1 + (SD1 * 7)] <- FALSE; }; write.table(matrix(KeepList, ncol=1), file=\"\", quote=FALSE, row.names=FALSE, col.names=FALSE);" | grep -v \> | sort | uniq -c
+   3116 TRUE
+(MultiEthnicGWAS) [  mturchin@login003  ~/LabMisc/RamachandranLab/MultiEthnicGWAS]$cat /users/mturchin/data/ukbiobank_jun17/subsets/${ancestry1}/${ancestry2}/mturchin20/ukb_chrAll_v2.${ancestry2}.QCed.pruned.QCed.dropRltvs.noX.1kG.flashpca.pcs.wAncs.txt | grep -v 1kG | R -q -e "Data1 <- read.table(file('stdin'), header=T); KeepList <- rep(TRUE, nrow(Data1)); for (i in 3:8) { Mean1 <- mean(Data1[,i]); SD1 <- sd(Data1[,i]); KeepList[Data1[,i] < Mean1 - (SD1 * 1) | Data1[,i] > Mean1 + (SD1 * 1)] <- FALSE; }; write.table(matrix(KeepList, ncol=1), file=\"\", quote=FALSE, row.names=FALSE, col.names=FALSE);" | grep -v \> | sort | uniq -c
+    992 FALSE
+   2124 TRUE
+(MultiEthnicGWAS) [  mturchin@login003  ~/LabMisc/RamachandranLab/MultiEthnicGWAS]$cat /users/mturchin/data/ukbiobank_jun17/subsets/${ancestry1}/${ancestry2}/mturchin20/ukb_chrAll_v2.${ancestry2}.QCed.pruned.QCed.dropRltvs.noX.1kG.flashpca.pcs.wAncs.txt | grep -v 1kG | R -q -e "Data1 <- read.table(file('stdin'), header=T); KeepList <- rep(TRUE, nrow(Data1)); for (i in 3:8) { Mean1 <- mean(Data1[,i]); SD1 <- sd(Data1[,i]); KeepList[Data1[,i] < Mean1 - (SD1 * 6) | Data1[,i] > Mean1 + (SD1 * 6)] <- FALSE; }; write.table(matrix(KeepList, ncol=1), file=\"\", quote=FALSE, row.names=FALSE, col.names=FALSE);" | grep -v \> | sort | uniq -c
+      3 FALSE
+   3113 TRUE
+(MultiEthnicGWAS) [  mturchin@login003  ~/LabMisc/RamachandranLab/MultiEthnicGWAS]$cat /users/mturchin/data/ukbiobank_jun17/subsets/${ancestry1}/${ancestry2}/mturchin20/ukb_chrAll_v2.${ancestry2}.QCed.pruned.QCed.dropRltvs.noX.1kG.flashpca.pcs.wAncs.txt | grep -v 1kG | R -q -e "Data1 <- read.table(file('stdin'), header=T); KeepList <- rep(TRUE, nrow(Data1)); for (i in 3:8) { Mean1 <- mean(Data1[,i]); SD1 <- sd(Data1[,i]); KeepList[Data1[,i] < Mean1 - (SD1 * 6) | Data1[,i] > Mean1 + (SD1 * 5)] <- FALSE; }; write.table(matrix(KeepList, ncol=1), file=\"\", quote=FALSE, row.names=FALSE, col.names=FALSE);" | grep -v \> | sort | uniq -c
+      3 FALSE
+   3113 TRUE
+(MultiEthnicGWAS) [  mturchin@login003  ~/LabMisc/RamachandranLab/MultiEthnicGWAS]$cat /users/mturchin/data/ukbiobank_jun17/subsets/${ancestry1}/${ancestry2}/mturchin20/ukb_chrAll_v2.${ancestry2}.QCed.pruned.QCed.dropRltvs.noX.1kG.flashpca.pcs.wAncs.txt | grep -v 1kG | R -q -e "Data1 <- read.table(file('stdin'), header=T); KeepList <- rep(TRUE, nrow(Data1)); for (i in 3:8) { Mean1 <- mean(Data1[,i]); SD1 <- sd(Data1[,i]); KeepList[Data1[,i] < Mean1 - (SD1 * 6) | Data1[,i] > Mean1 + (SD1 * 4)] <- FALSE; }; write.table(matrix(KeepList, ncol=1), file=\"\", quote=FALSE, row.names=FALSE, col.names=FALSE);" | grep -v \> | sort | uniq -c
+     64 FALSE
+   3052 TRUE
 
 
 ~~~
