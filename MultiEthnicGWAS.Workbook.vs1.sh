@@ -1269,9 +1269,12 @@ Y /users/mturchin/data/dbGaP/PAGE/HCHS-SOL/HMB_NPU
 
 #Centralizing genotype information
 mkdir /users/mturchin/data/dbGaP/mturchin20
-mkdir /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS
-mkdir /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PhenoGenos
-mkdir /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PhenoGenos/PAGE
+#mkdir /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS
+#mkdir /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PhenoGenos
+#mkdir /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PhenoGenos/PAGE
+#20190725 NOTE -- I think better organization is dbGaP -> PHenosGenos -> PAGE, so going to change that & mention it here in this note
+mkdir /users/mturchin/data/dbGaP/PhenosGenos
+mkdir /users/mturchin/data/dbGaP/PhenosGenos/PAGE
 MEC
 mkdir /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PhenosGenos/PAGE/MEC
 ln -sf /gpfs/data/sramacha/dbGaP/PAGE/MEC/67689/PhenoGenotypeFiles/RootStudyConsentSet_phs000220.PAGE_MEC.v2.p2.c2.GRU/PhenotypeFiles/phs000220.v2.pht002387.v2.p2.c2.PAGE_MEC_Metabochip_Subject_Phenotypes.GRU.txt.gz phs000220.v2.pht002387.v2.p2.c2.PAGE_MEC_Metabochip_Subject_Phenotypes.GRU.txt.gz
@@ -3824,12 +3827,67 @@ done
 #FirstRnd PAGE Wrk
 #20190725
 
+mkdir /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE
+mkdir /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe
+mkdir /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/slurm
+
+/users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PhenosGenos/PAGE/IPMBioMe/PAGEII_IPM_BioMe_TOP_subject_level_filtered.*
+
+for i in {1..22}; do
+	echo $i
+	
+	plink --bfile /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PhenosGenos/PAGE/IPMBioMe/PAGEII_IPM_BioMe_TOP_subject_level_filtered --chr $i --hardy --out /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/PAGE_IPMBioMe_chr${i}_v1
+
+done
+
+for i in {1..22}; do
+	echo $i
+
+	plink --bfile /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PhenosGenos/PAGE/IPMBioMe/PAGEII_IPM_BioMe_TOP_subject_level_filtered --chr $i --maf .01 --geno .05 --hwe 1e-6 --make-bed --out /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/PAGE_IPMBioMe_chr${i}_v1.QCed
+	plink --bfile /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/PAGE_IPMBioMe_chr${i}_v1.QCed --missing --out /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/PAGE_IPMBioMe_chr${i}_v1.QCed 
+
+done
+
+#20190725 NOTE -- kind of weird thing below that most of the genotype-missingness drops seem to be individuals with defined FIDs and IIDs? versus the moreso random assortment of the remaining collection that generally have NA for FIDs?
+paste <(cat /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/PAGE_IPMBioMe_chr1_v1.QCed.imiss | awk '{ print $1 "\t" $2 "\t" $4 "\t" $5 }') \
+<(cat /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/PAGE_IPMBioMe_chr2_v1.QCed.imiss | awk '{ print $1 "\t" $2 "\t" $4 "\t" $5 }') \
+<(cat /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/PAGE_IPMBioMe_chr3_v1.QCed.imiss | awk '{ print $1 "\t" $2 "\t" $4 "\t" $5 }') \
+<(cat /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/PAGE_IPMBioMe_chr4_v1.QCed.imiss | awk '{ print $1 "\t" $2 "\t" $4 "\t" $5 }') \
+<(cat /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/PAGE_IPMBioMe_chr5_v1.QCed.imiss | awk '{ print $1 "\t" $2 "\t" $4 "\t" $5 }') \
+<(cat /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/PAGE_IPMBioMe_chr6_v1.QCed.imiss | awk '{ print $1 "\t" $2 "\t" $4 "\t" $5 }') \
+<(cat /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/PAGE_IPMBioMe_chr7_v1.QCed.imiss | awk '{ print $1 "\t" $2 "\t" $4 "\t" $5 }') \
+<(cat /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/PAGE_IPMBioMe_chr8_v1.QCed.imiss | awk '{ print $1 "\t" $2 "\t" $4 "\t" $5 }') \
+<(cat /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/PAGE_IPMBioMe_chr9_v1.QCed.imiss | awk '{ print $1 "\t" $2 "\t" $4 "\t" $5 }') \
+<(cat /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/PAGE_IPMBioMe_chr10_v1.QCed.imiss | awk '{ print $1 "\t" $2 "\t" $4 "\t" $5 }') \
+<(cat /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/PAGE_IPMBioMe_chr11_v1.QCed.imiss | awk '{ print $1 "\t" $2 "\t" $4 "\t" $5 }') \
+<(cat /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/PAGE_IPMBioMe_chr12_v1.QCed.imiss | awk '{ print $1 "\t" $2 "\t" $4 "\t" $5 }') \
+<(cat /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/PAGE_IPMBioMe_chr13_v1.QCed.imiss | awk '{ print $1 "\t" $2 "\t" $4 "\t" $5 }') \
+<(cat /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/PAGE_IPMBioMe_chr14_v1.QCed.imiss | awk '{ print $1 "\t" $2 "\t" $4 "\t" $5 }') \
+<(cat /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/PAGE_IPMBioMe_chr15_v1.QCed.imiss | awk '{ print $1 "\t" $2 "\t" $4 "\t" $5 }') \
+<(cat /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/PAGE_IPMBioMe_chr16_v1.QCed.imiss | awk '{ print $1 "\t" $2 "\t" $4 "\t" $5 }') \
+<(cat /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/PAGE_IPMBioMe_chr17_v1.QCed.imiss | awk '{ print $1 "\t" $2 "\t" $4 "\t" $5 }') \
+<(cat /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/PAGE_IPMBioMe_chr18_v1.QCed.imiss | awk '{ print $1 "\t" $2 "\t" $4 "\t" $5 }') \
+<(cat /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/PAGE_IPMBioMe_chr19_v1.QCed.imiss | awk '{ print $1 "\t" $2 "\t" $4 "\t" $5 }') \
+<(cat /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/PAGE_IPMBioMe_chr20_v1.QCed.imiss | awk '{ print $1 "\t" $2 "\t" $4 "\t" $5 }') \
+<(cat /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/PAGE_IPMBioMe_chr21_v1.QCed.imiss | awk '{ print $1 "\t" $2 "\t" $4 "\t" $5 }') \
+<(cat /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/PAGE_IPMBioMe_chr22_v1.QCed.imiss | awk '{ print $1 "\t" $2 "\t" $4 "\t" $5 }') > /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/PAGE_IPMBioMe_chrAll_v1.QCed.imiss
+cat /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/PAGE_IPMBioMe_chrAll_v1.QCed.imiss | grep -v FID | perl -lane 'my $miss = 0; my $variants = 0; for (my $i = 2; $i <= $#F; $i += 2) { $miss += $F[$i]; $variants += $F[$i+1]; } print $F[0], "\t", $F[1], "\t", $miss, "\t", $variants, "\t", $miss / $variants;' > /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/PAGE_IPMBioMe_chrAll_v1.QCed.imiss.SumStats
+cat /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/PAGE_IPMBioMe_chrAll_v1.QCed.imiss.SumStats | awk '{ if ($5 >= .05) { print $1 "\t" $2 } } ' > /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/PAGE_IPMBioMe_chrAll_v1.QCed.imiss.SumStats.dropiMiss.FIDIIDs
 
 
+        <(cat /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chr19_v2.${ancestry2}.QCed.imiss | awk '{ print $4 "\t" $5 }') \
+        <(cat /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chr20_v2.${ancestry2}.QCed.imiss | awk '{ print $4 "\t" $5 }') \
+        <(cat /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chr21_v2.${ancestry2}.QCed.imiss | awk '{ print $4 "\t" $5 }') \
+        <(cat /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chr22_v2.${ancestry2}.QCed.imiss | awk '{ print $4 "\t" $5 }') > /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v2.${ancestry2}.QCed.imiss
+        cat /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v2.${ancestry2}.QCed.imiss | grep -v FID | perl -lane 'my $miss = 0; my $variants = 0; for (my $i = 2; $i <= $#F; $i += 2) { $miss += $F[$i]; $variants += $F[$i+1]; } print $F[0], "\t", $F[1], "\t", $miss, "\t", $variants, "\t", $miss / $variants;' > /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v2.${ancestry2}.QCed.imiss.SumStats 
+        cat /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v2.${ancestry2}.QCed.imiss.SumStats | awk '{ if ($5 >= .05) { print $1 "\t" $2 } } ' > /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v2.${ancestry2}.QCed.imiss.SumStats.dropiMiss.FIDIIDs
+
+done
 
 
-
-
+	sbatch -t 72:00:00 --mem 20g -o /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/slurm/PAGE_IPMBioMe_chr${i}_v1.QC.slurm.output -e /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/slurm/PAGE_IPMBioMe_chr${i}_v1.QC.slurm.errpr --comment "PAGE_IPMBioMe $i" <(echo -e '#!/bin/sh'; \
+	echo -e "\nplink --bfile /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PhenosGenos/PAGE/IPMBioMe/PAGEII_IPM_BioMe_TOP_subject_level_filtered --chr $i --maf .01 --geno .05 --hwe 1e-6 --make-bed --out /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/PAGE_IPMBioMe_chr${i}_v1.QCed
+	echo -e "\nplink --bfile 
 
 for j in `cat <(echo $UKBioBankPops | perl -lane 'print join("\n", @F);') | grep British.Ran`; do
         ancestry1=`echo $j | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[0];'`
@@ -8116,6 +8174,24 @@ qDrop.QCed.dropRltvs.PCAdrop.noX.Height.Trans.ADD.assoc.linear.clumped.5eNeg8.12
 (MultiEthnicGWAS) [  mturchin@login003  ~/LabMisc/RamachandranLab/MultiEthnicGWAS]$cat /users/mturchin/data/ukbiobank_jun17/subsets/${ancestry1}/${ancestry2}/mturchin20/ukb_chrAll_v2.${ancestry2}.QCed.pruned.QCed.dropRltvs.noX.1kG.flashpca.pcs.wAncs.txt | grep -v 1kG | R -q -e "Data1 <- read.table(file('stdin'), header=T); KeepList <- rep(TRUE, nrow(Data1)); for (i in 3:8) { Mean1 <- mean(Data1[,i]); SD1 <- sd(Data1[,i]); KeepList[Data1[,i] < Mean1 - (SD1 * 6) | Data1[,i] > Mean1 + (SD1 * 4)] <- FALSE; }; write.table(matrix(KeepList, ncol=1), file=\"\", quote=FALSE, row.names=FALSE, col.names=FALSE);" | grep -v \> | sort | uniq -c
      64 FALSE
    3052 TRUE
+[  mturchin@node1301  ~/LabMisc/RamachandranLab/MultiEthnicGWAS]$cat /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/*hwe | awk '{ print $9 }' | sort -g | grep -v P | R -q -e "Data1 <- read.table(file('stdin'), header=F); quantile(Data1[,1]); quantile(-log10(Data1[,1])); dim(Data1); length(Data1[Data1[,1] < 1e-30,]); length(Data1[Data1[,1] < 1e-20,]); length(Data1[Data1[,1] < 1e-10,]); length(Data1[Data1[,1] < 1e-8,]); length(Data1[Data1[,1] < 1e-6,]); length(Data1[Data1[,1] < 1e-5,]); length(Data1[Data1[,1] < 1e-4,]);"
+> Data1 <- read.table(file('stdin'), header=F); quantile(Data1[,1]); quantile(-log10(Data1[,1])); dim(Data1); length(Data1[Data1[,1] < 1e-30,]); length(Data1[Data1[,1] < 1e-20,]); length(Data1[Data1[,1] < 1e-10,]); length(Data1[Data1[,1] < 1e-8,]); length(Data1[Data1[,1] < 1e-6,]); length(Data1[Data1[,1] < 1e-5,]); length(Data1[Data1[,1] < 1e-4,]);
+       0%       25%       50%       75%      100% 
+1.369e-35 3.768e-01 1.000e+00 1.000e+00 1.000e+00 
+        0%        25%        50%        75%       100% 
+ 0.0000000  0.0000000  0.0000000  0.4238891 34.8635966 
+[1] 1627250       1
+[1] 272
+[1] 342
+[1] 1540
+[1] 2834
+[1] 5590
+[1] 8734
+[1] 14816
+> 
+> 
+[  mturchin@node1301  ~/LabMisc/RamachandranLab/MultiEthnicGWAS]$cat /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/PAGE_IPMBioMe_chrAll_v1.QCed.imiss.SumStats.dropiMiss.FIDIIDs | wc
+    118     236    1616
 
 
 ~~~
