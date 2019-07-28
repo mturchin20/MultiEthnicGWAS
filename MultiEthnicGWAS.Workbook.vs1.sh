@@ -3965,49 +3965,46 @@ for i in `cat <(echo "CEU GBR YRI ESN CHB JPT ACB ASW MXL PEL ITU PJL TSI IBS FI
 		plink --bfile /users/mturchin/data/1000G/subsets/$i/$i.chr${j}.phase3_shapeit2_mvncall_integrated_v5a.20130502.genotypes.SNPs --extract range /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/PAGE_IPMBioMe_chrAll_v1.QCed.1kGMatch.pruned.QCed.bim.PLINK.ExtractRange --make-bed --out /users/mturchin/data/1000G/subsets/$i/mturchin20/PAGE/IPMBioMe/$i.chr${j}.phase3_shapeit2_mvncall_integrated_v5a.20130502.genotypes.SNPs.PAGE_IPMBioMe.QCed.1kGMatch.pruned
 	done
 done
-
-#cat /users/mturchin/data/1000G/subsets/CEU//mturchin20/PAGE/IPMBioMe/CEU.chr*.phase3_shapeit2_mvncall_integrated_v5a.20130502.genotypes.SNPs.PAGE_IPMBioMe.QCed.1kGMatch.pruned.bim | wc
+#for i in `cat <(echo "CEU GBR YRI ESN CHB JPT ACB ASW MXL PEL ITU PJL TSI IBS FIN" | perl -lane 'print join("\n", @F);')`; do
+#	cat /users/mturchin/data/1000G/subsets/$i/mturchin20/PAGE/IPMBioMe/$i.chr*.phase3_shapeit2_mvncall_integrated_v5a.20130502.genotypes.SNPs.PAGE_IPMBioMe.QCed.1kGMatch.pruned.bim | wc
+#done
 
 for i in `cat <(echo "CEU GBR YRI ESN CHB JPT ACB ASW MXL PEL ITU PJL TSI IBS FIN" | perl -lane 'print join("\n", @F);')`; do
 
-#	cat /dev/null > /users/mturchin/data/1000G/subsets/$i/mturchin20/PAGE/IPMBioMe/$i.chr${j}.phase3_shapeit2_mvncall_integrated_v5a.20130502.genotypes.SNPs.PAGE_IPMBioMe.QCed.1kGMatch.pruned.MergeList.Vs1.txt
+	cat /dev/null > /users/mturchin/data/1000G/subsets/$i/mturchin20/PAGE/IPMBioMe/$i.chrAll.phase3_shapeit2_mvncall_integrated_v5a.20130502.genotypes.SNPs.PAGE_IPMBioMe.QCed.1kGMatch.pruned.MergeList.Vs1.txt
 	for j in `echo {1..22}`; do 
-	rm /users/mturchin/data/1000G/subsets/$i/mturchin20/PAGE/IPMBioMe/$i.chr${j}.phase3_shapeit2_mvncall_integrated_v5a.20130502.genotypes.SNPs.PAGE_IPMBioMe.QCed.1kGMatch.pruned.MergeList.Vs1.txt
-#		echo "/users/mturchin/data/1000G/subsets/$i/mturchin20/PAGE/IPMBioMe/$i.chr${j}.phase3_shapeit2_mvncall_integrated_v5a.20130502.genotypes.SNPs.PAGE_IPMBioMe.QCed.1kGMatch.pruned.bed /users/mturchin/data/1000G/subsets/$i/mturchin20/PAGE/IPMBioMe/$i.chr${j}.phase3_shapeit2_mvncall_integrated_v5a.20130502.genotypes.SNPs.PAGE_IPMBioMe.QCed.1kGMatch.pruned.bim /users/mturchin/data/1000G/subsets/$i/mturchin20/PAGE/IPMBioMe/$i.chr${j}.phase3_shapeit2_mvncall_integrated_v5a.20130502.genotypes.SNPs.PAGE_IPMBioMe.QCed.1kGMatch.pruned.fam" >> /users/mturchin/data/1000G/subsets/$i/mturchin20/PAGE/IPMBioMe/$i.chr${j}.phase3_shapeit2_mvncall_integrated_v5a.20130502.genotypes.SNPs.PAGE_IPMBioMe.QCed.1kGMatch.pruned.MergeList.Vs1.txt	
+		echo "/users/mturchin/data/1000G/subsets/$i/mturchin20/PAGE/IPMBioMe/$i.chr${j}.phase3_shapeit2_mvncall_integrated_v5a.20130502.genotypes.SNPs.PAGE_IPMBioMe.QCed.1kGMatch.pruned.bed /users/mturchin/data/1000G/subsets/$i/mturchin20/PAGE/IPMBioMe/$i.chr${j}.phase3_shapeit2_mvncall_integrated_v5a.20130502.genotypes.SNPs.PAGE_IPMBioMe.QCed.1kGMatch.pruned.bim /users/mturchin/data/1000G/subsets/$i/mturchin20/PAGE/IPMBioMe/$i.chr${j}.phase3_shapeit2_mvncall_integrated_v5a.20130502.genotypes.SNPs.PAGE_IPMBioMe.QCed.1kGMatch.pruned.fam" >> /users/mturchin/data/1000G/subsets/$i/mturchin20/PAGE/IPMBioMe/$i.chrAll.phase3_shapeit2_mvncall_integrated_v5a.20130502.genotypes.SNPs.PAGE_IPMBioMe.QCed.1kGMatch.pruned.MergeList.Vs1.txt	
 	done	
 done
 
 for i in `cat <(echo "CEU GBR YRI ESN CHB JPT ACB ASW MXL PEL ITU PJL TSI IBS FIN" | perl -lane 'print join("\n", @F);')`; do
-	echo $i /users/mturchin/data/1000G/subsets/$i/mturchin20/PAGE/IPMBioMe/$i.chr${j}.phase3_shapeit2_mvncall_integrated_v5a.20130502.genotypes.SNPs.PAGE_IPMBioMe.QCed.1kGMatch.pruned.MergeList.Vs1.txt
+	echo $i /users/mturchin/data/1000G/subsets/$i/mturchin20/PAGE/IPMBioMe/$i.chrAll.phase3_shapeit2_mvncall_integrated_v5a.20130502.genotypes.SNPs.PAGE_IPMBioMe.QCed.1kGMatch.pruned.MergeList.Vs1.txt
 
-	plink --bfile /users/mturchin/data/1000G/subsets/$i/mturchin20/PAGE/IPMBioMe/$i.chr1.phase3_shapeit2_mvncall_integrated_v5a.20130502.genotypes.SNPs.PAGE_IPMBioMe.QCed.1kGMatch.pruned --merge-list /users/mturchin/data/1000G/subsets/$i/mturchin20/PAGE/IPMBioMe/$i.chr${j}.phase3_shapeit2_mvncall_integrated_v5a.20130502.genotypes.SNPs.PAGE_IPMBioMe.QCed.1kGMatch.pruned.MergeList.Vs1.txt --make-bed --out /users/mturchin/data/1000G/subsets/$i/mturchin20/PAGE/IPMBioMe/$i.chrAll.phase3_shapeit2_mvncall_integrated_v5a.20130502.genotypes.SNPs.PAGE_IPMBioMe.QCed.1kGMatch.pruned	
+	plink --bfile /users/mturchin/data/1000G/subsets/$i/mturchin20/PAGE/IPMBioMe/$i.chr1.phase3_shapeit2_mvncall_integrated_v5a.20130502.genotypes.SNPs.PAGE_IPMBioMe.QCed.1kGMatch.pruned --merge-list /users/mturchin/data/1000G/subsets/$i/mturchin20/PAGE/IPMBioMe/$i.chrAll.phase3_shapeit2_mvncall_integrated_v5a.20130502.genotypes.SNPs.PAGE_IPMBioMe.QCed.1kGMatch.pruned.MergeList.Vs1.txt --make-bed --out /users/mturchin/data/1000G/subsets/$i/mturchin20/PAGE/IPMBioMe/$i.chrAll.phase3_shapeit2_mvncall_integrated_v5a.20130502.genotypes.SNPs.PAGE_IPMBioMe.QCed.1kGMatch.pruned	
 
 done
 
 for i in `cat <(echo "CEU GBR YRI ESN CHB JPT ACB ASW MXL PEL ITU PJL TSI IBS FIN" | perl -lane 'print join("\n", @F);')`; do
+	echo $i
 	for j in `echo {1..22}`; do 
 		rm /users/mturchin/data/1000G/subsets/$i/mturchin20/PAGE/IPMBioMe/$i.chr${j}.phase3_shapeit2_mvncall_integrated_v5a.20130502.genotypes.SNPs.PAGE_IPMBioMe.QCed.1kGMatch.pruned.bed /users/mturchin/data/1000G/subsets/$i/mturchin20/PAGE/IPMBioMe/$i.chr${j}.phase3_shapeit2_mvncall_integrated_v5a.20130502.genotypes.SNPs.PAGE_IPMBioMe.QCed.1kGMatch.pruned.bim /users/mturchin/data/1000G/subsets/$i/mturchin20/PAGE/IPMBioMe/$i.chr${j}.phase3_shapeit2_mvncall_integrated_v5a.20130502.genotypes.SNPs.PAGE_IPMBioMe.QCed.1kGMatch.pruned.fam /users/mturchin/data/1000G/subsets/$i/mturchin20/PAGE/IPMBioMe/$i.chr${j}.phase3_shapeit2_mvncall_integrated_v5a.20130502.genotypes.SNPs.PAGE_IPMBioMe.QCed.1kGMatch.pruned.log /users/mturchin/data/1000G/subsets/$i/mturchin20/PAGE/IPMBioMe/$i.chr${j}.phase3_shapeit2_mvncall_integrated_v5a.20130502.genotypes.SNPs.PAGE_IPMBioMe.QCed.1kGMatch.pruned.nosex
 	done
 done
 	
-for i in `cat <(echo "CEU GBR YRI ESN CHB JPT ACB ASW MXL PEL ITU PJL TSI IBS FIN" | perl -lane 'print join("\n", @F);')`; do
-	cat /dev/null > 
+cat /dev/null > /users/mturchin/data/1000G/mturchin20/subsets/All.chrAll.phase3_shapeit2_mvncall_integrated_v5a.20130502.genotypes.SNPs.PAGE_IPMBioMe.QCed.1kGMatch.pruned.MergeList.Vs1.txt 
+for i in `cat <(echo "CEU GBR YRI ESN CHB JPT ACB ASW MXL PEL ITU PJL TSI IBS FIN" | perl -lane 'print join("\n", @F);') | tail -n +2`; do
+	echo "/users/mturchin/data/1000G/subsets/$i/mturchin20/PAGE/IPMBioMe/$i.chrAll.phase3_shapeit2_mvncall_integrated_v5a.20130502.genotypes.SNPs.PAGE_IPMBioMe.QCed.1kGMatch.pruned.bed /users/mturchin/data/1000G/subsets/$i/mturchin20/PAGE/IPMBioMe/$i.chrAll.phase3_shapeit2_mvncall_integrated_v5a.20130502.genotypes.SNPs.PAGE_IPMBioMe.QCed.1kGMatch.pruned.bim /users/mturchin/data/1000G/subsets/$i/mturchin20/PAGE/IPMBioMe/$i.chrAll.phase3_shapeit2_mvncall_integrated_v5a.20130502.genotypes.SNPs.PAGE_IPMBioMe.QCed.1kGMatch.pruned.fam" >> /users/mturchin/data/1000G/mturchin20/subsets/All.chrAll.phase3_shapeit2_mvncall_integrated_v5a.20130502.genotypes.SNPs.PAGE_IPMBioMe.QCed.1kGMatch.pruned.MergeList.Vs1.txt
 done
+plink --bfile /users/mturchin/data/1000G/subsets/CEU/mturchin20/PAGE/IPMBioMe/CEU.chrAll.phase3_shapeit2_mvncall_integrated_v5a.20130502.genotypes.SNPs.PAGE_IPMBioMe.QCed.1kGMatch.pruned --merge-list /users/mturchin/data/1000G/mturchin20/subsets/All.chrAll.phase3_shapeit2_mvncall_integrated_v5a.20130502.genotypes.SNPs.PAGE_IPMBioMe.QCed.1kGMatch.pruned.MergeList.Vs1.txt --make-bed --out /users/mturchin/data/1000G/mturchin20/subsets/All.chrAll.phase3_shapeit2_mvncall_integrated_v5a.20130502.genotypes.SNPs.PAGE_IPMBioMe.QCed.1kGMatch.pruned
+
+plink --bfile /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/PAGE_IPMBioMe_chrAll_v1.QCed.1kGMatch.pruned.QCed --recode --out /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/PAGE_IPMBioMe_chrAll_v1.QCed.1kGMatch.pruned.QCed
+plink --bfile /users/mturchin/data/1000G/mturchin20/subsets/All.chrAll.phase3_shapeit2_mvncall_integrated_v5a.20130502.genotypes.SNPs.PAGE_IPMBioMe.QCed.1kGMatch.pruned --recode --out /users/mturchin/data/1000G/mturchin20/subsets/All.chrAll.phase3_shapeit2_mvncall_integrated_v5a.20130502.genotypes.SNPs.PAGE_IPMBioMe.QCed.1kGMatch.pruned 
+cat /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/PAGE_IPMBioMe_chrAll_v1.QCed.1kGMatch.pruned.QCed.map
+cat /users/mturchin/data/1000G/mturchin20/subsets/All.chrAll.phase3_shapeit2_mvncall_integrated_v5a.20130502.genotypes.SNPs.PAGE_IPMBioMe.QCed.1kGMatch.pruned.map
+ln -s /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/PAGE_IPMBioMe_chrAll_v1.QCed.1kGMatch.pruned.QCed.ped /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/PAGE_IPMBioMe_chrAll_v1.QCed.1kGMatch.pruned.QCed.SNPrecode.bed
+ln -s /users/mturchin/data/1000G/mturchin20/subsets/All.chrAll.phase3_shapeit2_mvncall_integrated_v5a.20130502.genotypes.SNPs.PAGE_IPMBioMe.QCed.1kGMatch.pruned.bed /users/mturchin/data/1000G/mturchin20/subsets/All.chrAll.phase3_shapeit2_mvncall_integrated_v5a.20130502.genotypes.SNPs.PAGE_IPMBioMe.QCed.1kGMatch.pruned.SNPrecode.bed
 
 
-for k in `cat <(echo $UKBioBankPops | perl -lane 'print join("\n", @F);') | grep British`; do
-	ancestry1=`echo $k | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[0];'`
-	ancestry2=`echo $k | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[1];'`
-	
-	cat /dev/null > /users/mturchin/data/1000G/mturchin20/subsets/All.chrAll.phase3.genotypes.SNPs.ukb.${ancestry2}.MergeList.Vs1.txt
-#	cat /dev/null > /users/mturchin/data/1000G/mturchin20/subsets/All.chrAll.phase3.genotypes.SNPs.ukb.${ancestry2}.MergeList.wTSIIBSFIN.Vs1.txt
-#	for i in `echo "GBR YRI ESN CHB JPT ACB ASW MXL PEL ITU PJL"`; do
-	for i in `cat <(echo "CEU GBR YRI ESN CHB JPT ACB ASW MXL PEL ITU PJL TSI IBS FIN" | perl -lane 'print join("\n", @F);')`; do
-		echo "/users/mturchin/data/1000G/subsets/$i/mturchin20/$i.chrAll.phase3_shapeit2_mvncall_integrated_v5a.20130502.genotypes.SNPs.ukb.${ancestry2}.bed /users/mturchin/data/1000G/subsets/$i/mturchin20/$i.chrAll.phase3_shapeit2_mvncall_integrated_v5a.20130502.genotypes.SNPs.ukb.${ancestry2}.bim /users/mturchin/data/1000G/subsets/$i/mturchin20/$i.chrAll.phase3_shapeit2_mvncall_integrated_v5a.20130502.genotypes.SNPs.ukb.${ancestry2}.fam" >> /users/mturchin/data/1000G/mturchin20/subsets/All.chrAll.phase3.genotypes.SNPs.ukb.${ancestry2}.MergeList.Vs1.txt
-#		echo "/users/mturchin/data/1000G/subsets/$i/mturchin20/$i.chrAll.phase3_shapeit2_mvncall_integrated_v5a.20130502.genotypes.SNPs.ukb.${ancestry2}.bed /users/mturchin/data/1000G/subsets/$i/mturchin20/$i.chrAll.phase3_shapeit2_mvncall_integrated_v5a.20130502.genotypes.SNPs.ukb.${ancestry2}.bim /users/mturchin/data/1000G/subsets/$i/mturchin20/$i.chrAll.phase3_shapeit2_mvncall_integrated_v5a.20130502.genotypes.SNPs.ukb.${ancestry2}.fam" >> /users/mturchin/data/1000G/mturchin20/subsets/All.chrAll.phase3.genotypes.SNPs.ukb.${ancestry2}.MergeList.wTSIIBSFIN.Vs1.txt
-	
-	done
-done
 
 for k in `cat <(echo $UKBioBankPops | perl -lane 'print join("\n", @F);') | head -n 1`; do
 
@@ -8155,6 +8152,24 @@ qDrop.QCed.dropRltvs.PCAdrop.noX.Height.Trans.ADD.assoc.linear.clumped.5eNeg8.12
 > 
 [  mturchin@node1301  ~/LabMisc/RamachandranLab/MultiEthnicGWAS]$cat /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/PAGE_IPMBioMe_chrAll_v1.QCed.imiss.SumStats.dropiMiss.FIDIIDs | wc
     118     236    1616
+[  mturchin@node1127  ~/LabMisc/RamachandranLab/MultiEthnicGWAS]$for i in `cat <(echo "CEU GBR YRI ESN CHB JPT ACB ASW MXL PEL ITU PJL TSI IBS FIN" | perl -lane 'print join("\n", @F);')`; do
+>         cat /users/mturchin/data/1000G/subsets/$i/mturchin20/PAGE/IPMBioMe/$i.chr*.phase3_shapeit2_mvncall_integrated_v5a.20130502.genotypes.SNPs.PAGE_IPMBioMe.QCed.1kGMatch.pruned.bim | wc
+> done
+  39290  235740 1097146
+  39290  235740 1097146
+  39290  235740 1097146
+  39290  235740 1097146
+  39290  235740 1097146
+  39290  235740 1097146
+  39290  235740 1097146
+  39290  235740 1097146
+  39290  235740 1097146
+  39290  235740 1097146
+  39290  235740 1097146
+  39290  235740 1097146
+  39290  235740 1097146
+  39290  235740 1097146
+  39290  235740 1097146
 
 
 ~~~
