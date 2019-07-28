@@ -3931,12 +3931,13 @@ done
 cat /users/mturchin/data/1000G/subsets/CEU//mturchin20/PAGE/IPMBioMe/CEU.chr*.phase3_shapeit2_mvncall_integrated_v5a.20130502.genotypes.SNPs.PAGE_IPMBioMe.QCed.pruned.bim | wc
 cat /users/mturchin/data/1000G/subsets/CEU//mturchin20/PAGE/IPMBioMe/CEU.chr*.phase3_shapeit2_mvncall_integrated_v5a.20130502.genotypes.SNPs.PAGE_IPMBioMe.QCed.bim | wc
 cat /users/mturchin/data/1000G/subsets/CEU//mturchin20/PAGE/IPMBioMe/CEU.chr*.phase3_shapeit2_mvncall_integrated_v5a.20130502.genotypes.SNPs.PAGE_IPMBioMe.QCed.pruned.bim > /users/mturchin/data/1000G/subsets/CEU//mturchin20/PAGE/IPMBioMe/CEU.chrAll.phase3_shapeit2_mvncall_integrated_v5a.20130502.genotypes.SNPs.PAGE_IPMBioMe.QCed.pruned.bim
-cat /users/mturchin/data/1000G/subsets/CEU//mturchin20/PAGE/IPMBioMe/CEU.chr*.phase3_shapeit2_mvncall_integrated_v5a.20130502.genotypes.SNPs.PAGE_IPMBioMe.QCed.bim > /users/mturchin/data/1000G/subsets/CEU//mturchin20/PAGE/IPMBioMe/CEU.chrAll.phase3_shapeit2_mvncall_integrated_v5a.20130502.genotypes.SNPs.PAGE_IPMBioMe.QCed.bim 
+cat /users/mturchin/data/1000G/subsets/CEU//mturchin20/PAGE/IPMBioMe/CEU.chr*.phase3_shapeit2_mvncall_integrated_v5a.20130502.genotypes.SNPs.PAGE_IPMBioMe.QCed.bim > /users/mturchin/data/1000G/subsets/CEU//mturchin20/PAGE/IPMBioMe/CEU.chrAll.phase3_shapeit2_mvncall_integrated_v5a.20130502.genotypes.SNPs.PAGE_IPMBioMe.QCed.bim  
+cat /users/mturchin/data/1000G/subsets/CEU//mturchin20/PAGE/IPMBioMe/CEU.chrAll.phase3_shapeit2_mvncall_integrated_v5a.20130502.genotypes.SNPs.PAGE_IPMBioMe.QCed.bim | awk '{ print $1 "\t" $4 "\t" $4 "\t" "R" NR }' > /users/mturchin/data/1000G/subsets/CEU//mturchin20/PAGE/IPMBioMe/CEU.chrAll.phase3_shapeit2_mvncall_integrated_v5a.20130502.genotypes.SNPs.PAGE_IPMBioMe.QCed.bim.PLINK.ExtractRange 
 
 for i in {1..22}; do
         echo $i
 
-        plink --bfile /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/PAGE_IPMBioMe_chr${i}_v1.QCed --indep-pairwise 1000 50 0.1 --extract /users/mturchin/data/1000G/subsets/CEU//mturchin20/PAGE/IPMBioMe/CEU.chrAll.phase3_shapeit2_mvncall_integrated_v5a.20130502.genotypes.SNPs.PAGE_IPMBioMe.QCed.bim --exclude range /users/mturchin/Software/flashpca/exclusion_regions_hg19.txt --out /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/PAGE_IPMBioMe_chr${i}_v1.QCed.1kGMatch
+#        plink --bfile /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/PAGE_IPMBioMe_chr${i}_v1.QCed --indep-pairwise 1000 50 0.1 --extract range /users/mturchin/data/1000G/subsets/CEU//mturchin20/PAGE/IPMBioMe/CEU.chrAll.phase3_shapeit2_mvncall_integrated_v5a.20130502.genotypes.SNPs.PAGE_IPMBioMe.QCed.bim.PLINK.ExtractRange --exclude range /users/mturchin/Software/flashpca/exclusion_regions_hg19.txt --out /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/PAGE_IPMBioMe_chr${i}_v1.QCed.1kGMatch
         plink --bfile /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/PAGE_IPMBioMe_chr${i}_v1.QCed --remove /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/PAGE_IPMBioMe_chrAll_v1.QCed.imiss.SumStats.dropiMiss.FIDIIDs --extract /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/PAGE_IPMBioMe_chr${i}_v1.QCed.1kGMatch.prune.in --make-bed --out /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/PAGE_IPMBioMe_chr${i}_v1.QCed.1kGMatch.pruned.QCed
 
 done
@@ -8170,6 +8171,10 @@ qDrop.QCed.dropRltvs.PCAdrop.noX.Height.Trans.ADD.assoc.linear.clumped.5eNeg8.12
   39290  235740 1097146
   39290  235740 1097146
   39290  235740 1097146
+[  mturchin@node1127  ~/LabMisc/RamachandranLab/MultiEthnicGWAS]$cat /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/PAGE_IPMBioMe_chrAll_v1.QCed.1kGMatch.pruned.QCed.map | grep -v rs | wc
+      0       0       0
+[  mturchin@node1127  ~/LabMisc/RamachandranLab/MultiEthnicGWAS]$cat /users/mturchin/data/1000G/mturchin20/subsets/All.chrAll.phase3_shapeit2_mvncall_integrated_v5a.20130502.genotypes.SNPs.PAGE_IPMBioMe.QCed.1kGMatch.pruned.map | grep -v rs | wc
+      0       0       0
 
 
 ~~~
