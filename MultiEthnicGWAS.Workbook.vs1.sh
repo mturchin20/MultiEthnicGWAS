@@ -3880,6 +3880,7 @@ paste <(cat /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/
 cat /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/PAGE_IPMBioMe_chrAll_v1.QCed.imiss | grep -v FID | perl -lane 'my $miss = 0; my $variants = 0; for (my $i = 2; $i <= $#F; $i += 2) { $miss += $F[$i]; $variants += $F[$i+1]; } print $F[0], "\t", $F[1], "\t", $miss, "\t", $variants, "\t", $miss / $variants;' > /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/PAGE_IPMBioMe_chrAll_v1.QCed.imiss.SumStats
 cat /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/PAGE_IPMBioMe_chrAll_v1.QCed.imiss.SumStats | awk '{ if ($5 >= .05) { print $1 "\t" $2 } } ' > /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/PAGE_IPMBioMe_chrAll_v1.QCed.imiss.SumStats.dropiMiss.FIDIIDs
 
+#20190728 NOTE -- did a prune run with r^2 threshold of .05 at first (from just coping over ukb code), but may make more sense to use .1 cutoff for PAGE datasets (or at least this one); 20190728 NOTE -- switching to .1 produced weird results with --rel-cutoff, so returned to .05 for this part of the setup
 for i in {1..22}; do
 	echo $i
 
@@ -3929,8 +3930,45 @@ done
 
 cat /users/mturchin/data/1000G/subsets/CEU//mturchin20/PAGE/IPMBioMe/CEU.chr*.phase3_shapeit2_mvncall_integrated_v5a.20130502.genotypes.SNPs.PAGE_IPMBioMe.QCed.pruned.bim | wc
 cat /users/mturchin/data/1000G/subsets/CEU//mturchin20/PAGE/IPMBioMe/CEU.chr*.phase3_shapeit2_mvncall_integrated_v5a.20130502.genotypes.SNPs.PAGE_IPMBioMe.QCed.bim | wc
-cat /users/mturchin/data/1000G/subsets/CEU//mturchin20/PAGE/IPMBioMe/CEU.chr*.phase3_shapeit2_mvncall_integrated_v5a.20130502.genotypes.SNPs.PAGE_IPMBioMe.QCed.pruned.bim > /users/mturchin/data/1000G/subsets/CEU//mturchin20/PAGE/IPMBioMe/CEU.chr*.phase3_shapeit2_mvncall_integrated_v5a.20130502.genotypes.SNPs.PAGE_IPMBioMe.QCed.pruned.bim
-cat /users/mturchin/data/1000G/subsets/CEU//mturchin20/PAGE/IPMBioMe/CEU.chr*.phase3_shapeit2_mvncall_integrated_v5a.20130502.genotypes.SNPs.PAGE_IPMBioMe.QCed.bim | wc
+cat /users/mturchin/data/1000G/subsets/CEU//mturchin20/PAGE/IPMBioMe/CEU.chr*.phase3_shapeit2_mvncall_integrated_v5a.20130502.genotypes.SNPs.PAGE_IPMBioMe.QCed.pruned.bim > /users/mturchin/data/1000G/subsets/CEU//mturchin20/PAGE/IPMBioMe/CEU.chrAll.phase3_shapeit2_mvncall_integrated_v5a.20130502.genotypes.SNPs.PAGE_IPMBioMe.QCed.pruned.bim
+cat /users/mturchin/data/1000G/subsets/CEU//mturchin20/PAGE/IPMBioMe/CEU.chr*.phase3_shapeit2_mvncall_integrated_v5a.20130502.genotypes.SNPs.PAGE_IPMBioMe.QCed.bim > /users/mturchin/data/1000G/subsets/CEU//mturchin20/PAGE/IPMBioMe/CEU.chrAll.phase3_shapeit2_mvncall_integrated_v5a.20130502.genotypes.SNPs.PAGE_IPMBioMe.QCed.bim 
+
+for i in {1..22}; do
+        echo $i
+
+        plink --bfile /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/PAGE_IPMBioMe_chr${i}_v1.QCed --indep-pairwise 1000 50 0.1 --extract /users/mturchin/data/1000G/subsets/CEU//mturchin20/PAGE/IPMBioMe/CEU.chrAll.phase3_shapeit2_mvncall_integrated_v5a.20130502.genotypes.SNPs.PAGE_IPMBioMe.QCed.bim --exclude range /users/mturchin/Software/flashpca/exclusion_regions_hg19.txt --out /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/PAGE_IPMBioMe_chr${i}_v1.QCed.1kGMatch
+        plink --bfile /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/PAGE_IPMBioMe_chr${i}_v1.QCed --remove /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/PAGE_IPMBioMe_chrAll_v1.QCed.imiss.SumStats.dropiMiss.FIDIIDs --extract /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/PAGE_IPMBioMe_chr${i}_v1.QCed.1kGMatch.prune.in --make-bed --out /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/PAGE_IPMBioMe_chr${i}_v1.QCed.1kGMatch.pruned.QCed
+
+done
+cat /dev/null > /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/PAGE_IPMBioMe_chrAll_v1.QCed.1kGMatch.pruned.QCed.MergeList.Vs1.txt
+for i in {2..22}; do
+        echo "/users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/PAGE_IPMBioMe_chr${i}_v1.QCed.1kGMatch.pruned.QCed.bed /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/PAGE_IPMBioMe_chr${i}_v1.QCed.1kGMatch.pruned.QCed.bim /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/PAGE_IPMBioMe_chr${i}_v1.QCed.1kGMatch.pruned.QCed.fam" >> /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/PAGE_IPMBioMe_chrAll_v1.QCed.1kGMatch.pruned.QCed.MergeList.Vs1.txt
+done
+cat /dev/null > /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/PAGE_IPMBioMe_chrAll_v1.QCed.MergeList.Vs1.txt
+plink --bfile /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/PAGE_IPMBioMe_chr1_v1.QCed.1kGMatch.pruned.QCed --merge-list /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/PAGE_IPMBioMe_chrAll_v1.QCed.1kGMatch.pruned.QCed.MergeList.Vs1.txt --make-bed --out /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/PAGE_IPMBioMe_chrAll_v1.QCed.1kGMatch.pruned.QCed 
+cat /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/PAGE_IPMBioMe_chrAll_v1.QCed.1kGMatch.pruned.QCed.bim | awk '{ print $1 "\t" $4 "\t" $4 "\t" "R" NR }' > /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/PAGE_IPMBioMe_chrAll_v1.QCed.1kGMatch.pruned.QCed.bim.PLINK.ExtractRange 
+for i in {1..22}; do
+        echo $i
+
+	rm /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/PAGE_IPMBioMe_chr${i}_v1.QCed.1kGMatch.pruned.QCed.bed /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/PAGE_IPMBioMe_chr${i}_v1.QCed.1kGMatch.pruned.QCed.bim /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/PAGE_IPMBioMe_chr${i}_v1.QCed.1kGMatch.pruned.QCed.fam
+
+done
+
+for i in `cat <(echo "CEU GBR YRI ESN CHB JPT ACB ASW MXL PEL ITU PJL TSI IBS FIN" | perl -lane 'print join("\n", @F);')`; do
+
+	if [ ! -d /users/mturchin/data/1000G/subsets/$i/mturchin20/PAGE ]; then
+		mkdir /users/mturchin/data/1000G/subsets/$i/mturchin20/PAGE
+		mkdir /users/mturchin/data/1000G/subsets/$i/mturchin20/PAGE/IPMBioMe
+	fi
+
+	for j in `echo {1..22}`; do 
+		plink --bfile /users/mturchin/data/1000G/subsets/$i/$i.chr${j}.phase3_shapeit2_mvncall_integrated_v5a.20130502.genotypes.SNPs --extract range /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/PAGE_IPMBioMe_chrAll_v1.QCed.1kGMatch.pruned.QCed.bim.PLINK.ExtractRange --make-bed --out /users/mturchin/data/1000G/subsets/$i/mturchin20/PAGE/IPMBioMe/$i.chr${j}.phase3_shapeit2_mvncall_integrated_v5a.20130502.genotypes.SNPs.PAGE_IPMBioMe.QCed.1kGMatch.pruned
+	done
+done
+
+#cat /users/mturchin/data/1000G/subsets/CEU//mturchin20/PAGE/IPMBioMe/CEU.chr*.phase3_shapeit2_mvncall_integrated_v5a.20130502.genotypes.SNPs.PAGE_IPMBioMe.QCed.1kGMatch.pruned.bim | wc
+
+
 
  
 			sbatch -t 72:00:00 --mem 4g -o /users/mturchin/data/1000G/subsets/$i/mturchin20/$i.chr${j}.phase3.genotypes.slurm.output -e /users/mturchin/data/1000G/subsets/$i/mturchin20/$i.chr${j}.phase3.genotypes.slurm.error --comment "$i $k $j" <(echo -e '#!/bin/sh'; \ 
