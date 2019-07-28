@@ -3968,58 +3968,32 @@ done
 
 #cat /users/mturchin/data/1000G/subsets/CEU//mturchin20/PAGE/IPMBioMe/CEU.chr*.phase3_shapeit2_mvncall_integrated_v5a.20130502.genotypes.SNPs.PAGE_IPMBioMe.QCed.1kGMatch.pruned.bim | wc
 
+for i in `cat <(echo "CEU GBR YRI ESN CHB JPT ACB ASW MXL PEL ITU PJL TSI IBS FIN" | perl -lane 'print join("\n", @F);')`; do
 
-
- 
-			sbatch -t 72:00:00 --mem 4g -o /users/mturchin/data/1000G/subsets/$i/mturchin20/$i.chr${j}.phase3.genotypes.slurm.output -e /users/mturchin/data/1000G/subsets/$i/mturchin20/$i.chr${j}.phase3.genotypes.slurm.error --comment "$i $k $j" <(echo -e '#!/bin/sh'; \ 
-			echo -e "\nplink --bfile /users/mturchin/data/1000G/subsets/$i/$i.chr${j}.phase3_shapeit2_mvncall_integrated_v5a.20130502.genotypes.SNPs --extract /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v2.${ancestry2}.QCed.pruned.QCed.bim.noX.rsIDs --make-bed --out /users/mturchin/data/1000G/subsets/$i/mturchin20/$i.chr${j}.phase3_shapeit2_mvncall_integrated_v5a.20130502.genotypes.SNPs.ukb.${ancestry2}";)
-		done
-	sleep 2
-	done
+#	cat /dev/null > /users/mturchin/data/1000G/subsets/$i/mturchin20/PAGE/IPMBioMe/$i.chr${j}.phase3_shapeit2_mvncall_integrated_v5a.20130502.genotypes.SNPs.PAGE_IPMBioMe.QCed.1kGMatch.pruned.MergeList.Vs1.txt
+	for j in `echo {1..22}`; do 
+	rm /users/mturchin/data/1000G/subsets/$i/mturchin20/PAGE/IPMBioMe/$i.chr${j}.phase3_shapeit2_mvncall_integrated_v5a.20130502.genotypes.SNPs.PAGE_IPMBioMe.QCed.1kGMatch.pruned.MergeList.Vs1.txt
+#		echo "/users/mturchin/data/1000G/subsets/$i/mturchin20/PAGE/IPMBioMe/$i.chr${j}.phase3_shapeit2_mvncall_integrated_v5a.20130502.genotypes.SNPs.PAGE_IPMBioMe.QCed.1kGMatch.pruned.bed /users/mturchin/data/1000G/subsets/$i/mturchin20/PAGE/IPMBioMe/$i.chr${j}.phase3_shapeit2_mvncall_integrated_v5a.20130502.genotypes.SNPs.PAGE_IPMBioMe.QCed.1kGMatch.pruned.bim /users/mturchin/data/1000G/subsets/$i/mturchin20/PAGE/IPMBioMe/$i.chr${j}.phase3_shapeit2_mvncall_integrated_v5a.20130502.genotypes.SNPs.PAGE_IPMBioMe.QCed.1kGMatch.pruned.fam" >> /users/mturchin/data/1000G/subsets/$i/mturchin20/PAGE/IPMBioMe/$i.chr${j}.phase3_shapeit2_mvncall_integrated_v5a.20130502.genotypes.SNPs.PAGE_IPMBioMe.QCed.1kGMatch.pruned.MergeList.Vs1.txt	
+	done	
 done
 
-#for i in `echo "CEU GBR YRI ESN CHB JPT ACB ASW MXL PEL ITU PJL"`; do
-#for i in `echo "TSI IBS FIN"`; do
 for i in `cat <(echo "CEU GBR YRI ESN CHB JPT ACB ASW MXL PEL ITU PJL TSI IBS FIN" | perl -lane 'print join("\n", @F);')`; do
-	for k in `cat <(echo $UKBioBankPops | perl -lane 'print join("\n", @F);')`; do
-		ancestry1=`echo $k | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[0];'`
-		ancestry2=`echo $k | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[1];'`
-        
-		cat /dev/null > /users/mturchin/data/1000G/subsets/$i/$i.chrAll.phase3.genotypes.SNPs.ukb.${ancestry2}.MergeList.Vs1.txt 
-		
-		for j in `echo {1..22}`; do 
-			echo "/users/mturchin/data/1000G/subsets/$i/mturchin20/$i.chr${j}.phase3_shapeit2_mvncall_integrated_v5a.20130502.genotypes.SNPs.ukb.${ancestry2}.bed /users/mturchin/data/1000G/subsets/$i/mturchin20/$i.chr${j}.phase3_shapeit2_mvncall_integrated_v5a.20130502.genotypes.SNPs.ukb.${ancestry2}.bim /users/mturchin/data/1000G/subsets/$i/mturchin20/$i.chr${j}.phase3_shapeit2_mvncall_integrated_v5a.20130502.genotypes.SNPs.ukb.${ancestry2}.fam" >> /users/mturchin/data/1000G/subsets/$i/$i.chrAll.phase3.genotypes.SNPs.ukb.${ancestry2}.MergeList.Vs1.txt
-		done
+	echo $i /users/mturchin/data/1000G/subsets/$i/mturchin20/PAGE/IPMBioMe/$i.chr${j}.phase3_shapeit2_mvncall_integrated_v5a.20130502.genotypes.SNPs.PAGE_IPMBioMe.QCed.1kGMatch.pruned.MergeList.Vs1.txt
+
+	plink --bfile /users/mturchin/data/1000G/subsets/$i/mturchin20/PAGE/IPMBioMe/$i.chr1.phase3_shapeit2_mvncall_integrated_v5a.20130502.genotypes.SNPs.PAGE_IPMBioMe.QCed.1kGMatch.pruned --merge-list /users/mturchin/data/1000G/subsets/$i/mturchin20/PAGE/IPMBioMe/$i.chr${j}.phase3_shapeit2_mvncall_integrated_v5a.20130502.genotypes.SNPs.PAGE_IPMBioMe.QCed.1kGMatch.pruned.MergeList.Vs1.txt --make-bed --out /users/mturchin/data/1000G/subsets/$i/mturchin20/PAGE/IPMBioMe/$i.chrAll.phase3_shapeit2_mvncall_integrated_v5a.20130502.genotypes.SNPs.PAGE_IPMBioMe.QCed.1kGMatch.pruned	
+
+done
+
+for i in `cat <(echo "CEU GBR YRI ESN CHB JPT ACB ASW MXL PEL ITU PJL TSI IBS FIN" | perl -lane 'print join("\n", @F);')`; do
+	for j in `echo {1..22}`; do 
+		rm /users/mturchin/data/1000G/subsets/$i/mturchin20/PAGE/IPMBioMe/$i.chr${j}.phase3_shapeit2_mvncall_integrated_v5a.20130502.genotypes.SNPs.PAGE_IPMBioMe.QCed.1kGMatch.pruned.bed /users/mturchin/data/1000G/subsets/$i/mturchin20/PAGE/IPMBioMe/$i.chr${j}.phase3_shapeit2_mvncall_integrated_v5a.20130502.genotypes.SNPs.PAGE_IPMBioMe.QCed.1kGMatch.pruned.bim /users/mturchin/data/1000G/subsets/$i/mturchin20/PAGE/IPMBioMe/$i.chr${j}.phase3_shapeit2_mvncall_integrated_v5a.20130502.genotypes.SNPs.PAGE_IPMBioMe.QCed.1kGMatch.pruned.fam /users/mturchin/data/1000G/subsets/$i/mturchin20/PAGE/IPMBioMe/$i.chr${j}.phase3_shapeit2_mvncall_integrated_v5a.20130502.genotypes.SNPs.PAGE_IPMBioMe.QCed.1kGMatch.pruned.log /users/mturchin/data/1000G/subsets/$i/mturchin20/PAGE/IPMBioMe/$i.chr${j}.phase3_shapeit2_mvncall_integrated_v5a.20130502.genotypes.SNPs.PAGE_IPMBioMe.QCed.1kGMatch.pruned.nosex
+	done
+done
 	
-	done
-done
-
-#for i in `echo "CEU GBR YRI ESN CHB JPT ACB ASW MXL PEL ITU PJL"`; do
-#for i in `echo "TSI IBS FIN"`; do
 for i in `cat <(echo "CEU GBR YRI ESN CHB JPT ACB ASW MXL PEL ITU PJL TSI IBS FIN" | perl -lane 'print join("\n", @F);')`; do
-#for i in `echo "TSI IBS FIN"`; do
-	echo $i /users/mturchin/data/1000G/subsets/$i/$i.chrAll.phase3.genotypes.SNPs.MergeList.Vs1.txt
-	for k in `cat <(echo $UKBioBankPops | perl -lane 'print join("\n", @F);')`; do
-		ancestry1=`echo $k | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[0];'`
-		ancestry2=`echo $k | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[1];'`
-
-	        sbatch -t 72:00:00 --mem 4g -o /users/mturchin/data/1000G/subsets/$i/mturchin20/$i.chrAll.phase3.genotypes.ukb.${ancestry2}.slurm.merge.output -e /users/mturchin/data/1000G/subsets/$i/mturchin20/$i.chrAll.phase3.genotypes.ukb.${ancestry2}.slurm.merge.error --comment "MergeList $i $k" <(echo -e '#!/bin/sh'; echo -e "\nplink --bfile /users/mturchin/data/1000G/subsets/$i/mturchin20/$i.chr1.phase3_shapeit2_mvncall_integrated_v5a.20130502.genotypes.SNPs.ukb.${ancestry2} --merge-list /users/mturchin/data/1000G/subsets/$i/$i.chrAll.phase3.genotypes.SNPs.ukb.${ancestry2}.MergeList.Vs1.txt --make-bed --out /users/mturchin/data/1000G/subsets/$i/mturchin20/$i.chrAll.phase3_shapeit2_mvncall_integrated_v5a.20130502.genotypes.SNPs.ukb.${ancestry2}") 
-	done
-	sleep 2
+	cat /dev/null > 
 done
 
-#for i in `echo "CEU GBR YRI ESN CHB JPT ACB ASW MXL PEL ITU PJL"`; do
-#for i in `echo "TSI IBS FIN"`; do
-for i in `cat <(echo "CEU GBR YRI ESN CHB JPT ACB ASW MXL PEL ITU PJL TSI IBS FIN" | perl -lane 'print join("\n", @F);')`; do
-	for k in `cat <(echo $UKBioBankPops | perl -lane 'print join("\n", @F);')`; do
-		ancestry1=`echo $k | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[0];'`
-		ancestry2=`echo $k | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[1];'`
-        
-		for j in `echo {1..22}`; do 
-			rm /users/mturchin/data/1000G/subsets/$i/mturchin20/$i.chr${j}.phase3_shapeit2_mvncall_integrated_v5a.20130502.genotypes.SNPs.ukb.${ancestry2}.bed /users/mturchin/data/1000G/subsets/$i/mturchin20/$i.chr${j}.phase3_shapeit2_mvncall_integrated_v5a.20130502.genotypes.SNPs.ukb.${ancestry2}.bim /users/mturchin/data/1000G/subsets/$i/mturchin20/$i.chr${j}.phase3_shapeit2_mvncall_integrated_v5a.20130502.genotypes.SNPs.ukb.${ancestry2}.fam /users/mturchin/data/1000G/subsets/$i/mturchin20/$i.chr${j}.phase3_shapeit2_mvncall_integrated_v5a.20130502.genotypes.SNPs.ukb.${ancestry2}.log /users/mturchin/data/1000G/subsets/$i/mturchin20/$i.chr${j}.phase3_shapeit2_mvncall_integrated_v5a.20130502.genotypes.SNPs.ukb.${ancestry2}.nosex
-		done
-	done
-done
 
 for k in `cat <(echo $UKBioBankPops | perl -lane 'print join("\n", @F);') | grep British`; do
 	ancestry1=`echo $k | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[0];'`
