@@ -107,7 +107,7 @@ conda install r-RcppEigen r-RSpectra r-BH r-abind
 #installed flashpca via 'devtools::install_github("gabraham/flashpca/flashpcaR")' setup from (https://github.com/gabraham/flashpca)
 #conda install -c conda-forge openmp 
 
-conda create -n flashpca2
+
 
 
 
@@ -4052,10 +4052,43 @@ plink --bfile /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioM
 
 #20190728 NOTE -- couldn't get current install/libraries working for flashpca in MultiEthnicGWAS conda environment; created new 'flashpca1' environment and could only end up getting the R package ('flashpcaR') setup and eventually working
 #From https://github.com/gabraham/flashpca, https://groups.google.com/forum/#!topic/flashpca-users/uySt0ukPsmA
+cat /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/PAGE_IPMBioMe_chrAll_v1.QCed.1kGMatch.pruned.QCed.SNPrecode.w1kG.flipped.dropmissnp.dropRltvs.bim | awk '{ print $2 "\t" $5 }' > /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/PAGE_IPMBioMe_chrAll_v1.QCed.1kGMatch.pruned.QCed.SNPrecode.w1kG.flipped.dropmissnp.dropRltvs.bim.flashpca.projhelpfiles
 ##/users/mturchin/Software/flashpca/flashpca --bfile /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/PAGE_IPMBioMe_chrAll_v1.QCed.1kGMatch.pruned.QCed.SNPrecode.w1kG.flipped.dropmissnp.dropRltvs -d 20 --outpc /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/PAGE_IPMBioMe_chrAll_v1.QCed.1kGMatch.pruned.QCed.SNPrecode.w1kG.flipped.dropmissnp.dropRltvs.flashpca.pcs.txt --outload /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/PAGE_IPMBioMe_chrAll_v1.QCed.1kGMatch.pruned.QCed.SNPrecode.w1kG.flipped.dropmissnp.dropRltvs.flashpca.loads.txt --outvec /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/PAGE_IPMBioMe_chrAll_v1.QCed.1kGMatch.pruned.QCed.SNPrecode.w1kG.flipped.dropmissnp.dropRltvs.flashpca.vals.txt --outpve /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/PAGE_IPMBioMe_chrAll_v1.QCed.1kGMatch.pruned.QCed.SNPrecode.w1kG.flipped.dropmissnp.dropRltvs.flashpca.pve.txt --outmeansd /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/PAGE_IPMBioMe_chrAll_v1.QCed.1kGMatch.pruned.QCed.SNPrecode.w1kG.flipped.dropmissnp.dropRltvs.flashpca.meansd.txt
 
-R -q -e "library(\"flashpcaR\"); File1 <- \"/users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/PAGE_IPMBioMe_chrAll_v1.QCed.1kGMatch.pruned.QCed.SNPrecode.w1kG.flipped.dropmissnp.dropRltvs\"; flashpca1 <- flashpca(File1, ndim=20, verbose=TRUE); 
-library("flashpcaR"); File1 <- "/users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/PAGE_IPMBioMe_chrAll_v1.QCed.1kGMatch.pruned.QCed.SNPrecode.w1kG.flipped.dropmissnp.dropRltvs"; flashpca1 <- flashpca(File1, ndim=20, verbose=TRUE); 
+R -q -e "library(\"flashpcaR\"); File1 <- \"/users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/PAGE_IPMBioMe_chrAll_v1.QCed.1kGMatch.pruned.QCed.SNPrecode.w1kG.flipped.dropmissnp.dropRltvs\"; flashpca1 <- flashpca(File1, ndim=20, do_loadings=TRUE, verbose=TRUE); 
+write.table(flashpca1\$projection, \"/users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/PAGE_IPMBioMe_chrAll_v1.QCed.1kGMatch.pruned.QCed.SNPrecode.w1kG.flipped.dropmissnp.dropRltvs.flashpca.pcs.txt\", quote=FALSE, row.names=FALSE, col.names=FALSE);
+write.table(flashpca1\$loadings, \"/users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/PAGE_IPMBioMe_chrAll_v1.QCed.1kGMatch.pruned.QCed.SNPrecode.w1kG.flipped.dropmissnp.dropRltvs.flashpca.loads.txt\", quote=FALSE, row.names=FALSE, col.names=FALSE);
+write.table(flashpca1\$vectors, \"/users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/PAGE_IPMBioMe_chrAll_v1.QCed.1kGMatch.pruned.QCed.SNPrecode.w1kG.flipped.dropmissnp.dropRltvs.flashpca.vectors.txt\", quote=FALSE, row.names=FALSE, col.names=FALSE);
+write.table(flashpca1\$values, \"/users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/PAGE_IPMBioMe_chrAll_v1.QCed.1kGMatch.pruned.QCed.SNPrecode.w1kG.flipped.dropmissnp.dropRltvs.flashpca.values.txt\", quote=FALSE, row.names=FALSE, col.names=FALSE);
+write.table(flashpca1\$center, \"/users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/PAGE_IPMBioMe_chrAll_v1.QCed.1kGMatch.pruned.QCed.SNPrecode.w1kG.flipped.dropmissnp.dropRltvs.flashpca.means.txt\", quote=FALSE, row.names=FALSE, col.names=FALSE);
+write.table(flashpca1\$scale, \"/users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/PAGE_IPMBioMe_chrAll_v1.QCed.1kGMatch.pruned.QCed.SNPrecode.w1kG.flipped.dropmissnp.dropRltvs.flashpca.sds.txt\", quote=FALSE, row.names=FALSE, col.names=FALSE);
+
+#library("flashpcaR"); File1 <- "/users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/PAGE_IPMBioMe_chrAll_v1.QCed.1kGMatch.pruned.QCed.SNPrecode.w1kG.flipped.dropmissnp.dropRltvs"; File2 <- "/users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/PAGE_IPMBioMe_chrAll_v1.QCed.1kGMatch.pruned.QCed.SNPrecode.w1kG.flipped.dropmissnp.onlyRltvs"; HelpFiles RefAlleles <- read.table("/users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/PAGE_IPMBioMe_chrAll_v1.QCed.1kGMatch.pruned.QCed.SNPrecode.w1kG.flipped.dropmissnp.dropRltvs.bim.refAlleles", header=F); flashpca1 <- flashpca(File1, ndim=20, do_loadings=TRUE, verbose=TRUE); 
+write.table(flashpca1$projection, "/users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/PAGE_IPMBioMe_chrAll_v1.QCed.1kGMatch.pruned.QCed.SNPrecode.w1kG.flipped.dropmissnp.dropRltvs.flashpca.pcs.txt", quote=FALSE, row.names=FALSE, col.names=FALSE);
+write.table(flashpca1$loadings, "/users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/PAGE_IPMBioMe_chrAll_v1.QCed.1kGMatch.pruned.QCed.SNPrecode.w1kG.flipped.dropmissnp.dropRltvs.flashpca.loads.txt", quote=FALSE, row.names=FALSE, col.names=FALSE);
+write.table(flashpca1$vectors, "/users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/PAGE_IPMBioMe_chrAll_v1.QCed.1kGMatch.pruned.QCed.SNPrecode.w1kG.flipped.dropmissnp.dropRltvs.flashpca.vectors.txt", quote=FALSE, row.names=FALSE, col.names=FALSE);
+write.table(flashpca1$values, "/users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/PAGE_IPMBioMe_chrAll_v1.QCed.1kGMatch.pruned.QCed.SNPrecode.w1kG.flipped.dropmissnp.dropRltvs.flashpca.values.txt", quote=FALSE, row.names=FALSE, col.names=FALSE);
+write.table(flashpca1$center, "/users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/PAGE_IPMBioMe_chrAll_v1.QCed.1kGMatch.pruned.QCed.SNPrecode.w1kG.flipped.dropmissnp.dropRltvs.flashpca.means.txt", quote=FALSE, row.names=FALSE, col.names=FALSE);
+write.table(flashpca1$scale, "/users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/PAGE_IPMBioMe_chrAll_v1.QCed.1kGMatch.pruned.QCed.SNPrecode.w1kG.flipped.dropmissnp.dropRltvs.flashpca.sds.txt", quote=FALSE, row.names=FALSE, col.names=FALSE);
+flashpca1.proj <- project(File2, loadings=flashpca1$loadings, ref_alleles=RefAlleles, orig_mean=flashpca1$center, orig_sd=flashpca1$scale, verbose=TRUE);
+
+    values: a numeric vector. The eigenvalues of X X' / m.
+     vectors: a numeric matrix. The eigenvectors of X X' / m.
+     projection: a numeric matrix. Equivalent to X V.
+     loadings: a numeric matrix. The matrix of variable loadings, i.e.,
+          V from SVD.
+     scale: a list of two elements, ``center'' and ''scale'', which was
+          used to standardise the input matrix X.
+
+> summary(f)
+           Length Class  Mode   
+values        10  -none- numeric
+vectors     9570  -none- numeric
+projection  9570  -none- numeric
+loadings   11290  -none- numeric
+center      1129  -none- numeric
+scale       1129  -none- numeric
+
 
 	sbatch -t 72:00:00 --mem 8g -o /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v2.${ancestry2}.1kG.fastpca.run.slurm.output -e /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v2.${ancestry2}.1kG.fastpca.run.slurm.error --comment "fastpca $ancestry1 $ancestry2 $i" <(echo -e '#!/bin/bash'; \
 	echo -e "\n/users/mturchin/Software/flashpca/flashpca --bfile /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v2.${ancestry2}.QCed.pruned.QCed.dropRltvs.noX.1kG -d 20 --outpc /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v2.${ancestry2}.QCed.pruned.QCed.dropRltvs.noX.1kG.flashpca.pcs.txt --outload /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v2.${ancestry2}.QCed.pruned.QCed.dropRltvs.noX.1kG.flashpca.loads.txt --outvec /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v2.${ancestry2}.QCed.pruned.QCed.dropRltvs.noX.1kG.flashpca.vecs.txt --outval /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v2.${ancestry2}.QCed.pruned.QCed.dropRltvs.noX.1kG.flashpca.vals.txt --outpve /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v2.${ancestry2}.QCed.pruned.QCed.dropRltvs.noX.1kG.flashpca.pve.txt --outmeansd /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v2.${ancestry2}.QCed.pruned.QCed.dropRltvs.noX.1kG.flashpca.meansd.txt"; \
