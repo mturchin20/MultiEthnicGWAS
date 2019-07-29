@@ -91,6 +91,24 @@ conda install r-data.table r-bigmemory
 #NOTE -- fixes for the 'GOMP_4.0' and 'libstdc++.so.6' issues previously seen on the UChicago/Midway2 clusters, making it seem like this is conda-specific atm (possibly with the most recent update and such?)
 #conda update -f libstdcxx-ng
 #cp -p /gpfs/runtime/opt/gcc/6.2/lib64/libgomp.so.1 /gpfs/data/sramacha/mturchin/miniconda2RH/envs/MultiEthnicGWAS/lib/R/bin/exec/../../lib/../../libgomp.so.1
+#20190728
+#conda install -c conda-forge openmp 
+conda install r-RcppEigen r-RSpectra r-BH r-abind
+conda create -n flashpca1
+conda activate flashpca1
+conda install -c anaconda gcc 
+conda install armadillo eigen boost libgcc
+conda install R perl java-jdk
+conda install r-base r-devtools r-knitr r-testthat r-roxygen2 r-cairo r-ashr r-rcolorbrewer r-essentials r-extrafont fonts-anaconda
+conda install r-doParallel r-Rcpp r-RcppArmadillo r-RcppParallel r-CompQuadForm r-Matrix r-MASS r-truncnorm
+conda install r-RcppEigen r-RSpectra r-BH r-abind
+#conda update -f libstdcxx-ng
+##cp -p /gpfs/runtime/opt/gcc/6.2/lib64/libgomp.so.1 /gpfs/data/sramacha/mturchin/miniconda2RH/envs/flashpca1/lib/R/bin/exec/../../lib/../../libgomp.so.1
+#installed flashpca via 'devtools::install_github("gabraham/flashpca/flashpcaR")' setup from (https://github.com/gabraham/flashpca)
+#conda install -c conda-forge openmp 
+
+conda create -n flashpca2
+
 
 
 #20171117
@@ -2037,7 +2055,7 @@ done
 
 
 #From https://github.com/gabraham/flashpca
-#See /users/mturchin/PackageInstallationLog.vs1.sh for information re: installing flashpca (done within Conda environment; recall note re: 'export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/users/mturchin/conda/MultiEthnicGWAS/lib')
+#See /users/mturchin/PackageInstallationLog.vs1.sh for information re: installing flashpca (done within Conda environment; recall note re: 'export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/users/mturchin/data/mturchin/miniconda2RH/envs/MultiEthnicGWAS/lib')
 ```
 .
 .
@@ -4032,35 +4050,12 @@ cat /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/PAGE_IPM
 plink --bfile /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/PAGE_IPMBioMe_chrAll_v1.QCed.1kGMatch.pruned.QCed.SNPrecode.w1kG.flipped.dropmissnp --keep /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/PAGE_IPMBioMe_chrAll_v1.QCed.pruned.QCed.Loose.rel.id.w1kG --make-bed --out /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/PAGE_IPMBioMe_chrAll_v1.QCed.1kGMatch.pruned.QCed.SNPrecode.w1kG.flipped.dropmissnp.dropRltvs
 plink --bfile /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/PAGE_IPMBioMe_chrAll_v1.QCed.1kGMatch.pruned.QCed.SNPrecode.w1kG.flipped.dropmissnp --remove /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/PAGE_IPMBioMe_chrAll_v1.QCed.pruned.QCed.Loose.rel.id.w1kG --make-bed --out /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/PAGE_IPMBioMe_chrAll_v1.QCed.1kGMatch.pruned.QCed.SNPrecode.w1kG.flipped.dropmissnp.onlyRltvs
 
+#20190728 NOTE -- couldn't get current install/libraries working for flashpca in MultiEthnicGWAS conda environment; created new 'flashpca1' environment and could only end up getting the R package ('flashpcaR') setup and eventually working
+#From https://github.com/gabraham/flashpca, https://groups.google.com/forum/#!topic/flashpca-users/uySt0ukPsmA
+##/users/mturchin/Software/flashpca/flashpca --bfile /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/PAGE_IPMBioMe_chrAll_v1.QCed.1kGMatch.pruned.QCed.SNPrecode.w1kG.flipped.dropmissnp.dropRltvs -d 20 --outpc /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/PAGE_IPMBioMe_chrAll_v1.QCed.1kGMatch.pruned.QCed.SNPrecode.w1kG.flipped.dropmissnp.dropRltvs.flashpca.pcs.txt --outload /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/PAGE_IPMBioMe_chrAll_v1.QCed.1kGMatch.pruned.QCed.SNPrecode.w1kG.flipped.dropmissnp.dropRltvs.flashpca.loads.txt --outvec /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/PAGE_IPMBioMe_chrAll_v1.QCed.1kGMatch.pruned.QCed.SNPrecode.w1kG.flipped.dropmissnp.dropRltvs.flashpca.vals.txt --outpve /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/PAGE_IPMBioMe_chrAll_v1.QCed.1kGMatch.pruned.QCed.SNPrecode.w1kG.flipped.dropmissnp.dropRltvs.flashpca.pve.txt --outmeansd /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/PAGE_IPMBioMe_chrAll_v1.QCed.1kGMatch.pruned.QCed.SNPrecode.w1kG.flipped.dropmissnp.dropRltvs.flashpca.meansd.txt
 
-
-for k in `cat <(echo $UKBioBankPops | perl -lane 'print join("\n", @F);') | head -n 1`; do
-
-for k in `cat <(echo $UKBioBankPops | perl -lane 'print join("\n", @F);') | head -n 1`; do
-	ancestry1=`echo $k | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[0];'`
-	ancestry2=`echo $k | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[1];'`
-
-#	plink --bfile /users/mturchin/data/1000G/subsets/CEU/mturchin20/CEU.chrAll.phase3_shapeit2_mvncall_integrated_v5a.20130502.genotypes.SNPs.ukb.${ancestry2} --merge-list /users/mturchin/data/1000G/mturchin20/subsets/All.chrAll.phase3.genotypes.SNPs.ukb.${ancestry2}.MergeList.Vs1.txt --out /users/mturchin/data/1000G/mturchin20/subsets/All.chrAll.phase3.genotypes.SNPs.ukb.${ancestry2}	
-#	plink --bfile /users/mturchin/data/1000G/subsets/CEU/mturchin20/CEU.chrAll.phase3_shapeit2_mvncall_integrated_v5a.20130502.genotypes.SNPs.ukb.${ancestry2} --merge-list /users/mturchin/data/1000G/mturchin20/subsets/All.chrAll.phase3.genotypes.SNPs.ukb.${ancestry2}.MergeList.wTSIIBSFIN.Vs1.txt --out /users/mturchin/data/1000G/mturchin20/subsets/All.chrAll.phase3.genotypes.SNPs.ukb.${ancestry2}.TSIIBSFIN	
-#	cat /users/mturchin/data/1000G/mturchin20/subsets/All.chrAll.phase3.genotypes.SNPs.ukb.${ancestry2}.bim | awk '{ print $2 }' > /users/mturchin/data/1000G/mturchin20/subsets/All.chrAll.phase3.genotypes.SNPs.ukb.${ancestry2}.bim.rsIDs
-	plink --bfile /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v2.${ancestry2}.QCed.pruned.QCed.dropRltvs.noX --extract /users/mturchin/data/1000G/mturchin20/subsets/All.chrAll.phase3.genotypes.SNPs.ukb.${ancestry2}.bim.rsIDs --make-bed --out /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v2.${ancestry2}.QCed.pruned.QCed.dropRltvs.noX.1kG.pre
-	plink --bfile /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v2.${ancestry2}.QCed.pruned.QCed.dropRltvs.noX.1kG.pre --bmerge /users/mturchin/data/1000G/mturchin20/subsets/All.chrAll.phase3.genotypes.SNPs.ukb.${ancestry2} --make-bed --out /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v2.${ancestry2}.QCed.pruned.QCed.dropRltvs.noX.1kG
-#	plink --bfile /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v2.${ancestry2}.QCed.pruned.QCed.dropRltvs.noX.1kG.pre --bmerge /users/mturchin/data/1000G/mturchin20/subsets/All.chrAll.phase3.genotypes.SNPs.ukb.${ancestry2}.TSIIBSFIN --make-bed --out /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v2.${ancestry2}.QCed.pruned.QCed.dropRltvs.noX.1kG.TSIIBSFIN
-	rm /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v2.${ancestry2}.QCed.pruned.QCed.dropRltvs.noX.1kG.pre*
-	
-done
-
-#	plink --bfile /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v2.${ancestry2}.QCed.pruned.QCed.onlyRltvs.noX --extract /users/mturchin/data/1000G/mturchin20/subsets/All.chrAll.phase3.genotypes.SNPs.ukb.${ancestry2}.bim.rsIDs --make-bed --out /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v2.${ancestry2}.QCed.pruned.QCed.onlyRltvs.noX.1kG
-
-##UKBioBankPops=`echo "African;African;ukb_Afr Any_other_Asian_background;Any_other_Asian_background;ukb_Asian Any_other_mixed_background;Any_other_mixed_background;ukb_Mixed Any_other_white_background;Any_other_white_background;ukb_White British;British;ukb_Brit British;British.Ran4000;ukb_Brit4k British;British.Ran10000;ukb_Brit10k British;British.Ran100000;ukb_Brit100k British;British.Ran200000;ukb_Brit200k Caribbean;Caribbean;ukb_Carib Chinese;Chinese;ukb_Chi Indian;Indian;ukb_Indn Irish;Irish;ukb_Irish Pakistani;Pakistani;ukb_Pkstn"`;
-UKBioBankPops=`echo "African;African;Afr Any_other_Asian_background;Any_other_Asian_background;Asian Any_other_mixed_background;Any_other_mixed_background;Mixed Any_other_white_background;Any_other_white_background;White British;British;Brit British;British.Ran4000;Brit4k British;British.Ran10000;Brit10k British;British.Ran100000;Brit100k British;British.Ran200000;Brit200k Caribbean;Caribbean;Carib Chinese;Chinese;Chi Indian;Indian;Indn Irish;Irish;Irish Pakistani;Pakistani;Pkstn"`;
-
-for j in `cat <(echo $UKBioBankPops | perl -lane 'print join("\n", @F);') | grep British | grep -v Ran`; do
-	ancestry1=`echo $j | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[0];'`
-	ancestry2=`echo $j | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[1];'`
-	ancestry3=`echo $j | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[2];'`
-
-	echo $ancestry1 $ancestry2 $ancestry3
+R -q -e "library(\"flashpcaR\"); File1 <- \"/users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/PAGE_IPMBioMe_chrAll_v1.QCed.1kGMatch.pruned.QCed.SNPrecode.w1kG.flipped.dropmissnp.dropRltvs\"; flashpca1 <- flashpca(File1, ndim=20, verbose=TRUE); 
+library("flashpcaR"); File1 <- "/users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/PAGE_IPMBioMe_chrAll_v1.QCed.1kGMatch.pruned.QCed.SNPrecode.w1kG.flipped.dropmissnp.dropRltvs"; flashpca1 <- flashpca(File1, ndim=20, verbose=TRUE); 
 
 	sbatch -t 72:00:00 --mem 8g -o /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v2.${ancestry2}.1kG.fastpca.run.slurm.output -e /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v2.${ancestry2}.1kG.fastpca.run.slurm.error --comment "fastpca $ancestry1 $ancestry2 $i" <(echo -e '#!/bin/bash'; \
 	echo -e "\n/users/mturchin/Software/flashpca/flashpca --bfile /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v2.${ancestry2}.QCed.pruned.QCed.dropRltvs.noX.1kG -d 20 --outpc /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v2.${ancestry2}.QCed.pruned.QCed.dropRltvs.noX.1kG.flashpca.pcs.txt --outload /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v2.${ancestry2}.QCed.pruned.QCed.dropRltvs.noX.1kG.flashpca.loads.txt --outvec /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v2.${ancestry2}.QCed.pruned.QCed.dropRltvs.noX.1kG.flashpca.vecs.txt --outval /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v2.${ancestry2}.QCed.pruned.QCed.dropRltvs.noX.1kG.flashpca.vals.txt --outpve /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v2.${ancestry2}.QCed.pruned.QCed.dropRltvs.noX.1kG.flashpca.pve.txt --outmeansd /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v2.${ancestry2}.QCed.pruned.QCed.dropRltvs.noX.1kG.flashpca.meansd.txt"; \
