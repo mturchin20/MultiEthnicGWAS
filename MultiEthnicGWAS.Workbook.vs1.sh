@@ -4143,19 +4143,23 @@ done
 join <(cat /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/PAGE_IPMBioMe_chrAll_v1.QCed.bim | awk '{ print $1 "_" $4 "\t" $0 }' | sort -k 1,1) <(zcat /users/mturchin/data/mturchin/HRC/HRC.r1-1.GRCh37.wgs.mac5.sites.tab.gz | awk '{ print $1 "_" $2 "\t" $4 "\t" $5 }' | sort -k 1,1) | gzip > /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/PAGE_IPMBioMe_chrAll_v1.QCed.CompHRC.txt.gz
 zcat /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/PAGE_IPMBioMe_chrAll_v1.QCed.CompHRC.txt.gz | awk '{ if ((($6 != $8) && ($7 != $9)) && (($6 != $9) && ($7 != $8))) { print $3 } }' > /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/PAGE_IPMBioMe_chrAll_v1.QCed.CompHRC.flipSNPs.snpIDs
 
-cat /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/AfrAmr/AfrAmr/20190730_IPMBioMe_AfrAmr_pt1_flip1.statistics.txt /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/AfrAmr/AfrAmr/20190730_IPMBioMe_AfrAmr_pt2_flip1.statistics.txt | grep 
-cat /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/PAGE_IPMBioMe_chrAll_v1.QCed.1kGMatch.pruned.QCed.SNPrecode.w1kG.flipped.dropmissnp.allRltvs.flashpca.pcs.wAncs.$ancestry2.dropRltvs.Loose.FIDIIDs | grep -v 
-> /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/PAGE_IPMBioMe_chrAll_v1.QCed.1kGMatch.pruned.QCed.SNPrecode.w1kG.flipped.dropmissnp.allRltvs.flashpca.pcs.wAncs.$ancestry2.dropRltvs.Loose.HRCdrops.FIDIIDs
+cat /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/AfrAmr/AfrAmr/20190730_IPMBioMe_AfrAmr_pt1_flip1.statistics.txt /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/AfrAmr/AfrAmr/20190730_IPMBioMe_AfrAmr_pt2_flip1.statistics.txt /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/Euro/EuroStrict/20190730_IPMBioMe_EuroStrict_pt1_flip1.statistics.txt /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/Euro/EuroStrict/20190730_IPMBioMe_EuroStrict_pt2_flip1.statistics.txt /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/Euro/EuroLoose/20190730_IPMBioMe_EuroLoose_pt1_flip1.statistics.txt /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/Euro/EuroLoose/20190730_IPMBioMe_EuroLoose_pt2_flip1.statistics.txt | grep chunk | wc 
+cat /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/AfrAmr/AfrAmr/20190730_IPMBioMe_AfrAmr_pt1_flip1.statistics.txt /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/AfrAmr/AfrAmr/20190730_IPMBioMe_AfrAmr_pt2_flip1.statistics.txt | grep chunk | grep -v Reference | awk '{ print $3 }' | sed 's/_/ /g' | sed 's/://g' | sort | uniq | awk '{ print $1 "\t" $2 } ' > /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/AfrAmr/AfrAmr/20190730_IPMBioMe_AfrAmr_pt12_flip1.statistics.drops.FIDIIDs 
+join -v 1 <(cat /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/PAGE_IPMBioMe_chrAll_v1.QCed.1kGMatch.pruned.QCed.SNPrecode.w1kG.flipped.dropmissnp.allRltvs.flashpca.pcs.wAncs.AfrAmr.dropRltvs.Loose.FIDIIDs | awk '{ print $1 "_" $2 }' | sort) <(cat /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/AfrAmr/AfrAmr/20190730_IPMBioMe_AfrAmr_pt12_flip1.statistics.drops.FIDIIDs | awk '{ print $1 "_" $2 }' | sort) | sed 's/_/ /g' > /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/PAGE_IPMBioMe_chrAll_v1.QCed.1kGMatch.pruned.QCed.SNPrecode.w1kG.flipped.dropmissnp.allRltvs.flashpca.pcs.wAncs.AfrAmr.dropRltvs.Loose.HRCdrops.FIDIIDs
+cat /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/Euro/EuroStrict/20190730_IPMBioMe_EuroStrict_pt1_flip1.statistics.txt /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/Euro/EuroStrict/20190730_IPMBioMe_EuroStrict_pt2_flip1.statistics.txt | grep chunk | grep -v Reference | awk '{ print $3 }' | sed 's/_/ /g' | sed 's/://g' | sort | uniq | awk '{ print $1 "\t" $2 } ' > /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/Euro/EuroStrict/20190730_IPMBioMe_EuroStrict_pt12_flip1.statistics.drops.FIDIIDs 
+join -v 1 <(cat /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/PAGE_IPMBioMe_chrAll_v1.QCed.1kGMatch.pruned.QCed.SNPrecode.w1kG.flipped.dropmissnp.allRltvs.flashpca.pcs.wAncs.EuroStrict.dropRltvs.Loose.FIDIIDs | awk '{ print $1 "_" $2 }' | sort) <(cat /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/Euro/EuroStrict/20190730_IPMBioMe_EuroStrict_pt12_flip1.statistics.drops.FIDIIDs | awk '{ print $1 "_" $2 }' | sort) | sed 's/_/ /g' > /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/PAGE_IPMBioMe_chrAll_v1.QCed.1kGMatch.pruned.QCed.SNPrecode.w1kG.flipped.dropmissnp.allRltvs.flashpca.pcs.wAncs.EuroStrict.dropRltvs.Loose.HRCdrops.FIDIIDs
+cat /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/Euro/EuroLoose/20190730_IPMBioMe_EuroLoose_pt1_flip1.statistics.txt /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/Euro/EuroLoose/20190730_IPMBioMe_EuroLoose_pt2_flip1.statistics.txt | grep chunk | grep -v Reference | awk '{ print $3 }' | sed 's/_/ /g' | sed 's/://g' | sort | uniq | awk '{ print $1 "\t" $2 } ' > /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/Euro/EuroLoose/20190730_IPMBioMe_EuroLoose_pt12_flip1.statistics.drops.FIDIIDs 
+join -v 1 <(cat /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/PAGE_IPMBioMe_chrAll_v1.QCed.1kGMatch.pruned.QCed.SNPrecode.w1kG.flipped.dropmissnp.allRltvs.flashpca.pcs.wAncs.EuroLoose.dropRltvs.Loose.FIDIIDs | awk '{ print $1 "_" $2 }' | sort) <(cat /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/Euro/EuroLoose/20190730_IPMBioMe_EuroLoose_pt12_flip1.statistics.drops.FIDIIDs | awk '{ print $1 "_" $2 }' | sort) | sed 's/_/ /g' > /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/PAGE_IPMBioMe_chrAll_v1.QCed.1kGMatch.pruned.QCed.SNPrecode.w1kG.flipped.dropmissnp.allRltvs.flashpca.pcs.wAncs.EuroLoose.dropRltvs.Loose.HRCdrops.FIDIIDs
 
-for j in `cat <(echo $PAGEIPMBioMePops | perl -lane 'print join("\n", @F);') | head -n 3`; do
+for j in `cat <(echo $PAGEIPMBioMePops | perl -lane 'print join("\n", @F);') | head -n 1`; do
         ancestry1=`echo $j | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[0];'`
         ancestry2=`echo $j | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[1];'`
 
         echo $ancestry1 $ancestry2
 
 	for i in {1..22}; do
-#		plink --bfile /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/PAGE_IPMBioMe_chr${i}_v1.QCed --keep /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/PAGE_IPMBioMe_chrAll_v1.QCed.1kGMatch.pruned.QCed.SNPrecode.w1kG.flipped.dropmissnp.allRltvs.flashpca.pcs.wAncs.$ancestry2.dropRltvs.Loose.HRCdrops.FIDIIDs --flip /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/PAGE_IPMBioMe_chrAll_v1.QCed.CompHRC.flipSNPs.snpIDs --snps-only just-acgt --recode vcf --out /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/$ancestry1/$ancestry2/PAGE_IPMBioMe_chr${i}_v1.QCed.QCed.dropRltvs.Loose.$ancestry2.HRCdrops.ATGC.flip
-#		/users/mturchin/Software/vcftools_0.1.13/bin/vcf-sort /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/$ancestry1/$ancestry2/PAGE_IPMBioMe_chr${i}_v1.QCed.QCed.dropRltvs.Loose.$ancestry2.HRCdrops.ATGC.flip.vcf | bgzip -c > /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/$ancestry1/$ancestry2/PAGE_IPMBioMe_chr${i}_v1.QCed.QCed.dropRltvs.Loose.$ancestry2.HRCdrops.ATGC.flip.sort.vcf.gz
+		plink --bfile /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/PAGE_IPMBioMe_chr${i}_v1.QCed --keep /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/PAGE_IPMBioMe_chrAll_v1.QCed.1kGMatch.pruned.QCed.SNPrecode.w1kG.flipped.dropmissnp.allRltvs.flashpca.pcs.wAncs.$ancestry2.dropRltvs.Loose.HRCdrops.FIDIIDs --flip /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/PAGE_IPMBioMe_chrAll_v1.QCed.CompHRC.flipSNPs.snpIDs --snps-only just-acgt --recode vcf --out /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/$ancestry1/$ancestry2/PAGE_IPMBioMe_chr${i}_v1.QCed.QCed.dropRltvs.Loose.$ancestry2.HRCdrops.ATGC.flip
+		/users/mturchin/Software/vcftools_0.1.13/bin/vcf-sort /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/$ancestry1/$ancestry2/PAGE_IPMBioMe_chr${i}_v1.QCed.QCed.dropRltvs.Loose.$ancestry2.HRCdrops.ATGC.flip.vcf | bgzip -c > /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/$ancestry1/$ancestry2/PAGE_IPMBioMe_chr${i}_v1.QCed.QCed.dropRltvs.Loose.$ancestry2.HRCdrops.ATGC.flip.sort.vcf.gz
 #		rm /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/$ancestry1/$ancestry2/PAGE_IPMBioMe_chr${i}_v1.QCed.QCed.dropRltvs.Loose.$ancestry2.sort.vcf.gz 
 #		rm /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/$ancestry1/$ancestry2/PAGE_IPMBioMe_chr${i}_v1.QCed.QCed.dropRltvs.Loose.$ancestry2.ATGC.flip.sort.vcf.gz 
 #		rm /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/$ancestry1/$ancestry2/PAGE_IPMBioMe_chr${i}_v1.QCed.QCed.dropRltvs.Loose.$ancestry2.HRCdrops.ATGC.flip.vcf /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/$ancestry1/$ancestry2/PAGE_IPMBioMe_chr${i}_v1.QCed.QCed.dropRltvs.Loose.$ancestry2.HRCdrops.ATGC.flip.log
@@ -4172,53 +4176,13 @@ done
 
 cd /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/AfrAmr/AfrAmr; wget https://imputationserver.sph.umich.edu/share/results/d4b55fcd760fe5429767dadca706f3ed/statistics.txt; mv statistics.txt 20190730_IPMBioMe_AfrAmr_pt1_flip1.statistics.txt 
 cd /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/AfrAmr/AfrAmr; wget https://imputationserver.sph.umich.edu/share/results/7739548bd8738dea062da25015d33b44/statistics.txt; mv statistics.txt 20190730_IPMBioMe_AfrAmr_pt2_flip1.statistics.txt
+cd /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/Euro/EuroStrict; wget https://imputationserver.sph.umich.edu/share/results/6aebb1bf5f398693d6dde331798fc831/statistics.txt; mv statistics.txt 20190730_IPMBioMe_EuroStrict_pt1_flip1.statistics.txt
+cd /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/Euro/EuroStrict; wget https://imputationserver.sph.umich.edu/share/results/dfb3c11ac51ffea5b11355b2afbccc97/statistics.txt; mv statistics.txt 20190730_IPMBioMe_EuroStrict_pt2_flip1.statistics.txt
+cd /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/Euro/EuroLoose; wget https://imputationserver.sph.umich.edu/share/results/9afd61f42ea778a51dff5ddde04862ef/statistics.txt; mv statistics.txt 20190730_IPMBioMe_EuroLoose_pt1_flip1.statistics.txt
+cd /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/Euro/EuroLoose; wget https://imputationserver.sph.umich.edu/share/results/dc32deb4614e6f201ddbbc57f4b432d9/statistics.txt; mv statistics.txt 20190730_IPMBioMe_EuroLoose_pt2_flip1.statistics.txt
 
-#AfrAmr: NA_82858, NA_65774, NA_77616, NA_94799
-#EuroStrict:
-#EuroLoose:
 
-```
-#AfrAmr 1-8
-Warning: 14 Chunks excluded: at least one sample has a call rate < 50% (see statistics.txt for details).
-Remaining chunk(s): 67
-#statistics.txt 
-chunk_2_0000000001_0020000000 Sample NA_82858: call rate: 0.0012665515256188831
-chunk_2_0000000001_0020000000 (Snps: 8685, Reference overlap: 0.9265097454467994, low sample call rates: true)
-chunk_2_0020000001_0040000000 Sample NA_82858: call rate: 0.0
-chunk_2_0020000001_0040000000 (Snps: 6950, Reference overlap: 0.9120691914559036, low sample call rates: true)
-chunk_2_0040000001_0060000000 Sample NA_82858: call rate: 0.0
-chunk_2_0040000001_0060000000 (Snps: 7773, Reference overlap: 0.9232866967038179, low sample call rates: true)
-chunk_2_0060000001_0080000000 Sample NA_82858: call rate: 0.0
-chunk_2_0060000001_0080000000 (Snps: 5876, Reference overlap: 0.9097372488408038, low sample call rates: true)
-chunk_2_0080000001_0100000000 Sample NA_82858: call rate: 0.2629496402877698
-chunk_2_0080000001_0100000000 (Snps: 2780, Reference overlap: 0.8567476175837688, low sample call rates: true)
-chunk_6_0000000001_0020000000 Sample NA_65774: call rate: 0.401296111665005
-chunk_6_0000000001_0020000000 (Snps: 8024, Reference overlap: 0.9035995500562429, low sample call rates: true)
-chunk_6_0060000001_0080000000 Sample NA_77616: call rate: 0.0012330456226880395
-chunk_6_0060000001_0080000000 (Snps: 4055, Reference overlap: 0.8912519184389388, low sample call rates: true)
-chunk_6_0080000001_0100000000 Sample NA_77616: call rate: 0.0
-chunk_6_0080000001_0100000000 (Snps: 4828, Reference overlap: 0.9045837231057062, low sample call rates: true)
-chunk_6_0100000001_0120000000 Sample NA_77616: call rate: 0.0
-chunk_6_0100000001_0120000000 (Snps: 5207, Reference overlap: 0.905149991329981, low sample call rates: true)
-chunk_6_0120000001_0140000000 Sample NA_77616: call rate: 0.0
-chunk_6_0120000001_0140000000 (Snps: 5904, Reference overlap: 0.9190365190365191, low sample call rates: true)
-chunk_6_0140000001_0160000000 Sample NA_77616: call rate: 0.0
-chunk_6_0140000001_0160000000 (Snps: 6436, Reference overlap: 0.911610804695234, low sample call rates: true)
-chunk_6_0160000001_0180000000 Sample NA_77616: call rate: 2.0627062706270627E-4
-chunk_6_0160000001_0180000000 (Snps: 4848, Reference overlap: 0.9154425612052731, low sample call rates: true)
-chunk_8_0000000001_0020000000 Sample NA_94799: call rate: 5.120764700861995E-4
-chunk_8_0000000001_0020000000 (Snps: 11717, Reference overlap: 0.9036524413687044, low sample call rates: true)
-chunk_8_0020000001_0040000000 Sample NA_94799: call rate: 0.0
-chunk_8_0020000001_0040000000 (Snps: 5720, Reference overlap: 0.8954850804561787, low sample call rates: true)
-#AfrAmr 9-22
 
-#EuroStrict 1-8
-
-#EuroStrict 9-22
-
-#EuroLoose 1-8
-
-#EuroLoose 9-22
 
 
 
@@ -8521,6 +8485,41 @@ NA      77616   40795   2583621 0.0157898546265106
      NA   82858          Y      197    50062 0.003935
      NA   65774          Y      161    50062 0.003216
      NA   77616          Y      333    50062 0.006652
+(MultiEthnicGWAS) [  mturchin@login003  ~/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/Euro/EuroLoose]$cat /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/AfrAmr/AfrAmr/20190730_IPMBioMe_AfrAmr_pt1_flip1.statistics.txt /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/AfrAmr/AfrAmr/20190730_IPMBioMe_AfrAmr_pt2_flip1.statistics.txt /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/Euro/EuroStrict/20190730_IPMBioMe_EuroStrict_pt1_flip1.statistics.txt /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/Euro/EuroStrict/20190730_IPMBioMe_EuroStrict_pt2_flip1.statistics.txt /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/Euro/EuroLoose/20190730_IPMBioMe_EuroLoose_pt1_flip1.statistics.txt /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/Euro/EuroLoose/20190730_IPMBioMe_EuroLoose_pt2_flip1.statistics.txt | grep chunk | wc
+     81     729    7545
+(MultiEthnicGWAS) [  mturchin@login003  ~/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/Euro/EuroLoose]$cat /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/AfrAmr/AfrAmr/20190730_IPMBioMe_AfrAmr_pt1_flip1.statistics.txt /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/AfrAmr/AfrAmr/20190730_IPMBioMe_AfrAmr_pt2_flip1.statistics.txt /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/Euro/EuroStrict/20190730_IPMBioMe_EuroStrict_pt1_flip1.statistics.txt /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/Euro/EuroStrict/20190730_IPMBioMe_EuroStrict_pt2_flip1.statistics.txt /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/Euro/EuroLoose/20190730_IPMBioMe_EuroLoose_pt1_flip1.statistics.txt /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/Euro/EuroLoose/20190730_IPMBioMe_EuroLoose_pt2_flip1.statistics.txt | grep chunk | head -n 10
+chunk_2_0000000001_0020000000 Sample NA_82858: call rate: 0.0012665515256188831
+chunk_2_0000000001_0020000000 (Snps: 8685, Reference overlap: 0.9265097454467994, low sample call rates: true)
+chunk_2_0020000001_0040000000 Sample NA_82858: call rate: 0.0
+chunk_2_0020000001_0040000000 (Snps: 6950, Reference overlap: 0.9120691914559036, low sample call rates: true)
+chunk_2_0040000001_0060000000 Sample NA_82858: call rate: 0.0
+chunk_2_0040000001_0060000000 (Snps: 7773, Reference overlap: 0.9232866967038179, low sample call rates: true)
+chunk_2_0060000001_0080000000 Sample NA_82858: call rate: 0.0
+chunk_2_0060000001_0080000000 (Snps: 5876, Reference overlap: 0.9097372488408038, low sample call rates: true)
+chunk_2_0080000001_0100000000 Sample NA_82858: call rate: 0.2629496402877698
+chunk_2_0080000001_0100000000 (Snps: 2780, Reference overlap: 0.8567476175837688, low sample call rates: true)
+(MultiEthnicGWAS) [  mturchin@login003  ~/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/Euro/EuroLoose]$cat /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/AfrAmr/AfrAmr/20190730_IPMBioMe_AfrAmr_pt1_flip1.statistics.txt /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/AfrAmr/AfrAmr/20190730_IPMBioMe_AfrAmr_pt2_flip1.statistics.txt /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/Euro/EuroStrict/20190730_IPMBioMe_EuroStrict_pt1_flip1.statistics.txt /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/Euro/EuroStrict/20190730_IPMBioMe_EuroStrict_pt2_flip1.statistics.txt /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/Euro/EuroLoose/20190730_IPMBioMe_EuroLoose_pt1_flip1.statistics.txt /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/Euro/EuroLoose/20190730_IPMBioMe_EuroLoose_pt2_flip1.statistics.txt | grep chunk | grep Reference | grep false
+chunk_14_0000000001_0020000000 (Snps: 30, Reference overlap: 0.45454545454545453, low sample call rates: false)
+chunk_14_0000000001_0020000000 (Snps: 30, Reference overlap: 0.45454545454545453, low sample call rates: false)
+chunk_14_0000000001_0020000000 (Snps: 30, Reference overlap: 0.45454545454545453, low sample call rates: false)
+(MultiEthnicGWAS) [  mturchin@login003  ~/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/Euro/EuroLoose]$cat /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/AfrAmr/AfrAmr/20190730_IPMBioMe_AfrAmr_pt12_flip1.statistics.drops.FIDIIDs | wc
+      8      16      72
+(MultiEthnicGWAS) [  mturchin@login003  ~/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/Euro/EuroLoose]$cat /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/PAGE_IPMBioMe_chrAll_v1.QCed.1kGMatch.pruned.QCed.SNPrecode.w1kG.flipped.dropmissnp.allRltvs.flashpca.pcs.wAncs.AfrAmr.dropRltvs.Loose.FIDIIDs | wc
+   4302    8604   38718
+(MultiEthnicGWAS) [  mturchin@login003  ~/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/Euro/EuroLoose]$cat /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/PAGE_IPMBioMe_chrAll_v1.QCed.1kGMatch.pruned.QCed.SNPrecode.w1kG.flipped.dropmissnp.allRltvs.flashpca.pcs.wAncs.AfrAmr.dropRltvs.Loose.HRCdrops.FIDIIDs | wc
+   4294    8588   38646
+(MultiEthnicGWAS) [  mturchin@login003  ~/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/Euro/EuroLoose]$cat /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/Euro/EuroStrict/20190730_IPMBioMe_EuroStrict_pt12_flip1.statistics.drops.FIDIIDs | wc
+      1       2       9
+(MultiEthnicGWAS) [  mturchin@login003  ~/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/Euro/EuroLoose]$cat /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/PAGE_IPMBioMe_chrAll_v1.QCed.1kGMatch.pruned.QCed.SNPrecode.w1kG.flipped.dropmissnp.allRltvs.flashpca.pcs.wAncs.EuroStrict.dropRltvs.Loose.FIDIIDs | wc
+   2368    4736   21324
+(MultiEthnicGWAS) [  mturchin@login003  ~/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/Euro/EuroLoose]$cat /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/PAGE_IPMBioMe_chrAll_v1.QCed.1kGMatch.pruned.QCed.SNPrecode.w1kG.flipped.dropmissnp.allRltvs.flashpca.pcs.wAncs.EuroStrict.dropRltvs.Loose.HRCdrops.FIDIIDs | wc
+   2367    4734   21315
+(MultiEthnicGWAS) [  mturchin@login003  ~/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/Euro/EuroLoose]$cat /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/Euro/EuroLoose/20190730_IPMBioMe_EuroLoose_pt12_flip1.statistics.drops.FIDIIDs | wc
+      2       4      18
+(MultiEthnicGWAS) [  mturchin@login003  ~/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/Euro/EuroLoose]$cat /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/PAGE_IPMBioMe_chrAll_v1.QCed.1kGMatch.pruned.QCed.SNPrecode.w1kG.flipped.dropmissnp.allRltvs.flashpca.pcs.wAncs.EuroLoose.dropRltvs.Loose.FIDIIDs | wc
+   3872    7744   34860
+(MultiEthnicGWAS) [  mturchin@login003  ~/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/Euro/EuroLoose]$cat /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/PAGE_IPMBioMe_chrAll_v1.QCed.1kGMatch.pruned.QCed.SNPrecode.w1kG.flipped.dropmissnp.allRltvs.flashpca.pcs.wAncs.EuroLoose.dropRltvs.Loose.HRCdrops.FIDIIDs | wc
+   3870    7740   34842
 
 
 ~~~
