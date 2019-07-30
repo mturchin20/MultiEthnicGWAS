@@ -4108,7 +4108,7 @@ dev.off();"
 #/users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/PAGE_IPMBioMe_chrAll_v1.QCed.1kGMatch.pruned.QCed.SNPrecode.w1kG.flipped.dropmissnp.allRltvs.flashpca.pcs.wAncs.EuroStrict.dropRltvs.Loose.FIDIIDs
 #/users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/PAGE_IPMBioMe_chrAll_v1.QCed.1kGMatch.pruned.QCed.SNPrecode.w1kG.flipped.dropmissnp.allRltvs.flashpca.pcs.wAncs.EuroLoose.dropRltvs.Loose.FIDIIDs
 
-PAGEIPMBioMePops=`echo "Euro;EuroStrict;EurStr;698236 Euro;EuroLoose;EurLs;2483362 AfrAmr;AfrAmr;AfrAmr;496726"`;
+PAGEIPMBioMePops=`echo "AfrAmr;AfrAmr;AfrAmr;496726 Euro;EuroStrict;EurStr;698236 Euro;EuroLoose;EurLs;2483362"`;
 mkdir /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/Imputation
 for j in `cat <(echo $PAGEIPMBioMePops | perl -lane 'print join("\n", @F);') | head -n 3`; do
         ancestry1=`echo $j | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[0];'`
@@ -4129,6 +4129,7 @@ for j in `cat <(echo $PAGEIPMBioMePops | perl -lane 'print join("\n", @F);') | h
 	done
 done	
 
+#20190730 NOTE -- imputing with HRC r1.1 2016 and phasing with eagle v2.3, using EUR or AA for quality control reference panel, and using AES 256 encryption; broke each population imputation into chunks of chr 1-8 and 9-22; also got flip/strand issues, so doing the process like I did with PopRes and going to rerun the 'flipped' versions (having flipped by being compared to the HRC r1-1 GRCh37 source files)
 #MacBook Pro
 #mkdir /Users/mturchin20/Documents/Work/LabMisc/Data/PAGE
 #mkdir /Users/mturchin20/Documents/Work/LabMisc/Data/PAGE/IPMBioMe
@@ -4138,31 +4139,29 @@ done
 #scp -p mturchin@ssh.ccv.brown.edu:/users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/AfrAmr/AfrAmr/PAGE_IPMBioMe_chr*_v1.QCed.QCed.dropRltvs.Loose.AfrAmr.sort.vcf.gz /Users/mturchin20/Documents/Work/LabMisc/Data/PAGE/IPMBioMe/AfrAmr/. 
 #scp -p mturchin@ssh.ccv.brown.edu:/users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/Euro/EuroStrict/PAGE_IPMBioMe_chr*_v1.QCed.QCed.dropRltvs.Loose.EuroStrict.sort.vcf.gz /Users/mturchin20/Documents/Work/LabMisc/Data/PAGE/IPMBioMe/EuroStrict/. 
 #scp -p mturchin@ssh.ccv.brown.edu:/users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/Euro/EuroLoose/PAGE_IPMBioMe_chr*_v1.QCed.QCed.dropRltvs.Loose.EuroLoose.sort.vcf.gz /Users/mturchin20/Documents/Work/LabMisc/Data/PAGE/IPMBioMe/EuroLoose/. 
-#20190730 NOTE -- imputing with HRC r1.1 2016 and phasing with eagle v2.3, using EUR or AA for quality control reference panel, and using AES 256 encryption; broke each population imputation into chunks of chr 1-8 and 9-22
 
-join <(join <(cat /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/PAGE_IPMBioMe_chrAll_v1.QCed.bim 
-join <(cat /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/PAGE_IPMBioMe_chrAll_v1.QCed.bim | awk '{ print $1 "_" $4 "\t" $0 }' | sort -k 1,1) <(zcat /users/mturchin/data/mturchin/HRC/HRC.r1-1.GRCh37.wgs.mac5.sites.tab.gz | awk '{ print $1 "_" $2 "\t" $4 "\t" $5 }' | sort -k 1,1) > /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/PAGE_IPMBioMe_chrAll_v1.QCed.CompHRC.txt
+join <(cat /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/PAGE_IPMBioMe_chrAll_v1.QCed.bim | awk '{ print $1 "_" $4 "\t" $0 }' | sort -k 1,1) <(zcat /users/mturchin/data/mturchin/HRC/HRC.r1-1.GRCh37.wgs.mac5.sites.tab.gz | awk '{ print $1 "_" $2 "\t" $4 "\t" $5 }' | sort -k 1,1) | gzip > /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/PAGE_IPMBioMe_chrAll_v1.QCed.CompHRC.txt.gz
+zcat /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/PAGE_IPMBioMe_chrAll_v1.QCed.CompHRC.txt.gz | awk '{ if ((($6 != $8) && ($7 != $9)) && (($6 != $9) && ($7 != $8))) { print $3 } }' > /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/PAGE_IPMBioMe_chrAll_v1.QCed.CompHRC.flipSNPs.snpIDs
 
-join <(join <(cat /users/mturchin/data/POPRES/NHGRI/POPRES/phs000145v2/p2/mturchin20/POPRES_Genotypes_QC2_v2.United_Kingdom.bim | awk '{ print $2 "\t" $0 }' | sort -k 1,1) <(cat /users/mturchin/data/POPRES/NHGRI/POPRES/phs000145v2/p2/phg000027v2/phg000027.POPRES.genotype-calls.Affy500K.p1.MULTI.marker-info/POPRES_Snps_QC2.txt | awk '{ print $1 "\t" $2 }' | sort -k 1,1) | awk '{ print $2 "\t" $8 "\t" $4 "\t" $5 "\t" $6 "\t" $7 }' | awk '{ print $2 "\t" $5 "\t" $6 }' | sort -k 1,1 | uniq) <(zcat /users/mturchin/data/mturchin/HRC/HRC.r1-1.GRCh37.wgs.mac5.sites.tab.gz | awk '{ print $3 "\t" $4 "\t" $5 }' | sort -k 1,1 | uniq) > /users/mturchin/data/POPRES/NHGRI/POPRES/phs000145v2/p2/mturchin20/POPRES_Genotypes_QC2_v2.United_Kingdom.CompHRC.txt
-join <(cat /users/mturchin/data/POPRES/NHGRI/POPRES/phs000145v2/p2/mturchin20/POPRES_Genotypes_QC2_v2.United_Kingdom.CompHRC.txt | awk '{ if ((($2 != $4) && ($3 != $5)) && (($2 != $5) && ($3 != $4))) { print $1 } }' | sort -k 1,1) <(join <(cat /users/mturchin/data/POPRES/NHGRI/POPRES/phs000145v2/p2/mturchin20/POPRES_Genotypes_QC2_v2.United_Kingdom.bim | awk '{ print $2 "\t" $0 }' | sort -k 1,1) <(cat /users/mturchin/data/POPRES/NHGRI/POPRES/phs000145v2/p2/phg000027v2/phg000027.POPRES.genotype-calls.Affy500K.p1.MULTI.marker-info/POPRES_Snps_QC2.txt | awk '{ print $1 "\t" $2 }' | sort -k 1,1) | awk '{ print $8 "\t" $1 }' | sort -k 1,1 | uniq ) | awk '{ print $2 }' > /users/mturchin/data/POPRES/NHGRI/POPRES/phs000145v2/p2/mturchin20/POPRES_Genotypes_QC2_v2.United_Kingdom.CompHRC.flipSNPs.snpIDs
+for j in `cat <(echo $PAGEIPMBioMePops | perl -lane 'print join("\n", @F);') | head -n 1`; do
+        ancestry1=`echo $j | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[0];'`
+        ancestry2=`echo $j | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[1];'`
 
-mkdir /users/mturchin/data/POPRES/NHGRI/POPRES/phs000145v2/p2/mturchin20/UKBHeightRspnd/Imputation
+        echo $ancestry1 $ancestry2
 
-for i in {1..22}; do
-        echo $i;
+	for i in {1..22}; do
+		plink --bfile /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/PAGE_IPMBioMe_chr${i}_v1.QCed --keep /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/PAGE_IPMBioMe_chrAll_v1.QCed.1kGMatch.pruned.QCed.SNPrecode.w1kG.flipped.dropmissnp.allRltvs.flashpca.pcs.wAncs.$ancestry2.dropRltvs.Loose.FIDIIDs --flip /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/PAGE_IPMBioMe_chrAll_v1.QCed.CompHRC.flipSNPs.snpIDs --snps-only just-acgt --recode vcf --out /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/$ancestry1/$ancestry2/PAGE_IPMBioMe_chr${i}_v1.QCed.QCed.dropRltvs.Loose.$ancestry2.ATGC.flip
+		/users/mturchin/Software/vcftools_0.1.13/bin/vcf-sort /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/$ancestry1/$ancestry2/PAGE_IPMBioMe_chr${i}_v1.QCed.QCed.dropRltvs.Loose.$ancestry2.ATGC.flip.vcf | bgzip -c > /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/$ancestry1/$ancestry2/PAGE_IPMBioMe_chr${i}_v1.QCed.QCed.dropRltvs.Loose.$ancestry2.ATGC.flip.sort.vcf.gz
+#		rm /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/$ancestry1/$ancestry2/PAGE_IPMBioMe_chr${i}_v1.QCed.QCed.dropRltvs.Loose.$ancestry2.sort.vcf.gz 
+#		rm /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/$ancestry1/$ancestry2/PAGE_IPMBioMe_chr${i}_v1.QCed.QCed.dropRltvs.Loose.$ancestry2.ATGC.flip.vcf
 
-        plink --bfile /users/mturchin/data/POPRES/NHGRI/POPRES/phs000145v2/p2/mturchin20/POPRES_Genotypes_QC2_v2.United_Kingdom --chr $i --flip /users/mturchin/data/POPRES/NHGRI/POPRES/phs000145v2/p2/mturchin20/POPRES_Genotypes_QC2_v2.United_Kingdom.CompHRC.flipSNPs.snpIDs --recode vcf --out /users/mturchin/data/POPRES/NHGRI/POPRES/phs000145v2/p2/mturchin20/UKBHeightRspnd/Imputation/POPRES_Genotypes_QC2_v2.United_Kingdom.chr${i}.flip
-        cat <(cat /users/mturchin/data/POPRES/NHGRI/POPRES/phs000145v2/p2/mturchin20/UKBHeightRspnd/Imputation/POPRES_Genotypes_QC2_v2.United_Kingdom.chr${i}.flip.vcf | grep ^#) <(join <(cat /users/mturchin/data/POPRES/NHGRI/POPRES/phs000145v2/p2/mturchin20/UKBHeightRspnd/POPRES_Genotypes_QC2_v2.United_Kingdom.QCed.QCed.rltdDrop.bim.liftOverBed.hg19.liftOverBed | awk '{ print $4 "\t" $0 }' | sort -k 1,1) <(cat /users/mturchin/data/POPRES/NHGRI/POPRES/phs000145v2/p2/mturchin20/UKBHeightRspnd/Imputation/POPRES_Genotypes_QC2_v2.United_Kingdom.chr${i}.flip.vcf | grep -v ^# | awk '{ print $1 "_" $2 "\t" $0 }' | sort -k 1,1) | sed 's/chr//g' | perl -lane 'print $F[1], "\t", $F[2], "\t", join("\t", @F[7..$#F]);') > /users/mturchin/data/POPRES/NHGRI/POPRES/phs000145v2/p2/mturchin20/UKBHeightRspnd/Imputation/POPRES_Genotypes_QC2_v2.United_Kingdom.chr${i}.flip.hg19.vcf
-        /users/mturchin/Software/vcftools_0.1.13/bin/vcf-sort /users/mturchin/data/POPRES/NHGRI/POPRES/phs000145v2/p2/mturchin20/UKBHeightRspnd/Imputation/POPRES_Genotypes_QC2_v2.United_Kingdom.chr${i}.flip.hg19.vcf | bgzip -c > /users/mturchin/data/POPRES/NHGRI/POPRES/phs000145v2/p2/mturchin20/UKBHeightRspnd/Imputation/POPRES_Genotypes_QC2_v2.United_Kingdom.chr${i}.flip.hg19.vcf.gz
-        rm /users/mturchin/data/POPRES/NHGRI/POPRES/phs000145v2/p2/mturchin20/UKBHeightRspnd/Imputation/POPRES_Genotypes_QC2_v2.United_Kingdom.chr${i}.vcf /users/mturchin/data/POPRES/NHGRI/POPRES/phs000145v2/p2/mturchin20/UKBHeightRspnd/Imputation/POPRES_Genotypes_QC2_v2.Italy.chr${i}.vcf /users/mturchin/data/POPRES/NHGRI/POPRES/phs000145v2/p2/mturchin20/UKBHeightRspnd/Imputation/POPRES_Genotypes_QC2_v2.Portugal.chr${i}.vcf /users/mturchin/data/POPRES/NHGRI/POPRES/phs000145v2/p2/mturchin20/UKBHeightRspnd/Imputation/POPRES_Genotypes_QC2_v2.United_Kingdom.chr${i}.hg19.vcf /users/mturchin/data/POPRES/NHGRI/POPRES/phs000145v2/p2/mturchin20/UKBHeightRspnd/Imputation/POPRES_Genotypes_QC2_v2.Italy.chr${i}.hg19.vcf /users/mturchin/data/POPRES/NHGRI/POPRES/phs000145v2/p2/mturchin20/UKBHeightRspnd/Imputation/POPRES_Genotypes_QC2_v2.Portugal.chr${i}.hg19.vcf /users/mturchin/data/POPRES/NHGRI/POPRES/phs000145v2/p2/mturchin20/UKBHeightRspnd/Imputation/POPRES_Genotypes_QC2_v2.United_Kingdom.chr${i}.hg19.vcf.gz /users/mturchin/data/POPRES/NHGRI/POPRES/phs000145v2/p2/mturchin20/UKBHeightRspnd/Imputation/POPRES_Genotypes_QC2_v2.Italy.chr${i}.hg19.vcf.gz /users/mturchin/data/POPRES/NHGRI/POPRES/phs000145v2/p2/mturchin20/UKBHeightRspnd/Imputation/POPRES_Genotypes_QC2_v2.Portugal.chr${i}.hg19.vcf.gz
-        rm /users/mturchin/data/POPRES/NHGRI/POPRES/phs000145v2/p2/mturchin20/UKBHeightRspnd/Imputation/POPRES_Genotypes_QC2_v2.United_Kingdom.chr${i}.flip.vcf /users/mturchin/data/POPRES/NHGRI/POPRES/phs000145v2/p2/mturchin20/UKBHeightRspnd/Imputation/POPRES_Genotypes_QC2_v2.Italy.chr${i}.flip.vcf /users/mturchin/data/POPRES/NHGRI/POPRES/phs000145v2/p2/mturchin20/UKBHeightRspnd/Imputation/POPRES_Genotypes_QC2_v2.Portugal.chr${i}.flip.vcf /users/mturchin/data/POPRES/NHGRI/POPRES/phs000145v2/p2/mturchin20/UKBHeightRspnd/Imputation/POPRES_Genotypes_QC2_v2.United_Kingdom.chr${i}.flip.hg19.vcf /users/mturchin/data/POPRES/NHGRI/POPRES/phs000145v2/p2/mturchin20/UKBHeightRspnd/Imputation/POPRES_Genotypes_QC2_v2.Italy.chr${i}.flip.hg19.vcf /users/mturchin/data/POPRES/NHGRI/POPRES/phs000145v2/p2/mturchin20/UKBHeightRspnd/Imputation/POPRES_Genotypes_QC2_v2.Portugal.chr${i}.flip.hg19.vcf
+	done
+done	
 
-done
-
-#MacBook Air
-##scp -p mturchin@ssh.ccv.brown.edu:/users/mturchin/data/POPRES/NHGRI/POPRES/phs000145v2/p2/mturchin20/POPRES_Genotypes_QC2_v2.*.vcf /Users/mturchin20/Documents/Work/LabMisc/Data/POPRES/
-##scp -p mturchin@ssh.ccv.brown.edu:/users/mturchin/data/POPRES/NHGRI/POPRES/phs000145v2/p2/mturchin20/UKBHeightRspnd/Imputation/POPRES_Genotypes_QC2_v2.*chr*.vcf.gz /Users/mturchin20/Documents/Work/LabMisc/Data/POPRES/
-#scp -p mturchin@ssh.ccv.brown.edu:/users/mturchin/data/POPRES/NHGRI/POPRES/phs000145v2/p2/mturchin20/UKBHeightRspnd/Imputation/POPRES_Genotypes_QC2_v2.*chr*.hg19.vcf.gz /Users/mturchin20/Documents/Work/LabMisc/Data/POPRES/
+#MacBook Pro
+#scp -p mturchin@ssh.ccv.brown.edu:/users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/AfrAmr/AfrAmr/PAGE_IPMBioMe_chr*_v1.QCed.QCed.dropRltvs.Loose.AfrAmr.ATGC.flip.sort.vcf.gz.gz /Users/mturchin20/Documents/Work/LabMisc/Data/PAGE/IPMBioMe/AfrAmr/. 
+#scp -p mturchin@ssh.ccv.brown.edu:/users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/Euro/EuroStrict/PAGE_IPMBioMe_chr*_v1.QCed.QCed.dropRltvs.Loose.EuroStrict.ATGC.flip.sort.vcf.gz.gz /Users/mturchin20/Documents/Work/LabMisc/Data/PAGE/IPMBioMe/EuroStrict/. 
+#scp -p mturchin@ssh.ccv.brown.edu:/users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/Euro/EuroLoose/PAGE_IPMBioMe_chr*_v1.QCed.QCed.dropRltvs.Loose.EuroLoose.ATGC.flip.sort.vcf.gz.gz /Users/mturchin20/Documents/Work/LabMisc/Data/PAGE/IPMBioMe/EuroLoose/. 
 
 
 
@@ -8432,6 +8431,21 @@ qDrop.QCed.dropRltvs.PCAdrop.noX.Height.Trans.ADD.assoc.linear.clumped.5eNeg8.12
    3872    7744   34860
 (MultiEthnicGWAS) [  mturchin@login003  ~/LabMisc/RamachandranLab/MultiEthnicGWAS]$join <(cat /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/PAGE_IPMBioMe_chrAll_v1.QCed.bim | awk '{ print $1 "_" $4 "\t" $0 }' | sort -k 1,1) <(zcat /users/mturchin/data/mturchin/HRC/HRC.r1-1.GRCh37.wgs.mac5.sites.tab.gz | awk '{ print $1 "_" $2 "\t" $4 "\t" $5 }' | sort -k 1,1) | wc
  865850 7792650 39430660
+[  mturchin@node1127  ~/LabMisc/RamachandranLab/MultiEthnicGWAS]$join <(cat /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/PAGE_IPMBioMe_chrAll_v1.QCed.bim | awk '{ print $1 "_" $4 "\t" $0 }' | sort -k 1,1) <(zcat /users/mturchin/data/mturchin/HRC/HRC.r1-1.GRCh37.wgs.mac5.sites.tab.gz | awk '{ print $1 "_" $2 "\t" $4 "\t" $5 }' | sort -k 1,1 | uniq) | wc
+ 865850 7792650 39430660
+(MultiEthnicGWAS) [  mturchin@login003  ~/LabMisc/RamachandranLab/MultiEthnicGWAS]$cat /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/PAGE_IPMBioMe_chrAll_v1.QCed.CompHRC.flipSNPs.snpIDs | wc
+ 389446  389446 4738237
+(MultiEthnicGWAS) [  mturchin@login003  ~/LabMisc/RamachandranLab/MultiEthnicGWAS]$cat /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/PAGE_IPMBioMe_chrAll_v1.QCed.CompHRC.flipSNPs.snpIDs | head -n 10
+exm847471
+rs1983865
+exm847519
+exm847574
+JHU_10.100028952
+JHU_10.100045289
+rs7905091
+rs79063166
+rs10883059
+JHU_10.100048758
 
 
 ~~~
