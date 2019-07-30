@@ -4129,22 +4129,15 @@ for j in `cat <(echo $PAGEIPMBioMePops | perl -lane 'print join("\n", @F);') | h
 	done
 done	
 
-plink --bfile /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/PAGE_IPMBioMe_chr${i}_v1.QCed 
-/users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/PAGE_IPMBioMe_chr${i}_v1.QCed.QCed.dropRltvs.Loose.$ancestry2
-
-/users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/PAGE_IPMBioMe_chrAll_v1.QCed.1kGMatch.pruned.QCed.SNPrecode.w1kG.flipped.dropmissnp.allRltvs.flashpca.pcs.wAncs.African.dropRltvs.Loose.FIDIIDs
-/users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/Analyses/MAPIT/slurm/ukb_chrAll_v2.${ancestry2}.QCed.reqDrop.QCed.dropRltvs.PCAdrop.sort.ImptHRC.dose.100geno.MAPIT.vs1.slurm.$Pheno1.DaviesMain.3.output
-
-done
-
-
-        for i in {1..22}; do
-                plink --bfile /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chr${i}_v2.${ancestry2}.QCed.reqDrop.QCed.dropRltvs.PCAdrop --recode vcf --out /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chr${i}_v2.${ancestry2}.QCed.reqDrop.QCed.dropRltvs.PCAdrop
-                /users/mturchin/Software/vcftools_0.1.13/bin/vcf-sort /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chr${i}_v2.${ancestry2}.QCed.reqDrop.QCed.dropRltvs.PCAdrop.vcf | bgzip -c > /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chr${i}_v2.${ancestry2}.QCed.reqDrop.QCed.dropRltvs.PCAdrop.sort.vcf.gz
-                rm /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chr${i}_v2.${ancestry2}.QCed.reqDrop.QCed.dropRltvs.PCAdrop.vcf /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chr${i}_v2.${ancestry2}.QCed.reqDrop.QCed.dropRltvs.PCAdrop.log
-        done
-
-done
+#MacBook Pro
+#mkdir /Users/mturchin20/Documents/Work/LabMisc/Data/PAGE
+#mkdir /Users/mturchin20/Documents/Work/LabMisc/Data/PAGE/IPMBioMe
+#mkdir /Users/mturchin20/Documents/Work/LabMisc/Data/PAGE/IPMBioMe/African
+#mkdir /Users/mturchin20/Documents/Work/LabMisc/Data/PAGE/IPMBioMe/EuroStrict
+#mkdir /Users/mturchin20/Documents/Work/LabMisc/Data/PAGE/IPMBioMe/EuroLoose
+#scp -p mturchin@ssh.ccv.brown.edu:/users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/African/African/PAGE_IPMBioMe_chr*_v1.QCed.QCed.dropRltvs.Loose.African.sort.vcf.gz /Users/mturchin20/Documents/Work/LabMisc/Data/PAGE/IPMBioMe/African/. 
+#scp -p mturchin@ssh.ccv.brown.edu:/users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/Euro/EuroStrict/PAGE_IPMBioMe_chr*_v1.QCed.QCed.dropRltvs.Loose.EuroStrict.sort.vcf.gz /Users/mturchin20/Documents/Work/LabMisc/Data/PAGE/IPMBioMe/EuroStrict/. 
+#scp -p mturchin@ssh.ccv.brown.edu:/users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/Euro/EuroLoose/PAGE_IPMBioMe_chr*_v1.QCed.QCed.dropRltvs.Loose.EuroLoose.sort.vcf.gz /Users/mturchin20/Documents/Work/LabMisc/Data/PAGE/IPMBioMe/EuroLoose/. 
 
 
 
@@ -4154,31 +4147,6 @@ done
 
 
 
-
-
-UKBioBankPops=`echo "African;African;Afr;472840 British;British.Ran4000;Brit4k;138503 British;British.Ran10000;Brit10k;9827442 Caribbean;Caribbean;Carib;328593 Chinese;Chinese;Chi;842743 Indian;Indian;Indn;549281 Irish;Irish;Irish;902143 Pakistani;Pakistani;Pkstn;232849"`;
-
-
-for j in `cat <(echo $UKBioBankPops | perl -lane 'print join("\n", @F);') | grep British | grep -v Ran4000 | grep -v Ran100000`; do
-        ancestry1=`echo $j | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[0];'`
-        ancestry2=`echo $j | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[1];'`
-
-        echo $ancestry1 $ancestry2
-
-        if [ ! -d /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/Imputation ]; then
-                mkdir /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/Imputation
-        fi
-        if [ ! -d /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/Imputation/mturchin20 ]; then
-                mkdir /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/Imputation/mturchin20
-        fi
-
-        for i in {1..22}; do
-                plink --bfile /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chr${i}_v2.${ancestry2}.QCed.reqDrop.QCed.dropRltvs.PCAdrop --recode vcf --out /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chr${i}_v2.${ancestry2}.QCed.reqDrop.QCed.dropRltvs.PCAdrop
-                /users/mturchin/Software/vcftools_0.1.13/bin/vcf-sort /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chr${i}_v2.${ancestry2}.QCed.reqDrop.QCed.dropRltvs.PCAdrop.vcf | bgzip -c > /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chr${i}_v2.${ancestry2}.QCed.reqDrop.QCed.dropRltvs.PCAdrop.sort.vcf.gz
-                rm /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chr${i}_v2.${ancestry2}.QCed.reqDrop.QCed.dropRltvs.PCAdrop.vcf /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chr${i}_v2.${ancestry2}.QCed.reqDrop.QCed.dropRltvs.PCAdrop.log
-        done
-
-done
 
 
 #MacBook Air
@@ -4221,6 +4189,31 @@ for i in {1..22}; do
         cat <(cat /users/mturchin/data/POPRES/NHGRI/POPRES/phs000145v2/p2/mturchin20/UKBHeightRspnd/Imputation/POPRES_Genotypes_QC2_v2.United_Kingdom.chr${i}.flip.vcf | grep ^#) <(join <(cat /users/mturchin/data/POPRES/NHGRI/POPRES/phs000145v2/p2/mturchin20/UKBHeightRspnd/POPRES_Genotypes_QC2_v2.United_Kingdom.QCed.QCed.rltdDrop.bim.liftOverBed.hg19.liftOverBed | awk '{ print $4 "\t" $0 }' | sort -k 1,1) <(cat /users/mturchin/data/POPRES/NHGRI/POPRES/phs000145v2/p2/mturchin20/UKBHeightRspnd/Imputation/POPRES_Genotypes_QC2_v2.United_Kingdom.chr${i}.flip.vcf | grep -v ^# | awk '{ print $1 "_" $2 "\t" $0 }' | sort -k 1,1) | sed 's/chr//g' | perl -lane 'print $F[1], "\t", $F[2], "\t", join("\t", @F[7..$#F]);') > /users/mturchin/data/POPRES/NHGRI/POPRES/phs000145v2/p2/mturchin20/UKBHeightRspnd/Imputation/POPRES_Genotypes_QC2_v2.United_Kingdom.chr${i}.flip.hg19.vcf
         cat <(cat /users/mturchin/data/POPRES/NHGRI/POPRES/phs000145v2/p2/mturchin20/UKBHeightRspnd/Imputation/POPRES_Genotypes_QC2_v2.Italy.chr${i}.flip.vcf | grep ^#) <(join <(cat /users/mturchin/data/POPRES/NHGRI/POPRES/phs000145v2/p2/mturchin20/UKBHeightRspnd/POPRES_Genotypes_QC2_v2.Italy.QCed.QCed.rltdDrop.bim.liftOverBed.hg19.liftOverBed | awk '{ print $4 "\t" $0 }' | sort -k 1,1) <(cat /users/mturchin/data/POPRES/NHGRI/POPRES/phs000145v2/p2/mturchin20/UKBHeightRspnd/Imputation/POPRES_Genotypes_QC2_v2.Italy.chr${i}.flip.vcf | grep -v ^# | awk '{ print $1 "_" $2 "\t" $0 }' | sort -k 1,1) | sed 's/chr//g' | perl -lane 'print $F[1], "\t", $F[2], "\t", join("\t", @F[7..$#F]);') > /users/mturchin/data/POPRES/NHGRI/POPRES/phs000145v2/p2/mturchin20/UKBHeightRspnd/Imputation/POPRES_Genotypes_QC2_v2.Italy.chr${i}.flip.hg19.vcf
         cat <(cat /users/mturchin/data/POPRES/NHGRI/POPRES/phs000145v2/p2/mturchin20/UKBHeightRspnd/Imputation/POPRES_Genotypes_QC2_v2.Portugal.chr${i}.flip.vcf | grep ^#) <(join <(cat /users/mt
+
+
+
+
+
+
+
+
+
+cov matrix
+annotation
+phenos
+pathway genos
+regress pathway genos
+
+
+
+
+
+
+
+
+
+
+
 
 
 
