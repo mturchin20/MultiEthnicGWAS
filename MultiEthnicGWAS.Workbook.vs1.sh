@@ -94,6 +94,12 @@ conda install r-data.table r-bigmemory
 #20190728
 #conda install -c conda-forge openmp 
 conda install r-RcppEigen r-RSpectra r-BH r-abind
+#20190730
+##conda install -c anaconda 7za 
+##conda install -c menpo 7zip 
+conda install -c bioconda p7zip 
+
+#20190728
 conda create -n flashpca1
 conda activate flashpca1
 conda install -c anaconda gcc 
@@ -4108,9 +4114,10 @@ dev.off();"
 #/users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/PAGE_IPMBioMe_chrAll_v1.QCed.1kGMatch.pruned.QCed.SNPrecode.w1kG.flipped.dropmissnp.allRltvs.flashpca.pcs.wAncs.EuroStrict.dropRltvs.Loose.FIDIIDs
 #/users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/PAGE_IPMBioMe_chrAll_v1.QCed.1kGMatch.pruned.QCed.SNPrecode.w1kG.flipped.dropmissnp.allRltvs.flashpca.pcs.wAncs.EuroLoose.dropRltvs.Loose.FIDIIDs
 
-PAGEIPMBioMePops=`echo "AfrAmr;AfrAmr;AfrAmr;496726 Euro;EuroStrict;EurStr;698236 Euro;EuroLoose;EurLs;2483362"`;
+PAGEIPMBioMePops1=`echo "AfrAmr;AfrAmr;AfrAmr;496726 Euro;EuroStrict;EurStr;698236 Euro;EuroLoose;EurLs;2483362"`;
+PAGEIPMBioMePops2=`echo "AfrAmr;AfrAmrHRC;AAHRC;496726 AfrAmr;AfrAmr1000G;AA1000G;936214 AfrAmr;AfrAmrCAAPA;AACAAPA;3857636 Euro;EuroStrict;EurStr;698236 Euro;EuroLoose;EurLs;2483362"`;
 mkdir /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/Imputation
-for j in `cat <(echo $PAGEIPMBioMePops | perl -lane 'print join("\n", @F);') | head -n 3`; do
+for j in `cat <(echo $PAGEIPMBioMePops1 | perl -lane 'print join("\n", @F);') | head -n 3`; do
         ancestry1=`echo $j | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[0];'`
         ancestry2=`echo $j | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[1];'`
 
@@ -4122,11 +4129,11 @@ for j in `cat <(echo $PAGEIPMBioMePops | perl -lane 'print join("\n", @F);') | h
 		mkdir /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/$ancestry1/$ancestry2/Imputation
 	fi
 
-	for i in {1..22}; do
-		plink --bfile /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/PAGE_IPMBioMe_chr${i}_v1.QCed --keep /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/PAGE_IPMBioMe_chrAll_v1.QCed.1kGMatch.pruned.QCed.SNPrecode.w1kG.flipped.dropmissnp.allRltvs.flashpca.pcs.wAncs.$ancestry2.dropRltvs.Loose.FIDIIDs --recode vcf --out /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/$ancestry1/$ancestry2/PAGE_IPMBioMe_chr${i}_v1.QCed.QCed.dropRltvs.Loose.$ancestry2 
-		/users/mturchin/Software/vcftools_0.1.13/bin/vcf-sort /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/$ancestry1/$ancestry2/PAGE_IPMBioMe_chr${i}_v1.QCed.QCed.dropRltvs.Loose.$ancestry2.vcf | bgzip -c > /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/$ancestry1/$ancestry2/PAGE_IPMBioMe_chr${i}_v1.QCed.QCed.dropRltvs.Loose.$ancestry2.sort.vcf.gz
-		rm /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/$ancestry1/$ancestry2/PAGE_IPMBioMe_chr${i}_v1.QCed.QCed.dropRltvs.Loose.$ancestry2.vcf /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/$ancestry1/$ancestry2/PAGE_IPMBioMe_chr${i}_v1.QCed.QCed.dropRltvs.Loose.$ancestry2.log
-	done
+#	for i in {1..22}; do
+#		plink --bfile /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/PAGE_IPMBioMe_chr${i}_v1.QCed --keep /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/PAGE_IPMBioMe_chrAll_v1.QCed.1kGMatch.pruned.QCed.SNPrecode.w1kG.flipped.dropmissnp.allRltvs.flashpca.pcs.wAncs.$ancestry2.dropRltvs.Loose.FIDIIDs --recode vcf --out /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/$ancestry1/$ancestry2/PAGE_IPMBioMe_chr${i}_v1.QCed.QCed.dropRltvs.Loose.$ancestry2 
+#		/users/mturchin/Software/vcftools_0.1.13/bin/vcf-sort /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/$ancestry1/$ancestry2/PAGE_IPMBioMe_chr${i}_v1.QCed.QCed.dropRltvs.Loose.$ancestry2.vcf | bgzip -c > /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/$ancestry1/$ancestry2/PAGE_IPMBioMe_chr${i}_v1.QCed.QCed.dropRltvs.Loose.$ancestry2.sort.vcf.gz
+#		rm /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/$ancestry1/$ancestry2/PAGE_IPMBioMe_chr${i}_v1.QCed.QCed.dropRltvs.Loose.$ancestry2.vcf /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/$ancestry1/$ancestry2/PAGE_IPMBioMe_chr${i}_v1.QCed.QCed.dropRltvs.Loose.$ancestry2.log
+#	done
 done	
 
 #20190730 NOTE -- imputing with HRC r1.1 2016 and phasing with eagle v2.3, using EUR or AA for quality control reference panel, and using AES 256 encryption; broke each population imputation into chunks of chr 1-8 and 9-22; also got flip/strand issues, so doing the process like I did with PopRes and going to rerun the 'flipped' versions (having flipped by being compared to the HRC r1-1 GRCh37 source files)
@@ -4151,20 +4158,21 @@ join -v 1 <(cat /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBi
 cat /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/Euro/EuroLoose/20190730_IPMBioMe_EuroLoose_pt1_flip1.statistics.txt /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/Euro/EuroLoose/20190730_IPMBioMe_EuroLoose_pt2_flip1.statistics.txt | grep chunk | grep -v Reference | awk '{ print $3 }' | sed 's/_/ /g' | sed 's/://g' | sort | uniq | awk '{ print $1 "\t" $2 } ' > /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/Euro/EuroLoose/20190730_IPMBioMe_EuroLoose_pt12_flip1.statistics.drops.FIDIIDs 
 join -v 1 <(cat /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/PAGE_IPMBioMe_chrAll_v1.QCed.1kGMatch.pruned.QCed.SNPrecode.w1kG.flipped.dropmissnp.allRltvs.flashpca.pcs.wAncs.EuroLoose.dropRltvs.Loose.FIDIIDs | awk '{ print $1 "_" $2 }' | sort) <(cat /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/Euro/EuroLoose/20190730_IPMBioMe_EuroLoose_pt12_flip1.statistics.drops.FIDIIDs | awk '{ print $1 "_" $2 }' | sort) | sed 's/_/ /g' > /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/PAGE_IPMBioMe_chrAll_v1.QCed.1kGMatch.pruned.QCed.SNPrecode.w1kG.flipped.dropmissnp.allRltvs.flashpca.pcs.wAncs.EuroLoose.dropRltvs.Loose.HRCdrops.FIDIIDs
 
-for j in `cat <(echo $PAGEIPMBioMePops | perl -lane 'print join("\n", @F);') | head -n 3 | tail -n 2`; do
+for j in `cat <(echo $PAGEIPMBioMePops1 | perl -lane 'print join("\n", @F);') | head -n 3 | tail -n 2`; do
         ancestry1=`echo $j | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[0];'`
         ancestry2=`echo $j | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[1];'`
 
         echo $ancestry1 $ancestry2
 
 	for i in {1..22}; do
-#		plink --bfile /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/PAGE_IPMBioMe_chr${i}_v1.QCed --keep /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/PAGE_IPMBioMe_chrAll_v1.QCed.1kGMatch.pruned.QCed.SNPrecode.w1kG.flipped.dropmissnp.allRltvs.flashpca.pcs.wAncs.$ancestry2.dropRltvs.Loose.HRCdrops.FIDIIDs --flip /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/PAGE_IPMBioMe_chrAll_v1.QCed.CompHRC.flipSNPs.snpIDs --snps-only just-acgt --recode vcf --out /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/$ancestry1/$ancestry2/PAGE_IPMBioMe_chr${i}_v1.QCed.QCed.dropRltvs.Loose.$ancestry2.HRCdrops.ATGC.flip
-#		/users/mturchin/Software/vcftools_0.1.13/bin/vcf-sort /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/$ancestry1/$ancestry2/PAGE_IPMBioMe_chr${i}_v1.QCed.QCed.dropRltvs.Loose.$ancestry2.HRCdrops.ATGC.flip.vcf | bgzip -c > /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/$ancestry1/$ancestry2/PAGE_IPMBioMe_chr${i}_v1.QCed.QCed.dropRltvs.Loose.$ancestry2.HRCdrops.ATGC.flip.sort.vcf.gz
-		rm /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/$ancestry1/$ancestry2/PAGE_IPMBioMe_chr${i}_v1.QCed.QCed.dropRltvs.Loose.$ancestry2.sort.vcf.gz 
-		rm /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/$ancestry1/$ancestry2/PAGE_IPMBioMe_chr${i}_v1.QCed.QCed.dropRltvs.Loose.$ancestry2.ATGC.flip.sort.vcf.gz 
+		plink --bfile /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/PAGE_IPMBioMe_chr${i}_v1.QCed --keep /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/PAGE_IPMBioMe_chrAll_v1.QCed.1kGMatch.pruned.QCed.SNPrecode.w1kG.flipped.dropmissnp.allRltvs.flashpca.pcs.wAncs.$ancestry2.dropRltvs.Loose.HRCdrops.FIDIIDs --flip /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/PAGE_IPMBioMe_chrAll_v1.QCed.CompHRC.flipSNPs.snpIDs --snps-only just-acgt --recode vcf --out /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/$ancestry1/$ancestry2/PAGE_IPMBioMe_chr${i}_v1.QCed.QCed.dropRltvs.Loose.$ancestry2.HRCdrops.ATGC.flip
+		/users/mturchin/Software/vcftools_0.1.13/bin/vcf-sort /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/$ancestry1/$ancestry2/PAGE_IPMBioMe_chr${i}_v1.QCed.QCed.dropRltvs.Loose.$ancestry2.HRCdrops.ATGC.flip.vcf | bgzip -c > /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/$ancestry1/$ancestry2/PAGE_IPMBioMe_chr${i}_v1.QCed.QCed.dropRltvs.Loose.$ancestry2.HRCdrops.ATGC.flip.sort.vcf.gz
 		rm /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/$ancestry1/$ancestry2/PAGE_IPMBioMe_chr${i}_v1.QCed.QCed.dropRltvs.Loose.$ancestry2.HRCdrops.ATGC.flip.vcf /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/$ancestry1/$ancestry2/PAGE_IPMBioMe_chr${i}_v1.QCed.QCed.dropRltvs.Loose.$ancestry2.HRCdrops.ATGC.flip.log
 	done
 done	
+
+#		rm /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/$ancestry1/$ancestry2/PAGE_IPMBioMe_chr${i}_v1.QCed.QCed.dropRltvs.Loose.$ancestry2.sort.vcf.gz 
+#		rm /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/$ancestry1/$ancestry2/PAGE_IPMBioMe_chr${i}_v1.QCed.QCed.dropRltvs.Loose.$ancestry2.ATGC.flip.sort.vcf.gz 
 
 #MacBook Pro
 #scp -p mturchin@ssh.ccv.brown.edu:/users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/AfrAmr/AfrAmr/PAGE_IPMBioMe_chr*_v1.QCed.QCed.dropRltvs.Loose.AfrAmr.HRCdrops.ATGC.flip.sort.vcf.gz /Users/mturchin20/Documents/Work/LabMisc/Data/PAGE/IPMBioMe/AfrAmr/. 
@@ -4180,64 +4188,49 @@ cd /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/Euro/Euro
 cd /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/Euro/EuroLoose; wget https://imputationserver.sph.umich.edu/share/results/9afd61f42ea778a51dff5ddde04862ef/statistics.txt; mv statistics.txt 20190730_IPMBioMe_EuroLoose_pt1_flip1.statistics.txt
 cd /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/Euro/EuroLoose; wget https://imputationserver.sph.umich.edu/share/results/dc32deb4614e6f201ddbbc57f4b432d9/statistics.txt; mv statistics.txt 20190730_IPMBioMe_EuroLoose_pt2_flip1.statistics.txt
 
+cd /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/AfrAmr/AfrAmr/Imputation
+wget -c 
 
+mv /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/AfrAmr/AfrAmr/Imputation/qcreport.html /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/AfrAmr/AfrAmr/Imputation/20190730.qcreport.1.html
+mv /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/AfrAmr/AfrAmr/Imputation/statistics.txt /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/AfrAmr/AfrAmr/Imputation/20190730.statistics.1.txt
+wget -c
 
-
-
-
-
-
-
-
-
-#MacBook Air
-#mkdir /Volumes/NO\ NAME/African /Volumes/NO\ NAME/British /Volumes/NO\ NAME/British.Ran4000 /Volumes/NO\ NAME/Caribbean; mkdir /Volumes/NO\ NAME/Chinese /Volumes/NO\ NAME/Indian /Volumes/NO\ NAME/Irish /Volumes/NO\ NAME/Pakistani
-#mkdir /Volumes/NO\ NAME/British.Ran10000 /Volumes/NO\ NAME/British.Ran100000
-#mkdir /Users/mturchin20/Documents/Work/LabMisc/Data/UKBioBank/subsets
-#mkdir /Users/mturchin20/Documents/Work/LabMisc/Data/UKBioBank/subsets/British
-#mkdir /Users/mturchin20/Documents/Work/LabMisc/Data/UKBioBank/subsets/British/British.Ran100000
-#scp -p mturchin@ssh.ccv.brown.edu:/users/mturchin/data/ukbiobank_jun17/subsets/African/African/mturchin20/ukb_chr*_v2.African.QCed.reqDrop.QCed.dropRltvs.PCAdrop.sort.vcf.gz /Volumes/NO\ NAME/African
-scp -p mturchin@ssh.ccv.brown.edu:/users/mturchin/data/ukbiobank_jun17/subsets/British/British/mturchin20/ukb_chr*_v2.British.QCed.reqDrop.QCed.dropRltvs.PCAdrop.sort.vcf.gz /Volumes/NO\ NAME/British
-#scp -p mturchin@ssh.ccv.brown.edu:/users/mturchin/data/ukbiobank_jun17/subsets/British/British.Ran4000/mturchin20/ukb_chr*_v2.British.Ran4000.QCed.reqDrop.QCed.dropRltvs.PCAdrop.sort.vcf.gz /Volumes/NO\ NAME/British.Ran4000
-#scp -p mturchin@ssh.ccv.brown.edu:/users/mturchin/data/ukbiobank_jun17/subsets/Caribbean/Caribbean/mturchin20/ukb_chr*_v2.Caribbean.QCed.reqDrop.QCed.dropRltvs.PCAdrop.sort.vcf.gz /Volumes/NO\ NAME/Caribbean
-#scp -p mturchin@ssh.ccv.brown.edu:/users/mturchin/data/ukbiobank_jun17/subsets/Chinese/Chinese/mturchin20/ukb_chr*_v2.Chinese.QCed.reqDrop.QCed.dropRltvs.PCAdrop.sort.vcf.gz /Volumes/NO\ NAME/Chinese
-#scp -p mturchin@ssh.ccv.brown.edu:/users/mturchin/data/ukbiobank_jun17/subsets/Indian/Indian/mturchin20/ukb_chr*_v2.Indian.QCed.reqDrop.QCed.dropRltvs.PCAdrop.sort.vcf.gz /Volumes/NO\ NAME/Indian
-#scp -p mturchin@ssh.ccv.brown.edu:/users/mturchin/data/ukbiobank_jun17/subsets/Irish/Irish/mturchin20/ukb_chr*_v2.Irish.QCed.reqDrop.QCed.dropRltvs.PCAdrop.sort.vcf.gz /Volumes/NO\ NAME/Irish
-#scp -p mturchin@ssh.ccv.brown.edu:/users/mturchin/data/ukbiobank_jun17/subsets/Pakistani/Pakistani/mturchin20/ukb_chr*_v2.Pakistani.QCed.reqDrop.QCed.dropRltvs.PCAdrop.sort.vcf.gz /Volumes/NO\ NAME/Pakistani
-#scp -p mturchin@ssh.ccv.brown.edu:/users/mturchin/data/ukbiobank_jun17/subsets/British/British.Ran10000/mturchin20/ukb_chr*_v2.British.Ran10000.QCed.reqDrop.QCed.dropRltvs.PCAdrop.sort.vcf.gz /Volumes/NO\ NAME/British.Ran10000
-#scp -p mturchin@ssh.ccv.brown.edu:/users/mturchin/data/ukbiobank_jun17/subsets/British/British.Ran100000/mturchin20/ukb_chr*_v2.British.Ran100000.QCed.reqDrop.QCed.dropRltvs.PCAdrop.sort.vcf.gz /Volumes/NO\ NAME/British.Ran100000
-scp -p mturchin@ssh.ccv.brown.edu:/users/mturchin/data/ukbiobank_jun17/subsets/British/British.Ran10000/mturchin20/ukb_chr*_v2.British.Ran10000.QCed.reqDrop.QCed.dropRltvs.PCAdrop.sort.vcf.gz /Users/mturchin20/Documents/Work/LabMisc/Data/UKBioBank/subsets/British/British.Ran10000/.
-scp -p mturchin@ssh.ccv.brown.edu:/users/mturchin/data/ukbiobank_jun17/subsets/British/British.Ran100000/mturchin20/ukb_chr*_v2.British.Ran100000.QCed.reqDrop.QCed.dropRltvs.PCAdrop.sort.vcf.gz /Users/mturchin20/Documents/Work/LabMisc/Data/UKBioBank/subsets/British/British.Ran100000/.
-cd /users/mturchin/data/ukbiobank_jun17/subsets/African/African/Imputation/mturchin20
-mkdir /users/mturchin/data/ukbiobank_jun17/subsets/African/African/Imputation/mturchin20/Part1; cd /users/mturchin/data/ukbiobank_jun17/subsets/African/African/Imputation/mturchin20/Part1; wget https://imputationserver.sph.umich.edu/share/results/56d545ecfadae67f277a19213300b028/qcreport.html https://imputationserver.sph.umich.edu/share/results/a2a92469a201d8b506f6eb8bac463927/chr_1.zip https://imputationserver.sph.umich.edu/share/results/d22192341e5b80d9d3de4f43a468e045/chr_2.zip https://imputationserver.sph.umich.edu/share/results/fd562d2058434b03ce4e6e3bd2cbfc39/chr_3.zip https://imputationserver.sph.umich.edu/share/results/3d7be1309bff37a51e95e82e9052f851/chr_4.zip https://imputationserver.sph.umich.edu/share/results/1da2b3deab2c57f1119933744786a40d/chr_5.zip https://imputationserver.sph.umich.edu/share/results/750e64529a13589d69c6e5a9c61246d/statistics.txt https://imputationserver.sph.umich.edu/share/results/280912b3f0d2c522122e6b59405e5292/chr_1.log https://imputationserver.sph.umich.edu/share/results/6072bebce7e8d6126d7dbd26ebd30a7c/chr_2.log https://imputationserver.sph.umich.edu/share/results/11a8a3ef083ef05b4948e381de00a254/chr_3.log https://imputationserver.sph.umich.edu/share/results/234f826498e5259802adc3dcd1c917ac/chr_4.log https://imputationserver.sph.umich.edu/share/results/8408aa6a10e95597e3b73b4bec522738/chr_5.log
-mkdir /users/mturchin/data/ukbiobank_jun17/subsets/African/African/Imputation/mturchin20/Part2; cd /users/mturchin/data/ukbiobank_jun17/subsets/African/African/Imputation/mturchin20/Part2; wget https://imputationserver.sph.umich.edu/share/results/5cf2b405a9b41f8c83f3ab109b22037f/qcreport.html https://imputationserver.sph.umich.edu/share/results/8f313c0abfbd6c95ea458a4a0b59f31/chr_10.zip https://imputationserver.sph.umich.edu/share/results/cceff332dc42f913b66199d00d3c6aa5/chr_11.zip https://imputationserver.sph.umich.edu/share/results/ee3af88208dafd3e2520ab9ea5a3b5ec/chr_12.zip https://imputationserver.sph.umich.edu/share/results/c13e4f1c337d4a58bcfad95ffe6fef7f/chr_6.zip https://imputationserver.sph.umich.edu/share/results/5fc5760498f5920b705d83c3576a4b19/chr_7.zip https://imputationserver.sph.umich.edu/share/results/195043be82e442dbed73e19f7b59b8df/chr_8.zip https://imputationserver.sph.umich.edu/share/results/889f456c90e1c5b78833c47acf540534/chr_9.zip https://imputationserver.sph.umich.edu/share/results/b1344d2092d9d918d70a2f4cbcc5bdcc/statistics.txt https://imputationserver.sph.umich.edu/share/results/ab867ba77fd62a3b1c9e83b3daaf14da/chr_10.log https://imputationserver.sph.umich.edu/share/results/992d1fd9b515fa5d491d9f912caedf91/chr_11.log https://imputationserver.sph.umich.edu/share/results/671732668b1d779c495087f8ac54d76d/chr_12.log https://imputationserver.sph.umich.edu/share/results/46c0e94d1de168e495a4798f12d2ff83/chr_6.log https://imputationserver.sph.umich.edu/share/results/3bc3abf96c478d5bacf3d7295d55db14/chr_7.log https://imputationserver.sph.umich.edu/share/results/7583d120cdb5a4286ad96278793cca90/chr_8.log https://imputationserver.sph.umich.edu/share/results/9ce5c8948e7bc075f8c37dad5fc7fc9e/chr_9.log
-
-join <(join <(cat /users/mturchin/data/POPRES/NHGRI/POPRES/phs000145v2/p2/mturchin20/POPRES_Genotypes_QC2_v2.United_Kingdom.bim | awk '{ print $2 "\t" $0 }' | sort -k 1,1) <(cat /users/mturchin/data/POPRES/NHGRI/POPRES/phs000145v2/p2/phg000027v2/phg000027.POPRES.genotype-calls.Affy500K.p1.MULTI.marker-info/POPRES_Snps_QC2.txt | awk '{ print $1 "\t" $2 }' | sort -k 1,1) | awk '{ print $2 "\t" $8 "\t" $4 "\t" $5 "\t" $6 "\t" $7 }' | awk '{ print $2 "\t" $5 "\t" $6 }' | sort -k 1,1 | uniq) <(zcat /users/mturchin/data/mturchin/HRC/HRC.r1-1.GRCh37.wgs.mac5.sites.tab.gz | awk '{ print $3 "\t" $4 "\t" $5 }' | sort -k 1,1 | uniq) > /users/mturchin/data/POPRES/NHGRI/POPRES/phs000145v2/p2/mturchin20/POPRES_Genotypes_QC2_v2.United_Kingdom.CompHRC.txt
-join <(cat /users/mturchin/data/POPRES/NHGRI/POPRES/phs000145v2/p2/mturchin20/POPRES_Genotypes_QC2_v2.United_Kingdom.CompHRC.txt | awk '{ if ((($2 != $4) && ($3 != $5)) && (($2 != $5) && ($3 != $4))) { print $1 } }' | sort -k 1,1) <(join <(cat /users/mturchin/data/POPRES/NHGRI/POPRES/phs000145v2/p2/mturchin20/POPRES_Genotypes_QC2_v2.United_Kingdom.bim | awk '{ print $2 "\t" $0 }' | sort -k 1,1) <(cat /users/mturchin/data/POPRES/NHGRI/POPRES/phs000145v2/p2/phg000027v2/phg000027.POPRES.genotype-calls.Affy500K.p1.MULTI.marker-info/POPRES_Snps_QC2.txt | awk '{ print $1 "\t" $2 }' | sort -k 1,1) | awk '{ print $8 "\t" $1 }' | sort -k 1,1 | uniq ) | awk '{ print $2 }' > /users/mturchin/data/POPRES/NHGRI/POPRES/phs000145v2/p2/mturchin20/POPRES_Genotypes_QC2_v2.United_Kingdom.CompHRC.flipSNPs.snpIDs
-
-mkdir /users/mturchin/data/POPRES/NHGRI/POPRES/phs000145v2/p2/mturchin20/UKBHeightRspnd/Imputation
-
-for i in {1..22}; do
-        echo $i;
-
-        plink --bfile /users/mturchin/data/POPRES/NHGRI/POPRES/phs000145v2/p2/mturchin20/POPRES_Genotypes_QC2_v2.United_Kingdom --chr $i --flip /users/mturchin/data/POPRES/NHGRI/POPRES/phs000145v2/p2/mturchin20/POPRES_Genotypes_QC2_v2.United_Kingdom.CompHRC.flipSNPs.snpIDs --recode vcf --out /users/mturchin/data/POPRES/NHGRI/POPRES/phs000145v2/p2/mturchin20/UKBHeightRspnd/Imputation/POPRES_Genotypes_QC2_v2.United_Kingdom.chr${i}.flip
-        cat <(cat /users/mturchin/data/POPRES/NHGRI/POPRES/phs000145v2/p2/mturchin20/UKBHeightRspnd/Imputation/POPRES_Genotypes_QC2_v2.United_Kingdom.chr${i}.flip.vcf | grep ^#) <(join <(cat /users/mturchin/data/POPRES/NHGRI/POPRES/phs000145v2/p2/mturchin20/UKBHeightRspnd/POPRES_Genotypes_QC2_v2.United_Kingdom.QCed.QCed.rltdDrop.bim.liftOverBed.hg19.liftOverBed | awk '{ print $4 "\t" $0 }' | sort -k 1,1) <(cat /users/mturchin/data/POPRES/NHGRI/POPRES/phs000145v2/p2/mturchin20/UKBHeightRspnd/Imputation/POPRES_Genotypes_QC2_v2.United_Kingdom.chr${i}.flip.vcf | grep -v ^# | awk '{ print $1 "_" $2 "\t" $0 }' | sort -k 1,1) | sed 's/chr//g' | perl -lane 'print $F[1], "\t", $F[2], "\t", join("\t", @F[7..$#F]);') > /users/mturchin/data/POPRES/NHGRI/POPRES/phs000145v2/p2/mturchin20/UKBHeightRspnd/Imputation/POPRES_Genotypes_QC2_v2.United_Kingdom.chr${i}.flip.hg19.vcf
-        /users/mturchin/Software/vcftools_0.1.13/bin/vcf-sort /users/mturchin/data/POPRES/NHGRI/POPRES/phs000145v2/p2/mturchin20/UKBHeightRspnd/Imputation/POPRES_Genotypes_QC2_v2.United_Kingdom.chr${i}.flip.hg19.vcf | bgzip -c > /users/mturchin/data/POPRES/NHGRI/POPRES/phs000145v2/p2/mturchin20/UKBHeightRspnd/Imputation/POPRES_Genotypes_QC2_v2.United_Kingdom.chr${i}.flip.hg19.vcf.gz
-        rm /users/mturchin/data/POPRES/NHGRI/POPRES/phs000145v2/p2/mturchin20/UKBHeightRspnd/Imputation/POPRES_Genotypes_QC2_v2.United_Kingdom.chr${i}.vcf /users/mturchin/data/POPRES/NHGRI/POPRES/phs000145v2/p2/mturchin20/UKBHeightRspnd/Imputation/POPRES_Genotypes_QC2_v2.Italy.chr${i}.vcf /users/mturchin/data/POPRES/NHGRI/POPRES/phs000145v2/p2/mturchin20/UKBHeightRspnd/Imputation/POPRES_Genotypes_QC2_v2.Portugal.chr${i}.vcf /users/mturchin/data/POPRES/NHGRI/POPRES/phs000145v2/p2/mturchin20/UKBHeightRspnd/Imputation/POPRES_Genotypes_QC2_v2.United_Kingdom.chr${i}.hg19.vcf /users/mturchin/data/POPRES/NHGRI/POPRES/phs000145v2/p2/mturchin20/UKBHeightRspnd/Imputation/POPRES_Genotypes_QC2_v2.Italy.chr${i}.hg19.vcf /users/mturchin/data/POPRES/NHGRI/POPRES/phs000145v2/p2/mturchin20/UKBHeightRspnd/Imputation/POPRES_Genotypes_QC2_v2.Portugal.chr${i}.hg19.vcf /users/mturchin/data/POPRES/NHGRI/POPRES/phs000145v2/p2/mturchin20/UKBHeightRspnd/Imputation/POPRES_Genotypes_QC2_v2.United_Kingdom.chr${i}.hg19.vcf.gz /users/mturchin/data/POPRES/NHGRI/POPRES/phs000145v2/p2/mturchin20/UKBHeightRspnd/Imputation/POPRES_Genotypes_QC2_v2.Italy.chr${i}.hg19.vcf.gz /users/mturchin/data/POPRES/NHGRI/POPRES/phs000145v2/p2/mturchin20/UKBHeightRspnd/Imputation/POPRES_Genotypes_QC2_v2.Portugal.chr${i}.hg19.vcf.gz
-        rm /users/mturchin/data/POPRES/NHGRI/POPRES/phs000145v2/p2/mturchin20/UKBHeightRspnd/Imputation/POPRES_Genotypes_QC2_v2.United_Kingdom.chr${i}.flip.vcf /users/mturchin/data/POPRES/NHGRI/POPRES/phs000145v2/p2/mturchin20/UKBHeightRspnd/Imputation/POPRES_Genotypes_QC2_v2.Italy.chr${i}.flip.vcf /users/mturchin/data/POPRES/NHGRI/POPRES/phs000145v2/p2/mturchin20/UKBHeightRspnd/Imputation/POPRES_Genotypes_QC2_v2.Portugal.chr${i}.flip.vcf /users/mturchin/data/POPRES/NHGRI/POPRES/phs000145v2/p2/mturchin20/UKBHeightRspnd/Imputation/POPRES_Genotypes_QC2_v2.United_Kingdom.chr${i}.flip.hg19.vcf /users/mturchin/data/POPRES/NHGRI/POPRES/phs000145v2/p2/mturchin20/UKBHeightRspnd/Imputation/POPRES_Genotypes_QC2_v2.Italy.chr${i}.flip.hg19.vcf /users/mturchin/data/POPRES/NHGRI/POPRES/phs000145v2/p2/mturchin20/UKBHeightRspnd/Imputation/POPRES_Genotypes_QC2_v2.Portugal.chr${i}.flip.hg19.vcf
-
+mv /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/AfrAmr/AfrAmr/Imputation/qcreport.html /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/AfrAmr/AfrAmr/Imputation/20190730.qcreport.2.html
+mv /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/AfrAmr/AfrAmr/Imputation/statistics.txt /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/AfrAmr/AfrAmr/Imputation/20190730.statistics.2.txt
+for i in {1..8}; do
+        7za x /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/AfrAmr/AfrAmr/Imputation/chr_${i}.zip -p'' 
+done  
+for i in {9..22}; do
+        7za x /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/AfrAmr/AfrAmr/Imputation/chr_${i}.zip -p'' 
 done
 
-#MacBook Air
-##scp -p mturchin@ssh.ccv.brown.edu:/users/mturchin/data/POPRES/NHGRI/POPRES/phs000145v2/p2/mturchin20/POPRES_Genotypes_QC2_v2.*.vcf /Users/mturchin20/Documents/Work/LabMisc/Data/POPRES/
-##scp -p mturchin@ssh.ccv.brown.edu:/users/mturchin/data/POPRES/NHGRI/POPRES/phs000145v2/p2/mturchin20/UKBHeightRspnd/Imputation/POPRES_Genotypes_QC2_v2.*chr*.vcf.gz /Users/mturchin20/Documents/Work/LabMisc/Data/POPRES/
-#scp -p mturchin@ssh.ccv.brown.edu:/users/mturchin/data/POPRES/NHGRI/POPRES/phs000145v2/p2/mturchin20/UKBHeightRspnd/Imputation/POPRES_Genotypes_QC2_v2.*chr*.hg19.vcf.gz /Users/mturchin20/Documents/Work/LabMisc/Data/POPRES/
 
-#From https://unix.stackexchange.com/questions/228061/7za-extract-file-with-password & https://serverfault.com/questions/55055/get-error-incorrect-command-line-when-trying-to-extract-7zip-archive-on-linux
-#Organization: 1, 2, 3, 4, 5-6, 7-8, 9-10, 11-14, 15-18, 19-22
-mkdir /users/mturchin/data/POPRES/NHGRI/POPRES/phs000145v2/p2/mturchin20/UKBHeightRspnd/Imputation/UK
-mkdir /users/mturchin/data/POPRES/NHGRI/POPRES/phs000145v2/p2/mturchin20/UKBHeightRspnd/Imputation/Italy
-mkdir /users/mturchin/data/POPRES/NHGRI/POPRES/phs000145v2/p2/mturchin20/UKBHeightRspnd/Imputation/Portugal
+
+cd /users/mturchin/data/ukbiobank_jun17/subsets/British/British.Ran10000/Imputation/mturchin20
+wget -c https://imputationserver.sph.umich.edu/share/results/d82d556ca41e50a3758e51b6a7f866fd/qcreport.html https://imputationserver.sph.umich.edu/share/results/7ef9040846b1650a5597bb8efd84c024/chr_1.zip https://imputationserver.sph.umich.edu/share/results/bc75d166f1d5a482e295ed724c5bd26/chr_2.zip https://imputationserver.sph.umich.edu/share/results/350ab6b9f5f37a224074cc2a47e52dd5/chr_3.zip https://imputationserver.sph.umich.edu/share/results/39c306f89a177995422ecf7e77706e0c/chr_4.zip https://imputationserver.sph.umich.edu/share/results/d211ae5f352c88b95657191860ac9793/chr_5.zip https://imputationserver.sph.umich.edu/share/results/dd46ec80babb33c8d595a14a3bff524/chr_6.zip https://imputationserver.sph.umich.edu/share/results/fb9400ac2ee3688f54cd05fd88252b63/chr_7.zip https://imputationserver.sph.umich.edu/share/results/cd71894604446cb825bec1b0a9d1b625/chr_8.zip https://imputationserver.sph.umich.edu/share/results/a5da9db134f8db927fd26940e4adc903/statistics.txt https://imputationserver.sph.umich.edu/share/results/b5c899698ab2815f34b528ce89e3ba5c/chr_1.log https://imputationserver.sph.umich.edu/share/results/9d7b00e90a42b61502744b74affa43a4/chr_2.log https://imputationserver.sph.umich.edu/share/results/6b43388ddb97fd63f577a31b0560d47d/chr_3.log https://imputationserver.sph.umich.edu/share/results/bea1deac3e07229a118f2a2de5240cad/chr_4.log https://imputationserver.sph.umich.edu/share/results/d8ee2cd98ba1adec8764c2e1b42f8f9a/chr_5.log https://imputationserver.sph.umich.edu/share/results/4340a6b78d36edf6718602b8e59b4802/chr_6.log https://imputationserver.sph.umich.edu/share/results/d34e6eea778c274c8c899a87ee49df07/chr_7.log https://imputationserver.sph.umich.edu/share/results/6c31b717fa61388f3e8385575abe2269/chr_8.log
+mv /users/mturchin/data/ukbiobank_jun17/subsets/British/British.Ran10000/Imputation/mturchin20/qcreport.html /users/mturchin/data/ukbiobank_jun17/subsets/British/British.Ran10000/Imputation/mturchin20/qcreport.1.html
+mv /users/mturchin/data/ukbiobank_jun17/subsets/British/British.Ran10000/Imputation/mturchin20/statistics.txt /users/mturchin/data/ukbiobank_jun17/subsets/British/British.Ran10000/Imputation/mturchin20/statistics.1.txt
+wget -c https://imputationserver.sph.umich.edu/share/results/13a898b3d02840022fbcc8875d64d2a5/qcreport.html https://imputationserver.sph.umich.edu/share/results/d14a7a1fef66ecd3602653ba90f9b329/chr_10.zip https://imputationserver.sph.umich.edu/share/results/99b852e5f5f1a5345d85f571c1ea81bc/chr_11.zip https://imputationserver.sph.umich.edu/share/results/a870e6d14085f675c81292bd5596dac0/chr_12.zip https://imputationserver.sph.umich.edu/share/results/85db580b996d62ec23c82930be426426/chr_13.zip https://imputationserver.sph.umich.edu/share/results/b2f58592769463fb757f9302aca126f2/chr_14.zip https://imputationserver.sph.umich.edu/share/results/e6d00bd40d02e79bfd63edba8269c4e8/chr_15.zip https://imputationserver.sph.umich.edu/share/results/caa037f3aa537f2dfb8f3c82d2f9b275/chr_16.zip https://imputationserver.sph.umich.edu/share/results/bbd1f5505f7384ca0b11561268cb75b3/chr_17.zip https://imputationserver.sph.umich.edu/share/results/c7b7a1f2541c72668616d8cc47f00dd6/chr_18.zip https://imputationserver.sph.umich.edu/share/results/5ed64b9b215fe261920d938c36a69c0e/chr_19.zip https://imputationserver.sph.umich.edu/share/results/1311f3619b6cd04fb1069734ef0197d2/chr_20.zip https://imputationserver.sph.umich.edu/share/results/9b7ac01118bdca168b98fe07bae9cf32/chr_21.zip https://imputationserver.sph.umich.edu/share/results/5827b86ca0c3d686642128a9ad63101d/chr_22.zip https://imputationserver.sph.umich.edu/share/results/a26979d43eb48e77497b7c2b67c4dc0d/chr_9.zip https://imputationserver.sph.umich.edu/share/results/65ed8223e2987d1f355596b800fcad58/statistics.txt https://imputationserver.sph.umich.edu/share/results/a879c466d9d24e4dc51d1fd6b3612a54/chr_10.log https://imputationserver.sph.umich.edu/share/results/e58b98643d14ccae90e6a9c8312d3b50/chr_11.log https://imputationserver.sph.umich.edu/share/results/b29fe8d4ca3036ec6bbd0fd5e3b4e378/chr_12.log https://imputationserver.sph.umich.edu/share/results/17808d27eff84db2a44d3d49b5307094/chr_13.log https://imputationserver.sph.umich.edu/share/results/5f9d85aee8b7469efc5dcd9b33c1ae6c/chr_14.log https://imputationserver.sph.umich.edu/share/results/2c6b4b0a1da69a5c851957aa0061e543/chr_15.log https://imputationserver.sph.umich.edu/share/results/c095af3835f1393b0f9257f7565f4736/chr_16.log https://imputationserver.sph.umich.edu/share/results/a1ae308042c45c0c16a6a511dc3912dd/chr_17.log https://imputationserver.sph.umich.edu/share/results/6a347d7c696b2d50b010031e2d7a5042/chr_18.log https://imputationserver.sph.umich.edu/share/results/b775216a1c24fbe3a0ebff48ec803e94/chr_19.log https://imputationserver.sph.umich.edu/share/results/6dda06399ada10ee7b5c25d93df37a10/chr_20.log https://imputationserver.sph.umich.edu/share/results/5e46ef2476dad9c2c9c64006079c0752/chr_21.log https://imputationserver.sph.umich.edu/share/results/3cd3f7a4586bf4c90c107044e41172c3/chr_22.log https://imputationserver.sph.umich.edu/share/results/ff9e7dfbf843bb3609201bfaf7603344/chr_9.log
+mv /users/mturchin/data/ukbiobank_jun17/subsets/British/British.Ran10000/Imputation/mturchin20/qcreport.html /users/mturchin/data/ukbiobank_jun17/subsets/British/British.Ran10000/Imputation/mturchin20/qcreport.2.html
+mv /users/mturchin/data/ukbiobank_jun17/subsets/British/British.Ran10000/Imputation/mturchin20/statistics.txt /users/mturchin/data/ukbiobank_jun17/subsets/British/British.Ran10000/Imputation/mturchin20/statistics.2.txt
+for i in {1..8}; do
+        7za x /users/mturchin/data/ukbiobank_jun17/subsets/British/British.Ran10000/Imputation/mturchin20/chr_${i}.zip -p'T9JZ9bUhYaglF>'
+done
+for i in {9..22}; do
+        7za x /users/mturchin/data/ukbiobank_jun17/subsets/British/British.Ran10000/Imputation/mturchin20/chr_${i}.zip -p'wKq9ViltKGPt0'
+done
+#20181104 NOTE -- Michigan imputation server can only do up to 20k samples, so cannot for the moment do 100k Brit imputation through that route
+#cd /users/mturchin/data/ukbiobank_jun17/subsets/British/British.Ran100000/Imputation/mturchin20
+#wget
+#for i in {1..22}; do
+#       7za x /users/mturchin/data/ukbiobank_jun17/subsets/British/British.Ran100000/Imputation/mturchin20/chr_${i}.zip -p'
+#done
+cd /users/mturchin/data/ukbiobank_jun17/subsets/Caribbean/Caribbean/Imputation/mturchin20
+
+
+
+
+
 
 
 
