@@ -4513,7 +4513,27 @@ done;
 
 
 #20190802 NOTE -- 1 = Male, 2 = Female (from https://www.ncbi.nlm.nih.gov/projects/gap/cgi-bin/variable.cgi?study_id=phs000925.v1.p1&phv=282785&phd=&pha=&pht=6203&phvf=&phdf=&phaf=&phtf=4&dssp=1&consent=&temp=1)
-zcat /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PhenosGenos/PAGE/IPMBioMe/phs000925.v1.pht006203.v1.p1.c1.PAGE_IPM_BioMe_Biobank_Subject_Phenotypes.GRU.txt.gz | grep -v ^# | grep -v ^$ | grep -v dbGaP 
+zcat /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PhenosGenos/PAGE/IPMBioMe/phs000925.v1.pht006203.v1.p1.c1.PAGE_IPM_BioMe_Biobank_Subject_Phenotypes.GRU.txt.gz | grep -v ^# | grep -v ^$ | grep -v dbGaP | cat <(echo -e "FID\tIID\tSEX\tAGE\tHeight\tWeight\tBMI") - | gzip > /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/phs000925.v1.pht006203.v1.p1.c1.PAGE_IPM_BioMe_Biobank_Subject_Phenotypes.GRU.Edits.txt.gz 
+
+zcat /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/phs000925.v1.pht006203.v1.p1.c1.PAGE_IPM_BioMe_Biobank_Subject_Phenotypes.GRU.Edits.txt.gz | R -q -e "Data1 <- read.table(file('stdin'), header=T); Data1.M <- Data1[Data1\$SEX == 1,]; Data1.F <- Data1[Data1\$SEX == 2,];
+print(\"SEX\"); table(Data1\$SEX); table(is.na(Data1\$SEX));
+print(\"AGE\"); quantile(Data1\$AGE, na.rm=TRUE); c(mean(Data1\$AGE, na.rm=TRUE), sd(Data1\$AGE, na.rm=TRUE)); table(is.na(Data1\$AGE));
+print(\"Height\"); quantile(Data1\$Height, na.rm=TRUE); c(mean(Data1\$Height, na.rm=TRUE), sd(Data1\$Height, na.rm=TRUE), mean(Data1\$Height, na.rm=TRUE) + 3 * sd(Data1\$Height, na.rm=TRUE), mean(Data1\$Height, na.rm=TRUE) - 3 * sd(Data1\$Height, na.rm=TRUE)); table(is.na(Data1\$Height)); head(sort(Data1\$Height)); head(sort(Data1\$Height, decreasing=TRUE));
+print(\"BMI\"); quantile(Data1\$BMI, na.rm=TRUE); c(mean(Data1\$BMI, na.rm=TRUE), sd(Data1\$BMI, na.rm=TRUE), mean(Data1\$BMI, na.rm=TRUE) + 3 * sd(Data1\$BMI, na.rm=TRUE), mean(Data1\$BMI, na.rm=TRUE) - 3 * sd(Data1\$BMI, na.rm=TRUE)); table(is.na(Data1\$BMI)); head(sort(Data1\$BMI)); head(sort(Data1\$BMI, decreasing=TRUE));
+png(\"/users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.Phenos.Edit.pre.wCovars.VarChecks.plots.vs1.png\", height=12000, width=3000, res=300); par(mfrow=c(7,2)); hist(Data1\$SEX); hist(Data1\$AGE, breaks=50); hist(Data1\$Height, breaks=50); hist(Data1\$BMI, breaks=50); hist(Data1.M\$Height, breaks=50); hist(Data1.M\$BMI, breaks=50); hist(Data1.F\$Height, breaks=50); hist(Data1.F\$BMI, breaks=50); dev.off();"
+
+
+
+zcat /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/phs000925.v1.pht006203.v1.p1.c1.PAGE_IPM_BioMe_Biobank_Subject_Phenotypes.GRU.Edits.txt.gz | R -q -e "Data1 <- read.table(file('stdin'), header=T); InverseNorm <- function(x) { y <- qnorm((rank(x, na.last=\"keep\") - .5) / sum(! is.na(x))); return(y); };
+Data1.M <- Data1[Data1\$SEX == 1,];
+Data1.F <- Data1[Data1\$SEX == 2,];
+Data1.M.Height.NA <- Data1.M[is.na(Data1.M\$Height),]; Data1.M.Height.NotNA <- Data1.M[! is.na(Data1.M\$Height),]; Data1.M.Height.NotNA.Resids <- lm(Data1.M.Height.NotNA\$Height ~ Data1.M.Height.NotNA\$AGE)\$residuals; Data1.M.Height.NotNA.Resids.InverseNorm <- InverseNorm(Data1.M.Height.NotNA.Resids); Data1.M.Height.NotNA\$Height <- Data1.M.Height.NotNA.Resids.InverseNorm; Data1.M.Height <- rbind(Data1.M.Height.NA[,c(\"FID_IID\", \"Height\")], Data1.M.Height.NotNA[,c(\"FID_IID\", \"Height\")]); 
+Data1.F.Height.NA <- Data1.F[is.na(Data1.F\$Height),]; Data1.F.Height.NotNA <- Data1.F[! is.na(Data1.F\$Height),]; Data1.F.Height.NotNA.Resids <- lm(Data1.F.Height.NotNA\$Height ~ Data1.F.Height.NotNA\$AGE)\$residuals; Data1.F.Height.NotNA.Resids.InverseNorm <- InverseNorm(Data1.F.Height.NotNA.Resids); Data1.F.Height.NotNA\$Height <- Data1.F.Height.NotNA.Resids.InverseNorm; Data1.F.Height <- rbind(Data1.F.Height.NA[,c(\"FID_IID\", \"Height\")], Data1.F.Height.NotNA[,c(\"FID_IID\", \"Height\")]); 
+Data1.Height <- rbind(Data1.M.Height, Data1.F.Height); 
+Data1.M.BMI.NA <- Data1.M[is.na(Data1.M\$BMI),]; Data1.M.BMI.NotNA <- Data1.M[! is.na(Data1.M\$BMI),]; Data1.M.BMI.NotNA.Resids <- lm(Data1.M.BMI.NotNA\$BMI ~ Data1.M.BMI.NotNA\$AGE)\$residuals; Data1.M.BMI.NotNA.Resids.InverseNorm <- InverseNorm(Data1.M.BMI.NotNA.Resids); Data1.M.BMI.NotNA\$BMI <- Data1.M.BMI.NotNA.Resids.InverseNorm; Data1.M.BMI <- rbind(Data1.M.BMI.NA[,c(\"FID_IID\", \"BMI\")], Data1.M.BMI.NotNA[,c(\"FID_IID\", \"BMI\")]); 
+Data1.F.BMI.NA <- Data1.F[is.na(Data1.F\$BMI),]; Data1.F.BMI.NotNA <- Data1.F[! is.na(Data1.F\$BMI),]; Data1.F.BMI.NotNA.Resids <- lm(Data1.F.BMI.NotNA\$BMI ~ Data1.F.BMI.NotNA\$AGE)\$residuals; Data1.F.BMI.NotNA.Resids.InverseNorm <- InverseNorm(Data1.F.BMI.NotNA.Resids); Data1.F.BMI.NotNA\$BMI <- Data1.F.BMI.NotNA.Resids.InverseNorm; Data1.F.BMI <- rbind(Data1.F.BMI.NA[,c(\"FID_IID\", \"BMI\")], Data1.F.BMI.NotNA[,c(\"FID_IID\", \"BMI\")]); 
+Data1.BMI <- rbind(Data1.M.BMI, Data1.F.BMI); 
+Data2 <- merge(Data1.Height, Data1.BMI, by=\"FID_IID\"); Data3 <- merge(Data2, Data1.Waist, by=\"FID_IID\"); Data2 <- merge(Data3, Data1.Hip, by=\"FID_IID\"); Data3 <- merge(Data2, Data1.WaistAdjBMI, by=\"FID_IID\"); Data2 <- merge(Data3, Data1.HipAdjBMI, by=\"FID_IID\"); Data3 <- merge(Data1[,c(\"FID_IID\", \"SEX\", \"ANCESTRY\", \"AGE\")], Data2, by=\"FID_IID\"); rm(Data2); write.table(Data3, quote=FALSE, row.names=FALSE);" | grep -v \> | sed 's/_/ /' | awk '{ print $1 "_" $2 "\t" $0 }' > /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.Phenos.Transformed.BMIAdj.wCovars.txt
 
 
 [  mturchin@node1301  ~/LabMisc/RamachandranLab/MultiEthnicGWAS]$zcat /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PhenosGenos/PAGE/IPMBioMe/phs000925.v1.pht006203.v1.p1.c1.PAGE_IPM_BioMe_Biobank_Subject_Phenotypes.GRU.txt.gz | head -n 20 | grep -v ^# | grep -v ^$
@@ -4522,6 +4542,7 @@ dbGaP_Subject_ID        SUBJECT_ID      sex     age     height  weight  bmi
 1709846 64366   1       33      180.34  73.48196394     22.5941820871938
 1709847 64370   1       32      177.8   154.221 48.7842914461339
 
+srd
 
  
 cat /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.Phenos.Edit.pre.wCovars.txt | R -q -e "Data1 <- read.table(file('stdin'), header=T); InverseNorm <- function(x) { y <- qnorm((rank(x, na.last=\"keep\") - .5) / sum(! is.na(x))); return(y); }; 
