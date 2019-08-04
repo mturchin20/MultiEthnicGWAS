@@ -4521,30 +4521,31 @@ print(\"SEX\"); table(Data1\$SEX); table(is.na(Data1\$SEX)); \
 print(\"AGE\"); quantile(Data1\$AGE, na.rm=TRUE); c(mean(Data1\$AGE, na.rm=TRUE), sd(Data1\$AGE, na.rm=TRUE)); table(is.na(Data1\$AGE)); \
 print(\"Height\"); quantile(Data1\$Height, na.rm=TRUE); c(mean(Data1\$Height, na.rm=TRUE), sd(Data1\$Height, na.rm=TRUE), mean(Data1\$Height, na.rm=TRUE) + 3 * sd(Data1\$Height, na.rm=TRUE), mean(Data1\$Height, na.rm=TRUE) - 3 * sd(Data1\$Height, na.rm=TRUE)); table(is.na(Data1\$Height)); head(sort(Data1\$Height)); head(sort(Data1\$Height, decreasing=TRUE)); \
 print(\"BMI\"); quantile(Data1\$BMI, na.rm=TRUE); c(mean(Data1\$BMI, na.rm=TRUE), sd(Data1\$BMI, na.rm=TRUE), mean(Data1\$BMI, na.rm=TRUE) + 3 * sd(Data1\$BMI, na.rm=TRUE), mean(Data1\$BMI, na.rm=TRUE) - 3 * sd(Data1\$BMI, na.rm=TRUE)); table(is.na(Data1\$BMI)); head(sort(Data1\$BMI)); head(sort(Data1\$BMI, decreasing=TRUE)); \
-png(\"/users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/phs000925.v1.pht006203.v1.p1.c1.PAGE_IPM_BioMe_Biobank_Subject_Phenotypes.GRU.Edits.VarChecks.plots.vs1.png\", height=8000, width=4000, res=300); par(mfrow=c(4,2)); hist(Data1\$SEX); hist(Data1\$AGE, breaks=50); hist(Data1\$Height, breaks=50); hist(Data1\$BMI, breaks=50); hist(Data1.M\$Height, breaks=50); hist(Data1.M\$BMI, breaks=50); hist(Data1.F\$Height, breaks=50); hist(Data1.F\$BMI, breaks=50); dev.off();"
+png(\"/users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/phs000925.v1.pht006203.v1.p1.c1.PAGE_IPM_BioMe_Biobank_Subject_Phenotypes.GRU.Edits.VarChecks.plots.vs1.png\", height=10000, width=4000, res=300); par(mfrow=c(5,2)); hist(Data1\$SEX); hist(Data1\$AGE, breaks=50); hist(Data1.M\$AGE, breaks=50); hist(Data1.F\$AGE, breaks=50); hist(Data1\$Height, breaks=50); hist(Data1\$BMI, breaks=50); hist(Data1.M\$Height, breaks=50); hist(Data1.M\$BMI, breaks=50); hist(Data1.F\$Height, breaks=50); hist(Data1.F\$BMI, breaks=50); dev.off();"
 
-zcat /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/phs000925.v1.pht006203.v1.p1.c1.PAGE_IPM_BioMe_Biobank_Subject_Phenotypes.GRU.Edits.txt.gz | R -q -e "Data1 <- read.table(file('stdin'), header=T); InverseNorm <- function(x) { y <- qnorm((rank(x, na.last="keep") - .5) / sum(! is.na(x))); return(y); }; 
-Data1.NoSex <-  Data1[is.na(Data1$SEX),]; Data1 <- Data1[! is.na(Data1$SEX),]; Data1.M <- Data1[Data1$SEX == 1,]; Data1.F <- Data1[Data1$SEX == 2,]; 
-Data1.M.Height.NA <- Data1.M[is.na(Data1.M$Height),]; Data1.M.Height.NotNA <- Data1.M[! is.na(Data1.M$Height),]; Data1.M.Height.NotNA.Resids <- lm(Data1.M.Height.NotNA$Height ~ Data1.M.Height.NotNA$AGE)$residuals; Data1.M.Height.NotNA.Resids.InverseNorm <- InverseNorm(Data1.M.Height.NotNA.Resids); Data1.M.Height.NotNA$Height <- Data1.M.Height.NotNA.Resids.InverseNorm; Data1.M.Height <- rbind(Data1.M.Height.NA[,c("FID_IID", "Height")], Data1.M.Height.NotNA[,c("FID_IID", "Height")]);  
-Data1.F.Height.NA <- Data1.F[is.na(Data1.F$Height),]; Data1.F.Height.NotNA <- Data1.F[! is.na(Data1.F$Height),]; Data1.F.Height.NotNA.Resids <- lm(Data1.F.Height.NotNA$Height ~ Data1.F.Height.NotNA$AGE)$residuals; Data1.F.Height.NotNA.Resids.InverseNorm <- InverseNorm(Data1.F.Height.NotNA.Resids); Data1.F.Height.NotNA$Height <- Data1.F.Height.NotNA.Resids.InverseNorm; Data1.F.Height <- rbind(Data1.F.Height.NA[,c("FID_IID", "Height")], Data1.F.Height.NotNA[,c("FID_IID", "Height")]);  
-Data1.Height <- rbind(Data1.M.Height, Data1.F.Height);  
-Data1.M.BMI.NA <- Data1.M[is.na(Data1.M$BMI),]; Data1.M.BMI.NotNA <- Data1.M[! is.na(Data1.M$BMI),]; Data1.M.BMI.NotNA.Resids <- lm(Data1.M.BMI.NotNA$BMI ~ Data1.M.BMI.NotNA$AGE)$residuals; Data1.M.BMI.NotNA.Resids.InverseNorm <- InverseNorm(Data1.M.BMI.NotNA.Resids); Data1.M.BMI.NotNA$BMI <- Data1.M.BMI.NotNA.Resids.InverseNorm; Data1.M.BMI <- rbind(Data1.M.BMI.NA[,c("FID_IID", "BMI")], Data1.M.BMI.NotNA[,c("FID_IID", "BMI")]);  
-Data1.F.BMI.NA <- Data1.F[is.na(Data1.F$BMI),]; Data1.F.BMI.NotNA <- Data1.F[! is.na(Data1.F$BMI),]; Data1.F.BMI.NotNA.Resids <- lm(Data1.F.BMI.NotNA$BMI ~ Data1.F.BMI.NotNA$AGE)$residuals; Data1.F.BMI.NotNA.Resids.InverseNorm <- InverseNorm(Data1.F.BMI.NotNA.Resids); Data1.F.BMI.NotNA$BMI <- Data1.F.BMI.NotNA.Resids.InverseNorm; Data1.F.BMI <- rbind(Data1.F.BMI.NA[,c("FID_IID", "BMI")], Data1.F.BMI.NotNA[,c("FID_IID", "BMI")]); 
-Data1.BMI <- rbind(Data1.M.BMI, Data1.F.BMI); 
-Data1.Height2 <- Data1.Height; Data1.Height2[,2] <- Data1.Height[,2]^2; Data1.BMI2 <- Data1.BMI; Data1.BMI2[,2] <- Data1.BMI[,2]^2; colnames(Data1.Height2) <- names(Data1.Height); colnames(Data1.BMI2) <- names(Data1.BMI);  
-Data2 <- merge(Data1.Height, Data1.BMI, by="FID_IID"); Data3 <- merge(Data2, Data1.Height2, by="FID_IID"); Data2 <- merge(Data3, Data1.BMI2, by="FID_IID"); Data3 <- merge(Data1[,c("FID_IID", "SEX", "AGE")], Data2, by="FID_IID"); rm(Data2); Data1.NoSex <- cbind(Data1.NoSex, rep(NA, nrow(Data1.NoSex)), rep(NA, nrow(Data1.NoSex))); Data4 <- rbind(Data3, Data1.NoSex); write.table(Data4, quote=FALSE, row.names=FALSE);" | grep -v > | sed 's/_/ /' | awk '{ print $1 "_" $2 "t" $0 }' | gzip > /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/phs000925.v1.pht006203.v1.p1.c1.PAGE_IPM_BioMe_Biobank_Subject_Phenotypes.GRU.Edits.Transformed.txt.gz 
+zcat /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/phs000925.v1.pht006203.v1.p1.c1.PAGE_IPM_BioMe_Biobank_Subject_Phenotypes.GRU.Edits.txt.gz | R -q -e "Data1 <- read.table(file('stdin'), header=T); InverseNorm <- function(x) { y <- qnorm((rank(x, na.last=\"keep\") - .5) / sum(! is.na(x))); return(y); }; \ 
+Data1.NoSex <-  Data1[is.na(Data1\$SEX),]; Data1 <- Data1[! is.na(Data1\$SEX),]; Data1.M <- Data1[Data1\$SEX == 1,]; Data1.F <- Data1[Data1\$SEX == 2,]; \ 
+Data1.M.Height.NA <- Data1.M[is.na(Data1.M\$Height),]; Data1.M.Height.NotNA <- Data1.M[! is.na(Data1.M\$Height),]; Data1.M.Height.NotNA.Resids <- lm(Data1.M.Height.NotNA\$Height ~ Data1.M.Height.NotNA\$AGE)\$residuals; Data1.M.Height.NotNA.Resids.InverseNorm <- InverseNorm(Data1.M.Height.NotNA.Resids); Data1.M.Height.NotNA\$Height <- Data1.M.Height.NotNA.Resids.InverseNorm; Data1.M.Height <- rbind(Data1.M.Height.NA[,c(\"FID_IID\", \"Height\")], Data1.M.Height.NotNA[,c(\"FID_IID\", \"Height\")]); \ 
+Data1.F.Height.NA <- Data1.F[is.na(Data1.F\$Height),]; Data1.F.Height.NotNA <- Data1.F[! is.na(Data1.F\$Height),]; Data1.F.Height.NotNA.Resids <- lm(Data1.F.Height.NotNA\$Height ~ Data1.F.Height.NotNA\$AGE)\$residuals; Data1.F.Height.NotNA.Resids.InverseNorm <- InverseNorm(Data1.F.Height.NotNA.Resids); Data1.F.Height.NotNA\$Height <- Data1.F.Height.NotNA.Resids.InverseNorm; Data1.F.Height <- rbind(Data1.F.Height.NA[,c(\"FID_IID\", \"Height\")], Data1.F.Height.NotNA[,c(\"FID_IID\", \"Height\")]); \
+Data1.Height <- rbind(Data1.M.Height, Data1.F.Height); \ 
+Data1.M.BMI.NA <- Data1.M[is.na(Data1.M\$BMI),]; Data1.M.BMI.NotNA <- Data1.M[! is.na(Data1.M\$BMI),]; Data1.M.BMI.NotNA.Resids <- lm(Data1.M.BMI.NotNA\$BMI ~ Data1.M.BMI.NotNA\$AGE)\$residuals; Data1.M.BMI.NotNA.Resids.InverseNorm <- InverseNorm(Data1.M.BMI.NotNA.Resids); Data1.M.BMI.NotNA\$BMI <- Data1.M.BMI.NotNA.Resids.InverseNorm; Data1.M.BMI <- rbind(Data1.M.BMI.NA[,c(\"FID_IID\", \"BMI\")], Data1.M.BMI.NotNA[,c(\"FID_IID\", \"BMI\")]); \ 
+Data1.F.BMI.NA <- Data1.F[is.na(Data1.F\$BMI),]; Data1.F.BMI.NotNA <- Data1.F[! is.na(Data1.F\$BMI),]; Data1.F.BMI.NotNA.Resids <- lm(Data1.F.BMI.NotNA\$BMI ~ Data1.F.BMI.NotNA\$AGE)\$residuals; Data1.F.BMI.NotNA.Resids.InverseNorm <- InverseNorm(Data1.F.BMI.NotNA.Resids); Data1.F.BMI.NotNA\$BMI <- Data1.F.BMI.NotNA.Resids.InverseNorm; Data1.F.BMI <- rbind(Data1.F.BMI.NA[,c(\"FID_IID\", \"BMI\")], Data1.F.BMI.NotNA[,c(\"FID_IID\", \"BMI\")]); \
+Data1.BMI <- rbind(Data1.M.BMI, Data1.F.BMI); \
+Data2 <- merge(Data1.Height, Data1.BMI, by=\"FID_IID\"); Data3 <- merge(Data1[,c(\"FID_IID\", \"SEX\", \"AGE\")], Data2, by=\"FID_IID\"); rm(Data2); Data1.NoSex.Format <- cbind(as.character(Data1.NoSex[,1]), rep(NA, nrow(Data1.NoSex)), rep(NA, nrow(Data1.NoSex)), rep(NA, nrow(Data1.NoSex)), rep(NA, nrow(Data1.NoSex))); colnames(Data1.NoSex.Format) <- names(Data3); Data4 <- rbind(Data3, Data1.NoSex.Format); write.table(Data4, quote=FALSE, row.names=FALSE);" | grep -v \> | sed 's/_/ /' | awk '{ print $1 "_" $2 "\t" $0 }' | gzip > /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/phs000925.v1.pht006203.v1.p1.c1.PAGE_IPM_BioMe_Biobank_Subject_Phenotypes.GRU.Edits.Transformed.txt.gz 
 
-R -q -e "Data1 <- read.table(\"/users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/phs000925.v1.pht006203.v1.p1.c1.PAGE_IPM_BioMe_Biobank_Subject_Phenotypes.GRU.Edits.txt.gz\", header=T); Data2 <- read.table(\"/users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/phs000925.v1.pht006203.v1.p1.c1.PAGE_IPM_BioMe_Biobank_Subject_Phenotypes.GRU.Edits.Transformed.txt.gz\", header=T); Data1.M <- Data1[Data1\$SEX == 1,]; Data1.F <- Data1[Data1\$SEX == 0,]; Data2.M <- Data2[Data2\$SEX == 1,]; Data2.F <- Data2[Data2\$SEX == 0,]; \
+R -q -e "Data1 <- read.table(\"/users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/phs000925.v1.pht006203.v1.p1.c1.PAGE_IPM_BioMe_Biobank_Subject_Phenotypes.GRU.Edits.txt.gz\", header=T); Data2 <- read.table(\"/users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/phs000925.v1.pht006203.v1.p1.c1.PAGE_IPM_BioMe_Biobank_Subject_Phenotypes.GRU.Edits.Transformed.txt.gz\", header=T); Data1.M <- Data1[Data1\$SEX == 1,]; Data1.F <- Data1[Data1\$SEX == 2,]; Data2.M <- Data2[Data2\$SEX == 1,]; Data2.F <- Data2[Data2\$SEX == 2,]; \
 print(\"Height (M & F)\"); quantile(Data2.M\$Height, na.rm=TRUE); c(mean(Data2.M\$Height, na.rm=TRUE), sd(Data2.M\$Height, na.rm=TRUE), mean(Data2.M\$Height, na.rm=TRUE) + 3 * sd(Data2.M\$Height, na.rm=TRUE), mean(Data2.M\$Height, na.rm=TRUE) - 3 * sd(Data2.M\$Height, na.rm=TRUE)); table(is.na(Data2.M\$Height)); head(sort(Data2.M\$Height)); head(sort(Data2.M\$Height, decreasing=TRUE)); quantile(Data2.F\$Height, na.rm=TRUE); c(mean(Data2.F\$Height, na.rm=TRUE), sd(Data2.F\$Height, na.rm=TRUE), mean(Data2.F\$Height, na.rm=TRUE) + 3 * sd(Data2.F\$Height, na.rm=TRUE), mean(Data2.F\$Height, na.rm=TRUE) - 3 * sd(Data2.F\$Height, na.rm=TRUE)); table(is.na(Data2.F\$Height)); head(sort(Data2.F\$Height)); head(sort(Data2.F\$Height, decreasing=TRUE)); \
 print(\"BMI (M & F)\"); quantile(Data2.M\$BMI, na.rm=TRUE); c(mean(Data2.M\$BMI, na.rm=TRUE), sd(Data2.M\$BMI, na.rm=TRUE), mean(Data2.M\$BMI, na.rm=TRUE) + 3 * sd(Data2.M\$BMI, na.rm=TRUE), mean(Data2.M\$BMI, na.rm=TRUE) - 3 * sd(Data2.M\$BMI, na.rm=TRUE)); table(is.na(Data2.M\$BMI)); head(sort(Data2.M\$BMI)); head(sort(Data2.M\$BMI, decreasing=TRUE)); quantile(Data2.F\$BMI, na.rm=TRUE); c(mean(Data2.F\$BMI, na.rm=TRUE), sd(Data2.F\$BMI, na.rm=TRUE), mean(Data2.F\$BMI, na.rm=TRUE) + 3 * sd(Data2.F\$BMI, na.rm=TRUE), mean(Data2.F\$BMI, na.rm=TRUE) - 3 * sd(Data2.F\$BMI, na.rm=TRUE)); table(is.na(Data2.F\$BMI)); head(sort(Data2.F\$BMI)); head(sort(Data2.F\$BMI, decreasing=TRUE));"
 
-R -q -e "Data1 <- read.table(\"/users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/phs000925.v1.pht006203.v1.p1.c1.PAGE_IPM_BioMe_Biobank_Subject_Phenotypes.GRU.Edits.txt.gz\", header=T); Data2 <- read.table(\"/users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/phs000925.v1.pht006203.v1.p1.c1.PAGE_IPM_BioMe_Biobank_Subject_Phenotypes.GRU.Edits.Transformed.txt.gz\", header=T); Data1.M <- Data1[Data1\$SEX == 1,]; Data1.F <- Data1[Data1\$SEX == 0,]; Data2.M <- Data2[Data2\$SEX == 1,]; Data2.F <- Data2[Data2\$SEX == 0,]; \
-for (i in c(25, 50, 100, 200)) { print(i); Data1.M.Height.hist <- hist(Data1.M\$Height, breaks=i); Data1.F.Height.hist <- hist(Data1.F\$Height, breaks=i); Data2.M.Height.hist <- hist(Data2.M\$Height, breaks=i); Data2.F.Height.hist <- hist(Data2.F\$Height, breaks=i); Data1.M.BMI.hist <- hist(Data1.M\$BMI, breaks=i); Data1.F.BMI.hist <- hist(Data1.F\$BMI, breaks=i); Data2.M.BMI.hist <- hist(Data2.M\$BMI, breaks=i); Data2.F.BMI.hist <- hist(Data2.F\$BMI, breaks=i); 
-dev.off(); 
-png(\"/users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/phs000925.v1.pht006203.v1.p1.c1.PAGE_IPM_BioMe_Biobank_Subject_Phenotypes.GRU.Edits.Transformed.Checks.plots.breaks\", as.character(i), \".vs1.png\", sep=\"\"), height=4000, width=4000, res=300); par(mar=c(5,5,4,2), mfrow=c(2,2)); plot(Data1.F.Height.hist, main=\"UKB Original: Height\", xlab=\"Height\", col=rgb(1,0,0,1/4), cex=1.5, cex.main=1.5, cex.axis=1.5, cex.lab=1.5); plot(Data1.M.Height.hist, col=rgb(0,0,1,1/4), add=T, cex=1.5, cex.main=1.5, cex.axis=1.5, cex.lab=1.5); legend(\"topright\", c(\"Male\", \"Female\"), pch=c(15, 15), col=c(\"BLUE\", \"RED\"), cex=1.25); plot(Data2.F.Height.hist, main=\"UKB Transformed: Height\", xlab=\"Height\", col=rgb(1,0,0,1/4), cex=1.5, cex.main=1.5, cex.axis=1.5, cex.lab=1.5); plot(Data2.M.Height.hist, col=rgb(0,0,1,1/4), add=T, cex=1.5, cex.main=1.5, cex.axis=1.5, cex.lab=1.5); legend(\"topright\", c(\"Male\", \"Female\"), pch=c(15, 15), col=c(\"BLUE\", \"RED\"), cex=1.25); plot(Data1.F.BMI.hist, main=\"UKB Original: BMI\", xlab=\"BMI\", col=rgb(1,0,0,1/4), cex=1.5, cex.main=1.5, cex.axis=1.5, cex.lab=1.5); plot(Data1.M.BMI.hist, col=rgb(0,0,1,1/4), add=T, cex=1.5, cex.main=1.5, cex.axis=1.5, cex.lab=1.5); legend(\"topright\", c(\"Male\", \"Female\"), pch=c(15, 15), col=c(\"BLUE\", \"RED\"), cex=1.25); plot(Data2.F.BMI.hist, main=\"UKB Transformed: BMI\", xlab=\"BMI\", col=rgb(1,0,0,1/4), cex=1.5, cex.main=1.5, cex.axis=1.5, cex.lab=1.5); plot(Data2.M.BMI.hist, col=rgb(0,0,1,1/4), add=T, cex=1.5, cex.main=1.5, cex.axis=1.5, cex.lab=1.5); legend(\"topright\", c(\"Male\", \"Female\"), pch=c(15, 15), col=c(\"BLUE\", \"RED\"), cex=1.25); 
-dev.off(); }"
+R -q -e "Data1 <- read.table(\"/users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/phs000925.v1.pht006203.v1.p1.c1.PAGE_IPM_BioMe_Biobank_Subject_Phenotypes.GRU.Edits.txt.gz\", header=T); Data2 <- read.table(\"/users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/phs000925.v1.pht006203.v1.p1.c1.PAGE_IPM_BioMe_Biobank_Subject_Phenotypes.GRU.Edits.Transformed.txt.gz\", header=T); Data1.M <- Data1[Data1\$SEX == 1,]; Data1.F <- Data1[Data1\$SEX == 2,]; Data2.M <- Data2[Data2\$SEX == 1,]; Data2.F <- Data2[Data2\$SEX == 2,]; \
+for (i in c(25, 50, 100, 200)) { print(i); Data1.M.Height.hist <- hist(Data1.M\$Height, breaks=i); Data1.F.Height.hist <- hist(Data1.F\$Height, breaks=i); Data2.M.Height.hist <- hist(Data2.M\$Height, breaks=i); Data2.F.Height.hist <- hist(Data2.F\$Height, breaks=i); Data1.M.BMI.hist <- hist(Data1.M\$BMI, breaks=i); Data1.F.BMI.hist <- hist(Data1.F\$BMI, breaks=i); Data2.M.BMI.hist <- hist(Data2.M\$BMI, breaks=i); Data2.F.BMI.hist <- hist(Data2.F\$BMI, breaks=i); \ 
+png(paste(\"/users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/phs000925.v1.pht006203.v1.p1.c1.PAGE_IPM_BioMe_Biobank_Subject_Phenotypes.GRU.Edits.Transformed.VarChecks.plots.breaks\", as.character(i), \".vs1.png\", sep=\"\"), height=4000, width=4000, res=300); par(mar=c(5,5,4,2), mfrow=c(2,2)); plot(Data1.F.Height.hist, main=\"PAGE IPM BioMe Original: Height\", xlab=\"Height\", col=rgb(1,0,0,1/4), cex=1.5, cex.main=1.5, cex.axis=1.5, cex.lab=1.5); plot(Data1.M.Height.hist, col=rgb(0,0,1,1/4), add=T, cex=1.5, cex.main=1.5, cex.axis=1.5, cex.lab=1.5); legend(\"topright\", c(\"Male\", \"Female\"), pch=c(15, 15), col=c(\"BLUE\", \"RED\"), cex=1.25); plot(Data2.F.Height.hist, main=\"PAGE IPM BioMe Transformed: Height\", xlab=\"Height\", col=rgb(1,0,0,1/4), cex=1.5, cex.main=1.5, cex.axis=1.5, cex.lab=1.5); plot(Data2.M.Height.hist, col=rgb(0,0,1,1/4), add=T, cex=1.5, cex.main=1.5, cex.axis=1.5, cex.lab=1.5); legend(\"topright\", c(\"Male\", \"Female\"), pch=c(15, 15), col=c(\"BLUE\", \"RED\"), cex=1.25); plot(Data1.F.BMI.hist, main=\"PAGE IPM BioMe Original: BMI\", xlab=\"BMI\", col=rgb(1,0,0,1/4), cex=1.5, cex.main=1.5, cex.axis=1.5, cex.lab=1.5); plot(Data1.M.BMI.hist, col=rgb(0,0,1,1/4), add=T, cex=1.5, cex.main=1.5, cex.axis=1.5, cex.lab=1.5); legend(\"topright\", c(\"Male\", \"Female\"), pch=c(15, 15), col=c(\"BLUE\", \"RED\"), cex=1.25); plot(Data2.F.BMI.hist, main=\"PAGE IPM BioMe Transformed: BMI\", xlab=\"BMI\", col=rgb(1,0,0,1/4), cex=1.5, cex.main=1.5, cex.axis=1.5, cex.lab=1.5); plot(Data2.M.BMI.hist, col=rgb(0,0,1,1/4), add=T, cex=1.5, cex.main=1.5, cex.axis=1.5, cex.lab=1.5); legend(\"topright\", c(\"Male\", \"Female\"), pch=c(15, 15), col=c(\"BLUE\", \"RED\"), cex=1.25); dev.off(); }"
 
+#From MacBook Pro
+#scp -p mturchin@ssh.ccv.brown.edu:/users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/phs000925.v1.pht006203.v1.p1.c1.PAGE_IPM_BioMe_Biobank_Subject_Phenotypes.GRU.*VarChecks*png /Users/mturchin20/Documents/Work/LabMisc/Data/PAGE/IPMBioMe/. 
+#scp -p mturchin@ssh.ccv.brown.edu:/users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.Phenos.Edit.pre.wCovars.TransformChecks.plots.*.vs1.png /Users/mturchin20/Documents/Work/LabMisc/RamachandranLab/MultiEthnicGWAS/Rnd1/UKBioBank/.
 
+zcat /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/phs000925.v1.pht006203.v1.p1.c1.PAGE_IPM_BioMe_Biobank_Subject_Phenotypes.GRU.Edits.Transformed.txt.gz | awk '{ print $2 "\t" $3 "\t" $6 "\t" $7 }' | gzip > /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/phs000925.v1.pht006203.v1.p1.c1.PAGE_IPM_BioMe_Biobank_Subject_Phenotypes.GRU.Edits.Transformed.Edits.txt.gz
 
 
 
@@ -9279,6 +9280,105 @@ null device
           1 
 > 
 > 
+> colnames(Data1.NoSex.Format) <- names(Data3); Data4 <- rbind(Data3, Data1.NoSex.Format);
+> dim(Data3)
+[1] 12745     5
+> dim(Data1)
+[1] 12745     8
+> dim(Data4)
+[1] 12754     5
+> Data1 <- read.table("/users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/phs000925.v1.pht006203.v1.p1.c1.PAGE_IPM_BioMe_Biobank_Subject_Phenotypes.GRU.Edits.txt.gz", header=T);
+> dim(Data1)
+[1] 12754     8
+> Data1.NoSex <-  Data1[is.na(Data1$SEX),]; Data1 <- Data1[! is.na(Data1$SEX),];
+> dim(Data1)
+[1] 12745     8
+> dim(Data1.NoSex)
+[1] 9 8
+> dim(Data4)
+[1] 12754     5
+> dim(Dat3)
+Error: object 'Dat3' not found
+> dim(Dat3a)
+Error: object 'Dat3a' not found
+> dim(Data3)
+[1] 12745     5
+[  mturchin@node1301  ~/LabMisc/RamachandranLab/MultiEthnicGWAS]$zcat /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/phs000925.v1.pht006203.v1.p1.c1.PAGE_IPM_BioMe_Biobank_Subject_Phenotypes.GRU.Edits.Transformed.txt.gz | wc
+  12755   89285  883033
+[  mturchin@node1301  ~/LabMisc/RamachandranLab/MultiEthnicGWAS]$zcat /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/phs000925.v1.pht006203.v1.p1.c1.PAGE_IPM_BioMe_Biobank_Subject_Phenotypes.GRU.Edits.Transformed.txt.gz | head -n 10
+FID_IID FID IID SEX AGE Height BMI
+1709845_64364   1709845 64364 2 77 -1.22613008190874 -1.04207595694479
+1709846_64366   1709846 64366 1 33 0.50562180405093 -1.05853801078682
+1709847_64370   1709847 64370 1 32 0.210077009443304 2.37533554839938
+1709848_64373   1709848 64373 2 61 0.659689486122964 -0.808818662204078
+1709849_64374   1709849 64374 2 57 0.785036049876892 0.637474847639181
+1709850_64378   1709850 64378 1 55 -0.383211242622326 -0.318911360478748
+1709851_64381   1709851 64381 2 57 -0.0300611659663815 0.117589057551884
+1709852_64385   1709852 64385 1 34 -0.0559669182483431 1.94159235891198
+1709853_64387   1709853 64387 2 51 0.541925891251572 0.176004544892776
+[  mturchin@node1301  ~/LabMisc/RamachandranLab/MultiEthnicGWAS]$R -q -e "Data1 <- read.table(\"/users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/phs000925.v1.pht006203.v1.p1.c1.PAGE_IPM_BioMe_Biobank_Subject_Phenotypes.GRU.Edits.txt.gz\", header=T); Data2 <- read.table(\"/users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/phs000925.v1.pht006203.v1.p1.c1.PAGE_IPM_BioMe_Biobank_Subject_Phenotypes.GRU.Edits.Transformed.txt.gz\", header=T); Data1.M <- Data1[Data1\$SEX == 1,]; Data1.F <- Data1[Data1\$SEX == 2,]; Data2.M <- Data2[Data2\$SEX == 1,]; Data2.F <- Data2[Data2\$SEX == 2,]; \
+print(\"Height (M & F)\"); quantile(Data2.M\$Height, na.rm=TRUE); c(mean(Data2.M\$Height, na.rm=TRUE), sd(Data2.M\$Height, na.rm=TRUE), mean(Data2.M\$Height, na.rm=TRUE) + 3 * sd(Data2.M\$Height, na.rm=TRUE), mean(Data2.M\$Height, na.rm=TRUE) - 3 * sd(Data2.M\$Height, na.rm=TRUE)); table(is.na(Data2.M\$Height)); head(sort(Data2.M\$Height)); head(sort(Data2.M\$Height, decreasing=TRUE)); quantile(Data2.F\$Height, na.rm=TRUE); c(mean(Data2.F\$Height, na.rm=TRUE), sd(Data2.F\$Height, na.rm=TRUE), mean(Data2.F\$Height, na.rm=TRUE) + 3 * sd(Data2.F\$Height, na.rm=TRUE), mean(Data2.F\$Height, na.rm=TRUE) - 3 * sd(Data2.F\$Height, na.rm=TRUE)); table(is.na(Data2.F\$Height)); head(sort(Data2.F\$Height)); head(sort(Data2.F\$Height, decreasing=TRUE)); \
+print(\"BMI (M & F)\"); quantile(Data2.M\$BMI, na.rm=TRUE); c(mean(Data2.M\$BMI, na.rm=TRUE), sd(Data2.M\$BMI, na.rm=TRUE), mean(Data2.M\$BMI, na.rm=TRUE) + 3 * sd(Data2.M\$BMI, na.rm=TRUE), mean(Data2.M\$BMI, na.rm=TRUE) - 3 * sd(Data2.M\$BMI, na.rm=TRUE)); table(is.na(Data2.M\$BMI)); head(sort(Data2.M\$BMI)); head(sort(Data2.M\$BMI, decreasing=TRUE)); quantile(Data2.F\$BMI, na.rm=TRUE); c(mean(Data2.F\$BMI, na.rm=TRUE), sd(Data2.F\$BMI, na.rm=TRUE), mean(Data2.F\$BMI, na.rm=TRUE) + 3 * sd(Data2.F\$BMI, na.rm=TRUE), mean(Data2.F\$BMI, na.rm=TRUE) - 3 * sd(Data2.F\$BMI, na.rm=TRUE)); table(is.na(Data2.F\$BMI)); head(sort(Data2.F\$BMI)); head(sort(Data2.F\$BMI, decreasing=TRUE));"
+> Data1 <- read.table("/users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/phs000925.v1.pht006203.v1.p1.c1.PAGE_IPM_BioMe_Biobank_Subject_Phenotypes.GRU.Edits.txt.gz", header=T); Data2 <- read.table("/users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/phs000925.v1.pht006203.v1.p1.c1.PAGE_IPM_BioMe_Biobank_Subject_Phenotypes.GRU.Edits.Transformed.txt.gz", header=T); Data1.M <- Data1[Data1$SEX == 1,]; Data1.F <- Data1[Data1$SEX == 2,]; Data2.M <- Data2[Data2$SEX == 1,]; Data2.F <- Data2[Data2$SEX == 2,]; print("Height (M & F)"); quantile(Data2.M$Height, na.rm=TRUE); c(mean(Data2.M$Height, na.rm=TRUE), sd(Data2.M$Height, na.rm=TRUE), mean(Data2.M$Height, na.rm=TRUE) + 3 * sd(Data2.M$Height, na.rm=TRUE), mean(Data2.M$Height, na.rm=TRUE) - 3 * sd(Data2.M$Height, na.rm=TRUE)); table(is.na(Data2.M$Height)); head(sort(Data2.M$Height)); head(sort(Data2.M$Height, decreasing=TRUE)); quantile(Data2.F$Height, na.rm=TRUE); c(mean(Data2.F$Height, na.rm=TRUE), sd(Data2.F$Height, na.rm=TRUE), mean(Data2.F$Height, na.rm=TRUE) + 3 * sd(Data2.F$Height, na.rm=TRUE), mean(Data2.F$Height, na.rm=TRUE) - 3 * sd(Data2.F$Height, na.rm=TRUE)); table(is.na(Data2.F$Height)); head(sort(Data2.F$Height)); head(sort(Data2.F$Height, decreasing=TRUE)); print("BMI (M & F)"); quantile(Data2.M$BMI, na.rm=TRUE); c(mean(Data2.M$BMI, na.rm=TRUE), sd(Data2.M$BMI, na.rm=TRUE), mean(Data2.M$BMI, na.rm=TRUE) + 3 * sd(Data2.M$BMI, na.rm=TRUE), mean(Data2.M$BMI, na.rm=TRUE) - 3 * sd(Data2.M$BMI, na.rm=TRUE)); table(is.na(Data2.M$BMI)); head(sort(Data2.M$BMI)); head(sort(Data2.M$BMI, decreasing=TRUE)); quantile(Data2.F$BMI, na.rm=TRUE); c(mean(Data2.F$BMI, na.rm=TRUE), sd(Data2.F$BMI, na.rm=TRUE), mean(Data2.F$BMI, na.rm=TRUE) + 3 * sd(Data2.F$BMI, na.rm=TRUE), mean(Data2.F$BMI, na.rm=TRUE) - 3 * sd(Data2.F$BMI, na.rm=TRUE)); table(is.na(Data2.F$BMI)); head(sort(Data2.F$BMI)); head(sort(Data2.F$BMI, decreasing=TRUE));
+[1] "Height (M & F)"
+           0%           25%           50%           75%          100% 
+-3.7119400897 -0.6754609235 -0.0001288888  0.6728725400  3.7119400897 
+[1] -3.893575e-07  9.999638e-01  2.999891e+00 -2.999892e+00
+
+FALSE  TRUE 
+ 4862    11 
+[1] -3.711940 -3.424016 -3.282644 -3.186564 -3.113139 -3.053426
+[1] 3.711940 3.424016 3.282644 3.186564 3.113139 3.027223
+           0%           25%           50%           75%          100% 
+-3.8324227478 -0.6725942972  0.0009541792  0.6753884424  3.8324227478 
+[1]  2.574263e-08  9.999774e-01  2.999932e+00 -2.999932e+00
+
+FALSE  TRUE 
+ 7881     9 
+[1] -3.832423 -3.553140 -3.416448 -3.323733 -3.252987 -3.195526
+[1] 3.832423 3.553140 3.416448 3.323733 3.252987 3.195526
+[1] "BMI (M & F)"
+        0%        25%        50%        75%       100% 
+-3.7112103 -0.6743275  0.0000000  0.6743275  3.7112103 
+[1]  1.176453e-09  9.999676e-01  2.999903e+00 -2.999903e+00
+
+FALSE  TRUE 
+ 4848    25 
+[1] -3.711210 -3.423232 -3.281831 -3.185730 -3.112288 -3.052561
+[1] 3.711210 3.423232 3.281831 3.185730 3.112288 3.052561
+        0%        25%        50%        75%       100% 
+-3.8315160 -0.6743896  0.0000000  0.6743896  3.8315160 
+[1]  5.902784e-09  9.999798e-01  2.999939e+00 -2.999939e+00
+
+FALSE  TRUE 
+ 7852    38 
+[1] -3.831516 -3.552170 -3.415444 -3.322705 -3.251939 -3.194462
+[1] 3.831516 3.552170 3.415444 3.322705 3.251939 3.194462
+> 
+> 
+[  mturchin@node1301  ~/LabMisc/RamachandranLab/MultiEthnicGWAS]$zcat /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/phs000925.v1.pht006203.v1.p1.c1.PAGE_IPM_BioMe_Biobank_Subject_Phenotypes.GRU.Edits.Transformed.txt.gz | head -n 10
+FID_IID FID IID SEX AGE Height BMI
+1709845_64364   1709845 64364 2 77 -1.22613008190874 -1.04207595694479
+1709846_64366   1709846 64366 1 33 0.50562180405093 -1.05853801078682
+1709847_64370   1709847 64370 1 32 0.210077009443304 2.37533554839938
+1709848_64373   1709848 64373 2 61 0.659689486122964 -0.808818662204078
+1709849_64374   1709849 64374 2 57 0.785036049876892 0.637474847639181
+1709850_64378   1709850 64378 1 55 -0.383211242622326 -0.318911360478748
+1709851_64381   1709851 64381 2 57 -0.0300611659663815 0.117589057551884
+1709852_64385   1709852 64385 1 34 -0.0559669182483431 1.94159235891198
+1709853_64387   1709853 64387 2 51 0.541925891251572 0.176004544892776
+[  mturchin@node1301  ~/LabMisc/RamachandranLab/MultiEthnicGWAS]$zcat /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/phs000925.v1.pht006203.v1.p1.c1.PAGE_IPM_BioMe_Biobank_Subject_Phenotypes.GRU.Edits.Transformed.txt.gz | awk '{ print $2 "\t" $3 "\t" $6 "\t" $7 }' | gzip > /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/phs000925.v1.pht006203.v1.p1.c1.PAGE_IPM_BioMe_Biobank_Subject_Phenotypes.GRU.Edits.Transformed.Edits.txt.gz
+[  mturchin@node1301  ~/LabMisc/RamachandranLab/MultiEthnicGWAS]$zcat /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/phs000925.v1.pht006203.v1.p1.c1.PAGE_IPM_BioMe_Biobank_Subject_Phenotypes.GRU.Edits.Transformed.Edits.txt.gz | head -n 10
+FID     IID     Height  BMI
+1709845 64364   -1.22613008190874       -1.04207595694479
+1709846 64366   0.50562180405093        -1.05853801078682
+1709847 64370   0.210077009443304       2.37533554839938
+1709848 64373   0.659689486122964       -0.808818662204078
+1709849 64374   0.785036049876892       0.637474847639181
+1709850 64378   -0.383211242622326      -0.318911360478748
+1709851 64381   -0.0300611659663815     0.117589057551884
+1709852 64385   -0.0559669182483431     1.94159235891198
+1709853 64387   0.541925891251572       0.176004544892776
 
 
 
