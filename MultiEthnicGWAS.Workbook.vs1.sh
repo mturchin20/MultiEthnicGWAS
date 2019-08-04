@@ -4439,6 +4439,13 @@ done
 
 
 
+
+
+
+
+
+
+
 #20190108 NOTE -- thinking about post-imputation QC (beyond just imputation quality score/missingness), and seems like the general consensus is that -- aside from the metrics mentioned just before -- most QC otherwise should be done before imputation and not much else done afterwards (eg see below biostars link)
 #From: https://www.biostars.org/p/6476/
 for j in `cat <(echo $UKBioBankPops | perl -lane 'print join("\n", @F);')`; do
@@ -4476,6 +4483,16 @@ done
 cat /users/mturchin/data/ukbiobank_jun17/subsets/African/African/Imputation/mturchin20/ukb_chr1_v2.African.QCed.reqDrop.QCed.dropRltvs.PCAdrop.sort.ImptHRC.dose.100geno.plinkTemp.fam | awk '{ print $1 }' | sed 's/_/ /g' > /users/mturchin/data/ukbiobank_jun17/subsets/African/African/Imputation/mturchin20/ukb_chrAll_v2.African.QCed.reqDrop.QCed.dropRltvs.PCAdrop.sort.ImptHRC.dose.100geno.plinkTemp.FIDIIDs
 
 
+
+
+
+
+
+
+
+
+
+=
 #20190603 NOTE -- Don't really use these files if you want to do something with them, wasn't updated with 'BMIAdj' results even though '.../phenos/' files didn't include 'BMIAdj' in output file name with input names changing
 ##From https://stats.stackexchange.com/questions/11000/how-does-r-handle-missing-values-in-lm (for lm(..., na.action=na.exclude))
 #for j in `cat <(echo $UKBioBankPops | perl -lane 'print join("\n", @F);') | grep Ran10000`; do
@@ -4574,6 +4591,20 @@ for j in `cat <(echo $UKBioBankPops | perl -lane 'print join("\n", @F);') | grep
 done;
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 #20190802 NOTE -- 1 = Male, 2 = Female (from https://www.ncbi.nlm.nih.gov/projects/gap/cgi-bin/variable.cgi?study_id=phs000925.v1.p1&phv=282785&phd=&pha=&pht=6203&phvf=&phdf=&phaf=&phtf=4&dssp=1&consent=&temp=1)
 zcat /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PhenosGenos/PAGE/IPMBioMe/phs000925.v1.pht006203.v1.p1.c1.PAGE_IPM_BioMe_Biobank_Subject_Phenotypes.GRU.txt.gz | grep -v ^# | grep -v ^$ | grep -v dbGaP | cat <(echo -e "FID\tIID\tSEX\tAGE\tHeight\tWeight\tBMI") - | awk '{ print $1 "_" $2 "\t" $0 }'  | gzip >  /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/phs000925.v1.pht006203.v1.p1.c1.PAGE_IPM_BioMe_Biobank_Subject_Phenotypes.GRU.Edits.txt.gz 
 
@@ -4594,6 +4625,19 @@ R -q -e "Data1 <- read.table(\"/users/mturchin/data/dbGaP/mturchin20/MultiEthnic
 #scp -p mturchin@ssh.ccv.brown.edu:/users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/phs000925.v1.pht006203.v1.p1.c1.PAGE_IPM_BioMe_Biobank_Subject_Phenotypes.GRU.*VarChecks*png /Users/mturchin20/Documents/Work/LabMisc/Data/PAGE/IPMBioMe/. 
 
 zcat /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/phs000925.v1.pht006203.v1.p1.c1.PAGE_IPM_BioMe_Biobank_Subject_Phenotypes.GRU.Edits.Transformed.txt.gz | awk '{ print $2 "\t" $3 "\t" $6 "\t" $7 }' | gzip > /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/phs000925.v1.pht006203.v1.p1.c1.PAGE_IPM_BioMe_Biobank_Subject_Phenotypes.GRU.Edits.Transformed.Edits.txt.gz
+#NoBMIAdj files currently necessary/available
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
