@@ -4421,16 +4421,6 @@ for j in `cat <(echo $PAGEIPMBioMePops2 | perl -lane 'print join("\n", @F);') | 
 
 done
 
-
-
-
-
-
-
-
-
-
-
 #20190802 NOTE -- 1 = Male, 2 = Female (from https://www.ncbi.nlm.nih.gov/projects/gap/cgi-bin/variable.cgi?study_id=phs000925.v1.p1&phv=282785&phd=&pha=&pht=6203&phvf=&phdf=&phaf=&phtf=4&dssp=1&consent=&temp=1)
 zcat /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PhenosGenos/PAGE/IPMBioMe/phs000925.v1.pht006203.v1.p1.c1.PAGE_IPM_BioMe_Biobank_Subject_Phenotypes.GRU.txt.gz | grep -v ^# | grep -v ^$ | grep -v dbGaP | cat <(echo -e "FID\tIID\tSEX\tAGE\tHeight\tWeight\tBMI") - | awk '{ print $1 "_" $2 "\t" $0 }' >  /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/phs000925.v1.pht006203.v1.p1.c1.PAGE_IPM_BioMe.GRU.Edits.txt 
 
@@ -4453,17 +4443,13 @@ R -q -e "Data1 <- read.table(\"/users/mturchin/data/dbGaP/mturchin20/MultiEthnic
 cat /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/phs000925.v1.pht006203.v1.p1.c1.PAGE_IPM_BioMe.GRU.Edits.Transformed.txt | awk '{ print $2 "\t" $3 "\t" $6 "\t" $7 }' > /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/phs000925.v1.pht006203.v1.p1.c1.PAGE_IPM_BioMe.GRU.Edits.Transformed.Edits.txt
 #NoBMIAdj files currently necessary/available
 
-/users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v2.${ancestry2}.QCed.pruned.QCed.dropRltvs.noX.PCAdrop.flashpca.pcs.wFullCovars.txt
-
 for j in `cat <(echo $PAGEIPMBioMePops2 | perl -lane 'print join("\n", @F);') | head -n 1 | tail -n 1`; do
         ancestry1=`echo $j | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[0];'`
         ancestry2=`echo $j | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[1];'`
 
         echo $ancestry1 $ancestry2
 
-	join <(cat /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/phs000925.v1.pht006203.v1.p1.c1.PAGE_IPM_BioMe.GRU.Edits.Transformed.txt | awk '{ print $3 "\t" $2 "\t" $3 "\t" $4 "\t" $5 }' | sort -k 1,1) <(join <(cat /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/PAGE_IPMBioMe_chrAll_v1.QCed.1kGMatch.pruned.QCed.SNPrecode.w1kG.flipped.dropmissnp.allRltvs.flashpca.pcs.txt | awk '{ print $1 "_" $2 "\t" $0 }' | sort -k 1,1) <(cat /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/PAGE_IPMBioMe_chrAll_v1.QCed.1kGMatch.pruned.QCed.SNPrecode.w1kG.flipped.dropmissnp.allRltvs.flashpca.pcs.wAncs.$ancestry2.dropRltvs.Loose.HRCdrops.FIDIIDs | awk '{ print $1 "_" $2 }' | sort -k 1,1) | awk '{ $1 = $3; print $0 }' | sort -k 1,1) | perl -lane 'print join("\t", @F[1..$#F]);' | cat <(echo -e "FID1\tIID1\tSEX\tAGE\tFID2\tIID2\tPC1\tPC2\tPC3\tPC4\tPC5\tPC6\tPC7\tPC8\tPC9\tPC10") - > /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/$ancestry1/$ancestry2/PAGE_IPMBioMe_chrAll_v1.QCed.1kGMatch.pruned.QCed.SNPrecode.w1kG.flipped.dropmissnp.allRltvs.flashpca.pcs.$ancestry2.wFullCovars.txt 
-
-	cat <(echo -e "FID\tIID\tSEX\tANCESTRY\tAGE\tPC1\tPC2\tPC3\tPC4\tPC5\tPC6\tPC7\tPC8\tPC9\tPC10") -
+	join <(cat /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/phs000925.v1.pht006203.v1.p1.c1.PAGE_IPM_BioMe.GRU.Edits.Transformed.txt | awk '{ print $3 "\t" $2 "\t" $3 "\t" $4 "\t" $5 }' | sort -k 1,1) <(join <(cat /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/PAGE_IPMBioMe_chrAll_v1.QCed.1kGMatch.pruned.QCed.SNPrecode.w1kG.flipped.dropmissnp.allRltvs.flashpca.pcs.txt | awk '{ print $1 "_" $2 "\t" $0 }' | sort -k 1,1) <(cat /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/PAGE_IPMBioMe_chrAll_v1.QCed.1kGMatch.pruned.QCed.SNPrecode.w1kG.flipped.dropmissnp.allRltvs.flashpca.pcs.wAncs.$ancestry2.dropRltvs.Loose.HRCdrops.FIDIIDs | awk '{ print $1 "_" $2 }' | sort -k 1,1) | awk '{ $1 = $3; print $0 }' | sort -k 1,1) | perl -lane 'print join("\t", @F[1..$#F]);' | perl -lane 'print join("\t", @F[0..15]);' | cat <(echo -e "FID1\tIID1\tSEX\tAGE\tFID2\tIID2\tPC1\tPC2\tPC3\tPC4\tPC5\tPC6\tPC7\tPC8\tPC9\tPC10") - > /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/$ancestry1/$ancestry2/PAGE_IPMBioMe_chrAll_v1.QCed.1kGMatch.pruned.QCed.SNPrecode.w1kG.flipped.dropmissnp.allRltvs.flashpca.pcs.$ancestry2.wFullCovars.txt 
 
 done
 
@@ -9060,6 +9046,19 @@ NA 79057 NA NA 2 -9
  895964 5375784 45694164
       7       7      83
    4295 895955
+[  mturchin@node1309  ~/LabMisc/RamachandranLab/MultiEthnicGWAS]$cat /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/$ancestry1/$ancestry2/PAGE_IPMBioMe_chrAll_v1.QCed.1kGMatch.pruned.QCed.SNPrecode.w1kG.flipped.dropmissnp.allRltvs.flashpca.pcs.$ancestry2.wFullCovars.txt | head -n 10
+FID1    IID1    SEX     AGE     FID2    IID2    PC1     PC2     PC3     PC4     PC5     PC6     PC7     PC8     PC9     PC10
+1709846 64366   1       33      NA      64366   0.167381547829194       -0.0024237846662435     -0.005499623886921      -0.00643331482403878    0.0156864519140891      -0.00158270256237675    0.0100338558572581      0.00441395412462476  -0.00278913996096636     -0.00490378229178609
+1709849 64374   2       57      NA      64374   0.138710866554739       -0.00938755555348472    -0.00714088847485656    0.0170834384458685      0.00503098339037897     0.00792548752833047     0.00962132117817235     0.0050832619842298   0.0066681390900026       -0.00481479395330678
+1709850 64378   1       55      NA      64378   0.136510866454941       -0.0204901238188148     -0.00183455603419553    0.00383836699355504     0.028349678037931       0.00280024919488271     -0.058600947232269      -0.0326745315037972  -0.00353286137026162     0.0660793604503573
+1709851 64381   2       57      NA      64381   0.196724344884732       0.0125866905496894      0.00615488180407107     -0.00202668922585513    0.00552825562860896     0.000569491986939737    0.00876713444660106     0.0167657475978463   0.00244725233316927      -0.0111529867780716
+1709853 64387   2       51      NA      64387   0.124850830841862       -0.00614714320225028    -0.00484843417636058    0.00437148357060466     -0.009646581909366      0.0115774184851822      0.00317720913453958     -0.00165902606221672 -0.00361155939352916     -0.00261585955107909
+1709856 64391   1       57      NA      64391   0.155663405709071       0.0177760305953665      -0.0158663554222316     -0.0143438713125817     0.00551255971950654     0.00211512732828163     0.00692419112593989     -0.00892882027849792 -0.00386506694544438     -0.000606487046601977
+1709857 64400   1       40      NA      64400   0.181151166865462       0.0116418943724041      -0.0037583443070764     0.00382933692495006     -0.00151597571742148    0.000843760619138858    0.00346270628359773     0.00381534949288089  -0.00867404001160864     8.15838562234597e-05
+1709861 64418   1       55      NA      64418   0.213015833807662       0.0122482023956381      0.00739453246106643     -0.00566828546057957    0.000464049993908453    0.0120422898718371      0.00255142302273041     0.00561405832113619  -0.00562440014143322     -0.00166310858549647
+1709862 64423   1       49      NA      64423   0.140009495230567       0.00311994535187937     -0.0136063536043501     0.00413407090587495     -0.0105836309901797     0.0031666404199094      0.00940125493152639     0.00200651964951612  -0.00144119793151648     -0.0119446875160223
+[  mturchin@node1309  ~/LabMisc/RamachandranLab/MultiEthnicGWAS]$cat /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/$ancestry1/$ancestry2/PAGE_IPMBioMe_chrAll_v1.QCed.1kGMatch.pruned.QCed.SNPrecode.w1kG.flipped.dropmissnp.allRltvs.flashpca.pcs.$ancestry2.wFullCovars.txt | perl -lane 'print $#F;' | sort | uniq -c
+   4295 15
 
 
 
