@@ -4444,6 +4444,33 @@ for j in `cat <(echo $PAGEIPMBioMePops2 | perl -lane 'print join("\n", @F);') | 
 
 done
 
+
+
+
+
+PAGE_IPMBioMe_chrAll_v1.QCed.QCed.dropRltvs.Loose.AfrAmrHRC.HRCdrops.ATGC.flip.sort.ImptHRC.dose.100geno.noFix.fam
+for j in `cat <(echo $PAGEIPMBioMePops2 | perl -lane 'print join("\n", @F);') | head -n 1 | tail -n 1`; do
+        ancestry1=`echo $j | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[0];'`
+        ancestry2=`echo $j | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[1];'`
+
+	plink --bfile /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/$ancestry1/$ancestry2/Imputation/PAGE_IPMBioMe_chrAll_v1.QCed.QCed.dropRltvs.Loose.$ancestry2.HRCdrops.ATGC.flip.sort.ImptHRC.dose.100geno.noFix --indep-pairwise 1000 50 0.95 --out /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/$ancestry1/$ancestry2/Imputation/PAGE_IPMBioMe_chrAll_v1.QCed.QCed.dropRltvs.Loose.$ancestry2.HRCdrops.ATGC.flip.sort.ImptHRC.dose.100geno.noFix.r95 
+	plink --bfile /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/$ancestry1/$ancestry2/Imputation/PAGE_IPMBioMe_chrAll_v1.QCed.QCed.dropRltvs.Loose.$ancestry2.HRCdrops.ATGC.flip.sort.ImptHRC.dose.100geno.noFix --indep-pairwise 1000 50 0.9 --out /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/$ancestry1/$ancestry2/Imputation/PAGE_IPMBioMe_chrAll_v1.QCed.QCed.dropRltvs.Loose.$ancestry2.HRCdrops.ATGC.flip.sort.ImptHRC.dose.100geno.noFix.r90 
+
+done
+
+
+        plink --bfile /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/PAGE_IPMBioMe_chr${i}_v1.QCed --indep-pairwise 1000 50 0.05 --exclude range /users/mturchin/Software/flashpca/exclusion_regions_hg19.txt --out /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/PAGE_IPMBioMe_chr${i}_v1.QCed
+        plink --bfile /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/PAGE_IPMBioMe_chr${i}_v1.QCed --remove /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/PAGE_IPMBioMe_chrAll_v1.QCed.imiss.SumStats.dropiMiss.FIDIIDs --extract /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/PAGE_IPMBioMe_chr${i}_v1.QCed.prune.in --make-bed --out /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/PAGE_IPMBioMe_chr${i}_v1.QCed.pruned.QCed
+
+
+
+done
+
+
+
+
+
+
 #20190802 NOTE -- 1 = Male, 2 = Female (from https://www.ncbi.nlm.nih.gov/projects/gap/cgi-bin/variable.cgi?study_id=phs000925.v1.p1&phv=282785&phd=&pha=&pht=6203&phvf=&phdf=&phaf=&phtf=4&dssp=1&consent=&temp=1)
 zcat /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PhenosGenos/PAGE/IPMBioMe/phs000925.v1.pht006203.v1.p1.c1.PAGE_IPM_BioMe_Biobank_Subject_Phenotypes.GRU.txt.gz | grep -v ^# | grep -v ^$ | grep -v dbGaP | cat <(echo -e "FID\tIID\tSEX\tAGE\tHeight\tWeight\tBMI") - | awk '{ print $1 "_" $2 "\t" $0 }' >  /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/phs000925.v1.pht006203.v1.p1.c1.PAGE_IPM_BioMe.GRU.Edits.txt 
 
