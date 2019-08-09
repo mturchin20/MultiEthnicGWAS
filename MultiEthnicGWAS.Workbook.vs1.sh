@@ -4454,20 +4454,14 @@ for j in `cat <(echo $PAGEIPMBioMePops2 | perl -lane 'print join("\n", @F);') | 
 
 done
 
-	        echo -e "plink --bfile /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/$ancestry1/$ancestry2/Imputation/PAGE_IPMBioMe_chrAll_v1.QCed.QCed.dropRltvs.Loose.$ancestry2.HRCdrops.ATGC.flip.sort.ImptHRC.dose.100geno.noFix --recode AD --out /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/$ancestry1/$ancestry2/Imputation/PAGE_IPMBioMe_chrAll_v1.QCed.QCed.dropRltvs.Loose.$ancestry2.HRCdrops.ATGC.flip.sort.ImptHRC.dose.100geno.noFix"; \
-        echo -e "cat /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/$ancestry1/$ancestry2/Imputation/PAGE_IPMBioMe_chrAll_v1.QCed.QCed.dropRltvs.Loose.$ancestry2.HRCdrops.ATGC.flip.sort.ImptHRC.dose.100geno.noFix.raw | perl -lane 'if (\$. == 1) { @vals1; for (my \$i = 6; \$i <= \$#F; \$i++) { if (\$F[\$i] =~ m/HET/) { \$PH = 1 } else { push(@vals1, \$i); } } } print join(\"\t\", @F[@vals1]);' | gzip > /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/$ancestry1/$ancestry2/Imputation/PAGE_IPMBioMe_chrAll_v1.QCed.QCed.dropRltvs.Loose.$ancestry2.HRCdrops.ATGC.flip.sort.ImptHRC.dose.100geno.noFix.raw.edit.gz"; \
+ln -s /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/PAGE_IPMBioMe_chrAll_v1.QCed.1kGMatch.pruned.QCed.SNPrecode.w1kG.flipped.dropmissnp.allRltvs.flashpca.pcs.wAncs.AfrAmrHRC.dropRltvs.Loose.HRCdrops.FIDIIDs /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/PAGE_IPMBioMe_chrAll_v1.QCed.1kGMatch.pruned.QCed.SNPrecode.w1kG.flipped.dropmissnp.allRltvs.flashpca.pcs.wAncs.AfrAmrHRCPruned.dropRltvs.Loose.HRCdrops.FIDIIDs
+ln -s /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/PAGE_IPMBioMe_chrAll_v1.QCed.1kGMatch.pruned.QCed.SNPrecode.w1kG.flipped.dropmissnp.allRltvs.flashpca.pcs.wAncs.EuroStrict.dropRltvs.Loose.HRCdrops.FIDIIDs /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/PAGE_IPMBioMe_chrAll_v1.QCed.1kGMatch.pruned.QCed.SNPrecode.w1kG.flipped.dropmissnp.allRltvs.flashpca.pcs.wAncs.EuroStrictPruned.dropRltvs.Loose.HRCdrops.FIDIIDs
+ln -s /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/PAGE_IPMBioMe_chrAll_v1.QCed.1kGMatch.pruned.QCed.SNPrecode.w1kG.flipped.dropmissnp.allRltvs.flashpca.pcs.wAncs.EuroLoose.dropRltvs.Loose.HRCdrops.FIDIIDs /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/PAGE_IPMBioMe_chrAll_v1.QCed.1kGMatch.pruned.QCed.SNPrecode.w1kG.flipped.dropmissnp.allRltvs.flashpca.pcs.wAncs.EuroLoosePruned.dropRltvs.Loose.HRCdrops.FIDIIDs
+ln -s /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/PAGE_IPMBioMe_chrAll_v1.QCed.1kGMatch.pruned.QCed.SNPrecode.w1kG.flipped.dropmissnp.allRltvs.flashpca.pcs.wAncs.AfrAmr1000G.dropRltvs.Loose.HRCdrops.FIDIIDs /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/PAGE_IPMBioMe_chrAll_v1.QCed.1kGMatch.pruned.QCed.SNPrecode.w1kG.flipped.dropmissnp.allRltvs.flashpca.pcs.wAncs.AfrAmr1000GPruned.dropRltvs.Loose.HRCdrops.FIDIIDs
+ln -s /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/PAGE_IPMBioMe_chrAll_v1.QCed.1kGMatch.pruned.QCed.SNPrecode.w1kG.flipped.dropmissnp.allRltvs.flashpca.pcs.wAncs.AfrAmrCAAPA.dropRltvs.Loose.HRCdrops.FIDIIDs /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/PAGE_IPMBioMe_chrAll_v1.QCed.1kGMatch.pruned.QCed.SNPrecode.w1kG.flipped.dropmissnp.allRltvs.flashpca.pcs.wAncs.AfrAmrCAAPAPruned.dropRltvs.Loose.HRCdrops.FIDIIDs
 
-
-        plink --bfile /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/PAGE_IPMBioMe_chr${i}_v1.QCed --remove /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/PAGE_IPMBioMe_chrAll_v1.QCed.imiss.SumStats.dropiMiss.FIDIIDs --extract /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/PAGE_IPMBioMe_chr${i}_v1.QCed.prune.in --make-bed --out /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/PAGE_IPMBioMe_chr${i}_v1.QCed.pruned.QCed
-
-
-
-done
-
-
-
-
-
+ln -s /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/PAGE_IPMBioMe_chrAll_v1.QCed.1kGMatch.pruned.QCed.SNPrecode.w1kG.flipped.dropmissnp.allRltvs.flashpca.pcs.wAncs.AfrAmrHRC.dropRltvs.Loose.HRCdrops.FIDIIDs /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/PAGE_IPMBioMe_chrAll_v1.QCed.1kGMatch.pruned.QCed.SNPrecode.w1kG.flipped.dropmissnp.allRltvs.flashpca.pcs.wAncs.AfrAmr1000G.dropRltvs.Loose.HRCdrops.FIDIIDs
+ln -s /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/PAGE_IPMBioMe_chrAll_v1.QCed.1kGMatch.pruned.QCed.SNPrecode.w1kG.flipped.dropmissnp.allRltvs.flashpca.pcs.wAncs.AfrAmrHRC.dropRltvs.Loose.HRCdrops.FIDIIDs /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/PAGE_IPMBioMe_chrAll_v1.QCed.1kGMatch.pruned.QCed.SNPrecode.w1kG.flipped.dropmissnp.allRltvs.flashpca.pcs.wAncs.AfrAmrCAAPA.dropRltvs.Loose.HRCdrops.FIDIIDs
 
 #20190802 NOTE -- 1 = Male, 2 = Female (from https://www.ncbi.nlm.nih.gov/projects/gap/cgi-bin/variable.cgi?study_id=phs000925.v1.p1&phv=282785&phd=&pha=&pht=6203&phvf=&phdf=&phaf=&phtf=4&dssp=1&consent=&temp=1)
 zcat /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PhenosGenos/PAGE/IPMBioMe/phs000925.v1.pht006203.v1.p1.c1.PAGE_IPM_BioMe_Biobank_Subject_Phenotypes.GRU.txt.gz | grep -v ^# | grep -v ^$ | grep -v dbGaP | cat <(echo -e "FID\tIID\tSEX\tAGE\tHeight\tWeight\tBMI") - | awk '{ print $1 "_" $2 "\t" $0 }' >  /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/phs000925.v1.pht006203.v1.p1.c1.PAGE_IPM_BioMe.GRU.Edits.txt 
@@ -4491,7 +4485,7 @@ R -q -e "Data1 <- read.table(\"/users/mturchin/data/dbGaP/mturchin20/MultiEthnic
 cat /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/phs000925.v1.pht006203.v1.p1.c1.PAGE_IPM_BioMe.GRU.Edits.Transformed.txt | awk '{ print $2 "\t" $3 "\t" $6 "\t" $7 }' > /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/phs000925.v1.pht006203.v1.p1.c1.PAGE_IPM_BioMe.GRU.Edits.Transformed.Edits.txt
 #NoBMIAdj files currently necessary/available
 
-for j in `cat <(echo $PAGEIPMBioMePops2 | perl -lane 'print join("\n", @F);') | head -n 3 | tail -n 2`; do
+for j in `cat <(echo $PAGEIPMBioMePops3 | perl -lane 'print join("\n", @F);') | head -n 10 | tail -n 5`; do
         ancestry1=`echo $j | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[0];'`
         ancestry2=`echo $j | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[1];'`
 
