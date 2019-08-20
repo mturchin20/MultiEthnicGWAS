@@ -5078,6 +5078,21 @@ done
 
 
 
+
+
+
+zcat /users/mturchin/data/dbGaP/PhenosGenos/PAGE/MEC/phs000220.v2.pht002387.v2.p2.c2.PAGE_MEC_Metabochip_Subject_Phenotypes.GRU.txt.gz | awk '{ if ($7 =="B") { print  "NA\t" $2 } }' > test1.txt
+
+zcat /users/mturchin/data/dbGaP/PhenosGenos/PAGE/MEC/phs000220.v2.pht002387.v2.p2.c2.PAGE_MEC_Metabochip_Subject_Phenotypes.GRU.txt.gz | awk '{ if ($7 == "B") { print  "NA\t" $2 } }' > /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/PAGE_MEC_chrAll_v1.African.FIDIIDs
+zcat /users/mturchin/data/dbGaP/PhenosGenos/PAGE/MEC/phs000220.v2.pht002387.v2.p2.c2.PAGE_MEC_Metabochip_Subject_Phenotypes.GRU.txt.gz | awk '{ if ($7 == "J") { print  "NA\t" $2 } }' > /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/PAGE_MEC_chrAll_v1.Japanese.FIDIIDs
+zcat /users/mturchin/data/dbGaP/PhenosGenos/PAGE/MEC/phs000220.v2.pht002387.v2.p2.c2.PAGE_MEC_Metabochip_Subject_Phenotypes.GRU.txt.gz | awk '{ if ($7 == "H") { print  "NA\t" $2 } }' > /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/PAGE_MEC_chrAll_v1.Hawaiian.FIDIIDs
+
+
+PAGEMECPops1=`echo "African;African;Afr;689236 Japanese;Japanese;Jpn;254854 Hawaiian;Hawaiian;Hwn;9254752"`;
+
+
+
+
 #/users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/PAGE_MEC_chrAll_v1.QCed.1kGMatch.pruned.QCed.SNPrecode.w1kG.flipped.dropmissnp.allRltvs.flashpca.pcs.wAncs.AfrAmr.dropRltvs.Loose.FIDIIDs
 #/users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/PAGE_MEC_chrAll_v1.QCed.1kGMatch.pruned.QCed.SNPrecode.w1kG.flipped.dropmissnp.allRltvs.flashpca.pcs.wAncs.EuroStrict.dropRltvs.Loose.FIDIIDs
 #/users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/PAGE_MEC_chrAll_v1.QCed.1kGMatch.pruned.QCed.SNPrecode.w1kG.flipped.dropmissnp.allRltvs.flashpca.pcs.wAncs.EuroLoose.dropRltvs.Loose.FIDIIDs
@@ -5086,8 +5101,12 @@ PAGEMECPops1=`echo "AfrAmr;AfrAmrHRC;AAHRC;496726 Euro;EuroStrict;EurStr;698236 
 PAGEMECPops2=`echo "AfrAmr;AfrAmrHRC;AAHRC;496726 Euro;EuroStrict;EurStr;698236 Euro;EuroLoose;EurLs;2483362 AfrAmr;AfrAmr1000G;AA1000G;936214 AfrAmr;AfrAmrCAAPA;AACAAPA;3857636"`;
 PAGEMECPops3=`echo "AfrAmr;AfrAmrHRC;AAHRC;496726 Euro;EuroStrict;EurStr;698236 Euro;EuroLoose;EurLs;2483362 AfrAmr;AfrAmr1000G;AA1000G;936214 AfrAmr;AfrAmrCAAPA;AACAAPA;3857636 AfrAmr;AfrAmrHRCPruned;AAHRCPr;496726 Euro;EuroStrictPruned;EurStrPr;698236 Euro;EuroLoosePruned;EurLsPr;2483362 AfrAmr;AfrAmr1000GPruned;AA1000GPr;936214 AfrAmr;AfrAmrCAAPAPruned;AACAAPAPr;3857636 AfrAmr;AfrAmrHRCPrunedStrict;AAHRCPr;496726 Euro;EuroStrictPrunedStrict;EurStrPr;698236 Euro;EuroLoosePrunedStrict;EurLsPr;2483362 AfrAmr;AfrAmr1000GPrunedStrict;AA1000GPr;936214 AfrAmr;AfrAmrCAAPAPrunedStrict;AACAAPAPr;3857636"`;
 PAGEMECPops5=`echo "AfrAmr;AfrAmrHRC3rdDrop;AAHRC;496726 Euro;EuroStrict3rdDrop;EurStr;698236 Euro;EuroLoose3rdDrop;EurLs;2483362 AfrAmr;AfrAmrHRC3rdRan;AAHRC;496726 Euro;EuroStrict3rdRan;EurStr;698236 Euro;EuroLoose3rdRan;EurLs;2483362"`;
+
+
+
+PAGEMECPops1=`echo "African;African;Afr;689236 Japanese;Japanese;Jpn;254854 Hawaiian;Hawaiian;Hwn;9254752"`;
 mkdir /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/Imputation
-for j in `cat <(echo $PAGEMECPops5 | perl -lane 'print join("\n", @F);') | head -n 6 | tail -n 6`; do
+for j in `cat <(echo $PAGEMECPops1 | perl -lane 'print join("\n", @F);') | head -n 3 | tail -n 3`; do
         ancestry1=`echo $j | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[0];'`
         ancestry2=`echo $j | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[1];'`
 
@@ -5099,20 +5118,20 @@ for j in `cat <(echo $PAGEMECPops5 | perl -lane 'print join("\n", @F);') | head 
 		mkdir /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/$ancestry1/$ancestry2/Imputation
 	fi
 
-			
+	for i in {1..22}; do
+        	echo $i
 
-for i in {1..22}; do
-        echo $i
-
-	plink --bfile /users/mturchin/data/dbGaP/PhenosGenos/PAGE/MEC/PAGEII_MEC_TOP_subject_level_filtered_c2 --chr $i --hardy --nonfounders --out /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/PAGE_MEC_chr${i}_v1
+#		plink --bfile /users/mturchin/data/dbGaP/PhenosGenos/PAGE/MEC/PAGEII_MEC_TOP_subject_level_filtered_c2 --chr $i --keep /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/PAGE_MEC_chrAll_v1.$ancestry2.FIDIIDs --hardy --nonfounders --out /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/$ancestry1/$ancestry2/PAGE_MEC_chr${i}_v1.$ancestry2
         
-	plink --bfile /users/mturchin/data/dbGaP/PhenosGenos/PAGE/MEC/PAGEII_MEC_TOP_subject_level_filtered_c2 --chr $i --maf .01 --geno .05 --exclude /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/PAGE_MEC_chrAll_v1.dupvar.PLINKready --make-bed --nonfounders --out /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/PAGE_MEC_chr${i}_v1.QCed
-#       plink --bfile /users/mturchin/data/dbGaP/PhenosGenos/PAGE/MEC/PAGEII_MEC_TOP_subject_level_filtered_c2 --chr $i --maf .01 --geno .05 --exclude /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/PAGE_MEC_chrAll_v1.dupvar.w2ndRnd.PLINKready --make-bed --nonfounders --out /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/PAGE_MEC_chr${i}_v1.QCed  
-        plink --bfile /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/PAGE_MEC_chr${i}_v1.QCed --missing --nonfounders --out /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/PAGE_MEC_chr${i}_v1.QCed
-
+		plink --bfile /users/mturchin/data/dbGaP/PhenosGenos/PAGE/MEC/PAGEII_MEC_TOP_subject_level_filtered_c2 --chr $i --maf .01 --geno .05 --hwe 1e-6 --keep /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/PAGE_MEC_chrAll_v1.$ancestry2.FIDIIDs --exclude /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/PAGE_MEC_chrAll_v1.dupvar.w2ndRnd.PLINKready --make-bed --nonfounders --out /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/$ancestry1/$ancestry2/PAGE_MEC_chr${i}_v1.$ancestry2.QCed  
+		plink --bfile /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/$ancestry1/$ancestry2/PAGE_MEC_chr${i}_v1.$ancestry2.QCed --missing --nonfounders --out /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/PAGE_MEC_chr${i}_v1.$ancestry2.QCed
+	
+	done
 done
-
-
+ 
+cat /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/African/African/PAGE_MEC_chr*African*hwe | sort -g -k 9,9 | awk '{ if (($9 != 1) && ($9 != 0)) { print $0 } }' | vi - 
+cat /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/Japanese/Japanese/PAGE_MEC_chr*Japanese*hwe | sort -g -k 9,9 | awk '{ if (($9 != 1) && ($9 != 0)) { print $0 } }' | vi - 
+cat /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/Hawaiian/Hawaiian/PAGE_MEC_chr*Hawaiian*hwe | sort -g -k 9,9 | awk '{ if (($9 != 1) && ($9 != 0)) { print $0 } }' | vi -
 
 #	for i in {1..22}; do
 #		plink --bfile /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/PAGE_MEC_chr${i}_v1.QCed --keep /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/PAGE_MEC_chrAll_v1.QCed.1kGMatch.pruned.QCed.SNPrecode.w1kG.flipped.dropmissnp.allRltvs.flashpca.pcs.wAncs.$ancestry2.dropRltvs.Loose.FIDIIDs --recode vcf --out /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/$ancestry1/$ancestry2/PAGE_MEC_chr${i}_v1.QCed.QCed.dropRltvs.Loose.$ancestry2 
@@ -5122,8 +5141,95 @@ done
 done	
 
 
+mkdir /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/Imputation
+for j in `cat <(echo $PAGEMECPops1 | perl -lane 'print join("\n", @F);') | head -n 3 | tail -n 3`; do
+        ancestry1=`echo $j | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[0];'`
+        ancestry2=`echo $j | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[1];'`
 
+        echo $ancestry1 $ancestry2
+	paste <(cat /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/$ancestry1/$ancestry2/PAGE_MEC_chr1_v1.$ancestry2.QCed.imiss | awk '{ print $1 "\t" $2 "\t" $4 "\t" $5 }') \
+	<(cat /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/$ancestry1/$ancestry2/PAGE_MEC_chr2_v1.$ancestry2.QCed.imiss | awk '{ print $1 "\t" $2 "\t" $4 "\t" $5 }') \
+	<(cat /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/$ancestry1/$ancestry2/PAGE_MEC_chr3_v1.$ancestry2.QCed.imiss | awk '{ print $1 "\t" $2 "\t" $4 "\t" $5 }') \
+	<(cat /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/$ancestry1/$ancestry2/PAGE_MEC_chr4_v1.$ancestry2.QCed.imiss | awk '{ print $1 "\t" $2 "\t" $4 "\t" $5 }') \
+	<(cat /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/$ancestry1/$ancestry2/PAGE_MEC_chr5_v1.$ancestry2.QCed.imiss | awk '{ print $1 "\t" $2 "\t" $4 "\t" $5 }') \
+	<(cat /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/$ancestry1/$ancestry2/PAGE_MEC_chr6_v1.$ancestry2.QCed.imiss | awk '{ print $1 "\t" $2 "\t" $4 "\t" $5 }') \
+	<(cat /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/$ancestry1/$ancestry2/PAGE_MEC_chr7_v1.$ancestry2.QCed.imiss | awk '{ print $1 "\t" $2 "\t" $4 "\t" $5 }') \
+	<(cat /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/$ancestry1/$ancestry2/PAGE_MEC_chr8_v1.$ancestry2.QCed.imiss | awk '{ print $1 "\t" $2 "\t" $4 "\t" $5 }') \
+	<(cat /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/$ancestry1/$ancestry2/PAGE_MEC_chr9_v1.$ancestry2.QCed.imiss | awk '{ print $1 "\t" $2 "\t" $4 "\t" $5 }') \
+	<(cat /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/$ancestry1/$ancestry2/PAGE_MEC_chr10_v1.$ancestry2.QCed.imiss | awk '{ print $1 "\t" $2 "\t" $4 "\t" $5 }') \
+	<(cat /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/$ancestry1/$ancestry2/PAGE_MEC_chr11_v1.$ancestry2.QCed.imiss | awk '{ print $1 "\t" $2 "\t" $4 "\t" $5 }') \
+	<(cat /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/$ancestry1/$ancestry2/PAGE_MEC_chr12_v1.$ancestry2.QCed.imiss | awk '{ print $1 "\t" $2 "\t" $4 "\t" $5 }') \
+	<(cat /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/$ancestry1/$ancestry2/PAGE_MEC_chr13_v1.$ancestry2.QCed.imiss | awk '{ print $1 "\t" $2 "\t" $4 "\t" $5 }') \
+	<(cat /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/$ancestry1/$ancestry2/PAGE_MEC_chr14_v1.$ancestry2.QCed.imiss | awk '{ print $1 "\t" $2 "\t" $4 "\t" $5 }') \
+	<(cat /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/$ancestry1/$ancestry2/PAGE_MEC_chr15_v1.$ancestry2.QCed.imiss | awk '{ print $1 "\t" $2 "\t" $4 "\t" $5 }') \
+	<(cat /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/$ancestry1/$ancestry2/PAGE_MEC_chr16_v1.$ancestry2.QCed.imiss | awk '{ print $1 "\t" $2 "\t" $4 "\t" $5 }') \
+	<(cat /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/$ancestry1/$ancestry2/PAGE_MEC_chr17_v1.$ancestry2.QCed.imiss | awk '{ print $1 "\t" $2 "\t" $4 "\t" $5 }') \
+	<(cat /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/$ancestry1/$ancestry2/PAGE_MEC_chr18_v1.$ancestry2.QCed.imiss | awk '{ print $1 "\t" $2 "\t" $4 "\t" $5 }') \
+	<(cat /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/$ancestry1/$ancestry2/PAGE_MEC_chr19_v1.$ancestry2.QCed.imiss | awk '{ print $1 "\t" $2 "\t" $4 "\t" $5 }') \
+	<(cat /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/$ancestry1/$ancestry2/PAGE_MEC_chr20_v1.$ancestry2.QCed.imiss | awk '{ print $1 "\t" $2 "\t" $4 "\t" $5 }') \
+	<(cat /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/$ancestry1/$ancestry2/PAGE_MEC_chr21_v1.$ancestry2.QCed.imiss | awk '{ print $1 "\t" $2 "\t" $4 "\t" $5 }') \
+	<(cat /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/$ancestry1/$ancestry2/PAGE_MEC_chr22_v1.$ancestry2.QCed.imiss | awk '{ print $1 "\t" $2 "\t" $4 "\t" $5 }') > /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/$ancestry1/$ancestry2/PAGE_MEC_chrAll_v1.$ancestry2.QCed.imiss
+	cat /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/$ancestry1/$ancestry2/PAGE_MEC_chrAll_v1.$ancestry2.QCed.imiss | grep -v FID | perl -lane 'my $miss = 0; my $variants = 0; for (my $i = 2; $i <= $#F; $i += 2) { $miss += $F[$i]; $variants += $F[$i+1]; } print $F[0], "\t", $F[1], "\t", $miss, "\t", $variants, "\t", $miss / $variants;' > /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/$ancestry1/$ancestry2/PAGE_MEC_chrAll_v1.$ancestry2.QCed.imiss.SumStats
+	cat /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/$ancestry1/$ancestry2/PAGE_MEC_chrAll_v1.$ancestry2.QCed.imiss.SumStats | awk '{ if ($5 >= .05) { print $1 "\t" $2 } } ' > /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/$ancestry1/$ancestry2/PAGE_MEC_chrAll_v1.$ancestry2.QCed.imiss.SumStats.dropiMiss.FIDIIDs
+done
 
+mkdir /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/Imputation
+for j in `cat <(echo $PAGEMECPops1 | perl -lane 'print join("\n", @F);') | head -n 3 | tail -n 3`; do
+        ancestry1=`echo $j | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[0];'`
+        ancestry2=`echo $j | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[1];'`
+
+        echo $ancestry1 $ancestry2
+	
+	for i in {1..22}; do
+		echo $i
+	
+		plink --bfile /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/$ancestry1/$ancestry2/PAGE_MEC_chr${i}_v1.$ancestry2.QCed --indep-pairwise 1000 50 0.05 --exclude range /users/mturchin/Software/flashpca/exclusion_regions_hg19.txt --make-founders --out /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/$ancestry1/$ancestry2/PAGE_MEC_chr${i}_v1.$ancestry2.QCed
+		plink --bfile /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/$ancestry1/$ancestry2/PAGE_MEC_chr${i}_v1.$ancestry2.QCed --remove /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/$ancestry1/$ancestry2/PAGE_MEC_chrAll_v1.$ancestry2.QCed.imiss.SumStats.dropiMiss.FIDIIDs --extract /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/$ancestry1/$ancestry2/PAGE_MEC_chr${i}_v1.$ancestry2.QCed.prune.in --make-bed --out /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/$ancestry1/$ancestry2/PAGE_MEC_chr${i}_v1.$ancestry2.QCed.pruned.QCed 
+	
+	done
+done
+for j in `cat <(echo $PAGEMECPops1 | perl -lane 'print join("\n", @F);') | head -n 3 | tail -n 3`; do
+        ancestry1=`echo $j | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[0];'`
+        ancestry2=`echo $j | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[1];'`
+
+        echo $ancestry1 $ancestry2
+	
+	cat /dev/null > /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/$ancestry1/$ancestry2/PAGE_MEC_chrAll_v1.$ancestry2.QCed.pruned.QCed.MergeList.Vs1.txt
+	for i in {2..22}; do
+		echo "/users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/$ancestry1/$ancestry2/PAGE_MEC_chr${i}_v1.$ancestry2.QCed.pruned.QCed.bed /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/$ancestry1/$ancestry2/PAGE_MEC_chr${i}_v1.$ancestry2.QCed.pruned.QCed.bim /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/$ancestry1/$ancestry2/PAGE_MEC_chr${i}_v1.$ancestry2.QCed.pruned.QCed.fam" >> /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/$ancestry1/$ancestry2/PAGE_MEC_chrAll_v1.$ancestry2.QCed.pruned.QCed.MergeList.Vs1.txt
+	done
+	cat /dev/null > /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/$ancestry1/$ancestry2/PAGE_MEC_chrAll_v1.$ancestry2.QCed.MergeList.Vs1.txt
+	for i in {2..22}; do
+		echo "/users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/$ancestry1/$ancestry2/PAGE_MEC_chr${i}_v1.$ancestry2.QCed.bed /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/$ancestry1/$ancestry2/PAGE_MEC_chr${i}_v1.$ancestry2.QCed.bim /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/$ancestry1/$ancestry2/PAGE_MEC_chr${i}_v1.$ancestry2.QCed.fam" >> /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/$ancestry1/$ancestry2/PAGE_MEC_chrAll_v1.$ancestry2.QCed.MergeList.Vs1.txt
+	done
+done
+
+for j in `cat <(echo $PAGEMECPops1 | perl -lane 'print join("\n", @F);') | head -n 3 | tail -n 3`; do
+        ancestry1=`echo $j | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[0];'`
+        ancestry2=`echo $j | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[1];'`
+
+        echo $ancestry1 $ancestry2
+	
+	plink --bfile /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/$ancestry1/$ancestry2/PAGE_MEC_chr1_v1.$ancestry2.QCed.pruned.QCed --merge-list /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/$ancestry1/$ancestry2/PAGE_MEC_chrAll_v1.$ancestry2.QCed.pruned.QCed.MergeList.Vs1.txt --make-bed --out /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/$ancestry1/$ancestry2/PAGE_MEC_chrAll_v1.$ancestry2.QCed.pruned.QCed 
+	plink --bfile /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/$ancestry1/$ancestry2/PAGE_MEC_chr1_v1.$ancestry2.QCed --merge-list /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/$ancestry1/$ancestry2/PAGE_MEC_chrAll_v1.$ancestry2.QCed.MergeList.Vs1.txt --make-bed --out /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/$ancestry1/$ancestry2/PAGE_MEC_chrAll_v1.$ancestry2.QCed 
+done
+
+#20190819 NOTE -- below was done on 20190819 originally, there were like ~32 SNPs that the duplicate-removal PLINK steps were not catching (for whatever reason)
+#cp -p /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/PAGE_MEC_chrAll_v1.QCed.log /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/PAGE_MEC_chrAll_v1.QCed.pre2ndDupRemoval.log
+#cat /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/PAGE_MEC_chrAll_v1.QCed.pre2ndDupRemoval.log | grep Warning: | awk '{ print $5 }' | sed "s/'//g" > /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/PAGE_MEC_chrAll_v1.QCed.pre2ndDupRemoval.2ndDupRemovals.PLINKready
+
+for j in `cat <(echo $PAGEMECPops1 | perl -lane 'print join("\n", @F);') | head -n 3 | tail -n 3`; do
+        ancestry1=`echo $j | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[0];'`
+        ancestry2=`echo $j | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[1];'`
+
+        echo $ancestry1 $ancestry2
+
+##	plink --bfile /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/$ancestry1/$ancestry2/PAGE_MEC_chrAll_v1.$ancestry2.QCed --genome gz --min .05 --out /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/$ancestry1/$ancestry2/PAGE_MEC_chrAll_v1.$ancestry2.QCed
+##	plink --bfile /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/$ancestry1/$ancestry2/PAGE_MEC_chrAll_v1.$ancestry2.QCed.pruned.QCed --genome gz --min .05 --out /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/$ancestry1/$ancestry2/PAGE_MEC_chrAll_v1.$ancestry2.QCed.pruned.QCed
+	plink --bfile /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/$ancestry1/$ancestry2/PAGE_MEC_chrAll_v1.$ancestry2.QCed.pruned.QCed --filter-nonfounders --rel-cutoff .125 --out /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/$ancestry1/$ancestry2/PAGE_MEC_chrAll_v1.$ancestry2.QCed.pruned.QCed.Strict
+	plink --bfile /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/$ancestry1/$ancestry2/PAGE_MEC_chrAll_v1.$ancestry2.QCed.pruned.QCed --filter-nonfounders --rel-cutoff .25 --out /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/$ancestry1/$ancestry2/PAGE_MEC_chrAll_v1.$ancestry2.QCed.pruned.QCed.Loose
+
+done
 
 
 
