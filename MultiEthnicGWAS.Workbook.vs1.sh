@@ -5307,20 +5307,12 @@ scp -p mturchin@ssh.ccv.brown.edu:/users/mturchin/data/dbGaP/mturchin20/MultiEth
 scp -p mturchin@ssh.ccv.brown.edu:/users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/JpnAmr/JpnAmr/PAGE_MEC_chr*_v1.JpnAmr.QCed.QCed.dropRltvs.Loose.PCAdrops.ATGC.vcf.sort.vcf.gz /Users/mturchin20/Documents/Work/LabMisc/Data/PAGE/MEC/JpnAmr/.
 scp -p mturchin@ssh.ccv.brown.edu:/users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/Hawaiian/Hawaiian/PAGE_MEC_chr*_v1.Hawaiian.QCed.QCed.dropRltvs.Loose.PCAdrops.ATGC.vcf.sort.vcf.gz /Users/mturchin20/Documents/Work/LabMisc/Data/PAGE/MEC/Hawaiian/.
 
-cat /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/AfrAmr/AfrAmr/201900820_MEC_AfrAmr_pt1_flip1.statistics.txt /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/AfrAmr/AfrAmr/201900820_MEC_AfrAmr_pt2_flip1.statistics.txt
-
-cat /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/JpnAmr/JpnAmr/201900820_MEC_JpnAmr_pt1_flip1.statistics.txt /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/JpnAmr/JpnAmr/201900820_MEC_JpnAmr_pt2_flip1.statistics.txt
-
-cat /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/Hawaiian/Hawaiian/201900820_MEC_Hawaiian_pt1_flip1.statistics.txt /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/Hawaiian/Hawaiian/201900820_MEC_Hawaiian_pt2_flip1.statistics.txt 
-
-cd /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/AfrAmr/AfrAmr; wget https://imputationserver.sph.umich.edu/share/results/7c411d7bac987a7cda0d16b8d0558d5/statistics.txt; mv statistics.txt 201900820_MEC_AfrAmr_pt1_flip1.statistics.txt
-cd /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/AfrAmr/AfrAmr; wget https://imputationserver.sph.umich.edu/share/results/51b173567ff605ec86f546e1edcf6eb4/statistics.txt; mv statistics.txt 201900820_MEC_AfrAmr_pt2_flip1.statistics.txt
-cd /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/JpnAmr/JpnAmr; wget https://imputationserver.sph.umich.edu/share/results/cf4be7a9710c4cfdfcb43fd1cdbbc2d1/statistics.txt; mv statistics.txt 201900820_MEC_JpnAmr_pt1_flip1.statistics.txt
-cd /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/JpnAmr/JpnAmr; wget https://imputationserver.sph.umich.edu/share/results/3977bc4ef7d462f39e4976c7c618840c/statistics.txt; mv statistics.txt 201900820_MEC_JpnAmr_pt2_flip1.statistics.txt
-cd /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/Hawaiian/Hawaiian; wget https://imputationserver.sph.umich.edu/share/results/21fe087c312ebffe19a0ac02107b7a1e/statistics.txt; mv statistics.txt 201900820_MEC_Hawaiian_pt1_flip1.statistics.txt
-cd /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/Hawaiian/Hawaiian; wget https://imputationserver.sph.umich.edu/share/results/69edd15ac64e01eb4616ab61e72433ff/statistics.txt; mv statistics.txt 201900820_MEC_Hawaiian_pt2_flip1.statistics.txt
+cat /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/AfrAmr/AfrAmr/20190820_MEC_AfrAmr_pt1.statistics.txt /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/AfrAmr/AfrAmr/20190820_MEC_AfrAmr_pt2.statistics.txt | grep Strand | perl -lane 'print $F[$#F-7];' > /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/AfrAmr/AfrAmr/PAGE_MEC_chrAll_v1.AfrAmr.QCed.QCed.dropRltvs.Loose.PCAdrops.ATGC.vcf.sort.flipSNPs.snpIDs 
+cat /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/JpnAmr/JpnAmr/20190820_MEC_JpnAmr_pt1.statistics.txt /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/JpnAmr/JpnAmr/20190820_MEC_JpnAmr_pt2.statistics.txt
+cat /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/Hawaiian/Hawaiian/20190820_MEC_Hawaiian_pt1.statistics.txt /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/Hawaiian/Hawaiian/20190820_MEC_Hawaiian_pt2.statistics.txt 
 
 
+/users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/PAGE_MEC_chrAll_v1.QCed.CompHRC.flipSNPs.snpIDs
 
 
 
@@ -5450,12 +5442,12 @@ done
 #20190730 NOTE -- some individuals may have been dropped during imputation, because they had sections of a particular chromosome that had large losses of SNPs (low call rates); check statistics.txt files from each population run. Actually unclear if those individuals were dropped or if those 'chunks' of SNPs were dropped, so considering collecting these individuals and just manually dropping them since they don't seem to be very many and they might be cause sections of SNP imputation to not be occuring 
 #20190802 NOTE -- the AfrAmr1000G & -CAAPA runs also had that one leftover 'chunk' that gets dropped out (~24-30 SNPs, chr14 at the beginning of the chromosome); had already decided with HRC runs to just not deal with this area since it's mostly a 'lack of reference overlap', so it's not a within-dataset individual thing (and it's only 24-30 SNPs anyways); but just fyi there's still a 'chunk' being dropped, but only one in all cases it seems
 
-cd /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/AfrAmr/AfrAmr; wget https://imputationserver.sph.umich.edu/share/results/7c411d7bac987a7cda0d16b8d0558d5/statistics.txt; mv statistics.txt 20190820_MEC_AfrAmr_pt1_flip1.statistics.txt 
-cd /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/AfrAmr/AfrAmr; wget https://imputationserver.sph.umich.edu/share/results/51b173567ff605ec86f546e1edcf6eb4/statistics.txt; mv statistics.txt 20190820_MEC_AfrAmr_pt2_flip1.statistics.txt; rm *201900820* 
-cd /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/JpnAmr/JpnAmr; wget https://imputationserver.sph.umich.edu/share/results/cf4be7a9710c4cfdfcb43fd1cdbbc2d1/statistics.txt; mv statistics.txt 20190820_MEC_JpnAmr_pt1_flip1.statistics.txt;
-cd /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/JpnAmr/JpnAmr; wget https://imputationserver.sph.umich.edu/share/results/3977bc4ef7d462f39e4976c7c618840c/statistics.txt; mv statistics.txt 20190820_MEC_JpnAmr_pt2_flip1.statistics.txt; rm *201900820*
-cd /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/Hawaiian/Hawaiian; wget https://imputationserver.sph.umich.edu/share/results/21fe087c312ebffe19a0ac02107b7a1e/statistics.txt; mv statistics.txt 20190820_MEC_Hawaiian_pt1_flip1.statistics.txt;
-cd /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/Hawaiian/Hawaiian; wget https://imputationserver.sph.umich.edu/share/results/69edd15ac64e01eb4616ab61e72433ff/statistics.txt; mv statistics.txt 20190820_MEC_Hawaiian_pt2_flip1.statistics.txt; rm *201900820*
+cd /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/AfrAmr/AfrAmr; wget https://imputationserver.sph.umich.edu/share/results/7c411d7bac987a7cda0d16b8d0558d5/statistics.txt; mv statistics.txt 20190820_MEC_AfrAmr_pt1.statistics.txt 
+cd /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/AfrAmr/AfrAmr; wget https://imputationserver.sph.umich.edu/share/results/51b173567ff605ec86f546e1edcf6eb4/statistics.txt; mv statistics.txt 20190820_MEC_AfrAmr_pt2.statistics.txt; rm *flip1* 
+cd /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/JpnAmr/JpnAmr; wget https://imputationserver.sph.umich.edu/share/results/cf4be7a9710c4cfdfcb43fd1cdbbc2d1/statistics.txt; mv statistics.txt 20190820_MEC_JpnAmr_pt1.statistics.txt
+cd /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/JpnAmr/JpnAmr; wget https://imputationserver.sph.umich.edu/share/results/3977bc4ef7d462f39e4976c7c618840c/statistics.txt; mv statistics.txt 20190820_MEC_JpnAmr_pt2.statistics.txt; rm *flip1*
+cd /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/Hawaiian/Hawaiian; wget https://imputationserver.sph.umich.edu/share/results/21fe087c312ebffe19a0ac02107b7a1e/statistics.txt; mv statistics.txt 20190820_MEC_Hawaiian_pt1.statistics.txt
+cd /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/Hawaiian/Hawaiian; wget https://imputationserver.sph.umich.edu/share/results/69edd15ac64e01eb4616ab61e72433ff/statistics.txt; mv statistics.txt 20190820_MEC_Hawaiian_pt2.statistics.txt; rm *flip1* 
 
 
 
@@ -10620,6 +10612,36 @@ GA004157
 RS73754691
 vh_6_33739618
 imm_6_33740728
+(MultiEthnicGWAS) [  mturchin@login003  ~/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/Hawaiian/Hawaiian]$cat /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/AfrAmr/AfrAmr/20190820_MEC_AfrAmr_pt1_flip1.statistics.txt /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/AfrAmr/AfrAmr/20190820_MEC_AfrAmr_pt2_flip1.statistics.txt | grep Strand | perl -lane 'print $F[$#F-7];' | grep -v JHU | grep -v rs | grep -v : | grep -v exm | grep -v kgp | grep -v 1kg
+GA018629
+GA004157
+RS73754691
+vh_6_33739618
+imm_6_33740728
+variant.24162
+variant.25751
+seq-t1d-19-59741178-C-T
+seq-t1d-19-59752752-C-T
+seq-t1d-19-59756630-C-T
+seq-t1d-19-59757133-C-T
+seq-t1d-19-59762426-C-T
+seq-t1d-19-59770415-T-C
+seq-t1d-19-59774680-C-T
+vh_19_59799666
+seq-t1d-19-59808479-C-T
+seq-t1d-19-59826559-T-C
+seq-t1d-19-59852998-C-T
+seq-t1d-19-59857349-T-G
+seq-t1d-19-59858641-T-C
+seq-t1d-19-59874508-C-T
+GA017521
+GA018263
+GA007945
+(MultiEthnicGWAS) [  mturchin@login003  ~/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/Hawaiian/Hawaiian]$cat /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/AfrAmr/AfrAmr/20190820_MEC_AfrAmr_pt1_flip1.statistics.txt /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/AfrAmr/AfrAmr/20190820_MEC_AfrAmr_pt2_flip1.statistics.txt | grep GA018
+FILTER - Strand switch: GA018629 - pos: 19202926 (ref: T/C, data: A/G)
+FILTER - Strand switch: GA018263 - pos: 46636930 (ref: C/T, data: G/A)
+(MultiEthnicGWAS) [  mturchin@login003  ~/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/Hawaiian/Hawaiian]$cat /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/AfrAmr/AfrAmr/20190820_MEC_AfrAmr_pt1_flip1.statistics.txt /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/AfrAmr/AfrAmr/20190820_MEC_AfrAmr_pt2_flip1.statistics.txt | grep variant.24162
+FILTER - Strand switch: variant.24162 - pos: 41871666 (ref: G/T, data: C/A)
 
 
 
