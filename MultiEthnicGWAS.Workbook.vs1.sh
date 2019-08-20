@@ -5318,11 +5318,11 @@ for j in `cat <(echo $PAGEMECPops1 | perl -lane 'print join("\n", @F);') | head 
         ancestry1=`echo $j | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[0];'`
         ancestry2=`echo $j | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[1];'`
 
-	cat /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/$ancestry1/$ancestry2/PAGE_MEC_chrAll_v1.$ancestry2.QCed.dropiMiss.dropRtlvs.dropPCA.FIDIIDs /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/$ancestry2/$ancestry2/20190820_MEC_$ancestry2_pt12.statistics.drops.FIDIIDs > /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/$ancestry1/$ancestry2/PAGE_MEC_chrAll_v1.$ancestry2.QCed.dropiMiss.dropRtlvs.dropPCA.HRCdrops.FIDIIDs
+	cat /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/$ancestry1/$ancestry2/PAGE_MEC_chrAll_v1.$ancestry2.QCed.dropiMiss.dropRtlvs.dropPCA.FIDIIDs /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/$ancestry2/$ancestry2/20190820_MEC_${ancestry2}_pt12.statistics.drops.FIDIIDs > /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/$ancestry1/$ancestry2/PAGE_MEC_chrAll_v1.$ancestry2.QCed.dropiMiss.dropRtlvs.dropPCA.HRCdrops.FIDIIDs
 	
 	for i in {1..22}; do
 		plink --bfile /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/$ancestry1/$ancestry2/PAGE_MEC_chr${i}_v1.$ancestry2.QCed --remove /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/$ancestry1/$ancestry2/PAGE_MEC_chrAll_v1.$ancestry2.QCed.dropiMiss.dropRtlvs.dropPCA.HRCdrops.FIDIIDs --make-bed --out /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/$ancestry1/$ancestry2/PAGE_MEC_chr${i}_v1.$ancestry2.QCed.QCed.dropRltvs.Loose.PCAdrops.HRCdrops
-		plink --bfile /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/$ancestry1/$ancestry2/PAGE_MEC_chr${i}_v1.$ancestry2.QCed.QCed.dropRltvs.Loose.PCAdrops --flip /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/AfrAmr/AfrAmr/20190820_MEC_AfrAmr_pt12.statistics.flipSNPs.snpIDs --snps-only just-acgt --recode vcf --out /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/$ancestry1/$ancestry2/PAGE_MEC_chr${i}_v1.$ancestry2.QCed.QCed.dropRltvs.Loose.PCAdrops.HRCdrops.ATGC.flip
+		plink --bfile /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/$ancestry1/$ancestry2/PAGE_MEC_chr${i}_v1.$ancestry2.QCed.QCed.dropRltvs.Loose.PCAdrops --flip /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/$ancestry2/$ancestry2/20190820_MEC_${ancestry2}_pt12.statistics.flipSNPs.snpIDs --snps-only just-acgt --recode vcf --out /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/$ancestry1/$ancestry2/PAGE_MEC_chr${i}_v1.$ancestry2.QCed.QCed.dropRltvs.Loose.PCAdrops.HRCdrops.ATGC.flip
 		/users/mturchin/Software/vcftools_0.1.13/bin/vcf-sort /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/$ancestry1/$ancestry2/PAGE_MEC_chr${i}_v1.$ancestry2.QCed.QCed.dropRltvs.Loose.PCAdrops.HRCdrops.ATGC.flip.vcf | bgzip -c > /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/$ancestry1/$ancestry2/PAGE_MEC_chr${i}_v1.$ancestry2.QCed.QCed.dropRltvs.Loose.PCAdrops.HRCdrops.ATGC.flip.sort.vcf.gz	
 	done 
 done
@@ -5331,8 +5331,26 @@ scp -p mturchin@ssh.ccv.brown.edu:/users/mturchin/data/dbGaP/mturchin20/MultiEth
 scp -p mturchin@ssh.ccv.brown.edu:/users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/JpnAmr/JpnAmr/PAGE_MEC_chr*_v1.JpnAmr.QCed.QCed.dropRltvs.Loose.PCAdrops.HRCdrops.ATGC.flip.sort.vcf.gz /Users/mturchin20/Documents/Work/LabMisc/Data/PAGE/MEC/JpnAmr/.
 scp -p mturchin@ssh.ccv.brown.edu:/users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/Hawaiian/Hawaiian/PAGE_MEC_chr*_v1.Hawaiian.QCed.QCed.dropRltvs.Loose.PCAdrops.HRCdrops.ATGC.flip.sort.vcf.gz /Users/mturchin20/Documents/Work/LabMisc/Data/PAGE/MEC/Hawaiian/.
 
+#doing a second round of flipping and such for JpnAmr and Hawaiian
 
+cat /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/JpnAmr/JpnAmr/20190820_MEC_JpnAmr_pt1.flip1.statistics.txt /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/JpnAmr/JpnAmr/20190820_MEC_JpnAmr_pt2.flip1.statistics.txt | grep Strand | perl -lane 'print $F[$#F-7];' > /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/JpnAmr/JpnAmr/20190820_MEC_JpnAmr_pt12.flip1.statistics.flipSNPs.snpIDs 
+cat /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/Hawaiian/Hawaiian/20190820_MEC_Hawaiian_pt1.flip1.statistics.txt /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/Hawaiian/Hawaiian/20190820_MEC_Hawaiian_pt2.flip1.statistics.txt | grep Strand | perl -lane 'print $F[$#F-7];' > /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/Hawaiian/Hawaiian/20190820_MEC_Hawaiian_pt12.flip1.statistics.flipSNPs.snpIDs 
 
+cat /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/JpnAmr/JpnAmr/20190820_MEC_JpnAmr_pt12.statistics.flipSNPs.snpIDs /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/JpnAmr/JpnAmr/20190820_MEC_JpnAmr_pt12.flip1.statistics.flipSNPs.snpIDs | sort | uniq > /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/JpnAmr/JpnAmr/20190820_MEC_JpnAmr_pt12.OrigAndFlip1.statistics.flipSNPs.snpIDs 
+cat /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/Hawaiian/Hawaiian/20190820_MEC_Hawaiian_pt12.statistics.flipSNPs.snpIDs /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/Hawaiian/Hawaiian/20190820_MEC_Hawaiian_pt12.flip1.statistics.flipSNPs.snpIDs | sort | uniq > /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/Hawaiian/Hawaiian/20190820_MEC_Hawaiian_pt12.OrigAndFlip1.statistics.flipSNPs.snpIDs 
+
+for j in `cat <(echo $PAGEMECPops1 | perl -lane 'print join("\n", @F);') | head -n 2 | tail -n 1`; do
+        ancestry1=`echo $j | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[0];'`
+        ancestry2=`echo $j | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[1];'`
+
+	for i in {22..22}; do
+		plink --bfile /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/$ancestry1/$ancestry2/PAGE_MEC_chr${i}_v1.$ancestry2.QCed.QCed.dropRltvs.Loose.PCAdrops --flip /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/$ancestry2/$ancestry2/20190820_MEC_${ancestry2}_pt12.OrigAndFlip1.statistics.flipSNPs.snpIDs --snps-only just-acgt --recode vcf --out /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/$ancestry1/$ancestry2/PAGE_MEC_chr${i}_v1.$ancestry2.QCed.QCed.dropRltvs.Loose.PCAdrops.HRCdrops.ATGC.flip
+		/users/mturchin/Software/vcftools_0.1.13/bin/vcf-sort /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/$ancestry1/$ancestry2/PAGE_MEC_chr${i}_v1.$ancestry2.QCed.QCed.dropRltvs.Loose.PCAdrops.HRCdrops.ATGC.flip.vcf | bgzip -c > /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/$ancestry1/$ancestry2/PAGE_MEC_chr${i}_v1.$ancestry2.QCed.QCed.dropRltvs.Loose.PCAdrops.HRCdrops.ATGC.flip.sort.vcf.gz	
+	done 
+done
+
+scp -p mturchin@ssh.ccv.brown.edu:/users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/AfrAmr/AfrAmr/PAGE_MEC_chr*_v1.AfrAmr.QCed.QCed.dropRltvs.Loose.PCAdrops.HRCdrops.ATGC.flip.sort.vcf.gz /Users/mturchin20/Documents/Work/LabMisc/Data/PAGE/MEC/AfrAmr/.
+scp -p mturchin@ssh.ccv.brown.edu:/users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/JpnAmr/JpnAmr/PAGE_MEC_chr*_v1.JpnAmr.QCed.QCed.dropRltvs.Loose.PCAdrops.HRCdrops.ATGC.flip.sort.vcf.gz /Users/mturchin20/Documents/Work/LabMisc/Data/PAGE/MEC/JpnAmr/.
 
 
 
@@ -5462,10 +5480,15 @@ done
 cd /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/AfrAmr/AfrAmr; wget https://imputationserver.sph.umich.edu/share/results/7c411d7bac987a7cda0d16b8d0558d5/statistics.txt; mv statistics.txt 20190820_MEC_AfrAmr_pt1.statistics.txt 
 cd /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/AfrAmr/AfrAmr; wget https://imputationserver.sph.umich.edu/share/results/51b173567ff605ec86f546e1edcf6eb4/statistics.txt; mv statistics.txt 20190820_MEC_AfrAmr_pt2.statistics.txt 
 cd /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/JpnAmr/JpnAmr; wget https://imputationserver.sph.umich.edu/share/results/cf4be7a9710c4cfdfcb43fd1cdbbc2d1/statistics.txt; mv statistics.txt 20190820_MEC_JpnAmr_pt1.statistics.txt
-cd /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/JpnAmr/JpnAmr; wget https://imputationserver.sph.umich.edu/share/results/3977bc4ef7d462f39e4976c7c618840c/statistics.txt; mv statistics.txt 20190820_MEC_JpnAmr_pt2.statistics.txt*
+cd /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/JpnAmr/JpnAmr; wget https://imputationserver.sph.umich.edu/share/results/3977bc4ef7d462f39e4976c7c618840c/statistics.txt; mv statistics.txt 20190820_MEC_JpnAmr_pt2.statistics.txt
 cd /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/Hawaiian/Hawaiian; wget https://imputationserver.sph.umich.edu/share/results/21fe087c312ebffe19a0ac02107b7a1e/statistics.txt; mv statistics.txt 20190820_MEC_Hawaiian_pt1.statistics.txt
 cd /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/Hawaiian/Hawaiian; wget https://imputationserver.sph.umich.edu/share/results/69edd15ac64e01eb4616ab61e72433ff/statistics.txt; mv statistics.txt 20190820_MEC_Hawaiian_pt2.statistics.txt 
 
+#second round for JpnAmr and Hawaiian
+cd /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/JpnAmr/JpnAmr; wget https://imputationserver.sph.umich.edu/share/results/5624e31ad3619d39b6e140967b9df370/statistics.txt; mv statistics.txt 20190820_MEC_JpnAmr_pt1.flip1.statistics.txt
+cd /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/JpnAmr/JpnAmr; wget https://imputationserver.sph.umich.edu/share/results/b7c96c905fce20a6c1bddb92260aae15/statistics.txt; mv statistics.txt 20190820_MEC_JpnAmr_pt2.flip1.statistics.txt
+cd /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/Hawaiian/Hawaiian; wget https://imputationserver.sph.umich.edu/share/results/cabda74996903e00099d9677e38b637b/statistics.txt; mv statistics.txt 20190820_MEC_Hawaiian_pt1.flip1.statistics.txt
+cd /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/Hawaiian/Hawaiian; wget https://imputationserver.sph.umich.edu/share/results/aea514d1161dfad0d25329d5903f1da3/statistics.txt; mv statistics.txt 20190820_MEC_Hawaiian_pt2.flip1.statistics.txt 
 
 
 
