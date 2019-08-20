@@ -5299,41 +5299,34 @@ done
 
 #20190820 NOTE -- imputing with HRC r1.1 2016 and phasing with eagle v2.3, using EUR or AA for quality control reference panel, and using AES 256 encryption; broke each population imputation into chunks of chr 1-8 and 9-22 
 #MacBook Pro
+#mkdir /Users/mturchin20/Documents/Work/LabMisc/Data/PAGE/MEC
 #mkdir /Users/mturchin20/Documents/Work/LabMisc/Data/PAGE/MEC/AfrAmr
 #mkdir /Users/mturchin20/Documents/Work/LabMisc/Data/PAGE/MEC/JpnAmr
 #mkdir /Users/mturchin20/Documents/Work/LabMisc/Data/PAGE/MEC/Hawaiian
-scp -p mturchin@ssh.ccv.brown.edu:/users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/AfrAmr/AfrAmr/PAGE_MEC_chr*_v1.AfrAmr.QCed.QCed.dropRltvs.Loose.PCAdrops.vcf.sort.vcf.gz /Users/mturchin20/Documents/Work/LabMisc/Data/PAGE/MEC/AfrAmr/.
-scp -p mturchin@ssh.ccv.brown.edu:/users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/JpnAmr/JpnAmr/PAGE_MEC_chr*_v1.JpnAmr.QCed.QCed.dropRltvs.Loose.PCAdrops.vcf.sort.vcf.gz /Users/mturchin20/Documents/Work/LabMisc/Data/PAGE/MEC/JpnAmr/.
-scp -p mturchin@ssh.ccv.brown.edu:/users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/Hawaiian/Hawaiian/PAGE_MEC_chr*_v1.Hawaiian.QCed.QCed.dropRltvs.Loose.PCAdrops.vcf.sort.vcf.gz /Users/mturchin20/Documents/Work/LabMisc/Data/PAGE/MEC/Hawaiian/.
+scp -p mturchin@ssh.ccv.brown.edu:/users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/AfrAmr/AfrAmr/PAGE_MEC_chr*_v1.AfrAmr.QCed.QCed.dropRltvs.Loose.PCAdrops.ATGC.vcf.sort.vcf.gz /Users/mturchin20/Documents/Work/LabMisc/Data/PAGE/MEC/AfrAmr/.
+scp -p mturchin@ssh.ccv.brown.edu:/users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/JpnAmr/JpnAmr/PAGE_MEC_chr*_v1.JpnAmr.QCed.QCed.dropRltvs.Loose.PCAdrops.ATGC.vcf.sort.vcf.gz /Users/mturchin20/Documents/Work/LabMisc/Data/PAGE/MEC/JpnAmr/.
+scp -p mturchin@ssh.ccv.brown.edu:/users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/Hawaiian/Hawaiian/PAGE_MEC_chr*_v1.Hawaiian.QCed.QCed.dropRltvs.Loose.PCAdrops.ATGC.vcf.sort.vcf.gz /Users/mturchin20/Documents/Work/LabMisc/Data/PAGE/MEC/Hawaiian/.
 
-scp -p mturchin@ssh.ccv.brown.edu:/users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/AfrAmr/AfrAmr/PAGE_MEC_chr*_v1.QCed.QCed.dropRltvs.Loose.AfrAmrHRC.sort.vcf.gz /Users/mturchin20/Documents/Work/LabMisc/Data/PAGE/MEC/AfrAmrHRC/. 
-scp -p mturchin@ssh.ccv.brown.edu:/users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/Euro/EuroStrict/PAGE_MEC_chr*_v1.QCed.QCed.dropRltvs.Loose.EuroStrict.sort.vcf.gz /Users/mturchin20/Documents/Work/LabMisc/Data/PAGE/MEC/EuroStrict/. 
-scp -p mturchin@ssh.ccv.brown.edu:/users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/Euro/EuroLoose/PAGE_MEC_chr*_v1.QCed.QCed.dropRltvs.Loose.EuroLoose.sort.vcf.gz /Users/mturchin20/Documents/Work/LabMisc/Data/PAGE/MEC/EuroLoose/. 
+cat /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/AfrAmr/AfrAmr/201900820_MEC_AfrAmr_pt1_flip1.statistics.txt /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/AfrAmr/AfrAmr/201900820_MEC_AfrAmr_pt2_flip1.statistics.txt
 
+cat /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/JpnAmr/JpnAmr/201900820_MEC_JpnAmr_pt1_flip1.statistics.txt /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/JpnAmr/JpnAmr/201900820_MEC_JpnAmr_pt2_flip1.statistics.txt
 
+cat /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/Hawaiian/Hawaiian/201900820_MEC_Hawaiian_pt1_flip1.statistics.txt /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/Hawaiian/Hawaiian/201900820_MEC_Hawaiian_pt2_flip1.statistics.txt 
 
-
-
-cat /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/AfrAmr/AfrAmrHRC/20190730_IPMBioMe_AfrAmrHRC_pt1_flip1.statistics.txt /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/AfrAmr/AfrAmrHRC/20190730_IPMBioMe_AfrAmrHRC_pt2_flip1.statistics.txt /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/Euro/EuroStrict/20190730_IPMBioMe_EuroStrict_pt1_flip1.statistics.txt /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/Euro/EuroStrict/20190730_IPMBioMe_EuroStrict_pt2_flip1.statistics.txt /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/Euro/EuroLoose/20190730_IPMBioMe_EuroLoose_pt1_flip1.statistics.txt /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/Euro/EuroLoose/20190730_IPMBioMe_EuroLoose_pt2_flip1.statistics.txt | grep chunk | wc
-cat /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/AfrAmr/AfrAmrHRC/20190730_IPMBioMe_AfrAmrHRC_pt1_flip1.statistics.txt /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/AfrAmr/AfrAmrHRC/20190730_IPMBioMe_AfrAmrHRC_pt2_flip1.statistics.txt | grep chunk | grep -v Reference | awk '{ print $3 }' | sed 's/_/ /g' | sed 's/://g' | sort | uniq | awk '{ print $1 "\t" $2 } ' > /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/AfrAmr/AfrAmrHRC/20190730_IPMBioMe_AfrAmrHRC_pt12_flip1.statistics.drops.FIDIIDs
-
-
-
-
+cd /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/AfrAmr/AfrAmr; wget https://imputationserver.sph.umich.edu/share/results/7c411d7bac987a7cda0d16b8d0558d5/statistics.txt; mv statistics.txt 201900820_MEC_AfrAmr_pt1_flip1.statistics.txt
+cd /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/AfrAmr/AfrAmr; wget https://imputationserver.sph.umich.edu/share/results/51b173567ff605ec86f546e1edcf6eb4/statistics.txt; mv statistics.txt 201900820_MEC_AfrAmr_pt2_flip1.statistics.txt
+cd /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/JpnAmr/JpnAmr; wget https://imputationserver.sph.umich.edu/share/results/cf4be7a9710c4cfdfcb43fd1cdbbc2d1/statistics.txt; mv statistics.txt 201900820_MEC_JpnAmr_pt1_flip1.statistics.txt
+cd /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/JpnAmr/JpnAmr; wget https://imputationserver.sph.umich.edu/share/results/3977bc4ef7d462f39e4976c7c618840c/statistics.txt; mv statistics.txt 201900820_MEC_JpnAmr_pt2_flip1.statistics.txt
+cd /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/Hawaiian/Hawaiian; wget https://imputationserver.sph.umich.edu/share/results/21fe087c312ebffe19a0ac02107b7a1e/statistics.txt; mv statistics.txt 201900820_MEC_Hawaiian_pt1_flip1.statistics.txt
+cd /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/Hawaiian/Hawaiian; wget https://imputationserver.sph.umich.edu/share/results/69edd15ac64e01eb4616ab61e72433ff/statistics.txt; mv statistics.txt 201900820_MEC_Hawaiian_pt2_flip1.statistics.txt
 
 
 
 
-#20190730 NOTE -- imputing with HRC r1.1 2016 and phasing with eagle v2.3, using EUR or AA for quality control reference panel, and using AES 256 encryption; broke each population imputation into chunks of chr 1-8 and 9-22; also got flip/strand issues, so doing the process like I did with PopRes and going to rerun the 'flipped' versions (having flipped by being compared to the HRC r1-1 GRCh37 source files)
-#MacBook Pro
-mkdir /Users/mturchin20/Documents/Work/LabMisc/Data/PAGE
-mkdir /Users/mturchin20/Documents/Work/LabMisc/Data/PAGE/MEC
-kdir /Users/mturchin20/Documents/Work/LabMisc/Data/PAGE/MEC/AfrAmrHRC
-mkdir /Users/mturchin20/Documents/Work/LabMisc/Data/PAGE/MEC/EuroStrict
-mkdir /Users/mturchin20/Documents/Work/LabMisc/Data/PAGE/MEC/EuroLoose
-scp -p mturchin@ssh.ccv.brown.edu:/users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/AfrAmr/AfrAmrHRC/PAGE_MEC_chr*_v1.QCed.QCed.dropRltvs.Loose.AfrAmrHRC.sort.vcf.gz /Users/mturchin20/Documents/Work/LabMisc/Data/PAGE/MEC/AfrAmrHRC/. 
-scp -p mturchin@ssh.ccv.brown.edu:/users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/Euro/EuroStrict/PAGE_MEC_chr*_v1.QCed.QCed.dropRltvs.Loose.EuroStrict.sort.vcf.gz /Users/mturchin20/Documents/Work/LabMisc/Data/PAGE/MEC/EuroStrict/. 
-scp -p mturchin@ssh.ccv.brown.edu:/users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/Euro/EuroLoose/PAGE_MEC_chr*_v1.QCed.QCed.dropRltvs.Loose.EuroLoose.sort.vcf.gz /Users/mturchin20/Documents/Work/LabMisc/Data/PAGE/MEC/EuroLoose/. 
+
+
+
+
 
 
 
@@ -5456,6 +5449,18 @@ done
 
 #20190730 NOTE -- some individuals may have been dropped during imputation, because they had sections of a particular chromosome that had large losses of SNPs (low call rates); check statistics.txt files from each population run. Actually unclear if those individuals were dropped or if those 'chunks' of SNPs were dropped, so considering collecting these individuals and just manually dropping them since they don't seem to be very many and they might be cause sections of SNP imputation to not be occuring 
 #20190802 NOTE -- the AfrAmr1000G & -CAAPA runs also had that one leftover 'chunk' that gets dropped out (~24-30 SNPs, chr14 at the beginning of the chromosome); had already decided with HRC runs to just not deal with this area since it's mostly a 'lack of reference overlap', so it's not a within-dataset individual thing (and it's only 24-30 SNPs anyways); but just fyi there's still a 'chunk' being dropped, but only one in all cases it seems
+
+cd /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/AfrAmr/AfrAmr; wget https://imputationserver.sph.umich.edu/share/results/7c411d7bac987a7cda0d16b8d0558d5/statistics.txt; mv statistics.txt 20190820_MEC_AfrAmr_pt1_flip1.statistics.txt 
+cd /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/AfrAmr/AfrAmr; wget https://imputationserver.sph.umich.edu/share/results/51b173567ff605ec86f546e1edcf6eb4/statistics.txt; mv statistics.txt 20190820_MEC_AfrAmr_pt2_flip1.statistics.txt; rm *201900820* 
+cd /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/JpnAmr/JpnAmr; wget https://imputationserver.sph.umich.edu/share/results/cf4be7a9710c4cfdfcb43fd1cdbbc2d1/statistics.txt; mv statistics.txt 20190820_MEC_JpnAmr_pt1_flip1.statistics.txt;
+cd /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/JpnAmr/JpnAmr; wget https://imputationserver.sph.umich.edu/share/results/3977bc4ef7d462f39e4976c7c618840c/statistics.txt; mv statistics.txt 20190820_MEC_JpnAmr_pt2_flip1.statistics.txt; rm *201900820*
+cd /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/Hawaiian/Hawaiian; wget https://imputationserver.sph.umich.edu/share/results/21fe087c312ebffe19a0ac02107b7a1e/statistics.txt; mv statistics.txt 20190820_MEC_Hawaiian_pt1_flip1.statistics.txt;
+cd /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/Hawaiian/Hawaiian; wget https://imputationserver.sph.umich.edu/share/results/69edd15ac64e01eb4616ab61e72433ff/statistics.txt; mv statistics.txt 20190820_MEC_Hawaiian_pt2_flip1.statistics.txt; rm *201900820*
+
+
+
+
+
 
 cd /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/AfrAmr/AfrAmrHRC; wget https://imputationserver.sph.umich.edu/share/results/d4b55fcd760fe5429767dadca706f3ed/statistics.txt; mv statistics.txt 20190730_IPMBioMe_AfrAmrHRC_pt1_flip1.statistics.txt 
 cd /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/AfrAmr/AfrAmrHRC; wget https://imputationserver.sph.umich.edu/share/results/7739548bd8738dea062da25015d33b44/statistics.txt; mv statistics.txt 20190730_IPMBioMe_AfrAmrHRC_pt2_flip1.statistics.txt
@@ -10609,6 +10614,12 @@ Euro EuroLoose
    3867 1
 1508 8
 2356 8
+(MultiEthnicGWAS) [  mturchin@login003  ~/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/Hawaiian/Hawaiian]$cat /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/AfrAmr/AfrAmr/201900820_MEC_AfrAmr_pt1_flip1.statistics.txt | grep Strand | perl -lane 'print $F[$#F-7];' | grep -v JHU | grep -v rs | grep -v : | grep -v exm | grep -v kgp | grep -v 1kg
+GA018629
+GA004157
+RS73754691
+vh_6_33739618
+imm_6_33740728
 
 
 
