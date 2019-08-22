@@ -5650,8 +5650,11 @@ cat /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/phs00092
 #NoBMIAdj files currently necessary/available
 
 
-cat 
+zcat /users/mturchin/data/dbGaP/PhenosGenos/PAGE/MEC/phs000220.v2.pht002387.v2.p2.c2.PAGE_MEC_Metabochip_Subject_Phenotypes.GRU.txt.gz 
 | awk '{ print $2 "\t" $3 "\t" $6 "\t" $7 }' >
+
+zcat /users/mturchin/data/dbGaP/PhenosGenos/PAGE/MEC/phs000220.v2.pht002387.v2.p2.c2.PAGE_MEC_Metabochip_Subject_Phenotypes.GRU.txt.gz | perl -F\\t -lane 'print $F[0], "_", $F[1], "\t", $F[0], "\t", $F[1], "\t", $F[51], "\t", $F[35], "\t", $F[39], "\t", $F[40], "\t", $F[16];' | grep -v ^# | grep -v SUBJECT_ID | grep -v ^[[:space:]]*$ | cat <(echo -e "FID\tIID\tSEX\tAGE\tHeight\tWeight\tBMI") - > /users/mturchin/data/dbGaP/PhenosGenos/PAGE/MEC/phs000220.v2.pht002387.v2.p2.c2.PAGE_MEC_Metabochip_Subject_Phenotypes.GRU.Edits.txt
+cat /users/mturchin/data/dbGaP/PhenosGenos/PAGE/MEC/phs000220.v2.pht002387.v2.p2.c2.PAGE_MEC_Metabochip_Subject_Phenotypes.GRU.Edits.txt | awk '{ print $2 "\t" $3 "\t" $6 "\t" $7 }' > /users/mturchin/data/dbGaP/PhenosGenos/PAGE/MEC/phs000220.v2.pht002387.v2.p2.c2.PAGE_MEC_Metabochip_Subject_Phenotypes.GRU.Edits.Edits.txt 
 
 for j in `cat <(echo $PAGEMECPops1 | perl -lane 'print join("\n", @F);') | head -n 15 | tail -n 5`; do
         ancestry1=`echo $j | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[0];'`
@@ -10666,6 +10669,51 @@ FILTER - Strand switch: GA018629 - pos: 19202926 (ref: T/C, data: A/G)
 FILTER - Strand switch: GA018263 - pos: 46636930 (ref: C/T, data: G/A)
 (MultiEthnicGWAS) [  mturchin@login003  ~/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/Hawaiian/Hawaiian]$cat /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/AfrAmr/AfrAmr/20190820_MEC_AfrAmr_pt1_flip1.statistics.txt /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/AfrAmr/AfrAmr/20190820_MEC_AfrAmr_pt2_flip1.statistics.txt | grep variant.24162
 FILTER - Strand switch: variant.24162 - pos: 41871666 (ref: G/T, data: C/A)
+(MultiEthnicGWAS) [  mturchin@login003  ~/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/Hawaiian/Hawaiian]$zcat /users/mturchin/data/dbGaP/PhenosGenos/PAGE/MEC/phs000220.v2.pht002387.v2.p2.c2.PAGE_MEC_Metabochip_Subject_Phenotypes.GRU.txt.gz | head -n 15
+# Study accession: phs000220.v2.p2
+# Table accession: pht002387.v2.p2.c2
+# Consent group: General Research Use
+# Citation instructions: The study accession (phs000220.v2.p2) is used to cite the study and its data tables and documents. The data in this file should be cited using the accession pht002387.v2.p2.c2.
+# To cite columns of data within this file, please use the variable (phv#) accessions below:
+#
+# 1) the table name and the variable (phv#) accessions below; or
+# 2) you may cite a variable as phv#.v2.p2.c2.
+
+##      phv00163086.v2.p2.c2    phv00163099.v2.p2.c2    phv00163102.v2.p2.c2    phv00163103.v2.p2.c2    phv00163100.v2.p2.c2    phv00163721.v2.p2.c2    phv00163131.v2.p2.c2    phv00163135.v2.p2.c2    phv00163132.v2.p2.c2    phv00163094.v2.p2.c2  phv00163095.v2.p2.c2    phv00163096.v2.p2.c2    phv00163097.v2.p2.c2    phv00163136.v2.p2.c2    phv00163092.v2.p2.c2    phv00163107.v2.p2.c2    phv00163108.v2.p2.c2    phv00163110.v2.p2.c2    phv00163112.v2.p2.c2    phv00163114.v2.p2.c2  phv00163116.v2.p2.c2    phv00163118.v2.p2.c2    phv00163120.v2.p2.c2    phv00163122.v2.p2.c2    phv00163123.v2.p2.c2    phv00163109.v2.p2.c2    phv00163111.v2.p2.c2    phv00163113.v2.p2.c2    phv00163115.v2.p2.c2    phv00163117.v2.p2.c2  phv00163119.v2.p2.c2    phv00163121.v2.p2.c2    phv00163124.v2.p2.c2    phv00163125.v2.p2.c2    phv00163087.v2.p2.c2    phv00163088.v2.p2.c2    phv00305575.v1.p2.c2    phv00305576.v1.p2.c2    phv00163106.v2.p2.c2    phv00163105.v2.p2.c2  phv00163098.v2.p2.c2    phv00163104.v2.p2.c2    phv00163093.v2.p2.c2    phv00163133.v2.p2.c2    phv00163134.v2.p2.c2    phv00163130.v2.p2.c2    phv00163127.v2.p2.c2    phv00163128.v2.p2.c2    phv00163129.v2.p2.c2    phv00163126.v2.p2.c2  phv00163089.v2.p2.c2    phv00163101.v2.p2.c2
+dbGaP_Subject_ID   SUBJECT_ID   HIBP    HATTACK STROKE  DIABET  ETHNICITY       W_FIRSTPER  W_AGEEST    W_AGESTOP       EVERSMOKE       CURRSMOKE       SMKYRS  SMKQUIT W_YRSEST        YRSSCHL BMI     _crp    _gluc   _hdl_chol       _insulin      _ldl_chol  _tot_chol    _triglyc        _creatinine     _creatinine_batch       _crp_batch      _gluc_batch     _hdl_chol_batch _insulin_batch  _ldl_chol_batch _tot_chol_batch _triglyc_batch  med_diab        med_lipid       AGECAT
+        AGEDRAWG   YR_ENTRY     YR_DRAW HTCM    WTKG    packyrs_cat     MODVIG_PA       ETHANOL_CAT     MENOSTAG        EPUSEG  STAT    FH_HBP  FH_MI   FH_STROKE       FH_DIAB CORR_SEX        DB_STATUS1
+2010075 EC000575   1    0       0       0       J                               0       0   0                   12      29.036  0.5                                                     121.2   59.001  26.004                               0
+        0       5  6    1993    1995    170.18  84.09   1       1.2     2                   2   0       0       0       0       1       8
+2010076 EC000577   0    0       0       0       J                               1       0   4   5               16      21.027                                                                                                               2
+        1       5  6    1993    1995    172.72  62.73   5       1.1     2                   2   1       1       0       0       1       1
+2010077 EC000579   1    0       0       0       J                               0       0   0                   10      40.323  0.5     114.386 44.8    61.605  126.64  229     287.8   177.8   58.006  25.008  24.005  25.008  24.005  25.008
+        25.008  25.008  0       0       5       6       1993    1995    157.48  100     1   0.7 2                       2       1       0       0       1       1       2
+2010078 EC000589   0    0       0       0       J                               0       0   0                   18      22.13                                                                                                                0
+        0       2  2    1993    1995    170.18  64.09   1       0.5     2                   2   0       0       0       1       1       2
+(MultiEthnicGWAS) [  mturchin@login003  ~/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/Hawaiian/Hawaiian]$zcat /users/mturchin/data/dbGaP/PhenosGenos/PAGE/MEC/phs000220.v2.pht002387.v2.p2.c2.PAGE_MEC_Metabochip_Subject_Phenotypes.GRU.txt.gz | perl -F\\t -lane 'print $#F;' | head -n 15
+0
+0
+0
+0
+0
+0
+0
+0
+-1
+52
+52
+52
+52
+52
+52
+(MultiEthnicGWAS) [  mturchin@login003  ~/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/Hawaiian/Hawaiian]$zcat /users/mturchin/data/dbGaP/PhenosGenos/PAGE/MEC/phs000220.v2.pht002387.v2.p2.c2.PAGE_MEC_Metabochip_Subject_Phenotypes.GRU.txt.gz | perl -F\\t -lane 'print $#F;' | sort | uniq -c
+      1 -1
+      8 0
+  22266 52
+(MultiEthnicGWAS) [  mturchin@login003  ~/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/Hawaiian/Hawaiian]$cat /users/mturchin/data/dbGaP/PhenosGenos/PAGE/MEC/phs000220.v2.pht002387.v2.p2.c2.PAGE_MEC_Metabochip_Subject_Phenotypes.GRU.Edits.txt | grep -v ^[[:space:]]*$ | wc
+  22266  155456  898704
+(MultiEthnicGWAS) [  mturchin@login003  ~/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/Hawaiian/Hawaiian]$cat /users/mturchin/data/dbGaP/PhenosGenos/PAGE/MEC/phs000220.v2.pht002387.v2.p2.c2.PAGE_MEC_Metabochip_Subject_Phenotypes.GRU.Edits.txt | wc
+  22267  155456  898711
 
 
 
