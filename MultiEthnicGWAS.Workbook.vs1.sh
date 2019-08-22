@@ -5452,58 +5452,53 @@ cd /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/Hawaiian/Hawai
 #cd /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/Hawaiian/Hawaiian; wget https://imputationserver.sph.umich.edu/share/results/cabda74996903e00099d9677e38b637b/statistics.txt; mv statistics.txt 20190820_MEC_Hawaiian_pt1.flip1.statistics.txt
 #cd /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/Hawaiian/Hawaiian; wget https://imputationserver.sph.umich.edu/share/results/aea514d1161dfad0d25329d5903f1da3/statistics.txt; mv statistics.txt 20190820_MEC_Hawaiian_pt2.flip1.statistics.txt 
 
-
-
-
 cd /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/AfrAmr/AfrAmr/Imputation
-wget -c 
+wget -c https://imputationserver.sph.umich.edu/share/results/c83722d3de66495577842677cb2be51a/qcreport.html https://imputationserver.sph.umich.edu/share/results/9b6fdd0b058ed52199df66e0f6272928/chr_1.zip https://imputationserver.sph.umich.edu/share/results/5a69e3d1aaae2d2d66889f78136e3f0b/chr_2.zip https://imputationserver.sph.umich.edu/share/results/f6e0bd787eef53f5c1b39da9f563aa79/chr_3.zip https://imputationserver.sph.umich.edu/share/results/1f594dd3a7ad20326893afdf3bcbc7cf/chr_4.zip https://imputationserver.sph.umich.edu/share/results/3f5d47386874fbb0d47287d7012cae56/chr_5.zip https://imputationserver.sph.umich.edu/share/results/d6d1e09a526b3514eddd0a5b4aace930/chr_6.zip https://imputationserver.sph.umich.edu/share/results/ba00021aab9fb0f782eef35a19690643/chr_7.zip https://imputationserver.sph.umich.edu/share/results/5fbf73b3f6aebf18e6fc064d3c4269cb/chr_8.zip https://imputationserver.sph.umich.edu/share/results/4bdf83fa48397fb2d68d8fc0c6d3af1b/statistics.txt https://imputationserver.sph.umich.edu/share/results/7d83a19258c8aab1015660f39d427e1d/chr_1.log https://imputationserver.sph.umich.edu/share/results/47043fa0c787448b304c527ab6a63e2a/chr_2.log https://imputationserver.sph.umich.edu/share/results/6daea7c04624d06cd1a0d2b4d05860ca/chr_3.log https://imputationserver.sph.umich.edu/share/results/48e8ee6cb5cd2b6ed4598883601d0b76/chr_4.log https://imputationserver.sph.umich.edu/share/results/1fc0b7330413c424b1e4c1b6d08a129d/chr_5.log https://imputationserver.sph.umich.edu/share/results/af8386908b057f2aa1e7cd3617a16033/chr_6.log https://imputationserver.sph.umich.edu/share/results/8bdea8e7ae5e0ea9cfe70a0781f6fcf1/chr_7.log https://imputationserver.sph.umich.edu/share/results/259e4d6d31fcab16e3ba3f68e5155358/chr_8.log
 mv /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/AfrAmr/AfrAmr/Imputation/qcreport.html /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/AfrAmr/AfrAmr/Imputation/20190820.qcreport.1.html
 mv /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/AfrAmr/AfrAmr/Imputation/statistics.txt /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/AfrAmr/AfrAmr/Imputation/20190820.statistics.1.txt
-wget -c 
+wget -c https://imputationserver.sph.umich.edu/share/results/67be026115a920cc2dd255aac13141ee/qcreport.html https://imputationserver.sph.umich.edu/share/results/16493de712ed92a2488f719670d00cd0/chr_10.zip https://imputationserver.sph.umich.edu/share/results/29f511d75b3b03bcc6397949c0ba5279/chr_11.zip https://imputationserver.sph.umich.edu/share/results/cd32ca1a8a15d92a6bff3c663ae612e8/chr_12.zip https://imputationserver.sph.umich.edu/share/results/8679f89f8aeef36e23eb81ba88b386ba/chr_13.zip https://imputationserver.sph.umich.edu/share/results/54919bbd3c07f725ffa592b7f6b20c40/chr_14.zip https://imputationserver.sph.umich.edu/share/results/14e211f310202358a18607a3ef8eaebb/chr_15.zip https://imputationserver.sph.umich.edu/share/results/740b6a054318f4948a14762d20e65c31/chr_16.zip https://imputationserver.sph.umich.edu/share/results/c479eecafb54a9d1842cdf3ec7a67cc1/chr_17.zip https://imputationserver.sph.umich.edu/share/results/652256ccf3efda1c1ceb96c38c65c125/chr_18.zip https://imputationserver.sph.umich.edu/share/results/cdbddf1348cb1d059a6cd56f3a23026f/chr_19.zip https://imputationserver.sph.umich.edu/share/results/7f5ebda74db5e326bc135849fa11dc2b/chr_20.zip https://imputationserver.sph.umich.edu/share/results/4b211204d1b28bb50d5f7cf3f367f33a/chr_21.zip https://imputationserver.sph.umich.edu/share/results/76118d806d618cb7dd2eb39861e885f3/chr_22.zip https://imputationserver.sph.umich.edu/share/results/715f1d925f0af2718a229e8d6419a25d/chr_9.zip https://imputationserver.sph.umich.edu/share/results/746e8ef204df38a5bf8d876a6548f952/statistics.txt https://imputationserver.sph.umich.edu/share/results/82ab6aa10a6cbf32d0ca598d9542816d/chr_10.log https://imputationserver.sph.umich.edu/share/results/d3311e8b93949ef52934e7b3eb3def76/chr_11.log https://imputationserver.sph.umich.edu/share/results/f27be1c3e606e1087f7ec3c38c78f6fa/chr_12.log https://imputationserver.sph.umich.edu/share/results/827fc5b9b27fe8ee7b89a35e94fc2cc3/chr_13.log https://imputationserver.sph.umich.edu/share/results/8818b7283368ef9b42199012e1585df7/chr_14.log https://imputationserver.sph.umich.edu/share/results/41bed547eb21c42f891cb2c3af7710b2/chr_15.log https://imputationserver.sph.umich.edu/share/results/cc90a3fb421eb2292f305af17c8f6e19/chr_16.log https://imputationserver.sph.umich.edu/share/results/946a604443803c4093cf9743543adc0f/chr_17.log https://imputationserver.sph.umich.edu/share/results/87a46dffb8c6e31b53ba4d0f2350217a/chr_18.log https://imputationserver.sph.umich.edu/share/results/8f44c4daa38e08241f1d75ec9f12e6d/chr_19.log https://imputationserver.sph.umich.edu/share/results/3b9c6df6a5433e05f9c37a32953436d0/chr_20.log https://imputationserver.sph.umich.edu/share/results/9f40b5bd34e8744df0db356874b5fe05/chr_21.log https://imputationserver.sph.umich.edu/share/results/e50aff4007f66366d01f1a33197abb96/chr_22.log https://imputationserver.sph.umich.edu/share/results/275487f9e6eff7f9dc427dcd6b57bf4e/chr_9.log
 mv /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/AfrAmr/AfrAmr/Imputation/qcreport.html /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/AfrAmr/AfrAmr/Imputation/20190820.qcreport.2.html
 mv /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/AfrAmr/AfrAmr/Imputation/statistics.txt /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/AfrAmr/AfrAmr/Imputation/20190820.statistics.2.txt
 for i in {1..8}; do
-        7za x /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/AfrAmr/AfrAmr/Imputation/chr_${i}.zip -p'' 
+        7za x /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/AfrAmr/AfrAmr/Imputation/chr_${i}.zip -p'sn7XDQkn$MGJp9' 
 done  
 for i in {9..22}; do
-        7za x /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/AfrAmr/AfrAmr/Imputation/chr_${i}.zip -p'' 
+        7za x /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/AfrAmr/AfrAmr/Imputation/chr_${i}.zip -p'OpvdaCkk12QLR' 
 done
 cd /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/JpnAmr/JpnAmr/Imputation
-wget -c 
+wget -c https://imputationserver.sph.umich.edu/share/results/e7d6ed284db9b5dfaaf336b27591bca5/qcreport.html https://imputationserver.sph.umich.edu/share/results/cfe7aad20fdbfd30cbf54881285935ce/chr_1.zip https://imputationserver.sph.umich.edu/share/results/9756e5d441578caee31d4e79f4d2eacb/chr_2.zip https://imputationserver.sph.umich.edu/share/results/54b0f7e67db1f4af5a5f6d87ab2d84d1/chr_3.zip https://imputationserver.sph.umich.edu/share/results/7c0a01ff7c3a32da95c7646c6791c349/chr_4.zip https://imputationserver.sph.umich.edu/share/results/d5884ede7bed541c89c81033cc64a7a8/chr_5.zip https://imputationserver.sph.umich.edu/share/results/43117ec3a56100c0700d8fb28f808756/chr_6.zip https://imputationserver.sph.umich.edu/share/results/eb2b523987b192a4d79ff18f0961c0b/chr_7.zip https://imputationserver.sph.umich.edu/share/results/c28a66bc0f5802f1f173664ec1dcbcba/chr_8.zip https://imputationserver.sph.umich.edu/share/results/1507ab51d70dcebf7e41112e0eab3291/statistics.txt https://imputationserver.sph.umich.edu/share/results/67cef7996269382446a233e4da8c3ba0/chr_1.log https://imputationserver.sph.umich.edu/share/results/d616a5e27973120a74bc909b33d64347/chr_2.log https://imputationserver.sph.umich.edu/share/results/9346484402d27dd7bc3caeda8896ed3/chr_3.log https://imputationserver.sph.umich.edu/share/results/7d7c4d573c1d423b4083c624a6f0fd5/chr_4.log https://imputationserver.sph.umich.edu/share/results/53a020d1470d7f028f3b84012703a54a/chr_5.log https://imputationserver.sph.umich.edu/share/results/13f879dcaca4e3e7d04c7146bbb951a/chr_6.log https://imputationserver.sph.umich.edu/share/results/6f80306d08e52ca13c875f92e15c22d/chr_7.log https://imputationserver.sph.umich.edu/share/results/3f81e2224c34ff932f3628a3121ce049/chr_8.log
 mv /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/JpnAmr/JpnAmr/Imputation/qcreport.html /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/JpnAmr/JpnAmr/Imputation/20190820.qcreport.1.html
 mv /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/JpnAmr/JpnAmr/Imputation/statistics.txt /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/JpnAmr/JpnAmr/Imputation/20190820.statistics.1.txt
-wget -c 
+wget -c https://imputationserver.sph.umich.edu/share/results/2d675265f5eb1accddd10e98602b56ba/qcreport.html https://imputationserver.sph.umich.edu/share/results/ab862ee15afc667d428214b88c4975fc/chr_10.zip https://imputationserver.sph.umich.edu/share/results/a504c441771424b1f09df3b9f6b6ef71/chr_11.zip https://imputationserver.sph.umich.edu/share/results/1dba0d661697bfa3dc4cc94c26c5b34f/chr_12.zip https://imputationserver.sph.umich.edu/share/results/36e386a1b9fa4c789adebbae404d649b/chr_13.zip https://imputationserver.sph.umich.edu/share/results/52bf1063252f89caafc8b4b0540e37f9/chr_14.zip https://imputationserver.sph.umich.edu/share/results/cfc80931ff5cb7810113d02d2b55a310/chr_15.zip https://imputationserver.sph.umich.edu/share/results/fbe247f4d2f56806d2345531faa69976/chr_16.zip https://imputationserver.sph.umich.edu/share/results/96dcfc7ce0137ec5d01137129ffff04b/chr_17.zip https://imputationserver.sph.umich.edu/share/results/376fe7dd401900216f1dd1f7d075e6ea/chr_18.zip https://imputationserver.sph.umich.edu/share/results/fecdc3b072d41b1573fa39aa33a020a6/chr_19.zip https://imputationserver.sph.umich.edu/share/results/25d0837b3b6c9aabb5dc8dd92bc8bad3/chr_20.zip https://imputationserver.sph.umich.edu/share/results/3deb40058d327eb366e7d4e18f0e459c/chr_21.zip https://imputationserver.sph.umich.edu/share/results/a4514511233eafe37c0b18ba5993b0f6/chr_22.zip https://imputationserver.sph.umich.edu/share/results/84265e0fef7b10852dbe0b006408a8d8/chr_9.zip https://imputationserver.sph.umich.edu/share/results/feb6d033efd52594d9851db79b9362df/statistics.txt https://imputationserver.sph.umich.edu/share/results/880acaf95a0b461a3ab18a605de88d05/chr_10.log https://imputationserver.sph.umich.edu/share/results/1236506e02a5541a72e0d5f7b3d0d29f/chr_11.log https://imputationserver.sph.umich.edu/share/results/1abcb83ffd3fa04280bee6615749ad16/chr_12.log https://imputationserver.sph.umich.edu/share/results/17ea20ccfa49490f5a0965cf3cda64c3/chr_13.log https://imputationserver.sph.umich.edu/share/results/b93fc5b2928605d8932cd3847082a82f/chr_14.log https://imputationserver.sph.umich.edu/share/results/3e0f9471dbb40321526ac7eadb7b2c45/chr_15.log https://imputationserver.sph.umich.edu/share/results/7ebca972bb52ec7d7174d57b9062fe69/chr_16.log https://imputationserver.sph.umich.edu/share/results/69fd541ae3f28182342c9b72afe818ab/chr_17.log https://imputationserver.sph.umich.edu/share/results/a64896690e208a29b94054274cf53102/chr_18.log https://imputationserver.sph.umich.edu/share/results/fe03d231a4dfa9078ef639c208230b49/chr_19.log https://imputationserver.sph.umich.edu/share/results/89b55f6b3c7a023996d13e12868d1bac/chr_20.log https://imputationserver.sph.umich.edu/share/results/2083dc67051e04cf34d006b72b5d66b1/chr_21.log https://imputationserver.sph.umich.edu/share/results/d30bd8874ad6f01330b80de32af93bdf/chr_22.log https://imputationserver.sph.umich.edu/share/results/733178ce2012145b24e7f53a910cb93f/chr_9.log
 mv /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/JpnAmr/JpnAmr/Imputation/qcreport.html /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/JpnAmr/JpnAmr/Imputation/20190820.qcreport.2.html
 mv /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/JpnAmr/JpnAmr/Imputation/statistics.txt /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/JpnAmr/JpnAmr/Imputation/20190820.statistics.2.txt
 for i in {1..8}; do
-        7za x /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/JpnAmr/JpnAmr/Imputation/chr_${i}.zip -p'' 
+        7za x /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/JpnAmr/JpnAmr/Imputation/chr_${i}.zip -p'ik}EG73JkYGbgT' 
 done  
 for i in {9..22}; do
-        7za x /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/JpnAmr/JpnAmr/Imputation/chr_${i}.zip -p'' 
+        7za x /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/JpnAmr/JpnAmr/Imputation/chr_${i}.zip -p'LdzVWZdp55OwTy' 
 done
 cd /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/Hawaiian/Hawaiian/Imputation
-wget -c 
+wget -c https://imputationserver.sph.umich.edu/share/results/f8d61043092c7cf9bacb5d5c7b9758df/chr_1.zip https://imputationserver.sph.umich.edu/share/results/4e86b28532a90f4003ba3537639d99a6/chr_2.zip https://imputationserver.sph.umich.edu/share/results/4f9e57688a2e3428a979148de7dea616/chr_3.zip https://imputationserver.sph.umich.edu/share/results/4c1c60c478b46f87aa03511a6ba03258/chr_4.zip https://imputationserver.sph.umich.edu/share/results/d8f184bd5317e490412270b713a5b4fa/chr_5.zip https://imputationserver.sph.umich.edu/share/results/7cd125113f526a03c79b7239fdbcf140/chr_6.zip https://imputationserver.sph.umich.edu/share/results/5cf05d875bb0adf97af809f90ac5ebe6/chr_7.zip https://imputationserver.sph.umich.edu/share/results/5036178652a399a9bee1951caca19c2/chr_8.zip https://imputationserver.sph.umich.edu/share/results/f6f269766c675cb138ee16cf7e10b3fb/statistics.txt https://imputationserver.sph.umich.edu/share/results/9ea4f59b130826aa578b381f2831a04e/chr_1.log https://imputationserver.sph.umich.edu/share/results/aee1bf5ff472ba2ca64a25e363eb25c3/chr_2.log https://imputationserver.sph.umich.edu/share/results/2bbe1a7eabf2ac13f03cfd9329a4a7c8/chr_3.log https://imputationserver.sph.umich.edu/share/results/d7885566af65b12b4c94b600ce753539/chr_4.log https://imputationserver.sph.umich.edu/share/results/eb3d52a05290e0109ea9b28908a670c5/chr_5.log https://imputationserver.sph.umich.edu/share/results/76c65b808e2ff31533d96a8dba8fde84/chr_6.log https://imputationserver.sph.umich.edu/share/results/fd71f1e16153895b20d9ac5416de5eb7/chr_7.log https://imputationserver.sph.umich.edu/share/results/cad086c1574fd4ed774f45a4274a5356/chr_8.log 
 mv /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/Hawaiian/Hawaiian/Imputation/qcreport.html /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/Hawaiian/Hawaiian/Imputation/20190820.qcreport.1.html
 mv /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/Hawaiian/Hawaiian/Imputation/statistics.txt /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/Hawaiian/Hawaiian/Imputation/20190820.statistics.1.txt
-wget -c 
+wget -c  https://imputationserver.sph.umich.edu/share/results/b2c210342f86cdbcdc022a749ef06eea/chr_10.zip https://imputationserver.sph.umich.edu/share/results/aff08ff92ab6801b2f0bfb3cb0b43e1f/chr_11.zip https://imputationserver.sph.umich.edu/share/results/bdfe0622638daf919c07d516ced73ac0/chr_12.zip https://imputationserver.sph.umich.edu/share/results/60d8114b937a9825ceb86fac66c72c43/chr_13.zip https://imputationserver.sph.umich.edu/share/results/f0e5139594f041b681146dc6970b644b/chr_14.zip https://imputationserver.sph.umich.edu/share/results/9f68867de5cc4b9a798039352eb3abf0/chr_15.zip https://imputationserver.sph.umich.edu/share/results/1f2e4862f97b746d50bd08ba80dd40a0/chr_16.zip https://imputationserver.sph.umich.edu/share/results/39242787a75f687179a7d1555b7ab592/chr_17.zip https://imputationserver.sph.umich.edu/share/results/4695ce43a70d290e575b8141f31f83f9/chr_18.zip https://imputationserver.sph.umich.edu/share/results/529076095d0bf513fd2e8adb2e801d7/chr_19.zip https://imputationserver.sph.umich.edu/share/results/290b320d67405f4c0fb89020f1c53369/chr_20.zip https://imputationserver.sph.umich.edu/share/results/ffcc5292dfeb9668379f3e9cc7ab4617/chr_21.zip https://imputationserver.sph.umich.edu/share/results/fef66c82eb766abfe5c19e8e754565b0/chr_22.zip https://imputationserver.sph.umich.edu/share/results/49e9511c607c19b8aadf0a0e4e32cc46/chr_9.zip https://imputationserver.sph.umich.edu/share/results/13e36c67adfb3396aae477facef46954/statistics.txt https://imputationserver.sph.umich.edu/share/results/722baf37c8d770f03cf8ded1e8c14561/chr_10.log https://imputationserver.sph.umich.edu/share/results/dd1ab053f35402f87ca6b77015978090/chr_11.log https://imputationserver.sph.umich.edu/share/results/f396d20bbd5001978e84bcdfed441659/chr_12.log https://imputationserver.sph.umich.edu/share/results/c67d909989fde4ad9a5786ee9bf21753/chr_13.log https://imputationserver.sph.umich.edu/share/results/7db3b9fb21be00526ec849ef06446d8c/chr_14.log https://imputationserver.sph.umich.edu/share/results/445d3bd7ac9098438e7c9cf691ef723d/chr_15.log https://imputationserver.sph.umich.edu/share/results/5e68c2d2fa1ac91433a4f7082b125f6/chr_16.log https://imputationserver.sph.umich.edu/share/results/9ce2ca606565a9dbca9d34ad294fd100/chr_17.log https://imputationserver.sph.umich.edu/share/results/54932edc438580abe4cea4824d9d36d8/chr_18.log https://imputationserver.sph.umich.edu/share/results/b84c2a29a8c4364fef57a4258923db47/chr_19.log https://imputationserver.sph.umich.edu/share/results/fe47b46bd7b1efaa01fa77f8a2b88775/chr_20.log https://imputationserver.sph.umich.edu/share/results/cf2eb123d3f12a111ee08dd608e752b6/chr_21.log https://imputationserver.sph.umich.edu/share/results/cd8cba8de339804e65c40b9e51c93312/chr_22.log https://imputationserver.sph.umich.edu/share/results/dc6f34693ee09a0c360aca3ed34ca37a/chr_9.log
 mv /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/Hawaiian/Hawaiian/Imputation/qcreport.html /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/Hawaiian/Hawaiian/Imputation/20190820.qcreport.2.html
 mv /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/Hawaiian/Hawaiian/Imputation/statistics.txt /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/Hawaiian/Hawaiian/Imputation/20190820.statistics.2.txt
 for i in {1..8}; do
-        7za x /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/Hawaiian/Hawaiian/Imputation/chr_${i}.zip -p'' 
+        7za x /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/Hawaiian/Hawaiian/Imputation/chr_${i}.zip -p'BCQYrt0ufeXq]9' 
 done  
 for i in {9..22}; do
-        7za x /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/Hawaiian/Hawaiian/Imputation/chr_${i}.zip -p'' 
+        7za x /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/Hawaiian/Hawaiian/Imputation/chr_${i}.zip -p'laNh^PKWz1J7Zc' 
 done
 
-/users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/$ancestry1/$ancestry2/PAGE_MEC_chr${i}_v1.$ancestry2.QCed.QCed.dropRltvs.Loose.PCAdrops.HRCdrops.ATGC.flip.sort.vcf.gz
-
-for j in `cat <(echo $PAGEMECPops1 | perl -lane 'print join("\n", @F);') | head -n 3 | tail -n 1`; do
+for j in `cat <(echo $PAGEMECPops1 | perl -lane 'print join("\n", @F);') | head -n 1 | tail -n 1`; do
         ancestry1=`echo $j | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[0];'`
         ancestry2=`echo $j | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[1];'`
 
         echo $ancestry1 $ancestry2
 
-        for i in {1..22}; do
+        for i in {22..22}; do
                 echo $i;
 
                 ln -s /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/$ancestry1/$ancestry2/Imputation/chr${i}.dose.vcf.gz /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/$ancestry1/$ancestry2/Imputation/PAGE_MEC_chr${i}_v1.$ancestry2.QCed.QCed.dropRltvs.Loose.PCAdrops.HRCdrops.ATGC.flip.sort.ImptHRC.dose.vcf.gz
@@ -5513,7 +5508,7 @@ for j in `cat <(echo $PAGEMECPops1 | perl -lane 'print join("\n", @F);') | head 
         done
 done
 
-for j in `cat <(echo $PAGEMECPops1 | perl -lane 'print join("\n", @F);') | head -n 3 | tail -n 2`; do
+for j in `cat <(echo $PAGEMECPops1 | perl -lane 'print join("\n", @F);') | head -n 1 | tail -n 1`; do
         ancestry1=`echo $j | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[0];'`
         ancestry2=`echo $j | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[1];'`
 
@@ -5526,7 +5521,7 @@ for j in `cat <(echo $PAGEMECPops1 | perl -lane 'print join("\n", @F);') | head 
 done
 #	rm /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/$ancestry1/$ancestry2/Imputation/PAGE_MEC_chrAll_v1.QCed.bim.ImptHRC.info.r2gt3.noDups.ChrBPs
 
-for j in `cat <(echo $PAGEMECPops1 | perl -lane 'print join("\n", @F);') | head -n 3 | tail -n 2`; do
+for j in `cat <(echo $PAGEMECPops1 | perl -lane 'print join("\n", @F);') | head -n 1 | tail -n 1`; do
         ancestry1=`echo $j | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[0];'`
         ancestry2=`echo $j | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[1];'`
 
@@ -5544,7 +5539,7 @@ done
 #               echo -e "\nrm /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/$ancestry1/$ancestry2/Imputation/PAGE_MEC_chr${i}_v1.$ancestry2.QCed.QCed.dropRltvs.Loose.PCAdrops.HRCdrops.ATGC.flip.sort.ImptHRC.dose.100geno.plinkTemp.tped /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/$ancestry1/$ancestry2/Imputation/PAGE_MEC_chr${i}_v1.$ancestry2.QCed.QCed.dropRltvs.Loose.PCAdrops.HRCdrops.ATGC.flip.sort.ImptHRC.dose.100geno.plinkTemp.tfam";)
 #               rm /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/$ancestry1/$ancestry2/Imputation/PAGE_MEC_chr${i}_v1.$ancestry2.QCed.QCed.dropRltvs.Loose.PCAdrops.HRCdrops.ATGC.flip.sort.ImptHRC.dose.plinkTemp*
 
-for j in `cat <(echo $PAGEMECPops1 | perl -lane 'print join("\n", @F);') | head -n 3 | tail -n 2`; do
+for j in `cat <(echo $PAGEMECPops1 | perl -lane 'print join("\n", @F);') | head -n 1 | tail -n 1`; do
         ancestry1=`echo $j | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[0];'`
         ancestry2=`echo $j | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[1];'`
 
@@ -5556,7 +5551,7 @@ for j in `cat <(echo $PAGEMECPops1 | perl -lane 'print join("\n", @F);') | head 
 
 done
 
-for j in `cat <(echo $PAGEMECPops1 | perl -lane 'print join("\n", @F);') | head -n 3 | tail -n 1`; do
+for j in `cat <(echo $PAGEMECPops1 | perl -lane 'print join("\n", @F);') | head -n 1 | tail -n 1`; do
         ancestry1=`echo $j | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[0];'`
         ancestry2=`echo $j | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[1];'`
 
@@ -5574,7 +5569,7 @@ done
 #	echo -e "rm /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/$ancestry1/$ancestry2/Imputation/PAGE_MEC_chrAll_v1.$ancestry2.QCed.QCed.dropRltvs.Loose.PCAdrops.HRCdrops.ATGC.flip.sort.ImptHRC.dose.100geno.raw /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/$ancestry1/$ancestry2/Imputation/PAGE_MEC_chrAll_v1.$ancestry2.QCed.QCed.dropRltvs.Loose.PCAdrops.HRCdrops.ATGC.flip.sort.ImptHRC.dose.100geno.raw.edit.gz"; \
 #	echo -e "rm /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/$ancestry1/$ancestry2/Imputation/PAGE_MEC_chrAll_v1.$ancestry2.QCed.QCed.dropRltvs.Loose.PCAdrops.HRCdrops.ATGC.flip.sort.ImptHRC.dose.100geno.plinkTemp.bed /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/$ancestry1/$ancestry2/Imputation/PAGE_MEC_chrAll_v1.$ancestry2.QCed.QCed.dropRltvs.Loose.PCAdrops.HRCdrops.ATGC.flip.sort.ImptHRC.dose.100geno.plinkTemp.bim /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/$ancestry1/$ancestry2/Imputation/PAGE_MEC_chrAll_v1.$ancestry2.QCed.QCed.dropRltvs.Loose.PCAdrops.HRCdrops.ATGC.flip.sort.ImptHRC.dose.100geno.plinkTemp.fam";)
 
-for j in `cat <(echo $PAGEMECPops1 | perl -lane 'print join("\n", @F);') | head -n 3 | tail -n 2`; do
+for j in `cat <(echo $PAGEMECPops1 | perl -lane 'print join("\n", @F);') | head -n 1 | tail -n 1`; do
         ancestry1=`echo $j | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[0];'`
         ancestry2=`echo $j | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[1];'`
 
@@ -5584,7 +5579,7 @@ for j in `cat <(echo $PAGEMECPops1 | perl -lane 'print join("\n", @F);') | head 
 
 done
 
-for j in `cat <(echo $PAGEMECPops1 | perl -lane 'print join("\n", @F);') | head -n 3 | tail -n 2`; do
+for j in `cat <(echo $PAGEMECPops1 | perl -lane 'print join("\n", @F);') | head -n 1 | tail -n 1`; do
         ancestry1=`echo $j | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[0];'`
         ancestry2=`echo $j | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[1];'`
 
@@ -5645,21 +5640,19 @@ R -q -e "Data1 <- read.table(\"/users/mturchin/data/dbGaP/mturchin20/MultiEthnic
 
 
 #NOTE -- 1 male, 2 female (again, from: https://www.ncbi.nlm.nih.gov/projects/gap/cgi-bin/variable.cgi?study_id=phs000220.v2.p2&phv=163089&phd=&pha=2894&pht=2387&phvf=&phdf=&phaf=&phtf=1&dssp=1&consent=&temp=1)
-zcat /users/mturchin/data/dbGaP/PhenosGenos/PAGE/MEC/phs000220.v2.pht002387.v2.p2.c2.PAGE_MEC_Metabochip_Subject_Phenotypes.GRU.txt.gz | perl -F\\t -lane 'print $F[0], "_", $F[1], "\t", $F[0], "\t", $F[1], "\t", $F[51], "\t", $F[35], "\t", $F[39], "\t", $F[40], "\t", $F[16];' | grep -v ^# | grep -v SUBJECT_ID | grep -v ^_[[:space:]]*$ | cat <(echo -e "FID_IID\tFID\tIID\tSEX\tAGE\tHeight\tWeight\tBMI") - > /users/mturchin/data/dbGaP/PhenosGenos/PAGE/MEC/phs000220.v2.pht002387.v2.p2.c2.PAGE_MEC_Metabochip_Subject_Phenotypes.GRU.Edits.txt
-cat /users/mturchin/data/dbGaP/PhenosGenos/PAGE/MEC/phs000220.v2.pht002387.v2.p2.c2.PAGE_MEC_Metabochip_Subject_Phenotypes.GRU.Edits.txt | awk '{ print $2 "\t" $3 "\t" $6 "\t" $7 }' > /users/mturchin/data/dbGaP/PhenosGenos/PAGE/MEC/phs000220.v2.pht002387.v2.p2.c2.PAGE_MEC_Metabochip_Subject_Phenotypes.GRU.Edits.Edits.txt 
+zcat /users/mturchin/data/dbGaP/PhenosGenos/PAGE/MEC/phs000220.v2.pht002387.v2.p2.c2.PAGE_MEC_Metabochip_Subject_Phenotypes.GRU.txt.gz | perl -F\\t -lane 'print $F[0], "_", $F[1], "\t", $F[0], "\t", $F[1], "\t", $F[51], "\t", $F[35], "\t", $F[39], "\t", $F[40], "\t", $F[16];' | grep -v ^# | grep -v SUBJECT_ID | grep -v ^_[[:space:]]*$ | cat <(echo -e "FID_IID\tFID\tIID\tSEX\tAGE\tHeight\tWeight\tBMI") - > /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/phs000220.v2.pht002387.v2.p2.c2.PAGE_MEC_Metabochip_Subject_Phenotypes.GRU.Edits.txt
+cat /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/phs000220.v2.pht002387.v2.p2.c2.PAGE_MEC_Metabochip_Subject_Phenotypes.GRU.Edits.txt | awk '{ print $2 "\t" $3 "\t" $6 "\t" $7 }' > /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/phs000220.v2.pht002387.v2.p2.c2.PAGE_MEC_Metabochip_Subject_Phenotypes.GRU.Edits.Edits.txt
 
-for j in `cat <(echo $PAGEMECPops1 | perl -lane 'print join("\n", @F);') | head -n 15 | tail -n 5`; do
+for j in `cat <(echo $PAGEMECPops1 | perl -lane 'print join("\n", @F);') | head -n 1 | tail -n 1`; do
         ancestry1=`echo $j | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[0];'`
         ancestry2=`echo $j | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[1];'`
 
         echo $ancestry1 $ancestry2
 
 	cat /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/$ancestry1/$ancestry2/PAGE_MEC_chr1_v1.$ancestry2.QCed.QCed.dropRltvs.Loose.PCAdrops.HRCdrops.fam | wc
-	join <(cat /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/$ancestry1/$ancestry2/PAGE_MEC_chr1_v1.$ancestry2.QCed.QCed.dropRltvs.Loose.PCAdrops.HRCdrops.fam | awk '{ print $2 }' | sort) <(cat /users/mturchin/data/dbGaP/PhenosGenos/PAGE/MEC/phs000220.v2.pht002387.v2.p2.c2.PAGE_MEC_Metabochip_Subject_Phenotypes.GRU.Edits.txt | awk '{ print $3 }' | sort) | wc
-	join <(cat /users/mturchin/data/dbGaP/PhenosGenos/PAGE/MEC/phs000220.v2.pht002387.v2.p2.c2.PAGE_MEC_Metabochip_Subject_Phenotypes.GRU.Edits.txt | awk '{ print $3 "\t" $2 "\t" $3 "\t" $4 "\t" $5 }' | sort -k 1,1) <(join <(cat /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/$ancestry1/$ancestry2/PAGE_MEC_chrAll_v1.$ancestry2.QCed.pruned.QCed.KING.Loose.allRltvs.flashpca.pcs.wInfo.txt | awk '{ print $1 "_" $2 "\t" $0 }' | sort -k 1,1) <(cat /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/$ancestry1/$ancestry2/PAGE_MEC_chrAll_v1.$ancestry2.QCed.dropiMiss.dropRtlvs.dropPCA.HRCdrops.FIDIIDs | awk '{ print $1 "_" $2 }' | sort -k 1,1) | awk '{ $1 = $3; print $0 }' | sort -k 1,1) | perl -lane 'print join("\t", @F[1..$#F]);' | perl -lane 'print join("\t", @F[0..15]);' | cat <(echo -e "FID1\tIID1\tSEX\tAGE\tFID2\tIID2\tPC1\tPC2\tPC3\tPC4\tPC5\tPC6\tPC7\tPC8\tPC9\tPC10") - > /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/$ancestry1/$ancestry2/PAGE_MEC_chrAll_v1.$ancestry2.QCed.pruned.QCed.KING.Loose.allRltvs.flashpca.pcs.wFullCovars.txt
+	join <(cat /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/$ancestry1/$ancestry2/PAGE_MEC_chr1_v1.$ancestry2.QCed.QCed.dropRltvs.Loose.PCAdrops.HRCdrops.fam | awk '{ print $2 }' | sort) <(cat /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/phs000220.v2.pht002387.v2.p2.c2.PAGE_MEC_Metabochip_Subject_Phenotypes.GRU.Edits.txt | awk '{ print $3 }' | sort) | wc
+	join <(cat /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/phs000220.v2.pht002387.v2.p2.c2.PAGE_MEC_Metabochip_Subject_Phenotypes.GRU.Edits.txt | awk '{ print $3 "\t" $2 "\t" $3 "\t" $4 "\t" $5 }' | sort -k 1,1) <(join <(cat /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/$ancestry1/$ancestry2/PAGE_MEC_chrAll_v1.$ancestry2.QCed.pruned.QCed.KING.Loose.allRltvs.flashpca.pcs.wInfo.txt | awk '{ print $2 "\t" $0 }' | sort -k 1,1) <(cat /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/$ancestry1/$ancestry2/PAGE_MEC_chr${i}_v1.$ancestry2.QCed.QCed.dropRltvs.Loose.PCAdrops.HRCdrops.fam | awk '{ print $2 }' | sort -k 1,1) | awk '{ $1 = $3; print $0 }' | sort -k 1,1) | perl -lane 'print join("\t", @F[1..$#F]);' | perl -lane 'print join("\t", @F[0..15]);' | cat <(echo -e "FID1\tIID1\tSEX\tAGE\tFID2\tIID2\tPC1\tPC2\tPC3\tPC4\tPC5\tPC6\tPC7\tPC8\tPC9\tPC10") - > /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/$ancestry1/$ancestry2/PAGE_MEC_chrAll_v1.$ancestry2.QCed.pruned.QCed.KING.Loose.allRltvs.flashpca.pcs.wFullCovars.txt
 	cat /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/$ancestry1/$ancestry2/PAGE_MEC_chrAll_v1.$ancestry2.QCed.pruned.QCed.KING.Loose.allRltvs.flashpca.pcs.wFullCovars.txt | wc
-
-	join <(cat /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/phs000925.v1.pht006203.v1.p1.c1.PAGE_IPM_BioMe.GRU.Edits.Transformed.txt | awk '{ print $3 "\t" $2 "\t" $3 "\t" $4 "\t" $5 }' | sort -k 1,1) <(join <(cat /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/PAGE_IPMBioMe_chrAll_v1.QCed.1kGMatch.pruned.QCed.SNPrecode.w1kG.flipped.dropmissnp.allRltvs.flashpca.pcs.txt | awk '{ print $1 "_" $2 "\t" $0 }' | sort -k 1,1) <(cat /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/PAGE_IPMBioMe_chrAll_v1.QCed.1kGMatch.pruned.QCed.SNPrecode.w1kG.flipped.dropmissnp.allRltvs.flashpca.pcs.wAncs.$ancestry2.dropRltvs.Loose.HRCdrops.FIDIIDs | awk '{ print $1 "_" $2 }' | sort -k 1,1) | awk '{ $1 = $3; print $0 }' | sort -k 1,1) | perl -lane 'print join("\t", @F[1..$#F]);' | perl -lane 'print join("\t", @F[0..15]);' | cat <(echo -e "FID1\tIID1\tSEX\tAGE\tFID2\tIID2\tPC1\tPC2\tPC3\tPC4\tPC5\tPC6\tPC7\tPC8\tPC9\tPC10") - > /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/$ancestry1/$ancestry2/PAGE_IPMBioMe_chrAll_v1.QCed.1kGMatch.pruned.QCed.SNPrecode.w1kG.flipped.dropmissnp.allRltvs.flashpca.pcs.$ancestry2.wFullCovars.txt 
 
 done
 
@@ -10708,6 +10701,30 @@ dbGaP_Subject_ID   SUBJECT_ID   HIBP    HATTACK STROKE  DIABET  ETHNICITY       
   22266  155456  898704
 (MultiEthnicGWAS) [  mturchin@login003  ~/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/Hawaiian/Hawaiian]$cat /users/mturchin/data/dbGaP/PhenosGenos/PAGE/MEC/phs000220.v2.pht002387.v2.p2.c2.PAGE_MEC_Metabochip_Subject_Phenotypes.GRU.Edits.txt | wc
   22267  155456  898711
+(MultiEthnicGWAS) [  mturchin@node571  ~]$for j in `cat <(echo $PAGEMECPops1 | perl -lane 'print join("\n", @F);') | head -n 3 | tail -n 3`; do
+>         ancestry1=`echo $j | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[0];'`
+>         ancestry2=`echo $j | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[1];'`
+> 
+>         echo $ancestry1 $ancestry2
+> 
+>         cat /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/$ancestry1/$ancestry2/PAGE_MEC_chr1_v1.$ancestry2.QCed.QCed.dropRltvs.Loose.PCAdrops.HRCdrops.fam | wc
+>         join <(cat /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/$ancestry1/$ancestry2/PAGE_MEC_chr1_v1.$ancestry2.QCed.QCed.dropRltvs.Loose.PCAdrops.HRCdrops.fam | awk '{ print $2 }' | sort) <(cat /users/mturchin/data/dbGaP/PhenosGenos/PAGE/MEC/phs000220.v2.pht002387.v2.p2.c2.PAGE_MEC_Metabochip_Subject_Phenotypes.GRU.Edits.txt | awk '{ print $3 }' | sort) | wc
+>         join <(cat /users/mturchin/data/dbGaP/PhenosGenos/PAGE/MEC/phs000220.v2.pht002387.v2.p2.c2.PAGE_MEC_Metabochip_Subject_Phenotypes.GRU.Edits.txt | awk '{ print $3 "\t" $2 "\t" $3 "\t" $4 "\t" $5 }' | sort -k 1,1) <(join <(cat /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/$ancestry1/$ancestry2/PAGE_MEC_chrAll_v1.$ancestry2.QCed.pruned.QCed.KING.Loose.allRltvs.flashpca.pcs.wInfo.txt | awk '{ print $2 "\t" $0 }' | sort -k 1,1) <(cat /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/$ancestry1/$ancestry2/PAGE_MEC_chr${i}_v1.$ancestry2.QCed.QCed.dropRltvs.Loose.PCAdrops.HRCdrops.fam | awk '{ print $2 }' | sort -k 1,1) | awk '{ $1 = $3; print $0 }' | sort -k 1,1) | perl -lane 'print join("\t", @F[1..$#F]);' | perl -lane 'print join("\t", @F[0..15]);' | cat <(echo -e "FID1\tIID1\tSEX\tAGE\tFID2\tIID2\tPC1\tPC2\tPC3\tPC4\tPC5\tPC6\tPC7\tPC8\tPC9\tPC10") - > /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/$ancestry1/$ancestry2/PAGE_MEC_chrAll_v1.$ancestry2.QCed.pruned.QCed.KING.Loose.allRltvs.flashpca.pcs.wFullCovars.txt
+>         cat /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/$ancestry1/$ancestry2/PAGE_MEC_chrAll_v1.$ancestry2.QCed.pruned.QCed.KING.Loose.allRltvs.flashpca.pcs.wFullCovars.txt | wc
+> 
+> done
+AfrAmr AfrAmr
+   3470   20820   79810
+   3470    3470   31230
+   3471   55536  799530
+JpnAmr JpnAmr
+   3203   19218   73669
+   3203    3203   28827
+   3204   51264  744367
+Hawaiian Hawaiian
+   1899   11394   43677
+   1899    1899   17091
+   1900   30400  438778
 
 
 
