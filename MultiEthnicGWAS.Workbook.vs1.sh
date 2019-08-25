@@ -5635,10 +5635,11 @@ R -q -e "Data1 <- read.table(\"/users/mturchin/data/dbGaP/mturchin20/MultiEthnic
 
 
 #NOTE -- 1 male, 2 female (again, from: https://www.ncbi.nlm.nih.gov/projects/gap/cgi-bin/variable.cgi?study_id=phs000220.v2.p2&phv=163089&phd=&pha=2894&pht=2387&phvf=&phdf=&phaf=&phtf=1&dssp=1&consent=&temp=1)
-zcat /users/mturchin/data/dbGaP/PhenosGenos/PAGE/MEC/phs000220.v2.pht002387.v2.p2.c2.PAGE_MEC_Metabochip_Subject_Phenotypes.GRU.txt.gz | perl -F\\t -lane 'print $F[0], "_", $F[1], "\t", $F[0], "\t", $F[1], "\t", $F[51], "\t", $F[35], "\t", $F[39], "\t", $F[40], "\t", $F[16];' | grep -v ^# | grep -v SUBJECT_ID | grep -v ^_[[:space:]]*$ | cat <(echo -e "FID_IID\tFID\tIID\tSEX\tAGE\tHeight\tWeight\tBMI") - > /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/phs000220.v2.pht002387.v2.p2.c2.PAGE_MEC_Metabochip_Subject_Phenotypes.GRU.Edits.txt
+##zcat /users/mturchin/data/dbGaP/PhenosGenos/PAGE/MEC/phs000220.v2.pht002387.v2.p2.c2.PAGE_MEC_Metabochip_Subject_Phenotypes.GRU.txt.gz | perl -F\\t -lane 'print $F[0], "_", $F[1], "\t", $F[0], "\t", $F[1], "\t", $F[51], "\t", $F[35], "\t", $F[39], "\t", $F[40], "\t", $F[16];' | grep -v ^# | grep -v SUBJECT_ID | grep -v ^_[[:space:]]*$ | cat <(echo -e "FID_IID\tFID\tIID\tSEX\tAGE\tHeight\tWeight\tBMI") - > /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/phs000220.v2.pht002387.v2.p2.c2.PAGE_MEC_Metabochip_Subject_Phenotypes.GRU.Edits.txt
+zcat /users/mturchin/data/dbGaP/PhenosGenos/PAGE/MEC/phs000220.v2.pht002387.v2.p2.c2.PAGE_MEC_Metabochip_Subject_Phenotypes.GRU.txt.gz | perl -F\\t -lane 'if (!$F[0]) { $F[0] = "NA"; } if (!$F[1]) { $F[1] = "NA"; } if (!$F[51]) { $F[51] = "NA"; } if (!$F[35]) { $F[35] = "NA"; } if (!$F[39]) { $F[39] = "NA"; } if (!$F[40]) { $F[40] = "NA"; } if (!$F[16]) { $F[16] = "NA"; } print $F[0], "_", $F[1], "\t", $F[0], "\t", $F[1], "\t", $F[51], "\t", $F[35], "\t", $F[39], "\t", $F[40], "\t", $F[16];' | perl -lane 'if ($F[3] eq "NA") { $F[4] = "NA"; $F[5] = "NA"; $F[6] = "NA"; $F[7] = "NA"; print STDERR "NA2"; } if ($F[4] eq "NA") { $F[3] = "NA"; $F[5] = "NA"; $F[6] = "NA"; $F[7] = "NA"; print STDERR "NA3"; } print join("\t", @F);' | grep -v ^# | grep -v SUBJECT_ID | grep -v ^_[[:space:]]*$ | grep -v "NA_NA" | cat <(echo -e "FID_IID\tFID\tIID\tSEX\tAGE\tHeight\tWeight\tBMI") - > /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/phs000220.v2.pht002387.v2.p2.c2.PAGE_MEC_Metabochip_Subject_Phenotypes.GRU.Edits.txt
 cat /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/phs000220.v2.pht002387.v2.p2.c2.PAGE_MEC_Metabochip_Subject_Phenotypes.GRU.Edits.txt | awk '{ print $2 "\t" $3 "\t" $6 "\t" $7 }' > /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/phs000220.v2.pht002387.v2.p2.c2.PAGE_MEC_Metabochip_Subject_Phenotypes.GRU.Edits.Edits.txt
 
-for j in `cat <(echo $PAGEMECPops1 | perl -lane 'print join("\n", @F);') | head -n 1 | tail -n 1`; do
+for j in `cat <(echo $PAGEMECPops1 | perl -lane 'print join("\n", @F);') | head -n 3 | tail -n 3`; do
         ancestry1=`echo $j | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[0];'`
         ancestry2=`echo $j | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[1];'`
 
@@ -5646,7 +5647,7 @@ for j in `cat <(echo $PAGEMECPops1 | perl -lane 'print join("\n", @F);') | head 
 
 	cat /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/$ancestry1/$ancestry2/PAGE_MEC_chr1_v1.$ancestry2.QCed.QCed.dropRltvs.Loose.PCAdrops.HRCdrops.fam | wc
 	join <(cat /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/$ancestry1/$ancestry2/PAGE_MEC_chr1_v1.$ancestry2.QCed.QCed.dropRltvs.Loose.PCAdrops.HRCdrops.fam | awk '{ print $2 }' | sort) <(cat /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/phs000220.v2.pht002387.v2.p2.c2.PAGE_MEC_Metabochip_Subject_Phenotypes.GRU.Edits.txt | awk '{ print $3 }' | sort) | wc
-	join <(cat /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/phs000220.v2.pht002387.v2.p2.c2.PAGE_MEC_Metabochip_Subject_Phenotypes.GRU.Edits.txt | awk '{ print $3 "\t" $2 "\t" $3 "\t" $4 "\t" $5 }' | sort -k 1,1) <(join <(cat /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/$ancestry1/$ancestry2/PAGE_MEC_chrAll_v1.$ancestry2.QCed.pruned.QCed.KING.Loose.allRltvs.flashpca.pcs.wInfo.txt | awk '{ print $2 "\t" $0 }' | sort -k 1,1) <(cat /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/$ancestry1/$ancestry2/PAGE_MEC_chr${i}_v1.$ancestry2.QCed.QCed.dropRltvs.Loose.PCAdrops.HRCdrops.fam | awk '{ print $2 }' | sort -k 1,1) | awk '{ $1 = $3; print $0 }' | sort -k 1,1) | perl -lane 'print join("\t", @F[1..$#F]);' | perl -lane 'print join("\t", @F[0..15]);' | cat <(echo -e "FID1\tIID1\tSEX\tAGE\tFID2\tIID2\tPC1\tPC2\tPC3\tPC4\tPC5\tPC6\tPC7\tPC8\tPC9\tPC10") - > /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/$ancestry1/$ancestry2/PAGE_MEC_chrAll_v1.$ancestry2.QCed.pruned.QCed.KING.Loose.allRltvs.flashpca.pcs.wFullCovars.txt
+	join <(cat /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/phs000220.v2.pht002387.v2.p2.c2.PAGE_MEC_Metabochip_Subject_Phenotypes.GRU.Edits.txt | awk '{ print $3 "\t" $2 "\t" $3 "\t" $4 "\t" $5 }' | sort -k 1,1) <(join <(cat /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/$ancestry1/$ancestry2/PAGE_MEC_chrAll_v1.$ancestry2.QCed.pruned.QCed.KING.Loose.allRltvs.flashpca.pcs.wInfo.txt | awk '{ print $2 "\t" $0 }' | sort -k 1,1) <(cat /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/$ancestry1/$ancestry2/PAGE_MEC_chr1_v1.$ancestry2.QCed.QCed.dropRltvs.Loose.PCAdrops.HRCdrops.fam | awk '{ print $2 }' | sort -k 1,1) | awk '{ $1 = $3; print $0 }' | sort -k 1,1) | perl -lane 'print join("\t", @F[1..$#F]);' | perl -lane 'print join("\t", @F[0..15]);' | cat <(echo -e "FID1\tIID1\tSEX\tAGE\tFID2\tIID2\tPC1\tPC2\tPC3\tPC4\tPC5\tPC6\tPC7\tPC8\tPC9\tPC10") - > /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/$ancestry1/$ancestry2/PAGE_MEC_chrAll_v1.$ancestry2.QCed.pruned.QCed.KING.Loose.allRltvs.flashpca.pcs.wFullCovars.txt
 	cat /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/$ancestry1/$ancestry2/PAGE_MEC_chrAll_v1.$ancestry2.QCed.pruned.QCed.KING.Loose.allRltvs.flashpca.pcs.wFullCovars.txt | wc
 
 done
@@ -10720,6 +10721,82 @@ Hawaiian Hawaiian
    1899   11394   43677
    1899    1899   17091
    1900   30400  438778
+(MultiEthnicGWAS) [  mturchin@login003  ~/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/JpnAmr/JpnAmr/Imputation]$cat /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/phs000220.v2.pht002387.v2.p2.c2.PAGE_MEC_Metabochip_Subject_Phenotypes.GRU.Edits.txt.2 | perl -lane 'print $#F;' | sort | uniq -c
+  22266 7
+(MultiEthnicGWAS) [  mturchin@login003  ~/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/JpnAmr/JpnAmr/Imputation]$cat /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/phs000220.v2.pht002387.v2.p2.c2.PAGE_MEC_Metabochip_Subject_Phenotypes.GRU.Edits.txt | perl -lane 'print $#F;' | sort | uniq -c
+     40 4
+    143 5
+  22082 7
+(MultiEthnicGWAS) [  mturchin@login003  ~/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/JpnAmr/JpnAmr/Imputation]$cat /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/phs000220.v2.pht002387.v2.p2.c2.PAGE_MEC_Metabochip_Subject_Phenotypes.GRU.Edits.txt.2 | grep NA | wc
+    184    1472    9105
+(MultiEthnicGWAS) [  mturchin@login003  ~/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/JpnAmr/JpnAmr/Imputation]$cat /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/phs000220.v2.pht002387.v2.p2.c2.PAGE_MEC_Metabochip_Subject_Phenotypes.GRU.Edits.txt.2 | grep NA | head -n 10
+NA_NA   NA      NA NA   NA      NA      NA      NA
+2010465_EC001743   2010465      EC001743        2       3       NA      61.36   NA
+2010844_EC002956   2010844      EC002956        2       7       NA      49.55   NA
+2011465_EC005034   2011465      EC005034        2       6       162.56  NA      NA
+2012041_EC006536   2012041      EC006536        2       6       NA      NA      NA
+2012316_EC007268   2012316      EC007268        2       1       NA      97.73   NA
+2013078_EC009352   2013078      EC009352        2       5       165.1   NA      NA
+508377_EC009510 508377  EC009510        1       6       NA      NA      NA
+2014405_EC011846   2014405      EC011846        2       5       NA      56.82   NA
+2014484_EC011942   2014484      EC011942        2       4       NA      NA      NA
+(MultiEthnicGWAS) [  mturchin@login003  ~/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/JpnAmr/JpnAmr/Imputation]$cat ^C
+(MultiEthnicGWAS) [  mturchin@login003  ~/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/JpnAmr/JpnAmr/Imputation]$awk '{^C
+(MultiEthnicGWAS) [  mturchin@login003  ~/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/JpnAmr/JpnAmr/Imputation]$cat /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/phs000220.v2.pht002387.v2.p2.c2.PAGE_MEC_Metabochip_Subject_Phenotypes.GRU.Edits.txt.2 | awk '{ print $4 }' | grep NA | wc
+      1       1       3
+(MultiEthnicGWAS) [  mturchin@login003  ~/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/JpnAmr/JpnAmr/Imputation]$cat /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/phs000220.v2.pht002387.v2.p2.c2.PAGE_MEC_Metabochip_Subject_Phenotypes.GRU.Edits.txt.2 | awk '{ print $5 }' | grep NA | wc
+      1       1       3
+(MultiEthnicGWAS) [  mturchin@login003  ~/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/JpnAmr/JpnAmr/Imputation]$cat /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/phs000220.v2.pht002387.v2.p2.c2.PAGE_MEC_Metabochip_Subject_Phenotypes.GRU.Edits.txt.2 | awk '{ print $6 }' | grep NA | wc
+     96      96     288
+(MultiEthnicGWAS) [  mturchin@login003  ~/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/JpnAmr/JpnAmr/Imputation]$zcat /users/mturchin/data/dbGaP/PhenosGenos/PAGE/MEC/phs000220.v2.pht002387.v2.p2.c2.PAGE_MEC_Metabochip_Subject_Phenotypes.GRU.txt.gz | perl -F\\t -lane 'if (!$F[0]) { $F[0] = "NA"; } if (!$F[1]) { $F[1] = "NA"; } if (!$F[51]) { $F[51] = "NA"; } if (!$F[35]) { $F[35] = "NA"; } if (!$F[39]) { $F[39] = "NA"; } if (!$F[40]) { $F[40] = "NA"; } if (!$F[16]) { $F[16] = "NA"; } print $F[0], "_", $F[1], "\t", $F[0], "\t", $F[1], "\t", $F[51], "\t", $F[35], "\t", $F[39], "\t", $F[40], "\t", $F[16];' | perl -lane 'if ($F[3] eq "NA") { $F[4] = "NA"; $F[5] = "NA"; $F[6] = "NA"; $F[7] = "NA"; print STDERR "NA2"; } if ($F[4] eq "NA") { $F[3] = "NA"; $F[5] = "NA"; $F[6] = "NA"; $F[7] = "NA"; print STDERR "NA3"; } print join("\t", @F);' | grep -v ^# | grep -v SUBJECT_ID | grep -v ^_[[:space:]]*$ | grep -v "NA_NA" | cat <(echo -e "FID_IID\tFID\tIID\tSEX\tAGE\tHeight\tWeight\tBMI") - > /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/phs000220.v2.pht002387.v2.p2.c2.PAGE_MEC_Metabochip_Subject_Phenotypes.GRU.Edits.txt.2
+NA2
+NA3
+NA2
+NA3
+(MultiEthnicGWAS) [  mturchin@login003  ~/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/JpnAmr/JpnAmr/Imputation]$zcat /users/mturchin/data/dbGaP/PhenosGenos/PAGE/MEC/phs000220.v2.pht002387.v2.p2.c2.PAGE_MEC_Metabochip_Subject_Phenotypes.GRU.txt.gz | perl -F\\t -lane 'if (!$F[0]) { $F[0] = "NA"; } if (!$F[1]) { $F[1] = "NA"; } if (!$F[51]) { $F[51] = "NA"; } if (!$F[35]) { $F[35] = "NA"; } if (!$F[39]) { $F[39] = "NA"; } if (!$F[40]) { $F[40] = "NA"; } if (!$F[16]) { $F[16] = "NA"; } print $F[0], "_", $F[1], "\t", $F[0], "\t", $F[1], "\t", $F[51], "\t", $F[35], "\t", $F[39], "\t", $F[40], "\t", $F[16];' | awk '{ print $4 }' | grep NA
+phs000220.v2.p2_NA
+pht002387.v2.p2.c2_NA
+NA
+NA
+(MultiEthnicGWAS) [  mturchin@login003  ~/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/JpnAmr/JpnAmr/Imputation]$zcat /users/mturchin/data/dbGaP/PhenosGenos/PAGE/MEC/phs000220.v2.pht002387.v2.p2.c2.PAGE_MEC_Metabochip_Subject_Phenotypes.GRU.txt.gz | perl -F\\t -lane 'if (!$F[0]) { $F[0] = "NA"; } if (!$F[1]) { $F[1] = "NA"; } if (!$F[51]) { $F[51] = "NA"; } if (!$F[35]) { $F[35] = "NA"; } if (!$F[39]) { $F[39] = "NA"; } if (!$F[40]) { $F[40] = "NA"; } if (!$F[16]) { $F[16] = "NA"; } print $F[0], "_", $F[1], "\t", $F[0], "\t", $F[1], "\t", $F[51], "\t", $F[35], "\t", $F[39], "\t", $F[40], "\t", $F[16];' | awk '{ if ($4 == "NA") { print $0 } }'
+#_NA    #       NA NA   NA      NA      NA      NA
+NA_NA   NA      NA NA   NA      NA      NA      NA
+[  mturchin@node419  ~/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/JpnAmr/JpnAmr/Imputation]$for j in `cat <(echo $PAGEMECPops1 | perl -lane 'print join("\n", @F);') | head -n 3 | tail -n 3`; do
+>         ancestry1=`echo $j | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[0];'`
+>         ancestry2=`echo $j | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[1];'`
+> 
+>         echo $ancestry1 $ancestry2
+> 
+>         cat /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/$ancestry1/$ancestry2/PAGE_MEC_chr1_v1.$ancestry2.QCed.QCed.dropRltvs.Loose.PCAdrops.HRCdrops.fam | wc
+>         join <(cat /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/$ancestry1/$ancestry2/PAGE_MEC_chr1_v1.$ancestry2.QCed.QCed.dropRltvs.Loose.PCAdrops.HRCdrops.fam | awk '{ print $2 }' | sort) <(cat /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/phs000220.v2.pht002387.v2.p2.c2.PAGE_MEC_Metabochip_Subject_Phenotypes.GRU.Edits.txt | awk '{ print $3 }' | sort) | wc
+>         join <(cat /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/phs000220.v2.pht002387.v2.p2.c2.PAGE_MEC_Metabochip_Subject_Phenotypes.GRU.Edits.txt | awk '{ print $3 "\t" $2 "\t" $3 "\t" $4 "\t" $5 }' | sort -k 1,1) <(join <(cat /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/$ancestry1/$ancestry2/PAGE_MEC_chrAll_v1.$ancestry2.QCed.pruned.QCed.KING.Loose.allRltvs.flashpca.pcs.wInfo.txt | awk '{ print $2 "\t" $0 }' | sort -k 1,1) <(cat /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/$ancestry1/$ancestry2/PAGE_MEC_chr1_v1.$ancestry2.QCed.QCed.dropRltvs.Loose.PCAdrops.HRCdrops.fam | awk '{ print $2 }' | sort -k 1,1) | awk '{ $1 = $3; print $0 }' | sort -k 1,1) | perl -lane 'print join("\t", @F[1..$#F]);' | perl -lane 'print join("\t", @F[0..15]);' | cat <(echo -e "FID1\tIID1\tSEX\tAGE\tFID2\tIID2\tPC1\tPC2\tPC3\tPC4\tPC5\tPC6\tPC7\tPC8\tPC9\tPC10") - > /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/$ancestry1/$ancestry2/PAGE_MEC_chrAll_v1.$ancestry2.QCed.pruned.QCed.KING.Loose.allRltvs.flashpca.pcs.wFullCovars.txt
+>         cat /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/$ancestry1/$ancestry2/PAGE_MEC_chrAll_v1.$ancestry2.QCed.pruned.QCed.KING.Loose.allRltvs.flashpca.pcs.wFullCovars.txt | wc
+> 
+> done
+AfrAmr AfrAmr
+   3470   20820   79810
+   3470    3470   31230
+   3471   55536  799530
+JpnAmr JpnAmr
+   3203   19218   73669
+   3203    3203   28827
+   3204   51264  744367
+Hawaiian Hawaiian
+   1899   11394   43677
+   1899    1899   17091
+   1900   30400  438778
+[  mturchin@node419  ~/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/JpnAmr/JpnAmr/Imputation]$
+[  mturchin@node419  ~/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/JpnAmr/JpnAmr/Imputation]$cat /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/$ancestry1/$ancestry2/PAGE_MEC_chrAll_v1.$ancestry2.QCed.pruned.QCed.KING.Loose.allRltvs.flashpca.pcs.wFullCovars.txt | head -n 10
+FID1    IID1    SEX     AGE     FID2    IID2    PC1     PC2     PC3     PC4     PC5     PC6     PC7     PC8     PC9     PC10
+2010099 EC000655        2       5       NA      EC000655        -0.163290188877064      -0.0362430955360016     -0.0521250043667821     -0.00113352791146607    -0.0333810861323977     -0.00145832887540731    -0.0114660578620221     -0.00915670694491175  -0.0158370184655669     -0.0110768370477071
+2010106 EC000668        2       3       NA      EC000668        0.160856590777016       0.187501698035872       -0.0175823938977541     0.0540808062684447      0.00783356960240117     0.00168056621383471     -0.00497420899982606    -0.00695853436882987  0.00117153260299259     -0.0035197806452653
+2010107 EC000669        2       4       NA      EC000669        0.154405687447923       -0.185871077279656      0.000628209239827118    0.0141281868180248      0.00909047909331628     0.000581793648757764    -0.00271578172900605    0.00382042081053004   0.00295706001416108     -0.00103637220570447
+2010241 EC001019        2       3       NA      EC001019        -0.157350452560943      0.0108122353286221      0.178128708255203       0.0216502884376956      -0.00997616539885158    0.0107814411777243      -0.0142705093643714     0.0085686982172743    0.0156921255925518      0.00600210503983493
+2010404 EC001508        2       6       NA      EC001508        -0.0322016050416672     0.00494505404697534     -0.00359068745844019    -0.0177099431243716     -0.0124666682968439     0.00167971154762312     0.0136162468125247      0.0213422939565659    -0.00464503039661302    0.00411687157106496
+2010433 EC001587        1       3       NA      EC001587        -0.0580162387315629     0.00792847258743164     -0.0210268169165659     -0.0138396650331472     0.00518305680061995     -0.00499593567189319    -0.00214713380923928    -0.000788341505965431 0.010814550831684       0.0039783294790714
+2010438 EC001617        2       5       NA      EC001617        -0.247918947236269      -0.01177238792423       -0.0548567980640772     -0.00596398272575965    -0.0702278117587051     -0.0357949192483949     0.0056896724090564      -0.0427624685153879   -0.0575434552735908     0.00683188466190738
+2010470 EC001765        2       2       NA      EC001765        0.1564900032347 0.0680021078524667      -0.00812794165639198    -0.0256245257105555     0.00301622710082663     0.000190862927311885    -0.0107146110208147     -0.00729162639264744  -0.00937850075838388    -0.00274188622995879
+2010471 EC001766        1       4       NA      EC001766        -0.0609213922192244     -0.0689661197162561     0.0797287849068298      0.0235726881382425      -0.00185217747995137    -0.00522931092721713    0.00739951073696654     0.012447455450364     0.00310407029958805     0.0459289998380753
 
 
 
