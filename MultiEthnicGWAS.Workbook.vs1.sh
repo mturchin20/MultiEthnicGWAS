@@ -3965,8 +3965,8 @@ cat /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/PAGE_IPM
 #20190820 (prepping for potential, eventual move to KING)
 cat /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/PAGE_IPMBioMe_chrAll_v1.QCed.fam | awk '{ if ($1 == "NA") { print NR $1 "\t" $2 "\t0\t0\t" $5 "\t" $6 } else { print $0 } }' > /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/PAGE_IPMBioMe_chrAll_v1.QCed.KINGformat.fam
 /users/mturchin/Software/king -b /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/PAGE_IPMBioMe_chrAll_v1.QCed.bed --fam /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/PAGE_IPMBioMe_chrAll_v1.QCed.KINGformat.fam --bim /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/PAGE_IPMBioMe_chrAll_v1.QCed.bim --unrelated --degree 2 --prefix /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/PAGE_IPMBioMe_chrAll_v1.QCed.KING. 
-/users/mturchin/Software/king -b /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/PAGE_IPMBioMe_chrAll_v1.QCed.bed --fam /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/PAGE_IPMBioMe_chrAll_v1.QCed.KINGformat.fam --bim /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/PAGE_IPMBioMe_chrAll_v1.QCed.bim --kinship --degree 3 --prefix /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/PAGE_IPMBioMe_chrAll_v1.QCed.KING 
-/users/mturchin/Software/king -b /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/PAGE_IPMBioMe_chrAll_v1.QCed.bed --fam /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/PAGE_IPMBioMe_chrAll_v1.QCed.KINGformat.fam --bim /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/PAGE_IPMBioMe_chrAll_v1.QCed.bim --related --degree 3 --prefix /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/PAGE_IPMBioMe_chrAll_v1.QCed.KING 
+/users/mturchin/Software/king -b /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/PAGE_IPMBioMe_chrAll_v1.QCed.bed --fam /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/PAGE_IPMBioMe_chrAll_v1.QCed.KINGformat.fam --bim /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/PAGE_IPMBioMe_chrAll_v1.QCed.bim --kinship --degree 3 --prefix /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/PAGE_IPMBioMe_chrAll_v1.QCed.KING.Strict.kinship
+/users/mturchin/Software/king -b /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/PAGE_IPMBioMe_chrAll_v1.QCed.bed --fam /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/PAGE_IPMBioMe_chrAll_v1.QCed.KINGformat.fam --bim /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/PAGE_IPMBioMe_chrAll_v1.QCed.bim --related --degree 3 --prefix /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/PAGE_IPMBioMe_chrAll_v1.QCed.KING.Strict.related 
 cat <(cat /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/PAGE_IPMBioMe_chrAll_v1.QCed.KING.unrelated_toberemoved.txt | grep KING | sed 's/>/ /g' | awk '{ print "NA\t" $3 }') <(cat /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/PAGE_IPMBioMe_chrAll_v1.QCed.KING.unrelated_toberemoved.txt | grep -v KING) > /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/PAGE_IPMBioMe_chrAll_v1.QCed.KING.unrelated_toberemoved.FIDIIDs
 #join <(cat /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/AfrAmr/AfrAmrHRC/PAGE_IPMBioMe_chrAll_v1.QCed.1kGMatch.pruned.QCed.SNPrecode.w1kG.flipped.dropmissnp.AfrAmrHRC.no1kG.fam | awk '{ print $1 "_" $2 }' | sort) <(cat /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/PAGE_IPMBioMe_chrAll_v1.QCed.KING.unrelated_toberemoved.FIDIIDs | awk '{ print $1 "_" $2 }' | sort) | wc
 #join <(cat /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/Euro/EuroStrict/PAGE_IPMBioMe_chrAll_v1.QCed.1kGMatch.pruned.QCed.SNPrecode.w1kG.flipped.dropmissnp.EuroStrict.no1kG.fam | awk '{ print $1 "_" $2 }' | sort) <(cat /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/PAGE_IPMBioMe_chrAll_v1.QCed.KING.unrelated_toberemoved.FIDIIDs | awk '{ print $1 "_" $2 }' | sort) | wc
@@ -3982,6 +3982,15 @@ ln -s /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/PAGE_I
 ln -s /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/PAGE_IPMBioMe_chrAll_v1.QCed.pruned.QCed.KING.onlyRltvs.Loose.bed /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/PAGE_IPMBioMe_chrAll_v1.QCed.pruned.QCed.onlyRltvs.Loose.bed
 ln -s /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/PAGE_IPMBioMe_chrAll_v1.QCed.pruned.QCed.KING.onlyRltvs.Loose.bim /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/PAGE_IPMBioMe_chrAll_v1.QCed.pruned.QCed.onlyRltvs.Loose.bim
 ln -s /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/PAGE_IPMBioMe_chrAll_v1.QCed.pruned.QCed.KING.onlyRltvs.Loose.fam /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/PAGE_IPMBioMe_chrAll_v1.QCed.pruned.QCed.onlyRltvs.Loose.fam
+
+
+
+
+
+E_IPMBioMe_chrAll_v1.QCed.KING.unrelated_toberemoved.FIDII
+
+
+
 
 for i in `cat <(echo "CEU GBR YRI ESN CHB JPT ACB ASW MXL PEL ITU PJL TSI IBS FIN" | perl -lane 'print join("\n", @F);') | head -n 1`; do
 
@@ -4934,6 +4943,9 @@ cat /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/PAGE_MEC_chrA
 cat /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/PAGE_MEC_chrAll_v1.QCed.pruned.QCed.bim | awk '{ print $1 "\t" $4 "\t" $4 "\t" "R" NR }' > /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/PAGE_MEC_chrAll_v1.QCed.pruned.QCed.PLINK.ExtractRange
 
 
+        zcat /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v2.${ancestry2}.QCed.pruned.QCed.ukb22419_rel_s488363.wukbDrops.gz  | awk '{ if ($5 >= .0442) { print $1 "\t" $1 "\t" $2 "\t" $2 } }' | grep -v Kinship |  R -q -e "set.seed(459721380); Data1 <- read.table(file('stdin'), header=F); names(Data1)[3] <- names(Data1)[1]; names(Data1)[4] <- names(Data1)[2]; Data2 <- c(); for (i in 1:nrow(Data1)) { if (runif(1) >= .5) { Data2 <- rbind(Data2, Data1[i,c(1:2)]); } else { Data2 <- rbind(Data2, Data1[i,c(3:4)]) } }; write.table(Data2, quote=FALSE, col.names=FALSE, row.names=FALSE);" | grep -v \> | grep -v FID | sort | uniq > /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v2.${ancestry2}.QCed.pruned.QCed.ukb22419_rel_s488363.wukbDrops.drop.FIDIIDs
+
+
 
 
 
@@ -5317,6 +5329,22 @@ for j in `cat <(echo $PAGEMECPops1 | perl -lane 'print join("\n", @F);') | head 
 
 done
 #	rm /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/$ancestry1/$ancestry2/PAGE_MEC_chrAll_v1.$ancestry2.QCed.KINGformat.fam /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/$ancestry1/$ancestry2/PAGE_MEC_chrAll_v1.$ancestry2.QCed.KING.*
+
+for j in `cat <(echo $PAGEMECPops1 | perl -lane 'print join("\n", @F);') | head -n 3 | tail -n 3`; do
+        ancestry1=`echo $j | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[0];'`
+        ancestry2=`echo $j | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[1];'`
+
+        echo $ancestry1 $ancestry2
+
+	/users/mturchin/Software/king -b /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/$ancestry1/$ancestry2/PAGE_MEC_chrAll_v1.$ancestry2.QCed.QCed.bed --fam /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/$ancestry1/$ancestry2/PAGE_MEC_chrAll_v1.$ancestry2.QCed.QCed.KINGformat.fam --bim /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/$ancestry1/$ancestry2/PAGE_MEC_chrAll_v1.$ancestry2.QCed.QCed.bim --kinship --degree 3 --prefix /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/$ancestry1/$ancestry2/PAGE_MEC_chrAll_v1.$ancestry2.QCed.QCed.KING.Strict.kinship
+	/users/mturchin/Software/king -b /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/$ancestry1/$ancestry2/PAGE_MEC_chrAll_v1.$ancestry2.QCed.QCed.bed --fam /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/$ancestry1/$ancestry2/PAGE_MEC_chrAll_v1.$ancestry2.QCed.QCed.KINGformat.fam --bim /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/$ancestry1/$ancestry2/PAGE_MEC_chrAll_v1.$ancestry2.QCed.QCed.bim --related --degree 3 --prefix /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/$ancestry1/$ancestry2/PAGE_MEC_chrAll_v1.$ancestry2.QCed.QCed.KING.Strict.related
+
+done
+
+
+
+
+
 
 for j in `cat <(echo $PAGEMECPops1 | perl -lane 'print join("\n", @F);') | head -n 3 | tail -n 3`; do
         ancestry1=`echo $j | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[0];'`
