@@ -2314,11 +2314,20 @@ join -v 1 <(cat /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_Win
 join -v 1 <(cat /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.Covars.British.FIDIIDs | sort -g) <(cat /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.Covars.British.Ran4000.FIDIIDs /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.Covars.British.Ran4000.2.FIDIIDs | sort -g) | sort -R --random-source=<(echo -e "57129572454\nPLACEHOLDER") | head -n 4000 > /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.Covars.British.Ran4000.3.FIDIIDs
 join -v 1 <(cat /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.Covars.British.FIDIIDs | sort -g) <(cat /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.Covars.British.Ran4000.FIDIIDs /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.Covars.British.Ran4000.2.FIDIIDs /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.Covars.British.Ran4000.3.FIDIIDs | sort -g) | sort -R --random-source=<(echo -e "91243979227\nPLACEHOLDER") | head -n 4000 > /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.Covars.British.Ran4000.4.FIDIIDs
 
-for j in `cat <(echo $UKBioBankPops2 | perl -lane 'print join("\n", @F);') | grep Ran4000 | tail -n 3 | head -n 1`; do
+
+
+
+
+REDO Ran10k creation, to guarantee separation from first 4k? For if/when do reruns of entire dataset
+
+
+
+
+for j in `cat <(echo $UKBioBankPops2 | perl -lane 'print join("\n", @F);') | grep Ran4000 | tail -n 3 | head -n 3`; do
         ancestry1=`echo $j | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[0];'`
         ancestry2=`echo $j | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[1];'`
 
-        for chr in {22..22} X; do
+        for chr in {1..22} X; do
 
                 if [ ! -d /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1 ]; then
                         mkdir /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1
@@ -2792,6 +2801,18 @@ cat /users/mturchin/data/ukbiobank_jun17/subsets/Chinese/Chinese/mturchin20/ukb_
 cat /users/mturchin/data/ukbiobank_jun17/subsets/Indian/Indian/mturchin20/ukb_chrAll_v2.Indian.QCed.pruned.QCed.dropRltvs.noX.1kG.flashpca.pcs.wAncs.txt | awk '{ if ($23 ~ /1kG/ || (($4 <= (($3 * 67.5) - 1.4)) && ($4 <= (($3 * .7) + .0825)))) { print $0 } }' > /users/mturchin/data/ukbiobank_jun17/subsets/Indian/Indian/mturchin20/ukb_chrAll_v2.Indian.QCed.pruned.QCed.dropRltvs.noX.1kG.flashpca.pcs.wAncs.QCed.txt
 cat /users/mturchin/data/ukbiobank_jun17/subsets/Irish/Irish/mturchin20/ukb_chrAll_v2.Irish.QCed.pruned.QCed.dropRltvs.noX.1kG.flashpca.pcs.wAncs.txt | awk '{ if ($23 ~ /1kG/ || ($4 >= (($3 * 2.75) - .06))) { print $0 } }' > /users/mturchin/data/ukbiobank_jun17/subsets/Irish/Irish/mturchin20/ukb_chrAll_v2.Irish.QCed.pruned.QCed.dropRltvs.noX.1kG.flashpca.pcs.wAncs.QCed.txt
 cat /users/mturchin/data/ukbiobank_jun17/subsets/Pakistani/Pakistani/mturchin20/ukb_chrAll_v2.Pakistani.QCed.pruned.QCed.dropRltvs.noX.1kG.flashpca.pcs.wAncs.txt | awk '{ if ($23 ~ /1kG/ || (($4 >= (($3 * 1.6) + .02)) && ($4 <= .05))) { print $0 } }' > /users/mturchin/data/ukbiobank_jun17/subsets/Pakistani/Pakistani/mturchin20/ukb_chrAll_v2.Pakistani.QCed.pruned.QCed.dropRltvs.noX.1kG.flashpca.pcs.wAncs.QCed.txt
+
+
+
+
+
+       cat /users/mturchin/data/ukbiobank_jun17/subsets/${ancestry1}/${ancestry2}/mturchin20/ukb_chrAll_v2.${ancestry2}.QCed.pruned.QCed.dropRltvs.noX.1kG.flashpca.pcs.wAncs.txt | grep -v 1kG | R -q -e "Data1 <- read.table(file('stdin'), header=T); KeepList <- rep(TRUE, nrow(Data1)); for (i in 3:8) { Mean1 <- mean(Data1[,i]); SD1 <- sd(Data1[,i]); KeepList[Data1[,i] < Mean1 - (SD1 * 6) | Data1[,i] > Mean1 + (SD1 * 6)] <- FALSE; }; write.table(Data1[!KeepList,], file=\"\", quote=FALSE, row.names=FALSE, col.names=FALSE);" | grep -v \> | awk '{ print $1 "_" $2 }' > /users/mturchin/data/ukbiobank_jun17/subsets/${ancestry1}/${ancestry2}/mturchin20/ukb_chrAll_v2.${ancestry2}.QCed.pruned.QCed.dropRltvs.noX.1kG.flashpca.pcs.wAncs.PC6SDDrops.FIDIIDs
+
+
+
+
+
+
 
 for j in `cat <(echo $UKBioBankPops | perl -lane 'print join("\n", @F);')`; do
 	ancestry1=`echo $j | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[0];'`
