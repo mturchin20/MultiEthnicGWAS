@@ -2300,6 +2300,7 @@ UKBioBankPops=`echo "African;African Any_other_Asian_background;Any_other_Asian_
 #UKBioBankPops=`echo "British;British British;British.Ran100000 British;British.Ran200000"`;
 #UKBioBankPops=`echo "African;African Any_other_Asian_background;Any_other_Asian_background Any_other_mixed_background;Any_other_mixed_background Any_other_white_background;Any_other_white_background British;British.Ran4000 British;British.Ran10000 Caribbean;Caribbean Chinese;Chinese Indian;Indian Irish;Irish Pakistani;Pakistani"`;
 UKBioBankPops=`echo "British;British.Admix.TSI9;BritTSI9 British;British.Admix.TSI95;BritTSI95 British;British.Admix.TSI9Ran10k;BritTSI9Ran10k British;British.Admix.TSI8;BritTSI8 British;British.Admix.TSI9Ran20k;BritTSI9Ran20k British;British.Admix.TSI89Ran10k;BritTSI89Ran10k British;British.Admix.IBS9;BritIBS9 British;British.Admix.IBS95;BritIBS95 British;British.Admix.IBS9Ran10k;BritIBS9Ran10k British;British.Admix.IBS8;BritIBS8 British;British.Admix.IBS9Ran20k;BritIBS9Ran20k British;British.Admix.IBS89Ran10k;BritIBS89Ran10k"`;
+UKBioBankPops2=`echo "African;African;Afr;472840 British;British.Ran4000;Brit4k;138503 British;British.Ran10000;Brit10k;9827442 Caribbean;Caribbean;Carib;328593 Chinese;Chinese;Chi;842743 Indian;Indian;Indn;549281 Irish;Irish;Irish;902143 Pakistani;Pakistani;Pkstn;232849 British;British.Ran4000.2;Brit4k2;294757 British;British.Ran4000.3;Brit4k3;832614 British;British.Ran4000.4;Brit4k4;357134"`;
 
 mkdir /users/mturchin/LabMisc/RamachandranLab/MultiEthnicGWAS/Rnd1
 mkdir /users/mturchin/LabMisc/RamachandranLab/MultiEthnicGWAS/Rnd1/AncCmps
@@ -2307,7 +2308,31 @@ mv /users/mturchin/LabMisc/RamachandranLab/MultiEthnicGWAS/PCAEffect /users/mtur
 #/users/mturchin/LabMisc/RamachandranLab/MultiEthnicGWAS/scripts/Intro/2017WinterHack.plink.GetAncestrySubsets.vs2.sh
 #/users/mturchin/data/ukbiobank_jun17/subsets/
 
-for j in `cat <(echo $UKBioBankPops | perl -lane 'print join("\n", @F);')`; do
+#20190901 NOTE -- just reiterating that this is the place to start 'rerunning' things; this is where I'll be starting for the 201909** 'reruns' and Brit4k replicate versions; did add in the first for loop here below for the beginning of this rerun (had previously done this via `/users/mturchin/LabMisc/RamachandranLab/MultiEthnicGWAS/scripts/Intro/2017WinterHack.plink.GetAncestrySubsets.vs2.sh`)
+
+join -v 1 <(cat /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.Covars.British.FIDIIDs | sort -g) <(cat /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.Covars.British.Ran4000.FIDIIDs | sort -g) | sort -R --random-source=<(echo -e "25486794724\nPLACEHOLDER") | head -n 4000 > /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.Covars.British.Ran4000.2.FIDIIDs
+join -v 1 <(cat /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.Covars.British.FIDIIDs | sort -g) <(cat /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.Covars.British.Ran4000.FIDIIDs /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.Covars.British.Ran4000.2.FIDIIDs | sort -g) | sort -R --random-source=<(echo -e "57129572454\nPLACEHOLDER") | head -n 4000 > /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.Covars.British.Ran4000.3.FIDIIDs
+join -v 1 <(cat /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.Covars.British.FIDIIDs | sort -g) <(cat /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.Covars.British.Ran4000.FIDIIDs /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.Covars.British.Ran4000.2.FIDIIDs /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.Covars.British.Ran4000.3.FIDIIDs | sort -g) | sort -R --random-source=<(echo -e "91243979227\nPLACEHOLDER") | head -n 4000 > /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.Covars.British.Ran4000.4.FIDIIDs
+
+for j in `cat <(echo $UKBioBankPops2 | perl -lane 'print join("\n", @F);') | grep Ran4000 | tail -n 3 | head -n 1`; do
+        ancestry1=`echo $j | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[0];'`
+        ancestry2=`echo $j | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[1];'`
+
+        for chr in {22..22} X; do
+
+                if [ ! -d /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1 ]; then
+                        mkdir /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1
+                fi
+                if [ ! -d /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2 ]; then
+                        mkdir /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2
+                fi
+
+		plink --bed /users/mturchin/data/ukbiobank_jun17/calls/ukb_cal_chr${chr}_v2.bed --bim /users/mturchin/data/ukbiobank_jun17/calls/ukb_snp_chr${chr}_v2.bim --fam /users/mturchin/data/ukbiobank_jun17/ukb2241_cal_chr1_v2_s488363.fam --make-bed --keep /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.Covars.$ancestry2.FIDIIDs --out /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/ukb_chr${chr}_v2.${ancestry2}
+
+        done
+done
+
+for j in `cat <(echo $UKBioBankPops2 | perl -lane 'print join("\n", @F);') | head -n 11 | tail -n 3`; do
 	ancestry1=`echo $j | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[0];'`
 	ancestry2=`echo $j | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[1];'`
 	echo $ancestry1 $ancestry2
@@ -2320,14 +2345,14 @@ for j in `cat <(echo $UKBioBankPops | perl -lane 'print join("\n", @F);')`; do
 		mkdir /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/Hip
 	fi
 
-	mv /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/* /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/.
-	mv /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chr*_v2.$ancestry2.bed* /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chr*_v2.$ancestry2.fam* /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chr*_v2.$ancestry2.bim* /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chr*_v2.$ancestry2.log* /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chr*_v2.$ancestry2.nosex* /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chr*_v2.$ancestry2.slurm* /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/.
-	mv /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/*Height* /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/Height/.
-	mv /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/*BMI* /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/BMI/.
-	mv /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/*Waist* /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/Waist/.
-	mv /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/*Hip* /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/Hip/.
-
 done
+
+#	mv /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/* /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/.
+#	mv /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chr*_v2.$ancestry2.bed* /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chr*_v2.$ancestry2.fam* /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chr*_v2.$ancestry2.bim* /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chr*_v2.$ancestry2.log* /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chr*_v2.$ancestry2.nosex* /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chr*_v2.$ancestry2.slurm* /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/.
+#	mv /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/*Height* /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/Height/.
+#	mv /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/*BMI* /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/BMI/.
+#	mv /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/*Waist* /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/Waist/.
+#	mv /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/*Hip* /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/Hip/.
 
 #20180524 NOTE -- these steps (which are part of `#Vs2...`) are to setup the ukb internal genotyping QC + PCAs, so repeat and rerun these as necessary; `#Vs3...` parts/steps/runs refer more to downstream phenotype-related analyses and such
 for j in `cat <(echo $UKBioBankPops | perl -lane 'print join("\n", @F);') | grep British.Ran`; do
@@ -3180,6 +3205,7 @@ done
 #201805** 20180528 CHECK_1 -- Prob: Rerun and drop ukb indvs requesting to be dropped Soln: Included step and FIDIIDs/code to do so & have rerun
 #20180528 NOTE -- got list of FIDIIDs to drop for ukb requests from Sam
 #Copy and pasted into `/users/mturchin/data/ukbiobank_jun17/mturchin/20180528.ukb.reqDrop.FIDIIDs`
+#20190901 NOTE -- place to get back to for start of reruns and Brit4k replicates
 
 for j in `cat <(echo $UKBioBankPops | perl -lane 'print join("\n", @F);')`; do
 	ancestry1=`echo $j | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[0];'`
@@ -3982,23 +4008,9 @@ ln -s /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/PAGE_I
 ln -s /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/PAGE_IPMBioMe_chrAll_v1.QCed.pruned.QCed.KING.onlyRltvs.Loose.bed /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/PAGE_IPMBioMe_chrAll_v1.QCed.pruned.QCed.onlyRltvs.Loose.bed
 ln -s /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/PAGE_IPMBioMe_chrAll_v1.QCed.pruned.QCed.KING.onlyRltvs.Loose.bim /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/PAGE_IPMBioMe_chrAll_v1.QCed.pruned.QCed.onlyRltvs.Loose.bim
 ln -s /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/PAGE_IPMBioMe_chrAll_v1.QCed.pruned.QCed.KING.onlyRltvs.Loose.fam /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/PAGE_IPMBioMe_chrAll_v1.QCed.pruned.QCed.onlyRltvs.Loose.fam
-
 cat /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/PAGE_IPMBioMe_chrAll_v1.QCed.KING.Strict.related.kin0 | grep -v UN | grep -v 4th | R -q -e "set.seed(264868264); Data1 <- read.table(file('stdin'), header=T); names(Data1)[3] <- names(Data1)[1]; names(Data1)[4] <- names(Data1)[2]; Data2 <- c(); for (i in 1:nrow(Data1)) { if (runif(1) >= .5) { Data2 <- rbind(Data2, Data1[i,c(1:2)]); } else { Data2 <- rbind(Data2, Data1[i,c(3:4)]) } }; write.table(Data2, quote=FALSE, col.names=FALSE, row.names=FALSE);" | grep -v \> | grep -v FID | awk '{ print "NA\t" $2 }' | sort | uniq > /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/PAGE_IPMBioMe_chrAll_v1.QCed.KING.Strict.related.kin0.3rdDrops.FIDIIDs
 cat /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/PAGE_IPMBioMe_chrAll_v1.QCed.KING.unrelated_toberemoved.FIDIIDs | wc
 cat /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/PAGE_IPMBioMe_chrAll_v1.QCed.KING.Strict.related.kin0.3rdDrops.FIDIIDs | wc
-
-
-        cat /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/$ancestry1/$ancestry2/PAGE_MEC_chrAll_v1.$ancestry2.QCed.QCed.KING.Strict.related.kin0 | grep -v UN | grep -v 4th | R -q -e "set.seed($AncSeed1); Data1 <- read.table(file('stdin'), header=T); names(Data1)[3] <- names(Data1)[1]; names(Data1)[4] <- names(Data1)[2]; Data2 <- c(); for (i in 1:nrow(Data1)) { if (runif(1) >= .5) { Data2 <- rbind(Data2, Data1[i,c(1:2)]); } else { Data2 <- rbind(Data2, Data1[i,c(3:4)]) } }; write.table(Data2, quote=FALSE, col.names=FALSE, row.names=FALSE);" | grep -v \> | grep -v FID | awk '{ print "NA\t" $2 }' | sort | uniq > /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/$ancestry1/$ancestry2/PAGE_MEC_chrAll_v1.$ancestry2.QCed.QCed.KING.Strict.related.kin0.3rdDrops.FIDIIDs
-        cat /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/$ancestry1/$ancestry2/PAGE_MEC_chrAll_v1.$ancestry2.QCed.QCed.KING.Loose.unrelated_toberemoved.dropRltvs.FIDIIDs | wc
-        cat /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/MEC/$ancestry1/$ancestry2/PAGE_MEC_chrAll_v1.$ancestry2.QCed.QCed.KING.Strict.related.kin0.3rdDrops.FIDIIDs | wc
-
-
-
-
-E_IPMBioMe_chrAll_v1.QCed.KING.unrelated_toberemoved.FIDII
-
-
-
 
 for i in `cat <(echo "CEU GBR YRI ESN CHB JPT ACB ASW MXL PEL ITU PJL TSI IBS FIN" | perl -lane 'print join("\n", @F);') | head -n 1`; do
 
@@ -10935,6 +10947,35 @@ Hawaiian Hawaiian
     867    1734    7972
 [  mturchin@node422  ~]$cat /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/PAGE_IPMBioMe_chrAll_v1.QCed.KING.Strict.related.kin0.3rdDrops.FIDIIDs | wc
    1142    2284   10300
+#20190902
+[  mturchin@node422  ~]$cat /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.Covars.British.FIDIIDs | wc
+ 442688  885376 7083008
+[  mturchin@node422  ~]$cat /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.Covars.British.Ran4000.FIDIIDs | wc
+   4000    8000   64000
+[  mturchin@node422  ~]$join -v 1 <(cat /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.Covars.British.FIDIIDs | sort -g) <(cat /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.Covars.British.Ran4000.FIDIIDs | sort -g) | wc
+ 438688  877376 7019008
+[  mturchin@node422  ~]$R -q -e "438688 + 4000"
+> 438688 + 4000
+[1] 442688
+> 
+> 
+[  mturchin@node422  ~]$cat /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.Covars.British.Ran4000.2.FIDIIDs | wc
+   4000    8000   64000
+[  mturchin@node422  ~]$join <(cat /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.Covars.British.Ran4000.2.FIDIIDs | sort -g) <(cat /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.Covars.British.Ran4000.FIDIIDs | sort -g) | wc
+      0       0       0
+[  mturchin@node422  ~]$join -v 1 <(cat /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.Covars.British.FIDIIDs | sort -g) <(cat /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.Covars.British.Ran4000.FIDIIDs /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.Covars.British.Ran4000.2.FIDIIDs | sort -g) | wc
+ 434688  869376 6955008
+[  mturchin@node422  ~]$cat /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.Covars.British.Ran4000.FIDIIDs /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.Covars.British.Ran4000.2.FIDIIDs /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.Covars.British.Ran4000.3.FIDIIDs /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.Covars.British.Ran4000.4.FIDIIDs | wc
+  16000   32000  256000
+[  mturchin@node422  ~]$cat /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.Covars.British.Ran4000.FIDIIDs /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.Covars.British.Ran4000.2.FIDIIDs /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.Covars.British.Ran4000.3.FIDIIDs /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.Covars.British.Ran4000.4.FIDIIDs | sort | uniq | wc 
+  16000   32000  256000
+[  mturchin@node422  ~]$join -v 1 <(cat /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.Covars.British.FIDIIDs | sort -g) <(cat /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.Covars.British.Ran4000.FIDIIDs /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.Covars.British.Ran4000.2.FIDIIDs /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.Covars.British.Ran4000.3.FIDIIDs /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.Covars.British.Ran4000.4.FIDIIDs | sort -g) | wc
+ 426688  853376 6827008
+[  mturchin@node422  ~]$R -q -e "442688 - 16000"
+> 442688 - 16000
+[1] 426688
+> 
+> 
 
 
 
