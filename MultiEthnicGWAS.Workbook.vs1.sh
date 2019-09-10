@@ -406,17 +406,34 @@ cat /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.P
 #within-pop version
 #20190819
 
-for j in `cat <(echo $UKBioBankPops | perl -lane 'print join("\n", @F);')`; do
+#/users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.Covars.$ancestry2.FIDIIDs
+
+for j in `cat <(echo $UKBioBankPops2 | perl -lane 'print join("\n", @F);') | head -n 11 | tail -n 11`; do
         ancestry1=`echo $j | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[0];'`
         ancestry2=`echo $j | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[1];'`
         echo $ancestry1 $ancestry2
 
-	cat /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.Phenos.Edit.pre.wCovars.txt | 
-	R -q -e "Data1 <- read.table(file('stdin'), header=T); InverseNorm <- function(x) { y <- qnorm((rank(x, na.last=\"keep\") - .5) / sum(! is.na(x))); return(y); }; Data1.M <- Data1[Data1\$SEX == 1,]; Data1.F <- Data1[Data1\$SEX == 0,]; Data1.M.Height.NA <- Data1.M[is.na(Data1.M\$Height),]; Data1.M.Height.NotNA <- Data1.M[! is.na(Data1.M\$Height),]; Data1.M.Height.NotNA.Resids <- lm(Data1.M.Height.NotNA\$Height ~ Data1.M.Height.NotNA\$AGE)\$residuals; Data1.M.Height.NotNA.Resids.InverseNorm <- InverseNorm(Data1.M.Height.NotNA.Resids); Data1.M.Height.NotNA\$Height <- Data1.M.Height.NotNA.Resids.InverseNorm; Data1.M.Height <- rbind(Data1.M.Height.NA[,c(\"FID_IID\", \"Height\")], Data1.M.Height.NotNA[,c(\"FID_IID\", \"Height\")]); Data1.F.Height.NA <- Data1.F[is.na(Data1.F\$Height),]; Data1.F.Height.NotNA <- Data1.F[! is.na(Data1.F\$Height),]; Data1.F.Height.NotNA.Resids <- lm(Data1.F.Height.NotNA\$Height ~ Data1.F.Height.NotNA\$AGE)\$residuals; Data1.F.Height.NotNA.Resids.InverseNorm <- InverseNorm(Data1.F.Height.NotNA.Resids); Data1.F.Height.NotNA\$Height <- Data1.F.Height.NotNA.Resids.InverseNorm; Data1.F.Height <- rbind(Data1.F.Height.NA[,c(\"FID_IID\", \"Height\")], Data1.F.Height.NotNA[,c(\"FID_IID\", \"Height\")]); Data1.Height <- rbind(Data1.M.Height, Data1.F.Height); Data1.M.BMI.NA <- Data1.M[is.na(Data1.M\$BMI),]; Data1.M.BMI.NotNA <- Data1.M[! is.na(Data1.M\$BMI),]; Data1.M.BMI.NotNA.Resids <- lm(Data1.M.BMI.NotNA\$BMI ~ Data1.M.BMI.NotNA\$AGE)\$residuals; Data1.M.BMI.NotNA.Resids.InverseNorm <- InverseNorm(Data1.M.BMI.NotNA.Resids); Data1.M.BMI.NotNA\$BMI <- Data1.M.BMI.NotNA.Resids.InverseNorm; Data1.M.BMI <- rbind(Data1.M.BMI.NA[,c(\"FID_IID\", \"BMI\")], Data1.M.BMI.NotNA[,c(\"FID_IID\", \"BMI\")]); Data1.F.BMI.NA <- Data1.F[is.na(Data1.F\$BMI),]; Data1.F.BMI.NotNA <- Data1.F[! is.na(Data1.F\$BMI),]; Data1.F.BMI.NotNA.Resids <- lm(Data1.F.BMI.NotNA\$BMI ~ Data1.F.BMI.NotNA\$AGE)\$residuals; Data1.F.BMI.NotNA.Resids.InverseNorm <- InverseNorm(Data1.F.BMI.NotNA.Resids); Data1.F.BMI.NotNA\$BMI <- Data1.F.BMI.NotNA.Resids.InverseNorm; Data1.F.BMI <- rbind(Data1.F.BMI.NA[,c(\"FID_IID\", \"BMI\")], Data1.F.BMI.NotNA[,c(\"FID_IID\", \"BMI\")]); Data1.BMI <- rbind(Data1.M.BMI, Data1.F.BMI); Data1.M.Waist.NA <- Data1.M[is.na(Data1.M\$Waist),]; Data1.M.Waist.NotNA <- Data1.M[! is.na(Data1.M\$Waist),]; Data1.M.Waist.NotNA.Resids <- lm(Data1.M.Waist.NotNA\$Waist ~ Data1.M.Waist.NotNA\$AGE)\$residuals; Data1.M.Waist.NotNA.Resids.InverseNorm <- InverseNorm(Data1.M.Waist.NotNA.Resids); Data1.M.Waist.NotNA\$Waist <- Data1.M.Waist.NotNA.Resids.InverseNorm; Data1.M.Waist <- rbind(Data1.M.Waist.NA[,c(\"FID_IID\", \"Waist\")], Data1.M.Waist.NotNA[,c(\"FID_IID\", \"Waist\")]); Data1.F.Waist.NA <- Data1.F[is.na(Data1.F\$Waist),]; Data1.F.Waist.NotNA <- Data1.F[! is.na(Data1.F\$Waist),]; Data1.F.Waist.NotNA.Resids <- lm(Data1.F.Waist.NotNA\$Waist ~ Data1.F.Waist.NotNA\$AGE)\$residuals; Data1.F.Waist.NotNA.Resids.InverseNorm <- InverseNorm(Data1.F.Waist.NotNA.Resids); Data1.F.Waist.NotNA\$Waist <- Data1.F.Waist.NotNA.Resids.InverseNorm; Data1.F.Waist <- rbind(Data1.F.Waist.NA[,c(\"FID_IID\", \"Waist\")], Data1.F.Waist.NotNA[,c(\"FID_IID\", \"Waist\")]); Data1.Waist <- rbind(Data1.M.Waist, Data1.F.Waist); Data1.M.Hip.NA <- Data1.M[is.na(Data1.M\$Hip),]; Data1.M.Hip.NotNA <- Data1.M[! is.na(Data1.M\$Hip),]; Data1.M.Hip.NotNA.Resids <- lm(Data1.M.Hip.NotNA\$Hip ~ Data1.M.Hip.NotNA\$AGE)\$residuals; Data1.M.Hip.NotNA.Resids.InverseNorm <- InverseNorm(Data1.M.Hip.NotNA.Resids); Data1.M.Hip.NotNA\$Hip <- Data1.M.Hip.NotNA.Resids.InverseNorm; Data1.M.Hip <- rbind(Data1.M.Hip.NA[,c(\"FID_IID\", \"Hip\")], Data1.M.Hip.NotNA[,c(\"FID_IID\", \"Hip\")]); Data1.F.Hip.NA <- Data1.F[is.na(Data1.F\$Hip),]; Data1.F.Hip.NotNA <- Data1.F[! is.na(Data1.F\$Hip),]; Data1.F.Hip.NotNA.Resids <- lm(Data1.F.Hip.NotNA\$Hip ~ Data1.F.Hip.NotNA\$AGE)\$residuals; Data1.F.Hip.NotNA.Resids.InverseNorm <- InverseNorm(Data1.F.Hip.NotNA.Resids); Data1.F.Hip.NotNA\$Hip <- Data1.F.Hip.NotNA.Resids.InverseNorm; Data1.F.Hip <- rbind(Data1.F.Hip.NA[,c(\"FID_IID\", \"Hip\")], Data1.F.Hip.NotNA[,c(\"FID_IID\", \"Hip\")]); Data1.Hip <- rbind(Data1.M.Hip, Data1.F.Hip); Data1.M.Waist.NotNA.Resids.AdjBMI <- residuals(lm(Data1.M.Waist.NotNA.Resids ~ Data1.M.Waist.NotNA\$BMI, na.action=na.exclude)); Data1.M.Waist.NotNA.Resids.AdjBMI.InverseNorm <- InverseNorm(Data1.M.Waist.NotNA.Resids.AdjBMI); Data1.M.Waist.NotNA\$AdjBMI <- Data1.M.Waist.NotNA.Resids.AdjBMI.InverseNorm; Data1.M.Waist.NA\$AdjBMI <- Data1.M.Waist.NA\$Waist; Data1.M.WaistAdjBMI <- rbind(Data1.M.Waist.NA[,c(\"FID_IID\", \"AdjBMI\")], Data1.M.Waist.NotNA[,c(\"FID_IID\", \"AdjBMI\")]); Data1.F.Waist.NotNA.Resids.AdjBMI <- residuals(lm(Data1.F.Waist.NotNA.Resids ~ Data1.F.Waist.NotNA\$BMI, na.action=na.exclude)); Data1.F.Waist.NotNA.Resids.AdjBMI.InverseNorm <- InverseNorm(Data1.F.Waist.NotNA.Resids.AdjBMI); Data1.F.Waist.NotNA\$AdjBMI <- Data1.F.Waist.NotNA.Resids.AdjBMI.InverseNorm; Data1.F.Waist.NA\$AdjBMI <- Data1.F.Waist.NA\$Waist; Data1.F.WaistAdjBMI <- rbind(Data1.F.Waist.NA[,c(\"FID_IID\", \"AdjBMI\")], Data1.F.Waist.NotNA[,c(\"FID_IID\", \"AdjBMI\")]); Data1.WaistAdjBMI <- rbind(Data1.M.WaistAdjBMI, Data1.F.WaistAdjBMI); Data1.WaistAdjBMI\$WaistAdjBMI <- Data1.WaistAdjBMI\$AdjBMI; Data1.WaistAdjBMI\$AdjBMI <- c(); Data1.M.Hip.NotNA.Resids.AdjBMI <- residuals(lm(Data1.M.Hip.NotNA.Resids ~ Data1.M.Hip.NotNA\$BMI, na.action=na.exclude)); Data1.M.Hip.NotNA.Resids.AdjBMI.InverseNorm <- InverseNorm(Data1.M.Hip.NotNA.Resids.AdjBMI); Data1.M.Hip.NotNA\$AdjBMI <- Data1.M.Hip.NotNA.Resids.AdjBMI.InverseNorm; Data1.M.Hip.NA\$AdjBMI <- Data1.M.Hip.NA\$Hip; Data1.M.HipAdjBMI <- rbind(Data1.M.Hip.NA[,c(\"FID_IID\", \"AdjBMI\")], Data1.M.Hip.NotNA[,c(\"FID_IID\", \"AdjBMI\")]); Data1.F.Hip.NotNA.Resids.AdjBMI <- residuals(lm(Data1.F.Hip.NotNA.Resids ~ Data1.F.Hip.NotNA\$BMI, na.action=na.exclude)); Data1.F.Hip.NotNA.Resids.AdjBMI.InverseNorm <- InverseNorm(Data1.F.Hip.NotNA.Resids.AdjBMI); Data1.F.Hip.NotNA\$AdjBMI <- Data1.F.Hip.NotNA.Resids.AdjBMI.InverseNorm; Data1.F.Hip.NA\$AdjBMI <- Data1.F.Hip.NA\$Hip; Data1.F.HipAdjBMI <- rbind(Data1.F.Hip.NA[,c(\"FID_IID\", \"AdjBMI\")], Data1.F.Hip.NotNA[,c(\"FID_IID\", \"AdjBMI\")]); Data1.HipAdjBMI <- rbind(Data1.M.HipAdjBMI, Data1.F.HipAdjBMI); Data1.HipAdjBMI\$HipAdjBMI <- Data1.HipAdjBMI\$AdjBMI; Data1.HipAdjBMI\$AdjBMI <- c(); Data2 <- merge(Data1.Height, Data1.BMI, by=\"FID_IID\"); Data3 <- merge(Data2, Data1.Waist, by=\"FID_IID\"); Data2 <- merge(Data3, Data1.Hip, by=\"FID_IID\"); Data3 <- merge(Data2, Data1.WaistAdjBMI, by=\"FID_IID\"); Data2 <- merge(Data3, Data1.HipAdjBMI, by=\"F
-
+       join <(cat /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.Phenos.Edit.pre.wCovars.txt | sort -k 1,1) <(cat /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.Covars.$ancestry2.FIDIIDs | awk '{ print $1 "_" $2 }' | sort) | cat <(echo "FID_IID FID IID SEX ANCESTRY AGE FID IID Height BMI Waist Hip") - | R -q -e "Data1 <- read.table(file('stdin'), header=T); InverseNorm <- function(x) { y <- qnorm((rank(x, na.last=\"keep\") - .5) / sum(! is.na(x))); return(y); }; Data1.M <- Data1[Data1\$SEX == 1,]; Data1.F <- Data1[Data1\$SEX == 0,]; Data1.M.Height.NA <- Data1.M[is.na(Data1.M\$Height),]; Data1.M.Height.NotNA <- Data1.M[! is.na(Data1.M\$Height),]; Data1.M.Height.NotNA.Resids <- lm(Data1.M.Height.NotNA\$Height ~ Data1.M.Height.NotNA\$AGE)\$residuals; Data1.M.Height.NotNA.Resids.InverseNorm <- InverseNorm(Data1.M.Height.NotNA.Resids); Data1.M.Height.NotNA\$Height <- Data1.M.Height.NotNA.Resids.InverseNorm; Data1.M.Height <- rbind(Data1.M.Height.NA[,c(\"FID_IID\", \"Height\")], Data1.M.Height.NotNA[,c(\"FID_IID\", \"Height\")]); Data1.F.Height.NA <- Data1.F[is.na(Data1.F\$Height),]; Data1.F.Height.NotNA <- Data1.F[! is.na(Data1.F\$Height),]; Data1.F.Height.NotNA.Resids <- lm(Data1.F.Height.NotNA\$Height ~ Data1.F.Height.NotNA\$AGE)\$residuals; Data1.F.Height.NotNA.Resids.InverseNorm <- InverseNorm(Data1.F.Height.NotNA.Resids); Data1.F.Height.NotNA\$Height <- Data1.F.Height.NotNA.Resids.InverseNorm; Data1.F.Height <- rbind(Data1.F.Height.NA[,c(\"FID_IID\", \"Height\")], Data1.F.Height.NotNA[,c(\"FID_IID\", \"Height\")]); Data1.Height <- rbind(Data1.M.Height, Data1.F.Height); Data1.M.BMI.NA <- Data1.M[is.na(Data1.M\$BMI),]; Data1.M.BMI.NotNA <- Data1.M[! is.na(Data1.M\$BMI),]; Data1.M.BMI.NotNA.Resids <- lm(Data1.M.BMI.NotNA\$BMI ~ Data1.M.BMI.NotNA\$AGE)\$residuals; Data1.M.BMI.NotNA.Resids.InverseNorm <- InverseNorm(Data1.M.BMI.NotNA.Resids); Data1.M.BMI.NotNA\$BMI <- Data1.M.BMI.NotNA.Resids.InverseNorm; Data1.M.BMI <- rbind(Data1.M.BMI.NA[,c(\"FID_IID\", \"BMI\")], Data1.M.BMI.NotNA[,c(\"FID_IID\", \"BMI\")]); Data1.F.BMI.NA <- Data1.F[is.na(Data1.F\$BMI),]; Data1.F.BMI.NotNA <- Data1.F[! is.na(Data1.F\$BMI),]; Data1.F.BMI.NotNA.Resids <- lm(Data1.F.BMI.NotNA\$BMI ~ Data1.F.BMI.NotNA\$AGE)\$residuals; Data1.F.BMI.NotNA.Resids.InverseNorm <- InverseNorm(Data1.F.BMI.NotNA.Resids); Data1.F.BMI.NotNA\$BMI <- Data1.F.BMI.NotNA.Resids.InverseNorm; Data1.F.BMI <- rbind(Data1.F.BMI.NA[,c(\"FID_IID\", \"BMI\")], Data1.F.BMI.NotNA[,c(\"FID_IID\", \"BMI\")]); Data1.BMI <- rbind(Data1.M.BMI, Data1.F.BMI); Data1.M.Waist.NA <- Data1.M[is.na(Data1.M\$Waist),]; Data1.M.Waist.NotNA <- Data1.M[! is.na(Data1.M\$Waist),]; Data1.M.Waist.NotNA.Resids <- lm(Data1.M.Waist.NotNA\$Waist ~ Data1.M.Waist.NotNA\$AGE)\$residuals; Data1.M.Waist.NotNA.Resids.InverseNorm <- InverseNorm(Data1.M.Waist.NotNA.Resids); Data1.M.Waist.NotNA\$Waist <- Data1.M.Waist.NotNA.Resids.InverseNorm; Data1.M.Waist <- rbind(Data1.M.Waist.NA[,c(\"FID_IID\", \"Waist\")], Data1.M.Waist.NotNA[,c(\"FID_IID\", \"Waist\")]); Data1.F.Waist.NA <- Data1.F[is.na(Data1.F\$Waist),]; Data1.F.Waist.NotNA <- Data1.F[! is.na(Data1.F\$Waist),]; Data1.F.Waist.NotNA.Resids <- lm(Data1.F.Waist.NotNA\$Waist ~ Data1.F.Waist.NotNA\$AGE)\$residuals; Data1.F.Waist.NotNA.Resids.InverseNorm <- InverseNorm(Data1.F.Waist.NotNA.Resids); Data1.F.Waist.NotNA\$Waist <- Data1.F.Waist.NotNA.Resids.InverseNorm; Data1.F.Waist <- rbind(Data1.F.Waist.NA[,c(\"FID_IID\", \"Waist\")], Data1.F.Waist.NotNA[,c(\"FID_IID\", \"Waist\")]); Data1.Waist <- rbind(Data1.M.Waist, Data1.F.Waist); Data1.M.Hip.NA <- Data1.M[is.na(Data1.M\$Hip),]; Data1.M.Hip.NotNA <- Data1.M[! is.na(Data1.M\$Hip),]; Data1.M.Hip.NotNA.Resids <- lm(Data1.M.Hip.NotNA\$Hip ~ Data1.M.Hip.NotNA\$AGE)\$residuals; Data1.M.Hip.NotNA.Resids.InverseNorm <- InverseNorm(Data1.M.Hip.NotNA.Resids); Data1.M.Hip.NotNA\$Hip <- Data1.M.Hip.NotNA.Resids.InverseNorm; Data1.M.Hip <- rbind(Data1.M.Hip.NA[,c(\"FID_IID\", \"Hip\")], Data1.M.Hip.NotNA[,c(\"FID_IID\", \"Hip\")]); Data1.F.Hip.NA <- Data1.F[is.na(Data1.F\$Hip),]; Data1.F.Hip.NotNA <- Data1.F[! is.na(Data1.F\$Hip),]; Data1.F.Hip.NotNA.Resids <- lm(Data1.F.Hip.NotNA\$Hip ~ Data1.F.Hip.NotNA\$AGE)\$residuals; Data1.F.Hip.NotNA.Resids.InverseNorm <- InverseNorm(Data1.F.Hip.NotNA.Resids); Data1.F.Hip.NotNA\$Hip <- Data1.F.Hip.NotNA.Resids.InverseNorm; Data1.F.Hip <- rbind(Data1.F.Hip.NA[,c(\"FID_IID\", \"Hip\")], Data1.F.Hip.NotNA[,c(\"FID_IID\", \"Hip\")]); Data1.Hip <- rbind(Data1.M.Hip, Data1.F.Hip); Data1.M.Waist.NotNA.Resids.AdjBMI <- residuals(lm(Data1.M.Waist.NotNA.Resids ~ Data1.M.Waist.NotNA\$BMI, na.action=na.exclude)); Data1.M.Waist.NotNA.Resids.AdjBMI.InverseNorm <- InverseNorm(Data1.M.Waist.NotNA.Resids.AdjBMI); Data1.M.Waist.NotNA\$AdjBMI <- Data1.M.Waist.NotNA.Resids.AdjBMI.InverseNorm; Data1.M.Waist.NA\$AdjBMI <- Data1.M.Waist.NA\$Waist; Data1.M.WaistAdjBMI <- rbind(Data1.M.Waist.NA[,c(\"FID_IID\", \"AdjBMI\")], Data1.M.Waist.NotNA[,c(\"FID_IID\", \"AdjBMI\")]); Data1.F.Waist.NotNA.Resids.AdjBMI <- residuals(lm(Data1.F.Waist.NotNA.Resids ~ Data1.F.Waist.NotNA\$BMI, na.action=na.exclude)); Data1.F.Waist.NotNA.Resids.AdjBMI.InverseNorm <- InverseNorm(Data1.F.Waist.NotNA.Resids.AdjBMI); Data1.F.Waist.NotNA\$AdjBMI <- Data1.F.Waist.NotNA.Resids.AdjBMI.InverseNorm; Data1.F.Waist.NA\$AdjBMI <- Data1.F.Waist.NA\$Waist; Data1.F.WaistAdjBMI <- rbind(Data1.F.Waist.NA[,c(\"FID_IID\", \"AdjBMI\")], Data1.F.Waist.NotNA[,c(\"FID_IID\", \"AdjBMI\")]); Data1.WaistAdjBMI <- rbind(Data1.M.WaistAdjBMI, Data1.F.WaistAdjBMI); Data1.WaistAdjBMI\$WaistAdjBMI <- Data1.WaistAdjBMI\$AdjBMI; Data1.WaistAdjBMI\$AdjBMI <- c(); Data1.M.Hip.NotNA.Resids.AdjBMI <- residuals(lm(Data1.M.Hip.NotNA.Resids ~ Data1.M.Hip.NotNA\$BMI, na.action=na.exclude)); Data1.M.Hip.NotNA.Resids.AdjBMI.InverseNorm <- InverseNorm(Data1.M.Hip.NotNA.Resids.AdjBMI); Data1.M.Hip.NotNA\$AdjBMI <- Data1.M.Hip.NotNA.Resids.AdjBMI.InverseNorm; Data1.M.Hip.NA\$AdjBMI <- Data1.M.Hip.NA\$Hip; Data1.M.HipAdjBMI <- rbind(Data1.M.Hip.NA[,c(\"FID_IID\", \"AdjBMI\")], Data1.M.Hip.NotNA[,c(\"FID_IID\", \"AdjBMI\")]); Data1.F.Hip.NotNA.Resids.AdjBMI <- residuals(lm(Data1.F.Hip.NotNA.Resids ~ Data1.F.Hip.NotNA\$BMI, na.action=na.exclude)); Data1.F.Hip.NotNA.Resids.AdjBMI.InverseNorm <- InverseNorm(Data1.F.Hip.NotNA.Resids.AdjBMI); Data1.F.Hip.NotNA\$AdjBMI <- Data1.F.Hip.NotNA.Resids.AdjBMI.InverseNorm; Data1.F.Hip.NA\$AdjBMI <- Data1.F.Hip.NA\$Hip; Data1.F.HipAdjBMI <- rbind(Data1.F.Hip.NA[,c(\"FID_IID\", \"AdjBMI\")], Data1.F.Hip.NotNA[,c(\"FID_IID\", \"AdjBMI\")]); Data1.HipAdjBMI <- rbind(Data1.M.HipAdjBMI, Data1.F.HipAdjBMI); Data1.HipAdjBMI\$HipAdjBMI <- Data1.HipAdjBMI\$AdjBMI; Data1.HipAdjBMI\$AdjBMI <- c(); Data2 <- merge(Data1.Height, Data1.BMI, by=\"FID_IID\"); Data3 <- merge(Data2, Data1.Waist, by=\"FID_IID\"); Data2 <- merge(Data3, Data1.Hip, by=\"FID_IID\"); Data3 <- merge(Data2, Data1.WaistAdjBMI, by=\"FID_IID\"); Data2 <- merge(Data3, Data1.HipAdjBMI, by=\"FID_IID\"); Data3 <- merge(Data1[,c(\"FID_IID\", \"SEX\", \"ANCESTRY\", \"AGE\")], Data2, by=\"FID_IID\"); rm(Data2); write.table(Data3, quote=FALSE, row.names=FALSE);" | grep -v \> | sed 's/_/ /' | awk '{ print $1 "_" $2 "\t" $0 }' > /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.Phenos.Transformed.wthnPop.BMIAdj.$ancestry2.wCovars.txt 
+	cat /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.Phenos.Transformed.wthnPop.BMIAdj.$ancestry2.wCovars.txt | awk '{ print $2 "\t" $3 "\t" $7 "\t" $8 "\t" $9 "\t" $10 "\t" $11 "\t" $12 }' > /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.Phenos.Transformed.wthnPop.BMIAdj.$ancestry2.Edit.txt
 
 done
 
+
+
+for j in `cat <(echo $PAGEIPMBioMePops2 | perl -lane 'print join("\n", @F);') | head -n 3 | tail -n 3`; do
+        ancestry1=`echo $j | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[0];'`
+        ancestry2=`echo $j | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[1];'`
+
+        echo $ancestry1 $ancestry2
+
+        paste <(cat /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/PAGE_IPMBioMe_chrAll_v1.QCed.1kGMatch.pruned.QCed.SNPrecode.w1kG.flipped.dropmissnp.allRltvs.flashpca.pcs.wAncs.$ancestry2.dropRltvs.Loose.HRCdrops.FIDIIDs) <(join <(cat /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/phs000925.v1.pht006203.v1.p1.c1.PAGE_IPM_BioMe.GRU.Edits.txt | awk '{ print $3 "\t" $0 }' | sort -k 1,1) <(cat /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/PAGE_IPMBioMe_chrAll_v1.QCed.1kGMatch.pruned.QCed.SNPrecode.w1kG.flipped.dropmissnp.allRltvs.flashpca.pcs.wAncs.$ancestry2.dropRltvs.Loose.HRCdrops.FIDIIDs | awk '{ print $2 }' | sort) | perl -lane 'print join("\t", @F[1..$#F]);') | awk '{ if ($2 == $5) { print "1" } else { print "0" } }' | sort | uniq -c
+        join <(cat /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/phs000925.v1.pht006203.v1.p1.c1.PAGE_IPM_BioMe.GRU.Edits.txt | awk '{ print $3 "\t" $0 }' | sort -k 1,1) <(cat /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/PAGE_IPMBioMe_chrAll_v1.QCed.1kGMatch.pruned.QCed.SNPrecode.w1kG.flipped.dropmissnp.allRltvs.flashpca.pcs.wAncs.$ancestry2.dropRltvs.Loose.HRCdrops.FIDIIDs | awk '{ print $2 }' | sort) | perl -lane 'print join("\t", @F[1..$#F]);' | cat <(cat /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/phs000925.v1.pht006203.v1.p1.c1.PAGE_IPM_BioMe.GRU.Edits.txt | head -n 1) - | R -q -e "Data1 <- read.table(file('stdin'), header=T); InverseNorm <- function(x) { y <- qnorm((rank(x, na.last=\"keep\") - .5) / sum(! is.na(x))); return(y); }; Data1.NoSex <-  Data1[is.na(Data1\$SEX),]; Data1 <- Data1[! is.na(Data1\$SEX),]; Data1.M <- Data1[Data1\$SEX == 1,]; Data1.F <- Data1[Data1\$SEX == 2,]; write(dim(Data1.M), stderr()); write(dim(Data1.F), stderr()); \
+        Data1.M.Height.NA <- Data1.M[is.na(Data1.M\$Height),]; Data1.M.Height.NotNA <- Data1.M[! is.na(Data1.M\$Height),]; Data1.M.Height.NotNA.Resids <- lm(Data1.M.Height.NotNA\$Height ~ Data1.M.Height.NotNA\$AGE)\$residuals; Data1.M.Height.NotNA.Resids.InverseNorm <- InverseNorm(Data1.M.Height.NotNA.Resids); Data1.M.Height.NotNA\$Height <- Data1.M.Height.NotNA.Resids.InverseNorm; Data1.M.Height <- rbind(Data1.M.Height.NA[,c(\"FID_IID\", \"Height\")], Data1.M.Height.NotNA[,c(\"FID_IID\", \"Height\")]); Data1.F.Height.NA <- Data1.F[is.na(Data1.F\$Height),]; Data1.F.Height.NotNA <- Data1.F[! is.na(Data1.F\$Height),]; Data1.F.Height.NotNA.Resids <- lm(Data1.F.Height.NotNA\$Height ~ Data1.F.Height.NotNA\$AGE)\$residuals; Data1.F.Height.NotNA.Resids.InverseNorm <- InverseNorm(Data1.F.Height.NotNA.Resids); Data1.F.Height.NotNA\$Height <- Data1.F.Height.NotNA.Resids.InverseNorm; Data1.F.Height <- rbind(Data1.F.Height.NA[,c(\"FID_IID\", \"Height\")], Data1.F.Height.NotNA[,c(\"FID_IID\", \"Height\")]); Data1.Height <- rbind(Data1.M.Height, Data1.F.Height); \
+        Data1.M.BMI.NA <- Data1.M[is.na(Data1.M\$BMI),]; Data1.M.BMI.NotNA <- Data1.M[! is.na(Data1.M\$BMI),]; Data1.M.BMI.NotNA.Resids <- lm(Data1.M.BMI.NotNA\$BMI ~ Data1.M.BMI.NotNA\$AGE)\$residuals; Data1.M.BMI.NotNA.Resids.InverseNorm <- InverseNorm(Data1.M.BMI.NotNA.Resids); Data1.M.BMI.NotNA\$BMI <- Data1.M.BMI.NotNA.Resids.InverseNorm; Data1.M.BMI <- rbind(Data1.M.BMI.NA[,c(\"FID_IID\", \"BMI\")], Data1.M.BMI.NotNA[,c(\"FID_IID\", \"BMI\")]); Data1.F.BMI.NA <- Data1.F[is.na(Data1.F\$BMI),]; Data1.F.BMI.NotNA <- Data1.F[! is.na(Data1.F\$BMI),]; Data1.F.BMI.NotNA.Resids <- lm(Data1.F.BMI.NotNA\$BMI ~ Data1.F.BMI.NotNA\$AGE)\$residuals; Data1.F.BMI.NotNA.Resids.InverseNorm <- InverseNorm(Data1.F.BMI.NotNA.Resids); Data1.F.BMI.NotNA\$BMI <- Data1.F.BMI.NotNA.Resids.InverseNorm; Data1.F.BMI <- rbind(Data1.F.BMI.NA[,c(\"FID_IID\", \"BMI\")], Data1.F.BMI.NotNA[,c(\"FID_IID\", \"BMI\")]); Data1.BMI <- rbind(Data1.M.BMI, Data1.F.BMI); \
+        Data2 <- merge(Data1.Height, Data1.BMI, by=\"FID_IID\"); Data3 <- merge(Data1[,c(\"FID_IID\", \"SEX\", \"AGE\")], Data2, by=\"FID_IID\"); rm(Data2); Data1.NoSex.Format <- cbind(as.character(Data1.NoSex[,1]), rep(NA, nrow(Data1.NoSex)), rep(NA, nrow(Data1.NoSex)), rep(NA, nrow(Data1.NoSex)), rep(NA, nrow(Data1.NoSex))); colnames(Data1.NoSex.Format) <- names(Data3); Data4 <- rbind(Data3, Data1.NoSex.Format); write.table(Data4, quote=FALSE, row.names=FALSE);" | grep -v \> | sed 's/_/ /' | awk '{ print $1 "_" $2 "\t" $0 }' > /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/phs000925.v1.pht006203.v1.p1.c1.PAGE_IPM_BioMe.GRU.Edits.$ancestry2.Transformed.txt
+        cat /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/phs000925.v1.pht006203.v1.p1.c1.PAGE_IPM_BioMe.GRU.Edits.$ancestry2.Transformed.txt | awk '{ print $2 "\t" $3 "\t" $6 "\t" $7 }' > /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/phs000925.v1.pht006203.v1.p1.c1.PAGE_IPM_BioMe.GRU.Edits.$ancestry2.Transformed.Edits.txt
+
+done
 
 
 
@@ -2364,7 +2381,7 @@ done
 #	mv /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/*Hip* /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/Hip/.
 
 #20180524 NOTE -- these steps (which are part of `#Vs2...`) are to setup the ukb internal genotyping QC + PCAs, so repeat and rerun these as necessary; `#Vs3...` parts/steps/runs refer more to downstream phenotype-related analyses and such
-for j in `cat <(echo $UKBioBankPops | perl -lane 'print join("\n", @F);') | grep British.Ran`; do
+for j in `cat <(echo $UKBioBankPops2 | perl -lane 'print join("\n", @F);') | grep British.Ran`; do
 	ancestry1=`echo $j | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[0];'`
 	ancestry2=`echo $j | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[1];'`
 
@@ -2378,7 +2395,7 @@ for j in `cat <(echo $UKBioBankPops | perl -lane 'print join("\n", @F);') | grep
 	sleep 2
 done
 
-for j in `cat <(echo $UKBioBankPops | perl -lane 'print join("\n", @F);') | grep British.Ran`; do
+for j in `cat <(echo $UKBioBankPops2 | perl -lane 'print join("\n", @F);') | grep British.Ran`; do
 	ancestry1=`echo $j | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[0];'`
 	ancestry2=`echo $j | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[1];'`
 
@@ -2411,7 +2428,7 @@ for j in `cat <(echo $UKBioBankPops | perl -lane 'print join("\n", @F);') | grep
 
 done
 
-for j in `cat <(echo $UKBioBankPops | perl -lane 'print join("\n", @F);') | grep British.Ran `; do
+for j in `cat <(echo $UKBioBankPops2 | perl -lane 'print join("\n", @F);') | grep British.Ran `; do
 	ancestry1=`echo $j | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[0];'`
 	ancestry2=`echo $j | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[1];'`
 
@@ -2421,7 +2438,7 @@ for j in `cat <(echo $UKBioBankPops | perl -lane 'print join("\n", @F);') | grep
 	done
 done
 
-for j in `cat <(echo $UKBioBankPops | perl -lane 'print join("\n", @F);')`; do
+for j in `cat <(echo $UKBioBankPops2 | perl -lane 'print join("\n", @F);')`; do
 	ancestry1=`echo $j | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[0];'`
 	ancestry2=`echo $j | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[1];'`
 
@@ -2439,7 +2456,7 @@ done
 #			sbatch -t 72:00:00 --mem 20g -o /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chr${i}_v2.${ancestry2}.fastpca.slurm.output -e /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chr${i}_v2.${ancestry2}.fastpca.slurm.error --comment "$ancestry1 $ancestry2 $i" <(echo -e '#!/bin/sh'; echo -e "\nplink --bfile /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/ukb_chr${i}_v2.${ancestry2} --maf .01 --geno --mind .95
 #			sbatch -t 1:00:00 --mem 20g -o /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/ukb_chr${i}_v2.${ancestry2}.${pheno1}.linear.slurm.output -e /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/ukb_chr${i}_v2.${ancestry2}.${pheno1}.linear.slurm.error --comment "$pheno1 $ancestry1 $ancestry2 $i" <(echo -e '#!/bin/sh'; echo -e "\nplink --bfile /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/ukb_chr${i}_v2.${ancestry2} --pheno /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.Phenos.Edit.txt --pheno-name $pheno1 --linear --sex --covar /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.Covars.txt --covar-name AGE --out /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/ukb_chr${i}_v2.${ancestry2}.${pheno1}")
 
-for j in `cat <(echo $UKBioBankPops | perl -lane 'print join("\n", @F);')`; do
+for j in `cat <(echo $UKBioBankPops2 | perl -lane 'print join("\n", @F);')`; do
 	ancestry1=`echo $j | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[0];'`
 	ancestry2=`echo $j | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[1];'`
 
@@ -2453,7 +2470,7 @@ for j in `cat <(echo $UKBioBankPops | perl -lane 'print join("\n", @F);')`; do
 
 done
 
-for j in `cat <(echo $UKBioBankPops | perl -lane 'print join("\n", @F);')`; do
+for j in `cat <(echo $UKBioBankPops2 | perl -lane 'print join("\n", @F);')`; do
 	ancestry1=`echo $j | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[0];'`
 	ancestry2=`echo $j | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[1];'`
 
@@ -2482,7 +2499,7 @@ done
 /users/mturchin/data/ukbiobank_jun17/ukb_sqc_v2.wfam.ukbDrops.FIDIIDs
 /users/mturchin/data/ukbiobank_jun17/mturchin/ukb22419_rel_s488363.wukbDrops.dat
 
-for j in `cat <(echo $UKBioBankPops | perl -lane 'print join("\n", @F);')`; do
+for j in `cat <(echo $UKBioBankPops2 | perl -lane 'print join("\n", @F);')`; do
 	ancestry1=`echo $j | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[0];'`
 	ancestry2=`echo $j | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[1];'`
 
@@ -2500,7 +2517,7 @@ done
 #From http://people.virginia.edu/~wc9c/KING/manual.html & https://biobank.ctsu.ox.ac.uk/crystal/docs/genotyping_qc.pdf
 #re: KING kinship coefficients from their paper: "an estimated kinship coefficient range >0.354, [0.177, 0.354], [0.0884, 0.177] and [0.0442, 0.0884] corresponds to duplicate/MZ twin, 1st-degree, 2nd-degree, and 3rd-degree relationships respectively"
 #UKBioBankPops=`British;British British;British.Ran100000 British;British.Ran200000`
-for j in `cat <(echo $UKBioBankPops | perl -lane 'print join("\n", @F);')`; do
+for j in `cat <(echo $UKBioBankPops2 | perl -lane 'print join("\n", @F);')`; do
 	ancestry1=`echo $j | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[0];'`
 	ancestry2=`echo $j | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[1];'`
 
@@ -10997,6 +11014,58 @@ Hawaiian Hawaiian
 [1] 426688
 > 
 > 
+#20190910
+[  mturchin@node411  ~]$join <(cat /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.Phenos.Edit.pre.wCovars.txt | sort -k 1,1) <(cat /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.Covars.$ancestry2.FIDIIDs | awk '{ print $1 "_" $2 }' | sort) | wc
+   3396   40752  271493
+[  mturchin@node411  ~]$cat /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.Covars.$ancestry2.FIDIIDs | wc
+   3396    6792   54336
+[  mturchin@node411  ~]$join <(cat /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.Phenos.Edit.pre.wCovars.txt | sort -k 1,1) <(cat /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.Covars.$ancestry2.FIDIIDs | awk '{ print $1 "_" $2 }' | sort) | head -n 10
+1001592_1001592 1001592 1001592 1 African 45 1001592 1001592 178 32.4454 109 120
+1002560_1002560 1002560 1002560 0 African 49 1002560 1002560 168 40.3912 103 127
+1003036_1003036 1003036 1003036 0 African 41 1003036 1003036 166 38.0316 109 128
+1004593_1004593 1004593 1004593 0 African 50 1004593 1004593 163 32.8955 98 118
+1008167_1008167 1008167 1008167 0 African 59 1008167 1008167 164 26.9185 84 102
+1008639_1008639 1008639 1008639 0 African 43 1008639 1008639 154 28.0823 84 106
+1009965_1009965 1009965 1009965 0 African 58 1009965 1009965 155 34.0479 102 119
+1010953_1010953 1010953 1010953 1 African 48 1010953 1010953 161 29.6285 100 102
+1012491_1012491 1012491 1012491 0 African 41 1012491 1012491 171 23.9732 88 104
+1013297_1013297 1013297 1013297 1 African 46 1013297 1013297 176 29.2162 100 104
+[  mturchin@node411  ~]$cat cat /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.Covars.$ancestry2.FIDIIDs | awk '{ print $1 "_" $2 }' | sort | head -n 10
+cat: cat: No such file or directory
+1001592_1001592
+1002560_1002560
+1003036_1003036
+1004593_1004593
+1008167_1008167
+1008639_1008639
+1009965_1009965
+1010953_1010953
+1012491_1012491
+1013297_1013297
+[  mturchin@node411  ~]$cat /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.Phenos.Edit.pre.wCovars.txt | head -n 10
+FID_IID FID IID SEX ANCESTRY AGE FID IID Height BMI Waist Hip
+1000010_1000010 1000010 1000010 0 British 65 1000010 1000010 161.5 23.4642 74 91
+1000028_1000028 1000028 1000028 1 British 50 1000028 1000028 177 29.4615 100 105
+1000034_1000034 1000034 1000034 1 British 64 1000034 1000034 176 27.6666 102 99
+1000045_1000045 1000045 1000045 0 Prefer_not_to_answer 65 1000045 1000045 170 32.7682 97 116
+1000052_1000052 1000052 1000052 1 British 68 1000052 1000052 180 31.0802 108 112
+1000069_1000069 1000069 1000069 0 White_and_Black_Caribbean 51 1000069 1000069 174 24.8382 82 103
+1000076_1000076 1000076 1000076 0 British 41 1000076 1000076 165 21.3039 69 86
+1000087_1000087 1000087 1000087 0 British 45 1000087 1000087 167 33.6333 97 120
+1000091_1000091 1000091 1000091 0 British 47 1000091 1000091 167 24.2748 74 103
+[  mturchin@node411  ~]$cat /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.Phenos.Transformed.wthnPop.BMIAdj.$ancestry2.Edit.txt | head -n 10
+FID     IID     Height  BMI     Waist   Hip     WaistAdjBMI     HipAdjBMI
+1001592 1001592 0.563569559987879       1.12427702386419        1.3463541831341 1.87072939472502        1.02308288854451        1.99566729473413
+1002560 1002560 1.01371078711939        1.54688053409993        0.859255377485204       1.47192488707863        -0.902316009211841      0.362971447323486
+1003036 1003036 0.374468586295873       1.3256351357371 1.43304446671421        1.5734380020189 0.963384183887781       1.42720984543468
+1004593 1004593 0.187843423860625       0.447746773201002       0.475257074602066       0.789564611335533       0.34736091317166        1.00746037131323
+1008167 1008167 0.711651190347251       -0.925395034274945      -0.908562010468932      -0.786459968118543      -0.4816158906235        -0.332271224811268
+1008639 1008639 -1.55254024741965       -0.383111145584933      -0.570913799621023      -0.254600753699711      -0.212889724209884      0.377632142515216
+1009965 1009965 -0.882794963144139      0.521263618712643       0.642935146268011       0.812569558084419       0.344133478462397       0.700497757947263
+1010953 1010953 -2.01858748090218       0.480256837500549       0.601246519257584       -0.190107021348538      0.451896864221297       -0.950044676344577
+1012491 1012491 1.19372307445526        -1.19455234692056       -0.164511500949807      -0.425184504578571      1.53690012731613        1.32896589098928
+[  mturchin@node411  ~]$cat /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.Phenos.Transformed.wthnPop.BMIAdj.$ancestry2.Edit.txt | wc
+   3397   27176  418089
 
 
 
