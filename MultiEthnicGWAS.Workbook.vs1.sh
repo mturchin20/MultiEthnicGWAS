@@ -2337,11 +2337,15 @@ join -v 1 <(cat /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_Win
 
 #20190913 NOTE -- put full-ukb analysis/setup/code-buildup here since, conceptually, it should 'precede' the creation/analysis of any within-population setups. This will be only for getting a QCed set of global PCs for all individuals in the dataset (and to develop the list of PCA outlier removals)
 
-mkdir /users/mturchin/data/ukbiobank_jun17/mturchin/All
+mkdir /users/mturchin/data/ukbiobank_jun17/mturchin/FullDataset
 
 for chr in {1..22} X; do
 
-	plink --bed /users/mturchin/data/ukbiobank_jun17/calls/ukb_cal_chr${chr}_v2.bed --bim /users/mturchin/data/ukbiobank_jun17/calls/ukb_snp_chr${chr}_v2.bim --fam /users/mturchin/data/ukbiobank_jun17/ukb2241_cal_chr1_v2_s488363.fam --make-bed --out /users/mturchin/data/ukbiobank_jun17/mturchin/All/ukb_chr${chr}_v2.All 
+#	plink --bed /users/mturchin/data/ukbiobank_jun17/calls/ukb_cal_chr${chr}_v2.bed --bim /users/mturchin/data/ukbiobank_jun17/calls/ukb_snp_chr${chr}_v2.bim --fam /users/mturchin/data/ukbiobank_jun17/ukb2241_cal_chr1_v2_s488363.fam --make-bed --out /users/mturchin/data/ukbiobank_jun17/mturchin/FullDataset/ukb_chr${chr}_v2.All 
+
+	ln -s /users/mturchin/data/ukbiobank_jun17/calls/ukb_cal_chr${chr}_v2.bed /users/mturchin/data/ukbiobank_jun17/mturchin/FullDataset/ukb_chr${chr}_v2.All.bed 
+	ln -s /users/mturchin/data/ukbiobank_jun17/calls/ukb_snp_chr${chr}_v2.bim /users/mturchin/data/ukbiobank_jun17/mturchin/FullDataset/ukb_chr${chr}_v2.All.bim
+	ln -s /users/mturchin/data/ukbiobank_jun17/ukb2241_cal_chr1_v2_s488363.fam /users/mturchin/data/ukbiobank_jun17/mturchin/FullDataset/ukb_chr${chr}_v2.All.fam
 
 done
 
