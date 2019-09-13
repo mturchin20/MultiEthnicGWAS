@@ -2349,93 +2349,42 @@ for chr in {1..22} X; do
 
 done
 
---keep /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.Covars.$ancestry2.FIDIIDs --out /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/ukb_chr${chr}_v2.${ancestry2}
+for chr in {1..22} X; do
+	
+	plink --bfile /users/mturchin/data/ukbiobank_jun17/mturchin/FullDataset/ukb_chr${chr}_v2.All --maf .01 --geno .05 --make-bed --out /users/mturchin/data/ukbiobank_jun17/mturchin/FullDataset/ukb_chr${chr}_v2.All.QCed
+	plink --bfile /users/mturchin/data/ukbiobank_jun17/mturchin/FullDataset/ukb_chr${chr}_v2.All.QCed --missing --out /users/mturchin/data/ukbiobank_jun17/mturchin/FullDataset/ukb_chr${chr}_v2.All.QCed
 
-
-
-
-
-
-for j in `cat <(echo $UKBioBankPops2 | perl -lane 'print join("\n", @F);') | grep British.Ran`; do
-        ancestry1=`echo $j | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[0];'`
-        ancestry2=`echo $j | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[1];'`
-
-        for i in {1..22}; do
-                echo $ancestry1 $ancestry2 $i
-
-                sbatch -t 72:00:00 --mem 20g -o /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chr${i}_v2.${ancestry2}.fastpca.QC.slurm.output -e /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chr${i}_v2.${ancestry2}.fastpca.QC.slurm.error --comment "$ancestry1 $ancestry2 $i" <(echo -e '#!/bin/sh'; \
-                echo -e "\nplink --bfile /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/ukb_chr${i}_v2.${ancestry2} --maf .01 --geno .05 --hwe 1e-6 --make-bed --out /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chr${i}_v2.${ancestry2}.QCed"; \
-                echo -e "\nplink --bfile /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chr${i}_v2.${ancestry2}.QCed --missing --out /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chr${i}_v2.${ancestry2}.QCed";)
-        done
-        sleep 2
 done
 
-for j in `cat <(echo $UKBioBankPops2 | perl -lane 'print join("\n", @F);') | grep British.Ran`; do
-	ancestry1=`echo $j | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[0];'`
-	ancestry2=`echo $j | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[1];'`
+paste <(cat /users/mturchin/data/ukbiobank_jun17/mturchin/FullDataset/ukb_chr1_v2.All.QCed.imiss | awk '{ print $1 "\t" $2 "\t" $4 "\t" $5 }') <(cat /users/mturchin/data/ukbiobank_jun17/mturchin/FullDataset/ukb_chr2_v2.All.QCed.imiss | awk '{ print $4 "\t" $5 }') <(cat /users/mturchin/data/ukbiobank_jun17/mturchin/FullDataset/ukb_chr3_v2.All.QCed.imiss | awk '{ print $4 "\t" $5 }') <(cat /users/mturchin/data/ukbiobank_jun17/mturchin/FullDataset/ukb_chr4_v2.All.QCed.imiss | awk '{ print $4 "\t" $5 }') <(cat /users/mturchin/data/ukbiobank_jun17/mturchin/FullDataset/ukb_chr5_v2.All.QCed.imiss | awk '{ print $4 "\t" $5 }') <(cat /users/mturchin/data/ukbiobank_jun17/mturchin/FullDataset/ukb_chr6_v2.All.QCed.imiss | awk '{ print $4 "\t" $5 }') <(cat /users/mturchin/data/ukbiobank_jun17/mturchin/FullDataset/ukb_chr7_v2.All.QCed.imiss | awk '{ print $4 "\t" $5 }') <(cat /users/mturchin/data/ukbiobank_jun17/mturchin/FullDataset/ukb_chr8_v2.All.QCed.imiss | awk '{ print $4 "\t" $5 }') <(cat /users/mturchin/data/ukbiobank_jun17/mturchin/FullDataset/ukb_chr9_v2.All.QCed.imiss | awk '{ print $4 "\t" $5 }') <(cat /users/mturchin/data/ukbiobank_jun17/mturchin/FullDataset/ukb_chr10_v2.All.QCed.imiss | awk '{ print $4 "\t" $5 }') <(cat /users/mturchin/data/ukbiobank_jun17/mturchin/FullDataset/ukb_chr11_v2.All.QCed.imiss | awk '{ print $4 "\t" $5 }') <(cat /users/mturchin/data/ukbiobank_jun17/mturchin/FullDataset/ukb_chr12_v2.All.QCed.imiss | awk '{ print $4 "\t" $5 }') <(cat /users/mturchin/data/ukbiobank_jun17/mturchin/FullDataset/ukb_chr13_v2.All.QCed.imiss | awk '{ print $4 "\t" $5 }') <(cat /users/mturchin/data/ukbiobank_jun17/mturchin/FullDataset/ukb_chr14_v2.All.QCed.imiss | awk '{ print $4 "\t" $5 }') <(cat /users/mturchin/data/ukbiobank_jun17/mturchin/FullDataset/ukb_chr15_v2.All.QCed.imiss | awk '{ print $4 "\t" $5 }') <(cat /users/mturchin/data/ukbiobank_jun17/mturchin/FullDataset/ukb_chr16_v2.All.QCed.imiss | awk '{ print $4 "\t" $5 }') <(cat /users/mturchin/data/ukbiobank_jun17/mturchin/FullDataset/ukb_chr17_v2.All.QCed.imiss | awk '{ print $4 "\t" $5 }') <(cat /users/mturchin/data/ukbiobank_jun17/mturchin/FullDataset/ukb_chr18_v2.All.QCed.imiss | awk '{ print $4 "\t" $5 }') <(cat /users/mturchin/data/ukbiobank_jun17/mturchin/FullDataset/ukb_chr19_v2.All.QCed.imiss | awk '{ print $4 "\t" $5 }') <(cat /users/mturchin/data/ukbiobank_jun17/mturchin/FullDataset/ukb_chr20_v2.All.QCed.imiss | awk '{ print $4 "\t" $5 }') <(cat /users/mturchin/data/ukbiobank_jun17/mturchin/FullDataset/ukb_chr21_v2.All.QCed.imiss | awk '{ print $4 "\t" $5 }') <(cat /users/mturchin/data/ukbiobank_jun17/mturchin/FullDataset/ukb_chr22_v2.All.QCed.imiss | awk '{ print $4 "\t" $5 }') > /users/mturchin/data/ukbiobank_jun17/mturchin/FullDataset/ukb_chrAll_v2.All.QCed.imiss
+cat /users/mturchin/data/ukbiobank_jun17/mturchin/FullDataset/ukb_chrAll_v2.All.QCed.imiss | grep -v FID | perl -lane 'my $miss = 0; my $variants = 0; for (my $i = 2; $i <= $#F; $i += 2) { $miss += $F[$i]; $variants += $F[$i+1]; } print $F[0], "\t", $F[1], "\t", $miss, "\t", $variants, "\t", $miss / $variants;' > /users/mturchin/data/ukbiobank_jun17/mturchin/FullDataset/ukb_chrAll_v2.All.QCed.imiss.SumStats
 
-	echo $ancestry1 $ancestry2
+cat /users/mturchin/data/ukbiobank_jun17/mturchin/FullDataset/ukb_chrAll_v2.All.QCed.imiss.SumStats | awk '{ if ($5 >= .05) { print $1 "\t" $2 } } ' > /users/mturchin/data/ukbiobank_jun17/mturchin/FullDataset/ukb_chrAll_v2.All.QCed.imiss.SumStats.dropiMiss.FIDIIDs 
+
+                echo -e "\nplink --bfile /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/ukb_chr${i}_v2.${ancestry2} --maf .01 --geno .05 --hwe 1e-6 --make-bed --out /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chr${i}_v2.${ancestry2}.QCed"; \
+                echo -e "\nplink --bfile /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chr${i}_v2.${ancestry2}.QCed --missing --out /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chr${i}_v2.${ancestry2}.QCed";)
 
 	paste <(cat /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chr1_v2.${ancestry2}.QCed.imiss | awk '{ print $1 "\t" $2 "\t" $4 "\t" $5 }') \
 	<(cat /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chr2_v2.${ancestry2}.QCed.imiss | awk '{ print $4 "\t" $5 }') \  
 	<(cat /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chr3_v2.${ancestry2}.QCed.imiss | awk '{ print $4 "\t" $5 }') \  
-	<(cat /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chr4_v2.${ancestry2}.QCed.imiss | awk '{ print $4 "\t" $5 }') \  
 	<(cat /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chr5_v2.${ancestry2}.QCed.imiss | awk '{ print $4 "\t" $5 }') \  
-	<(cat /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chr6_v2.${ancestry2}.QCed.imiss | awk '{ print $4 "\t" $5 }') \  
-	<(cat /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chr7_v2.${ancestry2}.QCed.imiss | awk '{ print $4 "\t" $5 }') \  
-	<(cat /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chr8_v2.${ancestry2}.QCed.imiss | awk '{ print $4 "\t" $5 }') \  
-	<(cat /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chr9_v2.${ancestry2}.QCed.imiss | awk '{ print $4 "\t" $5 }') \  
-	<(cat /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chr10_v2.${ancestry2}.QCed.imiss | awk '{ print $4 "\t" $5 }') \  
-	<(cat /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chr11_v2.${ancestry2}.QCed.imiss | awk '{ print $4 "\t" $5 }') \  
-	<(cat /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chr12_v2.${ancestry2}.QCed.imiss | awk '{ print $4 "\t" $5 }') \  
-	<(cat /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chr13_v2.${ancestry2}.QCed.imiss | awk '{ print $4 "\t" $5 }') \  
-	<(cat /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chr14_v2.${ancestry2}.QCed.imiss | awk '{ print $4 "\t" $5 }') \  
-	<(cat /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chr15_v2.${ancestry2}.QCed.imiss | awk '{ print $4 "\t" $5 }') \  
-	<(cat /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chr16_v2.${ancestry2}.QCed.imiss | awk '{ print $4 "\t" $5 }') \  
-	<(cat /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chr17_v2.${ancestry2}.QCed.imiss | awk '{ print $4 "\t" $5 }') \  
-	<(cat /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chr18_v2.${ancestry2}.QCed.imiss | awk '{ print $4 "\t" $5 }') \  
-	<(cat /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chr19_v2.${ancestry2}.QCed.imiss | awk '{ print $4 "\t" $5 }') \  
-	<(cat /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chr20_v2.${ancestry2}.QCed.imiss | awk '{ print $4 "\t" $5 }') \  
-	<(cat /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chr21_v2.${ancestry2}.QCed.imiss | awk '{ print $4 "\t" $5 }') \  
 	<(cat /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chr22_v2.${ancestry2}.QCed.imiss | awk '{ print $4 "\t" $5 }') > /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v2.${ancestry2}.QCed.imiss  
 	cat /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v2.${ancestry2}.QCed.imiss | grep -v FID | perl -lane 'my $miss = 0; my $variants = 0; for (my $i = 2; $i <= $#F; $i += 2) { $miss += $F[$i]; $variants += $F[$i+1]; } print $F[0], "\t", $F[1], "\t", $miss, "\t", $variants, "\t", $miss / $variants;' > /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v2.${ancestry2}.QCed.imiss.SumStats 
 	cat /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v2.${ancestry2}.QCed.imiss.SumStats | awk '{ if ($5 >= .05) { print $1 "\t" $2 } } ' > /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v2.${ancestry2}.QCed.imiss.SumStats.dropiMiss.FIDIIDs
-
-done
-
-for j in `cat <(echo $UKBioBankPops2 | perl -lane 'print join("\n", @F);') | grep British.Ran `; do
-	ancestry1=`echo $j | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[0];'`
-	ancestry2=`echo $j | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[1];'`
 
 	for i in {1..22}; do
 		echo $ancestry1 $ancestry2 $i
 		rm /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chr${i}_v2.${ancestry2}.QCed.imiss /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chr${i}_v2.${ancestry2}.QCed.lmiss /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chr${i}_v2.${ancestry2}.QCed.log 
 	done
-done
 
-for j in `cat <(echo $UKBioBankPops2 | perl -lane 'print join("\n", @F);')`; do
-	ancestry1=`echo $j | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[0];'`
-	ancestry2=`echo $j | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[1];'`
-
-	for i in {1..22}; do
-		echo $ancestry1 $ancestry2 $i
-	
-		sbatch -t 72:00:00 --mem 20g -o /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chr${i}_v2.${ancestry2}.fastpca.QC.slurm.output -e /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chr${i}_v2.${ancestry2}.fastpca.QC.slurm.error --comment "$ancestry1 $ancestry2 $i" <(echo -e '#!/bin/sh'; \ 
 		echo -e "\nplink --bfile /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chr${i}_v2.${ancestry2}.QCed --indep-pairwise 1000 50 0.05 --exclude range /users/mturchin/Software/flashpca/exclusion_regions_hg19.txt --out /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chr${i}_v2.${ancestry2}.QCed"; \
 		echo -e "\nplink --bfile /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chr${i}_v2.${ancestry2}.QCed --remove /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v2.${ancestry2}.QCed.imiss.SumStats.dropiMiss.FIDIIDs --extract /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chr${i}_v2.${ancestry2}.QCed.prune.in --make-bed --out /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chr${i}_v2.${ancestry2}.QCed.pruned.QCed") 
-
-	done	
-	sleep 2
-done
-
-#			sbatch -t 72:00:00 --mem 20g -o /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chr${i}_v2.${ancestry2}.fastpca.slurm.output -e /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chr${i}_v2.${ancestry2}.fastpca.slurm.error --comment "$ancestry1 $ancestry2 $i" <(echo -e '#!/bin/sh'; echo -e "\nplink --bfile /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/ukb_chr${i}_v2.${ancestry2} --maf .01 --geno --mind .95
-#			sbatch -t 1:00:00 --mem 20g -o /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/ukb_chr${i}_v2.${ancestry2}.${pheno1}.linear.slurm.output -e /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/ukb_chr${i}_v2.${ancestry2}.${pheno1}.linear.slurm.error --comment "$pheno1 $ancestry1 $ancestry2 $i" <(echo -e '#!/bin/sh'; echo -e "\nplink --bfile /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/ukb_chr${i}_v2.${ancestry2} --pheno /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.Phenos.Edit.txt --pheno-name $pheno1 --linear --sex --covar /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.Covars.txt --covar-name AGE --out /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/ukb_chr${i}_v2.${ancestry2}.${pheno1}")
-
-for j in `cat <(echo $UKBioBankPops2 | perl -lane 'print join("\n", @F);')`; do
-	ancestry1=`echo $j | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[0];'`
-	ancestry2=`echo $j | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[1];'`
-
-        echo $ancestry1 $ancestry2 /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v2.${ancestry2}.MergeList.Vs2.txt
+	
+	cat /dev/null > /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v2.${ancestry2}.MergeList.Vs2.txt
+	
+	for chr in {2..22}; do
+		echo "/users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chr${chr}_v2.${ancestry2}.QCed.pruned.QCed.bed /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chr${chr}_v2.${ancestry2}.QCed.pruned.QCed.bim /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chr${chr}_v2.${ancestry2}.QCed.pruned.QCed.fam" >> /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v2.${ancestry2}.MergeList.Vs2.txt
+	done
 
         sbatch -t 1:00:00 --mem 100g -o /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v2.${ancestry2}.slurm.MergeList.output -e /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v2.${ancestry2}.slurm.MergeList.error --comment "$ancestry1 $ancestry2" <(echo -e '#!/bin/sh'; echo -e "\nplink --bfile /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chr1_v2.${ancestry2}.QCed.pruned.QCed --merge-list /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v2.${ancestry2}.MergeList.Vs2.txt --make-bed --out /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v2.${ancestry2}.QCed.pruned.QCed")
 done
