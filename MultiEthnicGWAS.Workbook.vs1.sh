@@ -418,8 +418,6 @@ for j in `cat <(echo $UKBioBankPops2 | perl -lane 'print join("\n", @F);') | hea
 
 done
 
-
-
 for j in `cat <(echo $PAGEIPMBioMePops2 | perl -lane 'print join("\n", @F);') | head -n 3 | tail -n 3`; do
         ancestry1=`echo $j | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[0];'`
         ancestry2=`echo $j | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[1];'`
@@ -434,6 +432,12 @@ for j in `cat <(echo $PAGEIPMBioMePops2 | perl -lane 'print join("\n", @F);') | 
         cat /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/phs000925.v1.pht006203.v1.p1.c1.PAGE_IPM_BioMe.GRU.Edits.$ancestry2.Transformed.txt | awk '{ print $2 "\t" $3 "\t" $6 "\t" $7 }' > /users/mturchin/data/dbGaP/mturchin20/MultiEthnicGWAS/PAGE/IPMBioMe/phs000925.v1.pht006203.v1.p1.c1.PAGE_IPM_BioMe.GRU.Edits.$ancestry2.Transformed.Edits.txt
 
 done
+
+
+
+
+
+
 
 
 
@@ -481,6 +485,7 @@ British;British.Ran4000 British;British.Ran10000 British;British.Ran100000 Briti
 UKBioBankPops=`echo "African;African Any_other_white_background;Any_other_white_background British;British British;British.Ran4000 British;British.Ran10000 British;British.Ran100000 British;British.Ran200000 Caribbean;Caribbean Indian;Indian Irish;Irish"`; 
 UKBioBankPops=`echo "British;British.Ran4000"`;
 UKBioBankPops=`echo "African;African;Afr;472840 British;British.Ran4000;Brit4k;138503 British;British.Ran10000;Brit10k;9827442 Caribbean;Caribbean;Carib;328593 Chinese;Chinese;Chi;842743 Indian;Indian;Indn;549281 Irish;Irish;Irish;902143 Pakistani;Pakistani;Pkstn;232849"`;
+UKBioBankPopsRnd2=`echo "African;African;Afr;472840 British;British.Ran4000;Brit4k;138503 British;British.Ran10000;Brit10k;9827442 Caribbean;Caribbean;Carib;328593 Chinese;Chinese;Chi;842743 Indian;Indian;Indn;549281 Irish;Irish;Irish;902143 Pakistani;Pakistani;Pkstn;232849 British;British.Ran4000.2;Brit4k2;847242 British;British.Ran4000.3;Brit4k3;925683 British;British.Ran4000.4;Brit4k4;394757 British;British.Ran4000.5;Brit4k5;642245 British;British.Ran10000.2;Brit10k2;2045872 British;British.Ran10000.3;Brit10k3;5892624 British;British.Ran10000.4;Brit10k4;9574998 British;British.Ran10000.5;Brit10k5;3741930"`;
 
 #African;African
 #Any_other_Asian_background;Any_other_Asian_background
@@ -2331,10 +2336,6 @@ join -v 1 <(cat /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_Win
 join -v 1 <(cat /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.Covars.British.FIDIIDs | sort -g) <(cat /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.Covars.British.Ran4000.FIDIIDs /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.Covars.British.Ran4000.2.FIDIIDs | sort -g) | sort -R --random-source=<(echo -e "57129572454\nPLACEHOLDER") | head -n 4000 > /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.Covars.British.Ran4000.3.FIDIIDs
 join -v 1 <(cat /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.Covars.British.FIDIIDs | sort -g) <(cat /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.Covars.British.Ran4000.FIDIIDs /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.Covars.British.Ran4000.2.FIDIIDs /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.Covars.British.Ran4000.3.FIDIIDs | sort -g) | sort -R --random-source=<(echo -e "91243979227\nPLACEHOLDER") | head -n 4000 > /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.Covars.British.Ran4000.4.FIDIIDs
 
-
-
-
-
 #20190913 NOTE -- put full-ukb analysis/setup/code-buildup here since, conceptually, it should 'precede' the creation/analysis of any within-population setups. This will be only for getting a QCed set of global PCs for all individuals in the dataset (and to develop the list of PCA outlier removals)
 
 mkdir /users/mturchin/data/ukbiobank_jun17/mturchin/FullDataset
@@ -2433,25 +2434,6 @@ write.table(flashpca1\$projection, \"/users/mturchin/data/ukbiobank_jun17/mturch
 
 
 
-
-for j in `cat <(echo $UKBioBankPops | perl -lane 'print join("\n", @F);')`; do
-        ancestry1=`echo $j | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[0];'`
-        ancestry2=`echo $j | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[1];'`
-
-        rm -f /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v2.${ancestry2}.QCed.imiss.SumStats.dropiMiss.FIDIIDs.QCcheck;
-        for i in {1..22}; do
-                echo $ancestry1 $ancestry2 $i
-
-                sbatch -t 72:00:00 --mem 4g -o /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chr${i}_v2.${ancestry2}.QCpostPCA.slurm.output -e /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chr${i}_v2.${ancestry2}.QCpostPCA.slurm.error --comment "QCpostPCA $ancestry1 $ancestry2 $i" <(echo -e '#!/bin/sh'; \
-                echo -e "\nplink --bfile /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chr${i}_v2.${ancestry2}.QCed --remove /users/mturchin/data/ukbiobank_jun17/mturchin/20180528.ukb.reqDrop.FIDIIDs --make-bed --out /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chr${i}_v2.${ancestry2}.QCed.reqDrop"; \
-                echo -e "\nplink --bfile /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chr${i}_v2.${ancestry2}.QCed.reqDrop --remove /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v2.${ancestry2}.QCed.imiss.SumStats.dropiMiss.FIDIIDs --make-bed --out /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chr${i}_v2.${ancestry2}.QCed.reqDrop.QCed"; \
-                echo -e "\nplink --bfile /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chr${i}_v2.${ancestry2}.QCed.reqDrop.QCed --remove /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v2.${ancestry2}.QCed.pruned.QCed.ukbKing.drop.ukbDrops.FIDIIDs --make-bed --out /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chr${i}_v2.${ancestry2}.QCed.reqDrop.QCed.dropRltvs"; \
-                echo -e "\nplink --bfile /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chr${i}_v2.${ancestry2}.QCed.reqDrop.QCed.dropRltvs --keep /users/mturchin/data/ukbiobank_jun17/subsets/${ancestry1}/${ancestry2}/mturchin20/ukb_chrAll_v2.${ancestry2}.QCed.pruned.QCed.dropRltvs.noX.1kG.flashpca.pcs.wAncs.QCed.no1kG.FIDIIDs --make-bed --out /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chr${i}_v2.${ancestry2}.QCed.reqDrop.QCed.dropRltvs.PCAdrop"; \
-                echo -e "\necho $ancestry1 $ancestry2 $i >> /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v2.${ancestry2}.QCed.imiss.SumStats.dropiMiss.FIDIIDs.QCcheck; cat /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v2.${ancestry2}.QCed.imiss.SumStats.dropiMiss.FIDIIDs | wc >> /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v2.${ancestry2}.QCed.imiss.SumStats.dropiMiss.FIDIIDs.QCcheck; cat /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chr${i}_v2.${ancestry2}.QCed.fam | wc >> /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v2.${ancestry2}.QCed.imiss.SumStats.dropiMiss.FIDIIDs.QCcheck; cat /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chr${i}_v2.${ancestry2}.QCed.reqDrop.QCed.fam | wc >> /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v2.${ancestry2}.QCed.imiss.SumStats.dropiMiss.FIDIIDs.QCcheck;" \
-                echo -e "\nrm /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chr${i}_v2.${ancestry2}.QCed.reqDrop.bed /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chr${i}_v2.${ancestry2}.QCed.reqDrop.bim /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chr${i}_v2.${ancestry2}.QCed.reqDrop.fam /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chr${i}_v2.${ancestry2}.QCed.reqDrop.QCed.bed /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chr${i}_v2.${ancestry2}.QCed.reqDrop.QCed.bim /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chr${i}_v2.${ancestry2}.QCed.reqDrop.QCed.fam /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chr${i}_v2.${ancestry2}.QCed.reqDrop.QCed.log;\nrm /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chr${i}_v2.${ancestry2}.QCed.reqDrop.QCed.dropRltvs.bed /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chr${i}_v2.${ancestry2}.QCed.reqDrop.QCed.dropRltvs.bim /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chr${i}_v2.${ancestry2}.QCed.reqDrop.QCed.dropRltvs.fam /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chr${i}_v2.${ancestry2}.QCed.reqDrop.QCed.dropRltvs.log;";)
-        done
-        sleep 2
-done
 
 
 
@@ -2638,10 +2620,11 @@ for j in `cat <(echo $UKBioBankPops2 | perl -lane 'print join("\n", @F);')`; do
 
 done	
 
-#From: https://www.biostars.org/p/75335/
-#IBD values for 1st degree rels (~.5), 2nd degree (~.25), 3rd degree (~.125) -- using .2 as cutoff for now to get rid of 2nd degree & up allowing for a little bit of room for egregious, cryptic relatedness (ie that space in between .2 and .25)
+##From: https://www.biostars.org/p/75335/
+##IBD values for 1st degree rels (~.5), 2nd degree (~.25), 3rd degree (~.125) -- using .2 as cutoff for now to get rid of 2nd degree & up allowing for a little bit of room for egregious, cryptic relatedness (ie that space in between .2 and .25)
 #From http://people.virginia.edu/~wc9c/KING/manual.html & https://biobank.ctsu.ox.ac.uk/crystal/docs/genotyping_qc.pdf
 #re: KING kinship coefficients from their paper: "an estimated kinship coefficient range >0.354, [0.177, 0.354], [0.0884, 0.177] and [0.0442, 0.0884] corresponds to duplicate/MZ twin, 1st-degree, 2nd-degree, and 3rd-degree relationships respectively"
+#20191101 NOTE -- just adding this here since it wasn't noted before, went with the KING values and what was done in UKB, ie dropping individuals from pairs that had estimated kinship coefficients of >= .0442
 #UKBioBankPops=`British;British British;British.Ran100000 British;British.Ran200000`
 for j in `cat <(echo $UKBioBankPops2 | perl -lane 'print join("\n", @F);')`; do
 	ancestry1=`echo $j | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[0];'`
@@ -2661,11 +2644,36 @@ done
 #For comparison to below: ftp://ftp.1000genomes.ebi.ac.uk/vol1/ftp/release/20130502/README_phase3_callset_20150220
 cat /users/mturchin/data/ukbiobank_jun17/subsets/*/*/mturchin20/ukb_chrAll_v2.*.QCed.pruned.QCed.bim.noX.rsIDs | sort | uniq > /users/mturchin/data/ukbiobank_jun17/mturchin/ukb_chrAll_v2.All.QCed.pruned.QCed.bim.noX.rsIDs
 
+
+
+
+
+
 #R -q -e "set.seed(459721380); Data1 <- read.table(file('stdin'), header=F); Data2 <- c(); for (i in 1:nrow(Data1)) { if (runif(1) >= .5) { Data2 <- rbind(Data2, c(Data1[i,c(1:2)])); } else { Data2 <- rbind(Data2, c(Data1[i,
 #R -q -e "set.seed(459721380); Data1 <- read.table(file('stdin'), header=F); names(Data1)[3] <- names(Data1)[1]; names(Data1)[4] <- names(Data1)[2]; Data2 <- c(); for (i in 1:nrow(Data1)) { if ((! Data1[i,2] %in% Data2[,2]) && (! Data1[i,4] %in% Data2[,2])) { if (runif(1) >= .5) { Data2 <- rbind(Data2, Data1[i,c(1:2)]); } else { Data2 <- rbind(Data2, Data1[i,c(3:4)]) } } }; write.table(Data2, quote=FALSE, col.names=FALSE, row.names=FALSE);" | grep -v \> > 
 #	cat /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v2.${ancestry2}.QCed.pruned.QCed.genome.drop.FIDIIDs | wc
 #	zcat /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v2.${ancestry2}.QCed.pruned.QCed.genome.gz | awk '{ if ($10 >= .2) { print $1 "\t" $2 "\t" $3 "\t" $4 } }' | grep -v PI_HAT |  R -q -e "set.seed(459721380); Data1 <- read.table(file('stdin'), header=F); names(Data1)[3] <- names(Data1)[1]; names(Data1)[4] <- names(Data1)[2]; Data2 <- c(); for (i in 1:nrow(Data1)) { if (runif(1) >= .5) { Data2 <- rbind(Data2, Data1[i,c(1:2)]); } else { Data2 <- rbind(Data2, Data1[i,c(3:4)]) } }; write.table(Data2, quote=FALSE, col.names=FALSE, row.names=FALSE);" | grep -v \> | grep -v FID | sort | uniq > /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v2.${ancestry2}.QCed.pruned.QCed.genome.drop.FIDIIDs 
 #	cat /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v2.${ancestry2}.QCed.pruned.QCed.genome.drop.FIDIIDs /users/mturchin/data/ukbiobank_jun17/ukb_sqc_v2.wfam.excess_relatives.FIDIIDs > /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v2.${ancestry2}.QCed.pruned.QCed.genome.drop.wukbDrops.FIDIIDs
+
+#for j in `cat <(echo $UKBioBankPops | perl -lane 'print join("\n", @F);')`; do
+#	ancestry1=`echo $j | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[0];'`
+#	ancestry2=`echo $j | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[1];'`
+#
+#	echo $ancestry1 $ancestry2
+#
+#	sbatch -t 72:00:00 --mem 8g -o /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v2.${ancestry2}.fastpca.run.slurm.output -e /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v2.${ancestry2}.fastpca.run.slurm.error --comment "$ancestry1 $ancestry2 $i" <(echo -e '#!/bin/sh'; \ 
+#	echo -e "\n/users/mturchin/Software/flashpca/flashpca --bfile /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v2.${ancestry2}.QCed.pruned.QCed.dropRltvs.noX -d 20 --outpc /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v2.${ancestry2}.QCed.pruned.QCed.dropRltvs.noX.flashpca.pcs.txt --outload /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v2.${ancestry2}.QCed.pruned.QCed.dropRltvs.noX.flashpca.loads.txt --outvec /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v2.${ancestry2}.QCed.pruned.QCed.dropRltvs.noX.flashpca.vecs.txt --outval /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v2.${ancestry2}.QCed.pruned.QCed.dropRltvs.noX.flashpca.vals.txt --outpve /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v2.${ancestry2}.QCed.pruned.QCed.dropRltvs.noX.flashpca.pve.txt --outmeansd /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v2.${ancestry2}.QCed.pruned.QCed.dropRltvs.noX.flashpca.meansd.txt"; \
+#	echo -e "\n/users/mturchin/Software/flashpca/flashpca --bfile /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v2.${ancestry2}.QCed.pruned.QCed.onlyRltvs.noX --project --inmeansd /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v2.${ancestry2}.QCed.pruned.QCed.dropRltvs.noX.flashpca.meansd.txt --outproj /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v2.${ancestry2}.QCed.pruned.QCed.dropRltvs.noX.flashpca.projRltvs.txt --inload /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v2.${ancestry2}.QCed.pruned.QCed.dropRltvs.noX.flashpca.loads.txt"; \
+#	echo -e "\nR -q -e \"Data1 <- read.table(\\\"/users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v2.${ancestry2}.QCed.pruned.QCed.dropRltvs.noX.flashpca.pcs.txt\\\", header=T); Data2 <- read.table(\\\"/users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v2.${ancestry2}.QCed.pruned.QCed.dropRltvs.noX.flashpca.projRltvs.txt\\\", header=T); Data1 <- cbind(Data1, rep(\\\"BLACK\\\", nrow(Data1))); Data2 <- cbind(Data2, rep(\\\"RED\\\", nrow(Data2))); names(Data2)[ncol(Data2)] <- names(Data1)[ncol(Data1)]; Data3 <- rbind(Data1, Data2); png(\\\"/users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v2.${ancestry2}.QCed.pruned.QCed.dropRltvs.noX.flashpca.wRltvs.PCplots.vs1.png\\\", height=8000, width=4000, res=300); par(oma=c(5,5,4,2), mfrow=c(4,2)); plot(Data3[,3], Data3[,4], xlab=\\\"PC1\\\", ylab=\\\"PC2\\\", col=Data3[,ncol(Data3)], cex=1.5, cex.main=1.5, cex.axis=1.5, cex.lab=1.5); plot(Data3[,5], Data3[,6], xlab=\\\"PC3\\\", ylab=\\\"PC4\\\", col=Data3[,ncol(Data3)], cex=1.5, cex.main=1.5, cex.axis=1.5, cex.lab=1.5); plot(Data3[,7], Data3[,8], xlab=\\\"PC5\\\", ylab=\\\"PC6\\\", col=Data3[,ncol(Data3)], cex=1.5, cex.main=1.5, cex.axis=1.5, cex.lab=1.5); plot(Data3[,9], Data3[,10], xlab=\\\"PC7\\\", ylab=\\\"PC8\\\", col=Data3[,ncol(Data3)], cex=1.5, cex.main=1.5, cex.axis=1.5, cex.lab=1.5); plot(Data3[,11], Data3[,12], xlab=\\\"PC9\\\", ylab=\\\"PC10\\\", col=Data3[,ncol(Data3)], cex=1.5, cex.main=1.5, cex.axis=1.5, cex.lab=1.5); plot(Data3[,13], Data3[,14], xlab=\\\"PC11\\\", ylab=\\\"PC12\\\", col=Data3[,ncol(Data3)], cex=1.5, cex.main=1.5, cex.axis=1.5, cex.lab=1.5); plot(Data3[,15], Data3[,16], xlab=\\\"PC13\\\", ylab=\\\"PC14\\\", col=Data3[,ncol(Data3)], cex=1.5, cex.main=1.5, cex.axis=1.5, cex.lab=1.5); plot(Data3[,17], Data3[,18], xlab=\\\"PC15\\\", ylab=\\\"PC16\\\", col=Data3[,ncol(Data3)], cex=1.5, cex.main=1.5, cex.axis=1.5, cex.lab=1.5); dev.off();\"";)
+#
+#done	
+#
+##legend(\"bottomright\", c(\"GWAS Thresh\"), lty=2, lwd=2, col=\"RED\", cex=1.5);
+#
+##From MacBook Air
+##mkdir /Users/mturchin20/Documents/Work/LabMisc/RamachandranLab/MultiEthnicGWAS/Rnd1
+##mv /Users/mturchin20/Documents/Work/LabMisc/RamachandranLab/MultiEthnicGWAS/UKBioBank /Users/mturchin20/Documents/Work/LabMisc/RamachandranLab/MultiEthnicGWAS/Rnd1/.
+##scp -p mturchin@ssh.ccv.brown.edu:/users/mturchin/data/ukbiobank_jun17/subsets/*/*/mturchin20/*noX.flashpca*wRltvs.PCplots.vs1.png /Users/mturchin20/Documents/Work/LabMisc/RamachandranLab/MultiEthnicGWAS/Rnd1/UKBioBank/.
 
 for j in `cat <(echo $UKBioBankPops | perl -lane 'print join("\n", @F);')`; do
 	ancestry1=`echo $j | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[0];'`
@@ -2673,19 +2681,31 @@ for j in `cat <(echo $UKBioBankPops | perl -lane 'print join("\n", @F);')`; do
 
 	echo $ancestry1 $ancestry2
 
-	sbatch -t 72:00:00 --mem 8g -o /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v2.${ancestry2}.fastpca.run.slurm.output -e /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v2.${ancestry2}.fastpca.run.slurm.error --comment "$ancestry1 $ancestry2 $i" <(echo -e '#!/bin/sh'; \ 
-	echo -e "\n/users/mturchin/Software/flashpca/flashpca --bfile /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v2.${ancestry2}.QCed.pruned.QCed.dropRltvs.noX -d 20 --outpc /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v2.${ancestry2}.QCed.pruned.QCed.dropRltvs.noX.flashpca.pcs.txt --outload /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v2.${ancestry2}.QCed.pruned.QCed.dropRltvs.noX.flashpca.loads.txt --outvec /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v2.${ancestry2}.QCed.pruned.QCed.dropRltvs.noX.flashpca.vecs.txt --outval /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v2.${ancestry2}.QCed.pruned.QCed.dropRltvs.noX.flashpca.vals.txt --outpve /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v2.${ancestry2}.QCed.pruned.QCed.dropRltvs.noX.flashpca.pve.txt --outmeansd /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v2.${ancestry2}.QCed.pruned.QCed.dropRltvs.noX.flashpca.meansd.txt"; \
-	echo -e "\n/users/mturchin/Software/flashpca/flashpca --bfile /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v2.${ancestry2}.QCed.pruned.QCed.onlyRltvs.noX --project --inmeansd /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v2.${ancestry2}.QCed.pruned.QCed.dropRltvs.noX.flashpca.meansd.txt --outproj /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v2.${ancestry2}.QCed.pruned.QCed.dropRltvs.noX.flashpca.projRltvs.txt --inload /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v2.${ancestry2}.QCed.pruned.QCed.dropRltvs.noX.flashpca.loads.txt"; \
-	echo -e "\nR -q -e \"Data1 <- read.table(\\\"/users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v2.${ancestry2}.QCed.pruned.QCed.dropRltvs.noX.flashpca.pcs.txt\\\", header=T); Data2 <- read.table(\\\"/users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v2.${ancestry2}.QCed.pruned.QCed.dropRltvs.noX.flashpca.projRltvs.txt\\\", header=T); Data1 <- cbind(Data1, rep(\\\"BLACK\\\", nrow(Data1))); Data2 <- cbind(Data2, rep(\\\"RED\\\", nrow(Data2))); names(Data2)[ncol(Data2)] <- names(Data1)[ncol(Data1)]; Data3 <- rbind(Data1, Data2); png(\\\"/users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v2.${ancestry2}.QCed.pruned.QCed.dropRltvs.noX.flashpca.wRltvs.PCplots.vs1.png\\\", height=8000, width=4000, res=300); par(oma=c(5,5,4,2), mfrow=c(4,2)); plot(Data3[,3], Data3[,4], xlab=\\\"PC1\\\", ylab=\\\"PC2\\\", col=Data3[,ncol(Data3)], cex=1.5, cex.main=1.5, cex.axis=1.5, cex.lab=1.5); plot(Data3[,5], Data3[,6], xlab=\\\"PC3\\\", ylab=\\\"PC4\\\", col=Data3[,ncol(Data3)], cex=1.5, cex.main=1.5, cex.axis=1.5, cex.lab=1.5); plot(Data3[,7], Data3[,8], xlab=\\\"PC5\\\", ylab=\\\"PC6\\\", col=Data3[,ncol(Data3)], cex=1.5, cex.main=1.5, cex.axis=1.5, cex.lab=1.5); plot(Data3[,9], Data3[,10], xlab=\\\"PC7\\\", ylab=\\\"PC8\\\", col=Data3[,ncol(Data3)], cex=1.5, cex.main=1.5, cex.axis=1.5, cex.lab=1.5); plot(Data3[,11], Data3[,12], xlab=\\\"PC9\\\", ylab=\\\"PC10\\\", col=Data3[,ncol(Data3)], cex=1.5, cex.main=1.5, cex.axis=1.5, cex.lab=1.5); plot(Data3[,13], Data3[,14], xlab=\\\"PC11\\\", ylab=\\\"PC12\\\", col=Data3[,ncol(Data3)], cex=1.5, cex.main=1.5, cex.axis=1.5, cex.lab=1.5); plot(Data3[,15], Data3[,16], xlab=\\\"PC13\\\", ylab=\\\"PC14\\\", col=Data3[,ncol(Data3)], cex=1.5, cex.main=1.5, cex.axis=1.5, cex.lab=1.5); plot(Data3[,17], Data3[,18], xlab=\\\"PC15\\\", ylab=\\\"PC16\\\", col=Data3[,ncol(Data3)], cex=1.5, cex.main=1.5, cex.axis=1.5, cex.lab=1.5); dev.off();\"";)
+	sbatch -t 72:00:00 --mem 8g -o /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v3.${ancestry2}.fastpca.run.slurm.output -e /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v3.${ancestry2}.fastpca.run.slurm.error --comment "$ancestry1 $ancestry2 $i" <(echo -e '#!/bin/sh'; \ 
+	echo -e "\n/users/mturchin/Software/flashpca/flashpca --bfile /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v2.${ancestry2}.QCed.pruned.QCed.dropRltvs.noX -d 20 --outpc /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v3.${ancestry2}.QCed.pruned.QCed.dropRltvs.noX.flashpca.pcs.txt --outload /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v3.${ancestry2}.QCed.pruned.QCed.dropRltvs.noX.flashpca.loads.txt --outvec /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v3.${ancestry2}.QCed.pruned.QCed.dropRltvs.noX.flashpca.vecs.txt --outval /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v3.${ancestry2}.QCed.pruned.QCed.dropRltvs.noX.flashpca.vals.txt --outpve /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v3.${ancestry2}.QCed.pruned.QCed.dropRltvs.noX.flashpca.pve.txt --outmeansd /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v3.${ancestry2}.QCed.pruned.QCed.dropRltvs.noX.flashpca.meansd.txt"; \
+	echo -e "\n/users/mturchin/Software/flashpca/flashpca --bfile /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v2.${ancestry2}.QCed.pruned.QCed.onlyRltvs.noX --project --inmeansd /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v3.${ancestry2}.QCed.pruned.QCed.dropRltvs.noX.flashpca.meansd.txt --outproj /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v3.${ancestry2}.QCed.pruned.QCed.dropRltvs.noX.flashpca.projRltvs.txt --inload /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v3.${ancestry2}.QCed.pruned.QCed.dropRltvs.noX.flashpca.loads.txt"; \
+	echo -e "\nR -q -e \"Data1 <- read.table(\\\"/users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v3.${ancestry2}.QCed.pruned.QCed.dropRltvs.noX.flashpca.pcs.txt\\\", header=T); Data2 <- read.table(\\\"/users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v3.${ancestry2}.QCed.pruned.QCed.dropRltvs.noX.flashpca.projRltvs.txt\\\", header=T); Data1 <- cbind(Data1, rep(\\\"BLACK\\\", nrow(Data1))); Data2 <- cbind(Data2, rep(\\\"RED\\\", nrow(Data2))); names(Data2)[ncol(Data2)] <- names(Data1)[ncol(Data1)]; Data3 <- rbind(Data1, Data2); png(\\\"/users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v3.${ancestry2}.QCed.pruned.QCed.dropRltvs.noX.flashpca.wRltvs.PCplots.vs1.png\\\", height=8000, width=4000, res=300); par(oma=c(5,5,4,2), mfrow=c(4,2)); plot(Data3[,3], Data3[,4], xlab=\\\"PC1\\\", ylab=\\\"PC2\\\", col=Data3[,ncol(Data3)], cex=1.5, cex.main=1.5, cex.axis=1.5, cex.lab=1.5); plot(Data3[,5], Data3[,6], xlab=\\\"PC3\\\", ylab=\\\"PC4\\\", col=Data3[,ncol(Data3)], cex=1.5, cex.main=1.5, cex.axis=1.5, cex.lab=1.5); plot(Data3[,7], Data3[,8], xlab=\\\"PC5\\\", ylab=\\\"PC6\\\", col=Data3[,ncol(Data3)], cex=1.5, cex.main=1.5, cex.axis=1.5, cex.lab=1.5); plot(Data3[,9], Data3[,10], xlab=\\\"PC7\\\", ylab=\\\"PC8\\\", col=Data3[,ncol(Data3)], cex=1.5, cex.main=1.5, cex.axis=1.5, cex.lab=1.5); plot(Data3[,11], Data3[,12], xlab=\\\"PC9\\\", ylab=\\\"PC10\\\", col=Data3[,ncol(Data3)], cex=1.5, cex.main=1.5, cex.axis=1.5, cex.lab=1.5); plot(Data3[,13], Data3[,14], xlab=\\\"PC11\\\", ylab=\\\"PC12\\\", col=Data3[,ncol(Data3)], cex=1.5, cex.main=1.5, cex.axis=1.5, cex.lab=1.5); plot(Data3[,15], Data3[,16], xlab=\\\"PC13\\\", ylab=\\\"PC14\\\", col=Data3[,ncol(Data3)], cex=1.5, cex.main=1.5, cex.axis=1.5, cex.lab=1.5); plot(Data3[,17], Data3[,18], xlab=\\\"PC15\\\", ylab=\\\"PC16\\\", col=Data3[,ncol(Data3)], cex=1.5, cex.main=1.5, cex.axis=1.5, cex.lab=1.5); dev.off();\"";)
 
 done	
 
-#legend(\"bottomright\", c(\"GWAS Thresh\"), lty=2, lwd=2, col=\"RED\", cex=1.5);
-
 #From MacBook Air
-#mkdir /Users/mturchin20/Documents/Work/LabMisc/RamachandranLab/MultiEthnicGWAS/Rnd1
-#mv /Users/mturchin20/Documents/Work/LabMisc/RamachandranLab/MultiEthnicGWAS/UKBioBank /Users/mturchin20/Documents/Work/LabMisc/RamachandranLab/MultiEthnicGWAS/Rnd1/.
-#scp -p mturchin@ssh.ccv.brown.edu:/users/mturchin/data/ukbiobank_jun17/subsets/*/*/mturchin20/*noX.flashpca*wRltvs.PCplots.vs1.png /Users/mturchin20/Documents/Work/LabMisc/RamachandranLab/MultiEthnicGWAS/Rnd1/UKBioBank/.
+#mkdir /Users/mturchin20/Documents/Work/LabMisc/RamachandranLab/MultiEthnicGWAS/Rnd2; /Users/mturchin20/Documents/Work/LabMisc/RamachandranLab/MultiEthnicGWAS/Rnd2/UKBioBank/.
+#scp -p mturchin@ssh.ccv.brown.edu:/users/mturchin/data/ukbiobank_jun17/subsets/*/*/mturchin20/*All_v3*noX.flashpca*wRltvs.PCplots.vs1.png /Users/mturchin20/Documents/Work/LabMisc/RamachandranLab/MultiEthnicGWAS/Rnd2/UKBioBank/.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 cat /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.Covars.British.FIDIIDs | R -q -e "set.seed(234324); Data1 <- read.table(file('stdin'), header=F); Data1 <- Data1[sample(nrow(Data1)),] ; write.table(Data1, quote=FALSE, row.names=FALSE, col.names=FALSE);" | grep -v \> | head -n 50 > /users/mturchin/data/ukbiobank_jun17/subsets/British/British/mturchin20/ukb9200.2017_8_WinterRetreat.Covars.British.Vs2.Ran50.FIDIIDs
 cat /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.Covars.British.FIDIIDs | R -q -e "set.seed(234724); Data1 <- read.table(file('stdin'), header=F); Data1 <- Data1[sample(nrow(Data1)),] ; write.table(Data1, quote=FALSE, row.names=FALSE, col.names=FALSE);" | grep -v \> | head -n 100 > /users/mturchin/data/ukbiobank_jun17/subsets/British/British/mturchin20/ukb9200.2017_8_WinterRetreat.Covars.British.Vs2.Ran100.FIDIIDs
@@ -3298,6 +3318,9 @@ done
 
 
 
+
+
+
 #Vs3 Runs (Vs1 -- basically test run, just Africa; Vs2 -- test run of everyone + Africa + eventual flashpca includion; Vs3 -- full, non-pruned dataset creations and corrections with in-pop flashpcas from Vs2, and with transformed, proper phenotypes)
 #/users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v2.${ancestry2}.QCed.pruned.QCed.dropRltvs.noX.PCAdrop.flashpca.pcs.txt
 for j in `cat <(echo $UKBioBankPops | perl -lane 'print join("\n", @F);')`; do
@@ -3369,7 +3392,13 @@ done
 #201805** 20180528 CHECK_1 -- Prob: Rerun and drop ukb indvs requesting to be dropped Soln: Included step and FIDIIDs/code to do so & have rerun
 #20180528 NOTE -- got list of FIDIIDs to drop for ukb requests from Sam
 #Copy and pasted into `/users/mturchin/data/ukbiobank_jun17/mturchin/20180528.ukb.reqDrop.FIDIIDs`
-#20190901 NOTE -- place to get back to for start of reruns and Brit4k replicates
+#20190901 NOTE -- place to get back to for start of reruns and Brit4k replicates; 20191101 NOTE -- starting this process now from here, main filename change/indicator is movement from 'ukb_chr*_v2' to 'ukb_chr*_v3'
+
+
+
+
+
+
 
 for j in `cat <(echo $UKBioBankPops | perl -lane 'print join("\n", @F);')`; do
 	ancestry1=`echo $j | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[0];'`
@@ -3383,8 +3412,8 @@ for j in `cat <(echo $UKBioBankPops | perl -lane 'print join("\n", @F);')`; do
 		echo -e "\nplink --bfile /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chr${i}_v2.${ancestry2}.QCed --remove /users/mturchin/data/ukbiobank_jun17/mturchin/20180528.ukb.reqDrop.FIDIIDs --make-bed --out /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chr${i}_v2.${ancestry2}.QCed.reqDrop"; \	
 		echo -e "\nplink --bfile /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chr${i}_v2.${ancestry2}.QCed.reqDrop --remove /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v2.${ancestry2}.QCed.imiss.SumStats.dropiMiss.FIDIIDs --make-bed --out /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chr${i}_v2.${ancestry2}.QCed.reqDrop.QCed"; \ 
 		echo -e "\nplink --bfile /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chr${i}_v2.${ancestry2}.QCed.reqDrop.QCed --remove /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v2.${ancestry2}.QCed.pruned.QCed.ukbKing.drop.ukbDrops.FIDIIDs --make-bed --out /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chr${i}_v2.${ancestry2}.QCed.reqDrop.QCed.dropRltvs"; \
-		echo -e "\nplink --bfile /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chr${i}_v2.${ancestry2}.QCed.reqDrop.QCed.dropRltvs --keep /users/mturchin/data/ukbiobank_jun17/subsets/${ancestry1}/${ancestry2}/mturchin20/ukb_chrAll_v2.${ancestry2}.QCed.pruned.QCed.dropRltvs.noX.1kG.flashpca.pcs.wAncs.QCed.no1kG.FIDIIDs --make-bed --out /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chr${i}_v2.${ancestry2}.QCed.reqDrop.QCed.dropRltvs.PCAdrop"; \	
-		echo -e "\necho $ancestry1 $ancestry2 $i >> /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v2.${ancestry2}.QCed.imiss.SumStats.dropiMiss.FIDIIDs.QCcheck; cat /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v2.${ancestry2}.QCed.imiss.SumStats.dropiMiss.FIDIIDs | wc >> /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v2.${ancestry2}.QCed.imiss.SumStats.dropiMiss.FIDIIDs.QCcheck; cat /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chr${i}_v2.${ancestry2}.QCed.fam | wc >> /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v2.${ancestry2}.QCed.imiss.SumStats.dropiMiss.FIDIIDs.QCcheck; cat /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chr${i}_v2.${ancestry2}.QCed.reqDrop.QCed.fam | wc >> /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v2.${ancestry2}.QCed.imiss.SumStats.dropiMiss.FIDIIDs.QCcheck;" \
+		echo -e "\nplink --bfile /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chr${i}_v2.${ancestry2}.QCed.reqDrop.QCed.dropRltvs --keep /users/mturchin/data/ukbiobank_jun17/subsets/${ancestry1}/${ancestry2}/mturchin20/ukb_chrAll_v3.${ancestry2}.QCed.pruned.QCed.dropRltvs.noX.1kG.flashpca.pcs.wAncs.QCed.no1kG.FIDIIDs --make-bed --out /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chr${i}_v3.${ancestry2}.QCed.reqDrop.QCed.dropRltvs.PCAdrop"; \	
+		echo -e "\necho $ancestry1 $ancestry2 $i >> /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v3.${ancestry2}.QCed.imiss.SumStats.dropiMiss.FIDIIDs.QCcheck; cat /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v3.${ancestry2}.QCed.imiss.SumStats.dropiMiss.FIDIIDs | wc >> /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v3.${ancestry2}.QCed.imiss.SumStats.dropiMiss.FIDIIDs.QCcheck; cat /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chr${i}_v3.${ancestry2}.QCed.fam | wc >> /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v3.${ancestry2}.QCed.imiss.SumStats.dropiMiss.FIDIIDs.QCcheck; cat /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chr${i}_v3.${ancestry2}.QCed.reqDrop.QCed.fam | wc >> /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v3.${ancestry2}.QCed.imiss.SumStats.dropiMiss.FIDIIDs.QCcheck;" \
 		echo -e "\nrm /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chr${i}_v2.${ancestry2}.QCed.reqDrop.bed /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chr${i}_v2.${ancestry2}.QCed.reqDrop.bim /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chr${i}_v2.${ancestry2}.QCed.reqDrop.fam /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chr${i}_v2.${ancestry2}.QCed.reqDrop.QCed.bed /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chr${i}_v2.${ancestry2}.QCed.reqDrop.QCed.bim /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chr${i}_v2.${ancestry2}.QCed.reqDrop.QCed.fam /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chr${i}_v2.${ancestry2}.QCed.reqDrop.QCed.log;\nrm /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chr${i}_v2.${ancestry2}.QCed.reqDrop.QCed.dropRltvs.bed /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chr${i}_v2.${ancestry2}.QCed.reqDrop.QCed.dropRltvs.bim /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chr${i}_v2.${ancestry2}.QCed.reqDrop.QCed.dropRltvs.fam /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chr${i}_v2.${ancestry2}.QCed.reqDrop.QCed.dropRltvs.log;";)
 	done
 	sleep 2
