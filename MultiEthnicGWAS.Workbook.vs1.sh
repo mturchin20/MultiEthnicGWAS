@@ -2566,7 +2566,7 @@ for j in `cat <(echo $UKBioBankPopsRnd2 | perl -lane 'print join("\n", @F);') | 
 	join - <(cat /users/mturchin/data/ukbiobank_jun17/subsets/Chinese/Chinese/mturchin20/ukb_chrAll_v3.Chinese.QCed.reqDrop.QCed.dropRltvs.PCAdrop.bim | awk '{ print $2 }' | sort) | \
 	join - <(cat /users/mturchin/data/ukbiobank_jun17/subsets/Indian/Indian/mturchin20/ukb_chrAll_v3.Indian.QCed.reqDrop.QCed.dropRltvs.PCAdrop.bim | awk '{ print $2 }' | sort) | \
 	join - <(cat /users/mturchin/data/ukbiobank_jun17/subsets/Irish/Irish/mturchin20/ukb_chrAll_v3.Irish.QCed.reqDrop.QCed.dropRltvs.PCAdrop.bim | awk '{ print $2 }' | sort) | \
-	join - <(cat /users/mturchin/data/ukbiobank_jun17/subsets/Pakistani/Pakistani/mturchin20/ukb_chrAll_v3.Pakistani.QCed.reqDrop.QCed.dropRltvs.PCAdrop.bim | awk '{ print $2 }' | sort) > /users/mturchin/data/ukbiobank_jun17/mturchin/FullDataset/ukb_chrAll_v3.All.QCed.reqDrop.QCed.dropRltvs.PCAdrop.FullDataset.Replicates.SNPoverlap.$ancestry2.rsIDs 
+	join - <(cat /users/mturchin/data/ukbiobank_jun17/subsets/Pakistani/Pakistani/mturchin20/ukb_chrAll_v3.Pakistani.QCed.reqDrop.QCed.dropRltvs.PCAdrop.bim | awk '{ print $2 }' | sort) > /users/mturchin/data/ukbiobank_jun17/mturchin/FullDataset/ukb_chrAll_v3.All.QCed.reqDrop.QCed.dropRltvs.PCAdrop.FullDataset.Replicates.$ancestry2.SNPoverlap.rsIDs 
 done
 for j in `cat <(echo $UKBioBankPopsRnd2 | perl -lane 'print join("\n", @F);') | tail -n 8 | tail -n 4`; do
 	ancestry1=`echo $j | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[0];'`
@@ -2580,7 +2580,7 @@ for j in `cat <(echo $UKBioBankPopsRnd2 | perl -lane 'print join("\n", @F);') | 
 	join - <(cat /users/mturchin/data/ukbiobank_jun17/subsets/Chinese/Chinese/mturchin20/ukb_chrAll_v3.Chinese.QCed.reqDrop.QCed.dropRltvs.PCAdrop.bim | awk '{ print $2 }' | sort) | \
 	join - <(cat /users/mturchin/data/ukbiobank_jun17/subsets/Indian/Indian/mturchin20/ukb_chrAll_v3.Indian.QCed.reqDrop.QCed.dropRltvs.PCAdrop.bim | awk '{ print $2 }' | sort) | \
 	join - <(cat /users/mturchin/data/ukbiobank_jun17/subsets/Irish/Irish/mturchin20/ukb_chrAll_v3.Irish.QCed.reqDrop.QCed.dropRltvs.PCAdrop.bim | awk '{ print $2 }' | sort) | \
-	join - <(cat /users/mturchin/data/ukbiobank_jun17/subsets/Pakistani/Pakistani/mturchin20/ukb_chrAll_v3.Pakistani.QCed.reqDrop.QCed.dropRltvs.PCAdrop.bim | awk '{ print $2 }' | sort) > /users/mturchin/data/ukbiobank_jun17/mturchin/FullDataset/ukb_chrAll_v3.All.QCed.reqDrop.QCed.dropRltvs.PCAdrop.FullDataset.Replicates.SNPoverlap.$ancestry2.rsIDs 
+	join - <(cat /users/mturchin/data/ukbiobank_jun17/subsets/Pakistani/Pakistani/mturchin20/ukb_chrAll_v3.Pakistani.QCed.reqDrop.QCed.dropRltvs.PCAdrop.bim | awk '{ print $2 }' | sort) > /users/mturchin/data/ukbiobank_jun17/mturchin/FullDataset/ukb_chrAll_v3.All.QCed.reqDrop.QCed.dropRltvs.PCAdrop.FullDataset.Replicates.$ancestry2.SNPoverlap.rsIDs 
 done
 
 for i in `cat <(echo $UKBioBankPopsRnd2 | perl -lane 'print join("\n", @F);') | tail -n 8 | head -n 1`; do
@@ -2601,11 +2601,11 @@ for i in `cat <(echo $UKBioBankPopsRnd2 | perl -lane 'print join("\n", @F);') | 
 			mkdir /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1b/$ancestry2b/mturchin20/Replicates
 		fi
 	
-		plink --bfile /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1b/$ancestry2b/mturchin20/ukb_chrAll_v3.${ancestry2b}.QCed.reqDrop.QCed.dropRltvs.PCAdrop --extract /users/mturchin/data/ukbiobank_jun17/mturchin/FullDataset/ukb_chrAll_v3.All.QCed.reqDrop.QCed.dropRltvs.PCAdrop.FullDataset.Replicates.SNPoverlap.$ancestry2a.rsIDs --make-bed --out /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1b/$ancestry2b/mturchin20/Replicates/ukb_chrAll_v3.${ancestry2b}.QCed.reqDrop.QCed.dropRltvs.PCAdrop.FullDataset.Replicates.$ancestry2a
+		plink --bfile /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1b/$ancestry2b/mturchin20/ukb_chrAll_v3.${ancestry2b}.QCed.reqDrop.QCed.dropRltvs.PCAdrop --extract /users/mturchin/data/ukbiobank_jun17/mturchin/FullDataset/ukb_chrAll_v3.All.QCed.reqDrop.QCed.dropRltvs.PCAdrop.FullDataset.Replicates.$ancestry2a.SNPoverlap.rsIDs --make-bed --out /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1b/$ancestry2b/mturchin20/Replicates/ukb_chrAll_v3.${ancestry2b}.QCed.reqDrop.QCed.dropRltvs.PCAdrop.FullDataset.Replicates.$ancestry2a
 		
 	done
 		
-	plink --bfile /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1a/$ancestry2a/mturchin20/ukb_chrAll_v3.${ancestry2a}.QCed.reqDrop.QCed.dropRltvs.PCAdrop --extract /users/mturchin/data/ukbiobank_jun17/mturchin/FullDataset/ukb_chrAll_v3.All.QCed.reqDrop.QCed.dropRltvs.PCAdrop.FullDataset.Replicates.SNPoverlap.$ancestry2a.rsIDs --make-bed --out /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1a/$ancestry2a/mturchin20/Replicates/ukb_chrAll_v3.${ancestry2a}.QCed.reqDrop.QCed.dropRltvs.PCAdrop.FullDataset.Replicates.$ancestry2a
+	plink --bfile /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1a/$ancestry2a/mturchin20/ukb_chrAll_v3.${ancestry2a}.QCed.reqDrop.QCed.dropRltvs.PCAdrop --extract /users/mturchin/data/ukbiobank_jun17/mturchin/FullDataset/ukb_chrAll_v3.All.QCed.reqDrop.QCed.dropRltvs.PCAdrop.FullDataset.Replicates.$ancestry2a.SNPoverlap.rsIDs --make-bed --out /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1a/$ancestry2a/mturchin20/Replicates/ukb_chrAll_v3.${ancestry2a}.QCed.reqDrop.QCed.dropRltvs.PCAdrop.FullDataset.Replicates.$ancestry2a
 
 done
 
@@ -2626,12 +2626,29 @@ for i in `cat <(echo $UKBioBankPopsRnd2 | perl -lane 'print join("\n", @F);') | 
 	
 done
 
-
 for i in `cat <(echo $UKBioBankPopsRnd2 | perl -lane 'print join("\n", @F);') | tail -n 8 | head -n 1`; do
 	ancestry1a=`echo $i | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[0];'`
 	ancestry2a=`echo $i | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[1];'`
 
 	plink --bfile /users/mturchin/data/ukbiobank_jun17/subsets/African/African/mturchin20/ukb_chrAll_v3.African.QCed.reqDrop.QCed.dropRltvs.PCAdrop.FullDataset.Replicates.$ancestry2a --merge-list /users/mturchin/data/ukbiobank_jun17/mturchin/FullDataset/ukb_chrAll_v3.All.QCed.reqDrop.QCed.dropRltvs.PCAdrop.FullDataset.MergeList.Vs2.txt --make-bed --out /users/mturchin/data/ukbiobank_jun17/mturchin/FullDataset/ukb_chrAll_v3.All.QCed.reqDrop.QCed.dropRltvs.PCAdrop.Replicates.$ancestry2a.SNPoverlap
+
+done
+for i in `cat <(echo $UKBioBankPopsRnd2 | perl -lane 'print join("\n", @F);') | tail -n 8 | head -n 1`; do
+	ancestry1a=`echo $i | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[0];'`
+	ancestry2a=`echo $i | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[1];'`
+
+	plink --bfile /users/mturchin/data/ukbiobank_jun17/mturchin/FullDataset/ukb_chrAll_v3.All.QCed.reqDrop.QCed.dropRltvs.PCAdrop.Replicates.$ancestry2a.SNPoverlap --indep-pairwise 1000 50 0.05 --exclude range /users/mturchin/Software/flashpca/exclusion_regions_hg19.txt --out /users/mturchin/data/ukbiobank_jun17/mturchin/FullDataset/ukb_chrAll_v3.All.QCed.reqDrop.QCed.dropRltvs.PCAdrop.Replicates.$ancestry2a.SNPoverlap.pruned
+	plink --bfile /users/mturchin/data/ukbiobank_jun17/mturchin/FullDataset/ukb_chrAll_v3.All.QCed.reqDrop.QCed.dropRltvs.PCAdrop.Replicates.$ancestry2a.SNPoverlap --extract /users/mturchin/data/ukbiobank_jun17/mturchin/FullDataset/ukb_chrAll_v3.All.QCed.reqDrop.QCed.dropRltvs.PCAdrop.Replicates.$ancestry2a.SNPoverlap.pruned.prune.in --make-bed --out /users/mturchin/data/ukbiobank_jun17/mturchin/FullDataset/ukb_chrAll_v3.All.QCed.reqDrop.QCed.dropRltvs.PCAdrop.Replicates.$ancestry2a.SNPoverlap.pruned
+
+done
+
+for i in `cat <(echo $UKBioBankPopsRnd2 | perl -lane 'print join("\n", @F);') | tail -n 8 | head -n 1`; do
+	ancestry1a=`echo $i | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[0];'`
+	ancestry2a=`echo $i | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[1];'`
+
+	R -q -e "library(\"flashpcaR\"); File1 <- \"/users/mturchin/data/ukbiobank_jun17/mturchin/FullDataset/ukb_chrAll_v3.All.QCed.reqDrop.QCed.dropRltvs.PCAdrop.Replicates.$ancestry2a.SNPoverlap.pruned\"; \
+	flashpca1 <- flashpca(File1, ndim=20, do_loadings=TRUE, verbose=TRUE); \
+	write.table(flashpca1\$projection, \"/users/mturchin/data/ukbiobank_jun17/mturchin/FullDataset/ukb_chrAll_v3.All.QCed.reqDrop.QCed.dropRltvs.PCAdrop.Replicates.$ancestry2a.SNPoverlap.pruned.flashpca.pcs.txt\", quote=FALSE, row.names=FALSE, col.names=FALSE); write.table(flashpca1\$loadings, \"/users/mturchin/data/ukbiobank_jun17/mturchin/FullDataset/ukb_chrAll_v3.All.QCed.reqDrop.QCed.dropRltvs.PCAdrop.Replicates.$ancestry2a.SNPoverlap.pruned.flashpca.loads.txt\", quote=FALSE, row.names=FALSE, col.names=FALSE); write.table(flashpca1\$vectors, \"/users/mturchin/data/ukbiobank_jun17/mturchin/FullDataset/ukb_chrAll_v3.All.QCed.reqDrop.QCed.dropRltvs.PCAdrop.Replicates.$ancestry2a.SNPoverlap.pruned.flashpca.vectors.txt\", quote=FALSE, row.names=FALSE, col.names=FALSE); write.table(flashpca1\$values, \"/users/mturchin/data/ukbiobank_jun17/mturchin/FullDataset/ukb_chrAll_v3.All.QCed.reqDrop.QCed.dropRltvs.PCAdrop.Replicates.$ancestry2a.SNPoverlap.pruned.flashpca.values.txt\", quote=FALSE, row.names=FALSE, col.names=FALSE); write.table(flashpca1\$center, \"/users/mturchin/data/ukbiobank_jun17/mturchin/FullDataset/ukb_chrAll_v3.All.QCed.reqDrop.QCed.dropRltvs.PCAdrop.Replicates.$ancestry2a.SNPoverlap.pruned.flashpca.means.txt\", quote=FALSE, row.names=FALSE, col.names=FALSE); write.table(flashpca1\$scale, \"/users/mturchin/data/ukbiobank_jun17/mturchin/FullDataset/ukb_chrAll_v3.All.QCed.reqDrop.QCed.dropRltvs.PCAdrop.Replicates.$ancestry2a.SNPoverlap.pruned.flashpca.sds.txt\", quote=FALSE, row.names=FALSE, col.names=FALSE);"
 
 done
 
