@@ -2772,7 +2772,7 @@ for j in `cat <(echo $UKBioBankPopsRnd2 | perl -lane 'print join("\n", @F);') | 
         done
 done
 
-for j in `cat <(echo $UKBioBankPopsRnd2 | perl -lane 'print join("\n", @F);') | tail -n 8 | head -n 1`; do
+for j in `cat <(echo $UKBioBankPopsRnd2 | perl -lane 'print join("\n", @F);') | tail -n 8 | head -n 8`; do
 	ancestry1=`echo $j | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[0];'`
 	ancestry2=`echo $j | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[1];'`
 	echo $ancestry1 $ancestry2
@@ -2795,7 +2795,7 @@ done
 #	mv /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/*Hip* /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/Hip/.
 
 #20180524 NOTE -- these steps (which are part of `#Vs2...`) are to setup the ukb internal genotyping QC + PCAs, so repeat and rerun these as necessary; `#Vs3...` parts/steps/runs refer more to downstream phenotype-related analyses and such
-for j in `cat <(echo $UKBioBankPopsRnd2 | perl -lane 'print join("\n", @F);') | tail -n 8 | head -n 1`; do
+for j in `cat <(echo $UKBioBankPopsRnd2 | perl -lane 'print join("\n", @F);') | tail -n 8 | head -n 8`; do
 	ancestry1=`echo $j | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[0];'`
 	ancestry2=`echo $j | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[1];'`
 
@@ -2809,7 +2809,7 @@ for j in `cat <(echo $UKBioBankPopsRnd2 | perl -lane 'print join("\n", @F);') | 
 	sleep 2
 done
 
-for j in `cat <(echo $UKBioBankPopsRnd2 | perl -lane 'print join("\n", @F);') | tail -n 8 | head -n 1`; do
+for j in `cat <(echo $UKBioBankPopsRnd2 | perl -lane 'print join("\n", @F);') | tail -n 8 | head -n 8`; do
 	ancestry1=`echo $j | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[0];'`
 	ancestry2=`echo $j | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[1];'`
 
@@ -2842,7 +2842,7 @@ for j in `cat <(echo $UKBioBankPopsRnd2 | perl -lane 'print join("\n", @F);') | 
 
 done
 
-for j in `cat <(echo $UKBioBankPopsRnd2 | perl -lane 'print join("\n", @F);') | tail -n 8 | head -n 1`; do
+for j in `cat <(echo $UKBioBankPopsRnd2 | perl -lane 'print join("\n", @F);') | tail -n 8 | head -n 8`; do
 	ancestry1=`echo $j | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[0];'`
 	ancestry2=`echo $j | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[1];'`
 
@@ -2852,7 +2852,7 @@ for j in `cat <(echo $UKBioBankPopsRnd2 | perl -lane 'print join("\n", @F);') | 
 	done
 done
 
-for j in `cat <(echo $UKBioBankPopsRnd2 | perl -lane 'print join("\n", @F);') | tail -n 8 | head -n 1`; do
+for j in `cat <(echo $UKBioBankPopsRnd2 | perl -lane 'print join("\n", @F);') | tail -n 8 | head -n 8`; do
 	ancestry1=`echo $j | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[0];'`
 	ancestry2=`echo $j | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[1];'`
 
@@ -2870,7 +2870,7 @@ done
 #			sbatch -t 72:00:00 --mem 20g -o /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chr${i}_v2.${ancestry2}.fastpca.slurm.output -e /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chr${i}_v2.${ancestry2}.fastpca.slurm.error --comment "$ancestry1 $ancestry2 $i" <(echo -e '#!/bin/sh'; echo -e "\nplink --bfile /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/ukb_chr${i}_v2.${ancestry2} --maf .01 --geno --mind .95
 #			sbatch -t 1:00:00 --mem 20g -o /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/ukb_chr${i}_v2.${ancestry2}.${pheno1}.linear.slurm.output -e /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/ukb_chr${i}_v2.${ancestry2}.${pheno1}.linear.slurm.error --comment "$pheno1 $ancestry1 $ancestry2 $i" <(echo -e '#!/bin/sh'; echo -e "\nplink --bfile /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/ukb_chr${i}_v2.${ancestry2} --pheno /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.Phenos.Edit.txt --pheno-name $pheno1 --linear --sex --covar /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.Covars.txt --covar-name AGE --out /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/ukb_chr${i}_v2.${ancestry2}.${pheno1}")
 
-for j in `cat <(echo $UKBioBankPopsRnd2 | perl -lane 'print join("\n", @F);') | tail -n 8 | head -n 1`; do
+for j in `cat <(echo $UKBioBankPopsRnd2 | perl -lane 'print join("\n", @F);') | tail -n 8 | head -n 8`; do
 	ancestry1=`echo $j | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[0];'`
 	ancestry2=`echo $j | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[1];'`
 
@@ -2887,7 +2887,7 @@ done
 #20191105 NOTE -- introduced the '..._v2_2...' naming convention because I saw that the original 'ukb_chrAll_v2.${ancestry2}.MergeList.Vs2.txt' files from the first run actually had 'QCed.pruned.bed/bim/fam' filenames and not the expected 'QCed.pruned.QCed.bed/bim/fam' one, so in order to properly get to the '...v3...' versions I wanted, created an alternate '_v2_2' path for the files so that the first set of 'v2' files would not be clobbered but this new set would be identifiable. At some point may remove the '_v2_2' lines because will be running this for the new Ran4000.*. & Ran10000.*. replicates, so might go back to '_v2' for those (to help maintain that this '_v2_2' setup was the troubleshoot a situation specific to this first set of runs with the 'v2' files). Note that I accidentally clobbered the original 'ukb_chrAll_v2.${ancestry2}.MergeList.Vs2.txt' files since I thought of this after I recreated the new versions.
 #20191105 NOTE -- ended up running '..._v2_2...' for Ran10000 anyways, since it just helped with downstream file consistency anyways
 #20191107 NOTE -- I think I'm keeping the '..._v2_2...' file name convention even for the new replicate runs, just to help with consistency (even if the original purpose for the '_v2_2' tag doesn't make sense for the replciates
-for j in `cat <(echo $UKBioBankPopsRnd2 | perl -lane 'print join("\n", @F);') | tail -n 8 | head -n 1`; do
+for j in `cat <(echo $UKBioBankPopsRnd2 | perl -lane 'print join("\n", @F);') | tail -n 8 | head -n 8`; do
 	ancestry1=`echo $j | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[0];'`
 	ancestry2=`echo $j | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[1];'`
 
@@ -2916,7 +2916,7 @@ done
 /users/mturchin/data/ukbiobank_jun17/ukb_sqc_v2.wfam.ukbDrops.FIDIIDs
 /users/mturchin/data/ukbiobank_jun17/mturchin/ukb22419_rel_s488363.wukbDrops.dat
 
-for j in `cat <(echo $UKBioBankPopsRnd2 | perl -lane 'print join("\n", @F);') | tail -n 8 | head -n 1`; do
+for j in `cat <(echo $UKBioBankPopsRnd2 | perl -lane 'print join("\n", @F);') | tail -n 8 | head -n 8`; do
 	ancestry1=`echo $j | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[0];'`
 	ancestry2=`echo $j | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[1];'`
 
@@ -2935,7 +2935,7 @@ done
 #re: KING kinship coefficients from their paper: "an estimated kinship coefficient range >0.354, [0.177, 0.354], [0.0884, 0.177] and [0.0442, 0.0884] corresponds to duplicate/MZ twin, 1st-degree, 2nd-degree, and 3rd-degree relationships respectively"
 #20191101 NOTE -- just adding this here since it wasn't noted before, went with the KING values and what was done in UKB, ie dropping individuals from pairs that had estimated kinship coefficients of >= .0442
 #UKBioBankPops=`British;British British;British.Ran100000 British;British.Ran200000`
-for j in `cat <(echo $UKBioBankPopsRnd2 | perl -lane 'print join("\n", @F);') | tail -n 8 | head -n 1`; do
+for j in `cat <(echo $UKBioBankPopsRnd2 | perl -lane 'print join("\n", @F);') | tail -n 8 | head -n 8`; do
 	ancestry1=`echo $j | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[0];'`
 	ancestry2=`echo $j | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[1];'`
 
@@ -2981,7 +2981,7 @@ cat /users/mturchin/data/ukbiobank_jun17/subsets/*/*/mturchin20/ukb_chrAll_v2.*.
 ##scp -p mturchin@ssh.ccv.brown.edu:/users/mturchin/data/ukbiobank_jun17/subsets/*/*/mturchin20/*noX.flashpca*wRltvs.PCplots.vs1.png /Users/mturchin20/Documents/Work/LabMisc/RamachandranLab/MultiEthnicGWAS/Rnd1/UKBioBank/.
 
 #NOTE -- switch to conda environment 'flashpca1' before doing/running these jobs
-for j in `cat <(echo $UKBioBankPopsRnd2 | perl -lane 'print join("\n", @F);') | tail -n 8 | head -n 1`; do
+for j in `cat <(echo $UKBioBankPopsRnd2 | perl -lane 'print join("\n", @F);') | tail -n 8 | head -n 8`; do
 	ancestry1=`echo $j | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[0];'`
 	ancestry2=`echo $j | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[1];'`
 
@@ -2993,34 +2993,37 @@ for j in `cat <(echo $UKBioBankPopsRnd2 | perl -lane 'print join("\n", @F);') | 
 	write.table(flashpca1\\\$projection, \\\"/users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v3.${ancestry2}.QCed.pruned.QCed.dropRltvs.noX.flashpca.pcs.txt\\\", quote=FALSE, row.names=FALSE, col.names=FALSE); write.table(flashpca1\\\$loadings, \\\"/users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v3.${ancestry2}.QCed.pruned.QCed.dropRltvs.noX.flashpca.loads.txt\\\", quote=FALSE, row.names=FALSE, col.names=FALSE); write.table(flashpca1\\\$vectors, \\\"/users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v3.${ancestry2}.QCed.pruned.QCed.dropRltvs.noX.flashpca.vectors.txt\\\", quote=FALSE, row.names=FALSE, col.names=FALSE); write.table(flashpca1\\\$values, \\\"/users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v3.${ancestry2}.QCed.pruned.QCed.dropRltvs.noX.flashpca.values.txt\\\", quote=FALSE, row.names=FALSE, col.names=FALSE); write.table(flashpca1\\\$center, \\\"/users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v3.${ancestry2}.QCed.pruned.QCed.dropRltvs.noX.flashpca.means.txt\\\", quote=FALSE, row.names=FALSE, col.names=FALSE); write.table(flashpca1\\\$scale, \\\"/users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v3.${ancestry2}.QCed.pruned.QCed.dropRltvs.noX.flashpca.sds.txt\\\", quote=FALSE, row.names=FALSE, col.names=FALSE); write.table(flashpca1.proj\\\$projection, \\\"/users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v3.${ancestry2}.QCed.pruned.QCed.dropRltvs.noX.flashpca.projRltvs.txt\\\", quote=FALSE, row.names=FALSE, col.names=FALSE);\"";)
 
 done	
-for j in `cat <(echo $UKBioBankPopsRnd2 | perl -lane 'print join("\n", @F);') | tail -n 8 | head -n 1`; do
+for j in `cat <(echo $UKBioBankPopsRnd2 | perl -lane 'print join("\n", @F);') | tail -n 8 | head -n 8`; do
 	ancestry1=`echo $j | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[0];'`; ancestry2=`echo $j | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[1];'`; ancestry3=`echo $j | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[2];'`
 
 	echo $ancestry1 $ancestry2 $ancestry3
 
-	paste <(cat /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v2_2.${ancestry2}.QCed.pruned.QCed.dropRltvs.noX.fam | awk '{ print $1 "\t" $2 }') <(cat /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v3.${ancestry2}.QCed.pruned.QCed.dropRltvs.noX.flashpca.pcs.txt) > /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v3.${ancestry2}.QCed.pruned.QCed.dropRltvs.noX.flashpca.pcs.wInfo.txt
-	paste <(cat /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v2_2.${ancestry2}.QCed.pruned.QCed.onlyRltvs.noX.fam | awk '{ print $1 "\t" $2 }') <(cat /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v3.${ancestry2}.QCed.pruned.QCed.dropRltvs.noX.flashpca.projRltvs.txt) > /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v3.${ancestry2}.QCed.pruned.QCed.dropRltvs.noX.flashpca.projRltvs.wInfo.txt
+#	paste <(cat /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v2_2.${ancestry2}.QCed.pruned.QCed.dropRltvs.noX.fam | awk '{ print $1 "\t" $2 }') <(cat /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v3.${ancestry2}.QCed.pruned.QCed.dropRltvs.noX.flashpca.pcs.txt) > /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v3.${ancestry2}.QCed.pruned.QCed.dropRltvs.noX.flashpca.pcs.wInfo.txt
+#	paste <(cat /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v2_2.${ancestry2}.QCed.pruned.QCed.onlyRltvs.noX.fam | awk '{ print $1 "\t" $2 }') <(cat /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v3.${ancestry2}.QCed.pruned.QCed.dropRltvs.noX.flashpca.projRltvs.txt) > /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v3.${ancestry2}.QCed.pruned.QCed.dropRltvs.noX.flashpca.projRltvs.wInfo.txt
 
 	R -q -e "Data1 <- read.table(\"/users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v3.${ancestry2}.QCed.pruned.QCed.dropRltvs.noX.flashpca.pcs.wInfo.txt\", header=F); Data2 <- read.table(\"/users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v3.${ancestry2}.QCed.pruned.QCed.dropRltvs.noX.flashpca.projRltvs.wInfo.txt\", header=F); Data1 <- cbind(Data1, rep(\"BLACK\", nrow(Data1))); Data2 <- cbind(Data2, rep(\"PURPLE\", nrow(Data2))); Data1[,ncol(Data1)] <- factor(Data1[,ncol(Data1)], levels=c(\"BLACK\", \"RED\", \"PURPLE\")); Data2[,ncol(Data2)] <- factor(Data2[,ncol(Data2)], levels=c(\"BLACK\", \"RED\", \"PURPLE\")); \ 
 	KeepList <- rep(TRUE, nrow(Data1)); for (i in 3:8) { Mean1 <- mean(Data1[,i]); SD1 <- sd(Data1[,i]); KeepList[Data1[,i] < Mean1 - (SD1 * 7) | Data1[,i] > Mean1 + (SD1 * 7)] <- FALSE; }; Data1[!KeepList,ncol(Data1)] <- \"RED\"; \
 	names(Data2)[ncol(Data2)] <- names(Data1)[ncol(Data1)]; Data3 <- rbind(Data1, Data2); \
-	png(\"/users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v3.${ancestry2}.QCed.pruned.QCed.dropRltvs.noX.flashpca.wRltvs.PCplots.vs1.png\", height=8000, width=4400, res=300); par(oma=c(1,1,4,17), mar=c(5,5,4,2), mfrow=c(4,2)); \
+	png(\"/users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v3.${ancestry2}.QCed.pruned.QCed.dropRltvs.noX.flashpca.wRltvs.PCplots.vs1.png\", height=8000, width=4650, res=300); par(oma=c(1,1,4,22), mar=c(5,5,4,2), mfrow=c(4,2)); \
 	plot(Data3[,3], Data3[,4], xlab=\"PC1\", ylab=\"PC2\", col=as.character(Data3[,ncol(Data3)]), pch=16, cex=1.5, cex.main=1.5, cex.axis=1.5, cex.lab=1.5); plot(Data3[,5], Data3[,6], xlab=\"PC3\", ylab=\"PC4\", col=as.character(Data3[,ncol(Data3)]), pch=16, cex=1.5, cex.main=1.5, cex.axis=1.5, cex.lab=1.5); plot(Data3[,7], Data3[,8], xlab=\"PC5\", ylab=\"PC6\", col=as.character(Data3[,ncol(Data3)]), pch=16, cex=1.5, cex.main=1.5, cex.axis=1.5, cex.lab=1.5); plot(Data3[,9], Data3[,10], xlab=\"PC7\", ylab=\"PC8\", col=as.character(Data3[,ncol(Data3)]), pch=16, cex=1.5, cex.main=1.5, cex.axis=1.5, cex.lab=1.5); plot(Data3[,11], Data3[,12], xlab=\"PC9\", ylab=\"PC10\", col=as.character(Data3[,ncol(Data3)]), pch=16, cex=1.5, cex.main=1.5, cex.axis=1.5, cex.lab=1.5); plot(Data3[,13], Data3[,14], xlab=\"PC11\", ylab=\"PC12\", col=as.character(Data3[,ncol(Data3)]), pch=16, cex=1.5, cex.main=1.5, cex.axis=1.5, cex.lab=1.5); plot(Data3[,15], Data3[,16], xlab=\"PC13\", ylab=\"PC14\", col=as.character(Data3[,ncol(Data3)]), pch=16, cex=1.5, cex.main=1.5, cex.axis=1.5, cex.lab=1.5); plot(Data3[,17], Data3[,18], xlab=\"PC15\", ylab=\"PC16\", col=as.character(Data3[,ncol(Data3)]), pch=16, cex=1.5, cex.main=1.5, cex.axis=1.5, cex.lab=1.5); \
 	mtext(\"UKB ${ancestry2} PCA Plots\", line=-.75, outer=TRUE, cex=2.5); par(fig = c(0, 1, 0, 1), mfrow=c(1,1), oma = c(0, 0, 0, 0), mar = c(0, 0, 0, 0), new = TRUE); plot(0, 0, type = \"n\", bty = \"n\", xaxt = \"n\", yaxt = \"n\"); legend(\"topright\", c(\"${ancestry2}\", \"Relatives\", \"7SD Drops\"), pch=c(16,16,16), col=c(\"BLACK\", \"PURPLE\", \"RED\"), xpd=TRUE, inset=c(.025,.03975), bg=\"transparent\", cex=1.35, y.intersp=2); dev.off(); \
 	write.table(Data1[!KeepList,c(1:2)], file=\"/users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v3.${ancestry2}.QCed.pruned.QCed.dropRltvs.noX.flashpca.pcs.wInfo.PCAdrops.FIDIIDs\", quote=FALSE, row.names=FALSE, col.names=FALSE);"
 	
 done
 
+#	png(\"/users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v3.${ancestry2}.QCed.pruned.QCed.dropRltvs.noX.flashpca.wRltvs.PCplots.vs1.png\", height=8000, width=4400, res=300); par(oma=c(1,1,4,17), mar=c(5,5,4,2), mfrow=c(4,2)); \
+#	mtext(\"UKB ${ancestry2} PCA Plots\", line=-.75, outer=TRUE, cex=2.5); par(fig = c(0, 1, 0, 1), mfrow=c(1,1), oma = c(0, 0, 0, 0), mar = c(0, 0, 0, 0), new = TRUE); plot(0, 0, type = \"n\", bty = \"n\", xaxt = \"n\", yaxt = \"n\"); legend(\"topright\", c(\"${ancestry2}\", \"Relatives\", \"7SD Drops\"), pch=c(16,16,16), col=c(\"BLACK\", \"PURPLE\", \"RED\"), xpd=TRUE, inset=c(.025,.03975), bg=\"transparent\", cex=1.35, y.intersp=2); dev.off(); \
+
 #From MacBook Air
 #mkdir /Users/mturchin20/Documents/Work/LabMisc/RamachandranLab/MultiEthnicGWAS/Rnd2; /Users/mturchin20/Documents/Work/LabMisc/RamachandranLab/MultiEthnicGWAS/Rnd2/UKBioBank/.
 #scp -p mturchin@ssh.ccv.brown.edu:/users/mturchin/data/ukbiobank_jun17/subsets/*/*/mturchin20/*All_v3*noX.flashpca*wRltvs.PCplots.vs1.png /Users/mturchin20/Documents/Work/LabMisc/RamachandranLab/MultiEthnicGWAS/Rnd2/UKBioBank/.
 
-for j in `cat <(echo $UKBioBankPopsRnd2 | perl -lane 'print join("\n", @F);') | tail -n 8 | head -n 1`; do
+for j in `cat <(echo $UKBioBankPopsRnd2 | perl -lane 'print join("\n", @F);') | tail -n 8 | head -n 8`; do
 	ancestry1=`echo $j | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[0];'`; ancestry2=`echo $j | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[1];'`; ancestry3=`echo $j | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[2];'`
 
 	echo $ancestry1 $ancestry2 $ancestry3
 
-	cat /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v2.${ancestry2}.QCed.pruned.QCed.fam | wc
+#	cat /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v2.${ancestry2}.QCed.pruned.QCed.fam | wc
 	cat /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v2_2.${ancestry2}.QCed.pruned.QCed.fam | wc
 	cat /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v3.${ancestry2}.QCed.pruned.QCed.dropRltvs.noX.flashpca.pcs.wInfo.txt | wc
 	cat /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v3.${ancestry2}.QCed.pruned.QCed.dropRltvs.noX.flashpca.projRltvs.wInfo.txt | wc
@@ -11777,6 +11780,94 @@ Pakistani Pakistani Pkstn
   11575 Irish
       1 POP
    1581 Pakistani
+[  mturchin@node1322  ~]$for j in `cat <(echo $UKBioBankPopsRnd2 | perl -lane 'print join("\n", @F);') | tail -n 8 | head -n 8`; do
+>         ancestry1=`echo $j | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[0];'`
+>         ancestry2=`echo $j | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[1];'`
+> 
+>         echo $ancestry1 $ancestry2
+> 
+> ##      cat <(join <(cat /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v2.${ancestry2}.QCed.pruned.QCed.fam | awk '{ print $1 }' | sort) <(cat /users/mturchin/data/ukbiobank_jun17/ukb22419_rel_s488363.dat | awk '{ print $1 "\t" $0 }' | sort -k 1,1) | perl -lane 'print join("\t", @F[1..$#F]);') <(join <(cat /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v2.${ancestry2}.QCed.pruned.QCed.fam | awk '{ print $1 }' | sort) <(cat /users/mturchin/data/ukbiobank_jun17/ukb22419_rel_s488363.dat | awk '{ print $2 "\t" $0 }' | sort -k 1,1) | perl -lane 'print join("\t", @F[1..$#F]);') | sort | uniq -d | gzip > /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v2.${ancestry2}.QCed.pruned.QCed.ukb22419_rel_s488363.gz
+>         cat <(join <(cat /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v2_2.${ancestry2}.QCed.pruned.QCed.fam | awk '{ print $1 }' | sort) <(cat /users/mturchin/data/ukbiobank_jun17/mturchin/ukb22419_rel_s488363.wukbDrops.dat | awk '{ print $1 "\t" $0 }' | sort -k 1,1) | perl -lane 'print join("\t", @F[1..$#F]);') <(join <(cat /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v2_2.${ancestry2}.QCed.pruned.QCed.fam | awk '{ print $1 }' | sort) <(cat /users/mturchin/data/ukbiobank_jun17/mturchin/ukb22419_rel_s488363.wukbDrops.dat | awk '{ print $2 "\t" $0 }' | sort -k 1,1) | perl -lane 'print join("\t", @F[1..$#F]);') | sort | uniq -d | gzip > /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v2_2.${ancestry2}.QCed.pruned.QCed.ukb22419_rel_s488363.wukbDrops.gz
+>         zcat /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v2_2.${ancestry2}.QCed.pruned.QCed.ukb22419_rel_s488363.wukbDrops.gz | awk '{ if ($5 >= .0884) { print $0 } }' | wc
+>         zcat /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v2_2.${ancestry2}.QCed.pruned.QCed.ukb22419_rel_s488363.wukbDrops.gz | awk '{ if ($5 >= .0442) { print $0 } }' | wc
+> 
+> done   
+British British.Ran4000.2
+      4      20     134
+      6      30     205
+British British.Ran4000.3
+      4      20     143
+      6      30     215
+British British.Ran4000.4
+      5      25     180
+     11      55     396
+British British.Ran4000.5
+      0       0       0
+      5      25     179
+British British.Ran10000.2
+     20     100     694
+     48     240    1696
+British British.Ran10000.3
+     16      80     572
+     44     220    1574
+British British.Ran10000.4
+     26     130     917
+     51     255    1809
+British British.Ran10000.5
+     17      85     607
+     45     225    1605
+(flashpca1) [  mturchin@node1322  ~]$for j in `cat <(echo $UKBioBankPopsRnd2 | perl -lane 'print join("\n", @F);') | tail -n 8 | head -n 8`; do
+>         ancestry1=`echo $j | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[0];'`; ancestry2=`echo $j | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[1];'`; ancestry3=`echo $j | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[2];'`
+> 
+>         echo $ancestry1 $ancestry2 $ancestry3
+> 
+> #       cat /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v2.${ancestry2}.QCed.pruned.QCed.fam | wc
+>         cat /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v2_2.${ancestry2}.QCed.pruned.QCed.fam | wc
+>         cat /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v3.${ancestry2}.QCed.pruned.QCed.dropRltvs.noX.flashpca.pcs.wInfo.txt | wc
+>         cat /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v3.${ancestry2}.QCed.pruned.QCed.dropRltvs.noX.flashpca.projRltvs.wInfo.txt | wc
+>         cat /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v3.${ancestry2}.QCed.pruned.QCed.dropRltvs.noX.flashpca.pcs.wInfo.PCAdrops.FIDIIDs | wc
+> 
+> done
+British British.Ran4000.2 Brit4k2
+   3906   23436   97650
+   3890   85580 1605067
+     16     352    6789
+     21      42     336
+British British.Ran4000.3 Brit4k3
+   3881   23286   97025
+   3859   84898 1593814
+     22     484    9389
+     23      46     368
+British British.Ran4000.4 Brit4k4
+   3879   23274   96975
+   3855   84810 1590983
+     24     528   10217
+     17      34     272
+British British.Ran4000.5 Brit4k5
+   3891   23346   97275
+   3871   85162 1597981
+     20     440    8548
+     18      36     288
+British British.Ran10000.2 Brit10k2
+   9745   58470  243625
+   9669  212718 4019599
+     76    1672   32348
+     41      82     656
+British British.Ran10000.3 Brit10k3
+   9736   58416  243400
+   9671  212762 4022596
+     65    1430   27679
+     35      70     560
+British British.Ran10000.4 Brit10k4
+   9748   58488  243700
+   9665  212630 4019246
+     83    1826   35316
+     72     144    1152
+British British.Ran10000.5 Brit10k5
+   9731   58386  243275
+   9654  212388 4014419
+     77    1694   32717
+     58     116     928
 
 
 
