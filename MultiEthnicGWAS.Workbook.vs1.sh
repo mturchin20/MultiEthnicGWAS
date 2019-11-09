@@ -2661,7 +2661,7 @@ for i in `cat <(echo $UKBioBankPopsRnd2 | perl -lane 'print join("\n", @F);') | 
 
 done
 
-for i in `cat <(echo $UKBioBankPopsRnd2 | perl -lane 'print join("\n", @F);') | tail -n 8 | head -n 1`; do
+for i in `cat <(echo $UKBioBankPopsRnd2 | perl -lane 'print join("\n", @F);') | tail -n 8 | head -n 4`; do
 	ancestry1a=`echo $i | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[0];'`
 	ancestry2a=`echo $i | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[1];'`
 	
@@ -2682,7 +2682,7 @@ for i in `cat <(echo $UKBioBankPopsRnd2 | perl -lane 'print join("\n", @F);') | 
 
 	R -q -e "library(\"RColorBrewer\"); Data1 <- read.table(\"/users/mturchin/data/ukbiobank_jun17/mturchin/FullDataset/ukb_chrAll_v3.All.QCed.reqDrop.QCed.dropRltvs.PCAdrop.Replicates.$ancestry2a.SNPoverlap.pruned.flashpca.pcs.txt.wInfo.wAncs.txt\", header=T); \
 		Data1 <- cbind(Data1, rep(\"gray\", nrow(Data1))); Data1 <- cbind(Data1, rep(19, nrow(Data1))); Data1[,ncol(Data1)-1] <- factor(Data1[,ncol(Data1)-1], levels=c(colors(), brewer.pal(12, \"Paired\"), brewer.pal(8, \"Set2\"), brewer.pal(12, \"Set3\"), brewer.pal(9, \"RdPu\"))); Data1[Data1[ncol(Data1)-2] == \"African\", ncol(Data1)-1] <- brewer.pal(9, \"RdPu\")[5]; Data1[Data1[ncol(Data1)-2] == \"British.Ran4000\", ncol(Data1)-1] <- brewer.pal(12, \"Paired\")[1]; Data1[Data1[ncol(Data1)-2] == \"British.Ran10000\", ncol(Data1)-1] <- brewer.pal(12, \"Paired\")[2]; Data1[Data1[ncol(Data1)-2] == \"Caribbean\", ncol(Data1)-1] <- brewer.pal(12, \"Paired\")[3]; Data1[Data1[ncol(Data1)-2] == \"Chinese\", ncol(Data1)-1] <- brewer.pal(12, \"Paired\")[7]; Data1[Data1[ncol(Data1)-2] == \"Indian\", ncol(Data1)-1] <- brewer.pal(12, \"Set3\")[8]; Data1[Data1[ncol(Data1)-2] == \"Irish\", ncol(Data1)-1] <- brewer.pal(12, \"Paired\")[9]; Data1[Data1[ncol(Data1)-2] == \"Pakistani\", ncol(Data1)-1] <- brewer.pal(8, \"Set2\")[6]; \
-        	png(\"/users/mturchin/data/ukbiobank_jun17/mturchin/FullDataset/ukb_chrAll_v3.All.QCed.reqDrop.QCed.dropRltvs.PCAdrop.Replicates.$ancestry2a.SNPoverlap.pruned.flashpca.PCplots.vs1.png\", height=8250, width=5000, res=300); par(oma=c(1,1,4,20), mar=c(5,5,4,2), mfrow=c(4,2)); \	
+        	png(\"/users/mturchin/data/ukbiobank_jun17/mturchin/FullDataset/ukb_chrAll_v3.All.QCed.reqDrop.QCed.dropRltvs.PCAdrop.Replicates.$ancestry2a.SNPoverlap.pruned.flashpca.PCplots.vs1.png\", height=8250, width=5250, res=300); par(oma=c(1,1,4,24), mar=c(5,5,4,2), mfrow=c(4,2)); \	
 		plot(Data1[,3], Data1[,4], xlab=\"PC1\", ylab=\"PC2\", pch=Data1[,ncol(Data1)], col=as.character(Data1[,ncol(Data1)-1]), cex=1.75, cex.main=1.75, cex.axis=1.75, cex.lab=1.75); plot(Data1[,5], Data1[,6], xlab=\"PC3\", ylab=\"PC4\", pch=Data1[,ncol(Data1)], col=as.character(Data1[,ncol(Data1)-1]), cex=1.75, cex.main=1.75, cex.axis=1.75, cex.lab=1.75); plot(Data1[,7], Data1[,8], xlab=\"PC5\", ylab=\"PC6\", pch=Data1[,ncol(Data1)], col=as.character(Data1[,ncol(Data1)-1]), cex=1.75, cex.main=1.75, cex.axis=1.75, cex.lab=1.75); plot(Data1[,9], Data1[,10], xlab=\"PC7\", ylab=\"PC8\", pch=Data1[,ncol(Data1)], col=as.character(Data1[,ncol(Data1)-1]), cex=1.75, cex.main=1.75, cex.axis=1.75, cex.lab=1.75); plot(Data1[,11], Data1[,12], xlab=\"PC9\", ylab=\"PC10\", pch=Data1[,ncol(Data1)], col=as.character(Data1[,ncol(Data1)-1]), cex=1.75, cex.main=1.75, cex.axis=1.75, cex.lab=1.75); plot(Data1[,13], Data1[,14], xlab=\"PC11\", ylab=\"PC12\", pch=Data1[,ncol(Data1)], col=as.character(Data1[,ncol(Data1)-1]), cex=1.75, cex.main=1.75, cex.axis=1.75, cex.lab=1.75); plot(Data1[,15], Data1[,16], xlab=\"PC13\", ylab=\"PC14\", pch=Data1[,ncol(Data1)], col=as.character(Data1[,ncol(Data1)-1]), cex=1.75, cex.main=1.75, cex.axis=1.75, cex.lab=1.75); plot(Data1[,17], Data1[,18], xlab=\"PC15\", ylab=\"PC16\", pch=Data1[,ncol(Data1)], col=as.character(Data1[,ncol(Data1)-1]), cex=1.75, cex.main=1.75, cex.axis=1.75, cex.lab=1.75); mtext(\"UKBioBank (Full Dataset)\", line=-.75, outer=TRUE, cex=2.5); par(fig = c(0, 1, 0, 1), mfrow=c(1,1), oma = c(0, 0, 0, 0), mar = c(0, 0, 0, 0), new = TRUE); plot(0, 0, type = \"n\", bty = \"n\", xaxt = \"n\", yaxt = \"n\"); legend(\"topright\", c(\"African\", \"$ancestry2a\", \"Brit.Ran10000\", \"Caribbean\", \"Chinese\", \"Indian\", \"Irish\", \"Pakistani\"), pch=c(19, 19, 19, 19, 19, 19, 19, 19), col=c(brewer.pal(9, \"RdPu\")[5], brewer.pal(12, \"Paired\")[1], brewer.pal(12, \"Paired\")[2], brewer.pal(12, \"Paired\")[3], brewer.pal(12, \"Paired\")[7], brewer.pal(12, \"Set3\")[8], brewer.pal(12, \"Paired\")[9], brewer.pal(8, \"Set2\")[6]), xpd=TRUE, inset=c(.025,.0385), bg=\"transparent\", cex=1.35, y.intersp=2); \
 dev.off();"
 
@@ -2693,7 +2693,7 @@ for i in `cat <(echo $UKBioBankPopsRnd2 | perl -lane 'print join("\n", @F);') | 
 	
 	R -q -e "library(\"RColorBrewer\"); Data1 <- read.table(\"/users/mturchin/data/ukbiobank_jun17/mturchin/FullDataset/ukb_chrAll_v3.All.QCed.reqDrop.QCed.dropRltvs.PCAdrop.Replicates.$ancestry2a.SNPoverlap.pruned.flashpca.pcs.txt.wInfo.wAncs.txt\", header=T); \
 		Data1 <- cbind(Data1, rep(\"gray\", nrow(Data1))); Data1 <- cbind(Data1, rep(19, nrow(Data1))); Data1[,ncol(Data1)-1] <- factor(Data1[,ncol(Data1)-1], levels=c(colors(), brewer.pal(12, \"Paired\"), brewer.pal(8, \"Set2\"), brewer.pal(12, \"Set3\"), brewer.pal(9, \"RdPu\"))); Data1[Data1[ncol(Data1)-2] == \"African\", ncol(Data1)-1] <- brewer.pal(9, \"RdPu\")[5]; Data1[Data1[ncol(Data1)-2] == \"British.Ran4000\", ncol(Data1)-1] <- brewer.pal(12, \"Paired\")[1]; Data1[Data1[ncol(Data1)-2] == \"British.Ran10000\", ncol(Data1)-1] <- brewer.pal(12, \"Paired\")[2]; Data1[Data1[ncol(Data1)-2] == \"Caribbean\", ncol(Data1)-1] <- brewer.pal(12, \"Paired\")[3]; Data1[Data1[ncol(Data1)-2] == \"Chinese\", ncol(Data1)-1] <- brewer.pal(12, \"Paired\")[7]; Data1[Data1[ncol(Data1)-2] == \"Indian\", ncol(Data1)-1] <- brewer.pal(12, \"Set3\")[8]; Data1[Data1[ncol(Data1)-2] == \"Irish\", ncol(Data1)-1] <- brewer.pal(12, \"Paired\")[9]; Data1[Data1[ncol(Data1)-2] == \"Pakistani\", ncol(Data1)-1] <- brewer.pal(8, \"Set2\")[6]; \
-        	png(\"/users/mturchin/data/ukbiobank_jun17/mturchin/FullDataset/ukb_chrAll_v3.All.QCed.reqDrop.QCed.dropRltvs.PCAdrop.Replicates.$ancestry2a.SNPoverlap.pruned.flashpca.PCplots.vs1.png\", height=8250, width=5000, res=300); par(oma=c(1,1,4,20), mar=c(5,5,4,2), mfrow=c(4,2)); \	
+        	png(\"/users/mturchin/data/ukbiobank_jun17/mturchin/FullDataset/ukb_chrAll_v3.All.QCed.reqDrop.QCed.dropRltvs.PCAdrop.Replicates.$ancestry2a.SNPoverlap.pruned.flashpca.PCplots.vs1.png\", height=8250, width=5250, res=300); par(oma=c(1,1,4,24), mar=c(5,5,4,2), mfrow=c(4,2)); \	
 		plot(Data1[,3], Data1[,4], xlab=\"PC1\", ylab=\"PC2\", pch=Data1[,ncol(Data1)], col=as.character(Data1[,ncol(Data1)-1]), cex=1.75, cex.main=1.75, cex.axis=1.75, cex.lab=1.75); plot(Data1[,5], Data1[,6], xlab=\"PC3\", ylab=\"PC4\", pch=Data1[,ncol(Data1)], col=as.character(Data1[,ncol(Data1)-1]), cex=1.75, cex.main=1.75, cex.axis=1.75, cex.lab=1.75); plot(Data1[,7], Data1[,8], xlab=\"PC5\", ylab=\"PC6\", pch=Data1[,ncol(Data1)], col=as.character(Data1[,ncol(Data1)-1]), cex=1.75, cex.main=1.75, cex.axis=1.75, cex.lab=1.75); plot(Data1[,9], Data1[,10], xlab=\"PC7\", ylab=\"PC8\", pch=Data1[,ncol(Data1)], col=as.character(Data1[,ncol(Data1)-1]), cex=1.75, cex.main=1.75, cex.axis=1.75, cex.lab=1.75); plot(Data1[,11], Data1[,12], xlab=\"PC9\", ylab=\"PC10\", pch=Data1[,ncol(Data1)], col=as.character(Data1[,ncol(Data1)-1]), cex=1.75, cex.main=1.75, cex.axis=1.75, cex.lab=1.75); plot(Data1[,13], Data1[,14], xlab=\"PC11\", ylab=\"PC12\", pch=Data1[,ncol(Data1)], col=as.character(Data1[,ncol(Data1)-1]), cex=1.75, cex.main=1.75, cex.axis=1.75, cex.lab=1.75); plot(Data1[,15], Data1[,16], xlab=\"PC13\", ylab=\"PC14\", pch=Data1[,ncol(Data1)], col=as.character(Data1[,ncol(Data1)-1]), cex=1.75, cex.main=1.75, cex.axis=1.75, cex.lab=1.75); plot(Data1[,17], Data1[,18], xlab=\"PC15\", ylab=\"PC16\", pch=Data1[,ncol(Data1)], col=as.character(Data1[,ncol(Data1)-1]), cex=1.75, cex.main=1.75, cex.axis=1.75, cex.lab=1.75); mtext(\"UKBioBank (Full Dataset)\", line=-.75, outer=TRUE, cex=2.5); par(fig = c(0, 1, 0, 1), mfrow=c(1,1), oma = c(0, 0, 0, 0), mar = c(0, 0, 0, 0), new = TRUE); plot(0, 0, type = \"n\", bty = \"n\", xaxt = \"n\", yaxt = \"n\"); legend(\"topright\", c(\"African\", \"Brit.Ran4000\", \"$ancestry2a\", \"Caribbean\", \"Chinese\", \"Indian\", \"Irish\", \"Pakistani\"), pch=c(19, 19, 19, 19, 19, 19, 19, 19), col=c(brewer.pal(9, \"RdPu\")[5], brewer.pal(12, \"Paired\")[1], brewer.pal(12, \"Paired\")[2], brewer.pal(12, \"Paired\")[3], brewer.pal(12, \"Paired\")[7], brewer.pal(12, \"Set3\")[8], brewer.pal(12, \"Paired\")[9], brewer.pal(8, \"Set2\")[6]), xpd=TRUE, inset=c(.025,.0385), bg=\"transparent\", cex=1.35, y.intersp=2); \
 dev.off();"
 
@@ -2702,7 +2702,7 @@ done
 #From MacBook Pro
 #scp -p mturchin@ssh.ccv.brown.edu:/users/mturchin/data/ukbiobank_jun17/mturchin/FullDataset/ukb_chrAll_v3.All.QCed.reqDrop.QCed.dropRltvs.PCAdrop.Replicates.*.SNPoverlap.pruned.flashpca.PCplots.vs1.png /Users/mturchin20/Documents/Work/LabMisc/RamachandranLab/MultiEthnicGWAS/Rnd2/UKBioBank/.
 
-for i in `cat <(echo $UKBioBankPopsRnd2 | perl -lane 'print join("\n", @F);') | tail -n 8 | tail -n 4`; do
+for i in `cat <(echo $UKBioBankPopsRnd2 | perl -lane 'print join("\n", @F);') | tail -n 8 | head -n 8`; do
 	ancestry1a=`echo $i | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[0];'`
 	ancestry2a=`echo $i | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[1];'`
 
@@ -11868,6 +11868,31 @@ British British.Ran10000.5 Brit10k5
    9654  212388 4014419
      77    1694   32717
      58     116     928
+(flashpca1) [  mturchin@node1322  ~]$for i in `cat <(echo $UKBioBankPopsRnd2 | perl -lane 'print join("\n", @F);') | tail -n 8 | head -n 1`; do
+>         ancestry1a=`echo $i | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[0];'`
+>         ancestry2a=`echo $i | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[1];'`
+>         
+>         join <(cat /users/mturchin/data/ukbiobank_jun17/mturchin/FullDataset/ukb_chrAll_v3.All.QCed.reqDrop.QCed.dropRltvs.PCAdrop.Replicates.$ancestry2a.SNPoverlap.pruned.flashpca.pcs.txt.wInfo.txt | awk '{ print $1 "_" $2 "\t" $0 }' | sort -k 1,1) <(cat <(cat /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.Covars.African.FIDIIDs | awk '{ print $1 "_" $2 "\tAfrican" }') <(cat /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.Covars.$ancestry2a.FIDIIDs | awk '{ print $1 "_" $2 "\tBritish.Ran4000" }') <(cat /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.Covars.British.Ran10000.FIDIIDs | awk '{ print $1 "_" $2 "\tBritish.Ran10000" }') <(cat /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.Covars.Caribbean.FIDIIDs | awk '{ print $1 "_" $2 "\tCaribbean" }') <(cat /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.Covars.Chinese.FIDIIDs | awk '{ print $1 "_" $2 "\tChinese" }') <(cat /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.Covars.Indian.FIDIIDs | awk '{ print $1 "_" $2 "\tIndian" }') <(cat /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.Covars.Irish.FIDIIDs | awk '{ print $1 "_" $2 "\tIrish" }') <(cat /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.Covars.Pakistani.FIDIIDs | awk '{ print $1 "_" $2 "\tPakistani" }') | sort -k 1,1) | perl -lane 'print join("\t", @F[1..$#F]);' | cat <(echo -e "FID\tIID\tPC1\tPC2\tPC3\tPC4\tPC5\tPC6\tPC7\tPC8\tPC9\tPC10\tPC11\tPC12\tPC13\tPC14\tPC15\tPC16\tPC17\tPC18\tPC19\tPC20\tPOP") - > /users/mturchin/data/ukbiobank_jun17/mturchin/FullDataset/ukb_chrAll_v3.All.QCed.reqDrop.QCed.dropRltvs.PCAdrop.Replicates.$ancestry2a.SNPoverlap.pruned.flashpca.pcs.txt.wInfo.wAncs.txt
+>  
+> done
+(flashpca1) [  mturchin@node1322  ~]$cat /users/mturchin/data/ukbiobank_jun17/mturchin/FullDataset/ukb_chrAll_v3.All.QCed.reqDrop.QCed.dropRltvs.PCAdrop.Replicates.$ancestry2a.SNPoverlap.pruned.flashpca.pcs.txt.wInfo.wAncs.txt | perl -lane 'print $F[$#F];' | sort | uniq -c
+   3111 African
+   3869 British.Ran4000
+   3833 Caribbean
+   1448 Chinese
+   5077 Indian
+  11575 Irish
+      1 POP
+   1581 Pakistani
+[  mturchin@node1322  ~/LabMisc/RamachandranLab/InterPath]$cat /users/mturchin/data/ukbiobank_jun17/mturchin/FullDataset/ukb_chrAll_v3.All.QCed.reqDrop.QCed.dropRltvs.PCAdrop.Replicates.$ancestry2a.SNPoverlap.pruned.flashpca.pcs.txt.wInfo.wAncs.txt | perl -lane 'print $F[$#F];' | sort | uniq -c
+   3111 African
+   9596 British.Ran10000
+   3833 Caribbean
+   1448 Chinese
+   5077 Indian
+  11575 Irish
+      1 POP
+   1581 Pakistani
 
 
 
