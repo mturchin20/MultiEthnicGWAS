@@ -277,11 +277,15 @@ plink --bfile /users/mturchin/data/ukbiobank_jun17/calls/ukb_snp_chr21_v2 --reco
 ##cat /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.csv | perl -F, -lane 'if ($. == 1) { @colsUse; for (my $i = 0; $i <= $#F; $i++) { if ($F[$i] =~ m/(21000\-|21001\-|21003\-|22000\-|22001\-|22006\-|22007\-|22008\-|22009\-|22011\-|22012\-|22013\-|31\-|34\-|48\-|49\-|50\-)/) { push(@colsUse, $i); } } } print join(",", @F[@colsUse]);' | sed 's/"//g' > /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.PrepWork.txt
 ##cat /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.csv | perl -F, -lane 'if ($. == 1) { @colsUse; for (my $i = 0; $i <= $#F; $i++) { if ($F[$i] =~ m/(eid|"21000\-|"21001\-|"21003\-|"22000\-|"22001\-|"22006\-|"22007\-|"22008\-|"22009\-|"22011\-|"22012\-|"22013\-|"31\-|"34\-|"48\-|"49\-|"50\-)/) { push(@colsUse, $i); } } } print join(",", @F[@colsUse]);' | sed 's/"//g' | sed 's/21000-/Ethnic_background-/g' | sed 's/21001-/Body_mass_index_(BMI)-/g' | sed 's/21003-/Age_when_attended_assessment_centre-/g' | sed 's/22000-/Genotype_measurement_batch-/g' | sed 's/22001-/Genetic_sex-/g' | sed 's/22006-/Genetic_ethnic_grouping-/g' | sed 's/22007-/Genotype_measurement_plate-/g' | sed 's/22008-/Genotype_measurement_well-/g' | sed 's/22009-/Genetic_principal_components-/g' | sed 's/22011-/Genetic_relatedness_pairing-/g' | sed 's/22012-/Genetic_relatedness_factor-/g' | sed 's/22013-/Genetic_relatedness_IBS0-/g' | sed 's/31-/Sex-/g' | sed 's/34-/Year_of_birth-/g' | sed 's/48-/Waist_circumference-/g' | sed 's/49-/Hip_circumference-/g' | sed 's/50-/Standing_height-/g' > /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.PrepWork.txt
 cat /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.csv | perl -F, -lane 'if ($. == 1) { @colsUse; for (my $i = 0; $i <= $#F; $i++) { if ($F[$i] =~ m/(eid|"21000\-|"21001\-|"21003\-|"22000\-|"22001\-|"22006\-|"22007\-|"22008\-|"22009\-|"22011\-|"22012\-|"22013\-|"31\-|"34\-|"48\-|"49\-|"50\-)/) { push(@colsUse, $i); } } } print join(",", @F[@colsUse]);' | sed 's/21000-/Ethnic_background-/g' | sed 's/21001-/Body_mass_index_(BMI)-/g' | sed 's/21003-/Age_when_attended_assessment_centre-/g' | sed 's/22000-/Genotype_measurement_batch-/g' | sed 's/22001-/Genetic_sex-/g' | sed 's/22006-/Genetic_ethnic_grouping-/g' | sed 's/22007-/Genotype_measurement_plate-/g' | sed 's/22008-/Genotype_measurement_well-/g' | sed 's/22009-/Genetic_principal_components-/g' | sed 's/22011-/Genetic_relatedness_pairing-/g' | sed 's/22012-/Genetic_relatedness_factor-/g' | sed 's/22013-/Genetic_relatedness_IBS0-/g' | sed 's/31-/Sex-/g' | sed 's/34-/Year_of_birth-/g' | sed 's/48-/Waist_circumference-/g' | sed 's/49-/Hip_circumference-/g' | sed 's/50-/Standing_height-/g' > /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.PrepWork.txt
-#20191118 NOTE -- making the below file now
+#20191118 NOTE -- making the below file now, considering adding 'assessment center' as one of the possible covariates; from http://biobank.ndph.ox.ac.uk/showcase/field.cgi?id=54, https://www.nature.com/articles/s41467-018-08219-1, https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5400281/, http://biobank.ndph.ox.ac.uk/showcase/coding.cgi?id=10
 ln -s /users/mturchin/data/ukbiobank_jun17/ukb25211.csv /users/mturchin/data/ukbiobank_jun17/mturchin/ukb25211.csv
+ln -s /users/mturchin/data/ukbiobank_jun17/ukb9200.tab /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.tab
 cat /users/mturchin/data/ukbiobank_jun17/mturchin/ukb25211.csv | perl -F, -lane 'if ($. == 1) { @colsUse; for (my $i = 0; $i <= $#F; $i++) { if ($F[$i] =~ m/(eid|"54\-)/) { push(@colsUse, $i); } } } print join(",", @F[@colsUse]);' | sed 's/54-/AssessmentCenter/g' > /users/mturchin/data/ukbiobank_jun17/mturchin/ukb25211.AssessmentCenter.csv
 #NOTE -- making the below file just to check that things have not changed from the first version of this file that I made originally like 2 years ago; currently intend on keeping to use the ukb9200 version of things
+#NOTE -- I think 'eids' might change between 'ukb####' files....I'm not sure if it's a given that the individuals will be the same entry numbers between each file?
 cat /users/mturchin/data/ukbiobank_jun17/mturchin/ukb25211.csv | perl -F, -lane 'if ($. == 1) { @colsUse; for (my $i = 0; $i <= $#F; $i++) { if ($F[$i] =~ m/(eid|"21000\-|"21001\-|"21003\-|"22000\-|"22001\-|"22006\-|"22007\-|"22008\-|"22009\-|"22011\-|"22012\-|"22013\-|"31\-|"34\-|"48\-|"49\-|"50\-)/) { push(@colsUse, $i); } } } print join(",", @F[@colsUse]);' | sed 's/21000-/Ethnic_background-/g' | sed 's/21001-/Body_mass_index_(BMI)-/g' | sed 's/21003-/Age_when_attended_assessment_centre-/g' | sed 's/22000-/Genotype_measurement_batch-/g' | sed 's/22001-/Genetic_sex-/g' | sed 's/22006-/Genetic_ethnic_grouping-/g' | sed 's/22007-/Genotype_measurement_plate-/g' | sed 's/22008-/Genotype_measurement_well-/g' | sed 's/22009-/Genetic_principal_components-/g' | sed 's/22011-/Genetic_relatedness_pairing-/g' | sed 's/22012-/Genetic_relatedness_factor-/g' | sed 's/22013-/Genetic_relatedness_IBS0-/g' | sed 's/31-/Sex-/g' | sed 's/34-/Year_of_birth-/g' | sed 's/48-/Waist_circumference-/g' | sed 's/49-/Hip_circumference-/g' | sed 's/50-/Standing_height-/g' > /users/mturchin/data/ukbiobank_jun17/mturchin/ukb25211.20191118.2017_8_WinterRetreat.PrepWork.txt
+#NOTE -- don't use any 'ukb9200.20191118....' type file, just messing around with it for some checking of the original 'ukb9200.2017_8_WinterRetreat...' type files
+cat /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.tab | perl -lane 'if ($. == 1) { @colsUse; for (my $i = 0; $i <= $#F; $i++) { if ($F[$i] =~ m/(eid|f.21000|f.21001|f.21003|f.22000|f.22001|f.22006|f.22007|f.22008|f.22009|f.22011|f.22012|f.22013|f.31|f.34|f.48|f.49|f.50)/) { push(@colsUse, $i); } } } print join(",", @F[@colsUse]);' | sed 's/f.21000/f.Ethnic_background/g' | sed 's/f.21001/f.Body_mass_index_(BMI)/g' | sed 's/f.21003/f.Age_when_attended_assessment_centre/g' | sed 's/f.22000/f.Genotype_measurement_batch/g' | sed 's/f.22001/f.Genetic_sex/g' | sed 's/f.22006/f.Genetic_ethnic_grouping/g' | sed 's/f.22007/f.Genotype_measurement_plate/g' | sed 's/f.22008/f.Genotype_measurement_well/g' | sed 's/f.22009/f.Genetic_principal_components/g' | sed 's/f.22011/f.Genetic_relatedness_pairing/g' | sed 's/f.22012/f.Genetic_relatedness_factor/g' | sed 's/f.22013/f.Genetic_relatedness_IBS0/g' | sed 's/f.31/f.Sex/g' | sed 's/f.34/f.Year_of_birth/g' | sed 's/f.48/f.Waist_circumference/g' | sed 's/f.49/f.Hip_circumference/g' | sed 's/f.50/f.Standing_height/g' > /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.20191118.2017_8_WinterRetreat.PrepWork.txt
 
 
 #cat /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.csv | perl -F, -lane 'if ($. == 1) { @colsUse; for (my $i = 0; $i <= $#F; $i++) { if ($F[$i] =~ m/(^21000|^21001|^21003|^22000|^22001|^22006|^22007|^22008|^22009|^22011|^22012|^22013|^31|^34|^48|^49|^50)/) { push(@colsUse, $i); } } } print join(",", @colsUse);'
@@ -297,8 +301,15 @@ done
 
 ##cat /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.PrepWork.txt | perl -F, -lane 'my $age = "2018" - $F[2]; print $F[0], ",", $F[1], ",", $F[2], ",", $age, ",", $F[3], ",", $F[6], ",", $F[9], ",", $F[12], ",", $F[15], ",", $F[18], ",", $F[21];' | sed 's/"//g' > /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.PrepWork.MainChoies.txt 
 cat /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.PrepWork.txt | perl -F, -lane 'my $year1 = $F[2]; $year1 =~ tr/"//d; print $F[0], ",", $F[1], ",", $F[12], ",", $F[2], ",", $F[18], ",", 2018 - $year1, ",", $F[9], ",", $F[15], ",", $F[3], ",", $F[6], ",", $F[21];' | sed 's/"//g' > /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.PrepWork.MainChoices.txt 
+cat /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.20191118.2017_8_WinterRetreat.PrepWork.txt | perl -F, -lane 'my $year1 = $F[2]; $year1 =~ tr/"//d; print $F[0], ",", $F[1], ",", $F[12], ",", $F[2], ",", $F[18], ",", 2018 - $year1, ",", $F[9], ",", $F[15], ",", $F[3], ",", $F[6], ",", $F[21];' > /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.20191118.2017_8_WinterRetreat.PrepWork.MainChoices.txt
+##cat /users/mturchin/data/ukbiobank_jun17/mturchin/ukb25211.20191118.2017_8_WinterRetreat.PrepWork.txt | perl -F, -lane 'my $year1 = $F[2]; $year1 =~ tr/"//d; print $F[0], ",", $F[1], ",", $F[12], ",", $F[2], ",", $F[18], ",", 2018 - $year1, ",", $F[9], ",", $F[15], ",", $F[3], ",", $F[6], ",", $F[21];' | sed 's/"//g' > /users/mturchin/data/ukbiobank_jun17/mturchin/ukb25211.20191118.2017_8_WinterRetreat.PrepWork.MainChoices.txt
+##cat /users/mturchin/data/ukbiobank_jun17/mturchin/ukb25211.20191118.2017_8_WinterRetreat.PrepWork.txt | perl -F, -lane 'my $year1 = $F[2]; $year1 =~ tr/"//d; print $F[0], ",", $F[1], ",", $F[3], ",", $F[6];' | sed 's/"//g' > /users/mturchin/data/ukbiobank_jun17/mturchin/ukb25211.20191118.2017_8_WinterRetreat.PrepWork.MainChoices.temp.txt 
 
-cat /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.PrepWork.MainChoices.txt | perl -F, -ane 'if ($F[2]) { $F[2] =~ s/^1$/White/g; $F[2] =~ s/^1001$/British/g; $F[2] =~ s/^2001$/White_and_Black_Caribbean/g; $F[2] =~ s/^3001$/Indian/g; $F[2] =~ s/^4001$/Caribbean/g; $F[2] =~ s/^2$/Mixed/g; $F[2] =~ s/^1002$/Irish/g; $F[2] =~ s/^2002$/White_and_Black_African/g; $F[2] =~ s/^3002$/Pakistani/g; $F[2] =~ s/^4002$/African/g; $F[2] =~ s/^3$/Asian_or_Asian_British/g; $F[2] =~ s/^1003$/Any_other_white_background/g; $F[2] =~ s/^2003$/White_and_Asian/g; $F[2] =~ s/^3003$/Bangladeshi/g; $F[2] =~ s/^4003$/Any_other_Black_background/g; $F[2] =~ s/^4$/Black_or_Black_British/g; $F[2] =~ s/^2004$/Any_other_mixed_background/g; $F[2] =~ s/^3004$/Any_other_Asian_background/g; $F[2] =~ s/^5$/Chinese/g; $F[2] =~ s/^6$/Other_ethnic_group/g; $F[2] =~ s/^-1$/Do_not_know/g; $F[2] =~ s/^-3$/Prefer_not_to_answer/g; print $F[0], "\t", $F[0], "\t", $F[1], "\t", $F[2], "\t", $F[4], "\n"; }' | grep -v eid | cat <(echo -e "FID\tIID\tSEX\tANCESTRY\tAGE") - > /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.Covars.txt 
+~"eid","Sex-0.0","Year_of_birth-0.0","Ethnic_background-0.0","Ethnic_background-1.0","Ethnic_background-2.0","Age_when_attended_assessment_centre-0.0","Age_when_attended_assessment_centre-1.0","Age_when_attended_assessment_centre-2.0","Genotype_measurement_batch-0.0","Genetic_sex-0.0","Genetic_ethnic_grouping-0.0","Genotype_measurement_plate-0.0","Genotype_measurement_well-0.0","Genetic_principal_components-0.1","Genetic_principal_components-0.2","Genetic_principal_components-0.3","Genetic_principal_components-0.4","Genetic_principal_components-0.5","Genetic_principal_components-0.6","Genetic_principal_components-0.7","Genetic_principal_components-0.8","Genetic_principal_components-0.9","Genetic_principal_components-0.10","Genetic_principal_components-0.11","Genetic_principal_components-0.12","Genetic_principal_components-0.13","Genetic_principal_components-0.14","Genetic_principal_components-0.15","Genetic_principal_components-0.16","Genetic_principal_components-0.17","Genetic_principal_components-0.18","Genetic_principal_components-0.19","Genetic_principal_components-0.20","Genetic_principal_components-0.21","Genetic_principal_components-0.22","Genetic_principal_components-0.23","Genetic_principal_components-0.24","Genetic_principal_components-0.25","Genetic_principal_components-0.26","Genetic_principal_components-0.27","Genetic_principal_components-0.28","Genetic_principal_components-0.29","Genetic_principal_components-0.30","Genetic_principal_components-0.31","Genetic_principal_components-0.32","Genetic_principal_components-0.33","Genetic_principal_components-0.34","Genetic_principal_components-0.35","Genetic_principal_components-0.36","Genetic_principal_components-0.37","Genetic_principal_components-0.38","Genetic_principal_components-0.39","Genetic_principal_components-0.40"
+~
+~eid,Sex-0.0,Ethnic_background-0.0,Year_of_birth-0.0,Age_when_attended_assessment_centre-0.0,2018,Standing_height-0.0,Body_mass_index_(BMI)-0.0,Waist_circumference-0.0,Hip_circumference-0.0,Genotype_measurement_batch-0.0
+~
+~cat /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.PrepWork.MainChoices.txt | perl -F, -ane 'if ($F[2]) { $F[2] =~ s/^1$/White/g; $F[2] =~ s/^1001$/British/g; $F[2] =~ s/^2001$/White_and_Black_Caribbean/g; $F[2] =~ s/^3001$/Indian/g; $F[2] =~ s/^4001$/Caribbean/g; $F[2] =~ s/^2$/Mixed/g; $F[2] =~ s/^1002$/Irish/g; $F[2] =~ s/^2002$/White_and_Black_African/g; $F[2] =~ s/^3002$/Pakistani/g; $F[2] =~ s/^4002$/African/g; $F[2] =~ s/^3$/Asian_or_Asian_British/g; $F[2] =~ s/^1003$/Any_other_white_background/g; $F[2] =~ s/^2003$/White_and_Asian/g; $F[2] =~ s/^3003$/Bangladeshi/g; $F[2] =~ s/^4003$/Any_other_Black_background/g; $F[2] =~ s/^4$/Black_or_Black_British/g; $F[2] =~ s/^2004$/Any_other_mixed_background/g; $F[2] =~ s/^3004$/Any_other_Asian_background/g; $F[2] =~ s/^5$/Chinese/g; $F[2] =~ s/^6$/Other_ethnic_group/g; $F[2] =~ s/^-1$/Do_not_know/g; $F[2] =~ s/^-3$/Prefer_not_to_answer/g; print $F[0], "\t", $F[0], "\t", $F[1], "\t", $F[2], "\t", $F[4], "\n"; }' | grep -v eid | cat <(echo -e "FID\tIID\tSEX\tANCESTRY\tAGE") - > /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.Covars.txt 
 
 ##cat /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.PrepWork.MainChoices.txt | perl -F, -ane 'print $F[0], "\t", $F[0], "\t", $F[6], "\t", $F[7], "\t", $F[8], "\t", $F[9], "\n"; ' | grep -v eid | cat <(echo -e "FID\tIID\tHeight\tBMI\tWaist\tHip") - > /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.Phenos.txt
 ##cat /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.Phenos.txt | perl -lane 'if ($#F == 5) { print join("\t", @F); }' > /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.Phenos.Edit.txt
@@ -6416,6 +6427,85 @@ done
 #    425 White_and_Black_African
 #    620 White_and_Black_Caribbean
 
+Category	Count
+Barts	12581
+Birmingham	25501
+Bristol	43012
+Bury	28321
+Cardiff	17878
+Cheadle (revisit)	20344
+Croydon	27380
+Edinburgh	17195
+Glasgow	18647
+Hounslow	28875
+Leeds	44198
+Liverpool	32816
+Manchester	13939
+Middlesborough	21286
+Newcastle	37002
+Nottingham	33876
+Oxford	14058
+Reading	29409
+Sheffield	30394
+Stockport (pilot)	3793
+Stoke	19433
+Swansea	2281
+Wrexham	649
+Cheadle (imaging)	28430
+Reading (imaging)	4714
+Newcastle (imaging)	10873
+
+Coding	Meaning
+11012	Barts
+11021	Birmingham
+11011	Bristol
+11008	Bury
+11003	Cardiff
+11024	Cheadle (revisit)
+11020	Croydon
+11005	Edinburgh
+11004	Glasgow
+11018	Hounslow
+11010	Leeds
+11016	Liverpool
+11001	Manchester
+11017	Middlesborough
+11009	Newcastle
+11013	Nottingham
+11002	Oxford
+11007	Reading
+11014	Sheffield
+10003	Stockport (pilot)
+11006	Stoke
+11022	Swansea
+11023	Wrexham
+11025	Cheadle (imaging)
+11026	Reading (imaging)
+11027	Newcastle (imaging)
+
+   3797 "10003"
+  13940 "11001"
+  14059 "11002"
+  17878 "11003"
+  18647 "11004"
+  17198 "11005"
+  19433 "11006"
+  29411 "11007"
+  28321 "11008"
+  37004 "11009"
+  44199 "11010"
+  43012 "11011"
+  12582 "11012"
+  33876 "11013"
+  30396 "11014"
+  32816 "11016"
+  21287 "11017"
+  28875 "11018"
+  27381 "11020"
+  25501 "11021"
+   2281 "11022"
+    649 "11023"
+
 ~~~
 [  mturchin@login002  ~]$GET http://biobank.ctsu.ox.ac.uk/crystal/field.cgi?id=53 | perl -lane 'my $line = join(" ", @F); if ($line =~ m/.*(\d+,\d+ participants).*/) { print $line; }'
 540,184 items of data are available, covering 502,620 participants.<br>Defined-instances run from 0 to 2, labelled using Instancing <a class="basic" href="instance.cgi?id=2">2</a>.
@@ -11899,6 +11989,35 @@ British British.Ran10000.5 Brit10k5
   11575 Irish
       1 POP
    1581 Pakistani
+#20191118
+(MultiEthnicGWAS) [  mturchin@login003  ~/data/ukbiobank_jun17/mturchin]$join <(cat /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.PrepWork.MainChoices.txt | awk -F, '{ print $1 "\t", $7 }' | sort -k 1,1) <(cat /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.20191118.2017_8_WinterRetreat.PrepWork.MainChoices.txt | awk -F, '{ print $1 "\t" $7 }' | sort -k 1,1) | head -n 10
+1000010 161.5 161.5
+1000028 177 177
+1000034 176 176
+1000045 170 170
+1000052 180 180
+1000069 174 174
+1000076 165 165
+1000087 167 167
+1000091 167 167
+1000104 179 179
+(MultiEthnicGWAS) [  mturchin@login003  ~/data/ukbiobank_jun17/mturchin]$join <(cat /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.PrepWork.MainChoices.txt | awk -F, '{ print $1 "\t", $7 }' | sort -k 1,1) <(cat /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.20191118.2017_8_WinterRetreat.PrepWork.MainChoices.txt | awk -F, '{ print $1 "\t" $7 }' | sort -k 1,1) | wc        
+ 502629 1505348 8116374
+(MultiEthnicGWAS) [  mturchin@login003  ~/data/ukbiobank_jun17/mturchin]$join <(cat /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.PrepWork.MainChoices.txt | awk -F, '{ print $1 "\t", $7 }' | sort -k 1,1) <(cat /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.20191118.2017_8_WinterRetreat.PrepWork.MainChoices.txt | awk -F, '{ print $1 "\t" $7 }' | sort -k 1,1) | awk '{ if ($2 == $3) { print $0 } }' | wc
+ 500090 1500270 8085906
+(MultiEthnicGWAS) [  mturchin@login003  ~/data/ukbiobank_jun17/mturchin]$join <(cat /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.PrepWork.MainChoices.txt | awk -F, '{ print $1 "\t", $7 }' | sort -k 1,1) <(cat /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.20191118.2017_8_WinterRetreat.PrepWork.MainChoices.txt | awk -F, '{ print $1 "\t" $7 }' | sort -k 1,1) | awk '{ if ($2 != $3) { print $0 } }' | head -n 10
+1001933  NA
+1011089  NA
+1013763  NA
+1015850  NA
+1018393  NA
+1021037  NA
+1022019  NA
+1022210  NA
+1027284  NA
+1027295  NA
+(MultiEthnicGWAS) [  mturchin@login003  ~/data/ukbiobank_jun17/mturchin]$join <(cat /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.PrepWork.MainChoices.txt | awk -F, '{ print $1 "\t", $7 }' | sort -k 1,1) <(cat /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.20191118.2017_8_WinterRetreat.PrepWork.MainChoices.txt | awk -F, '{ print $1 "\t" $7 }' | sort -k 1,1) | grep -v NA | wc
+ 500090 1500270 8085906
 
 
 
