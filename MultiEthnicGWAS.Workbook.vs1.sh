@@ -462,7 +462,7 @@ for j in `cat <(echo $UKBioBankPopsRnd2 | perl -lane 'print join("\n", @F);') | 
 		mkdir /users/mturchin/data/ukbiobank_jun17/mturchin/subsets
 	fi
 
-	cat /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.Phenos.Transformed.wthnPop.$ancestry2.BMIAdj.wCovars.yIntrcptFix.BMIage.wAC.txt | R -q -e "Data1 <- read.table(file('stdin'), header=T); 
+	cat /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.Phenos.Transformed.wthnPop.$ancestry2.BMIAdj.wCovars.yIntrcptFix.BMIage.wAC.txt | R -q -e "Data1 <- read.table(file('stdin'), header=T); png(\"/users/mturchin/data/ukbiobank_jun17/mturchin/subsets/ukb9200.2017_8_WinterRetreat.Phenos.Transformed.wthnPop.$ancestry2.BMIAdj.wCovars.yIntrcptFix.BMIage.wAC.PhenosVsAC.plots.vs1.png\", height=4000, width=4000, res=300); par(oma=c(1,1,1,1), mar=c(5,5,4,2), mfrow=c(2,2)); for (i in c(8,9,12,13)) { plot(Data1[,7], Data1[,i], main=paste(colnames(Data1)[i], \" vs. Center\", sep=\"\"), xlab=\"Center\", ylab=colnames(Data1)[i], cex=1.5, cex.main=1.5, cex.axis=1.5, cex.lab=1.5); abline(lm(Data1[,i] ~ Data1[,7]), col=\"RED\", lwd=2, lty=2); }; dev.off();"
 
 done
 
