@@ -98,6 +98,8 @@ conda install r-RcppEigen r-RSpectra r-BH r-abind
 ##conda install -c anaconda 7za 
 ##conda install -c menpo 7zip 
 conda install -c bioconda p7zip 
+#20191118
+conda install r-gridextra
 
 #20190728
 conda create -n flashpca1
@@ -427,6 +429,7 @@ cat /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.P
 #/users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.Covars.$ancestry2.FIDIIDs
 
 #20191119 NOTE -- yIntrcptFix (include '- 1'), BMIage (use age-adjusted BMI for Waist/Hip adjustment) 
+#From https://stats.idre.ucla.edu/r/modules/coding-for-categorical-variables-in-regression-models/, https://stats.idre.ucla.edu/r/modules/coding-for-categorical-variables-in-regression-models/
 for j in `cat <(echo $UKBioBankPopsRnd2 | perl -lane 'print join("\n", @F);') | head -n 1 | tail -n 1`; do
         ancestry1=`echo $j | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[0];'`
         ancestry2=`echo $j | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[1];'`
@@ -453,6 +456,7 @@ for j in `cat <(echo $UKBioBankPopsRnd2 | perl -lane 'print join("\n", @F);') | 
 
 done
 
+#From http://www.sthda.com/english/wiki/ggplot2-violin-plot-quick-start-guide-r-software-and-data-visualization, https://cran.r-project.org/web/packages/egg/vignettes/Ecosystem.html
 for j in `cat <(echo $UKBioBankPopsRnd2 | perl -lane 'print join("\n", @F);') | head -n 1 | tail -n 1`; do
         ancestry1=`echo $j | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[0];'`
         ancestry2=`echo $j | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[1];'`
@@ -462,9 +466,18 @@ for j in `cat <(echo $UKBioBankPopsRnd2 | perl -lane 'print join("\n", @F);') | 
 		mkdir /users/mturchin/data/ukbiobank_jun17/mturchin/subsets
 	fi
 
-	cat /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.Phenos.Transformed.wthnPop.$ancestry2.BMIAdj.wCovars.yIntrcptFix.BMIage.wAC.txt | R -q -e "Data1 <- read.table(file('stdin'), header=T); png(\"/users/mturchin/data/ukbiobank_jun17/mturchin/subsets/ukb9200.2017_8_WinterRetreat.Phenos.Transformed.wthnPop.$ancestry2.BMIAdj.wCovars.yIntrcptFix.BMIage.wAC.PhenosVsAC.plots.vs1.png\", height=4000, width=4000, res=300); par(oma=c(1,1,1,1), mar=c(5,5,4,2), mfrow=c(2,2)); for (i in c(8,9,12,13)) { plot(Data1[,7], Data1[,i], main=paste(colnames(Data1)[i], \" vs. Center\", sep=\"\"), xlab=\"Center\", ylab=colnames(Data1)[i], cex=1.5, cex.main=1.5, cex.axis=1.5, cex.lab=1.5); abline(lm(Data1[,i] ~ Data1[,7]), col=\"RED\", lwd=2, lty=2); }; dev.off();"
+	cat /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.Phenos.Transformed.wthnPop.$ancestry2.BMIAdj.wCovars.yIntrcptFix.BMIage.wAC.txt | R -q -e "library(\"ggplot2\"); library(\"grid\"); library(\"gridExtra\"); Data1 <- read.table(file('stdin'), header=T); png(\"/users/mturchin/data/ukbiobank_jun17/mturchin/subsets/ukb9200.2017_8_WinterRetreat.Phenos.Transformed.wthnPop.$ancestry2.BMIAdj.wCovars.yIntrcptFix.BMIage.wAC.PhenosVsAC.plots.vs1.png\", height=4000, width=4000, res=300); par(oma=c(1,1,1,1), mar=c(5,5,4,2), mfrow=c(1,1)); Data1[,8] <- factor(Data1[,8]); Data1[,9] <- factor(Data1[,9]); Data1[,12] <- factor(Data1[,12]); Data1[,13] <- factor(Data1[,13]); plots1 <- list(ggplot(Data1, aes(x=CENTER, y=Height.Orig)) + geom_violin(), ggplot(Data1, aes(x=CENTER, y=BMI.Orig)) + geom_violin(), ggplot(Data1, aes(x=CENTER, y=WaistAdjBMI.Orig)) + geom_violin(), ggplot(Data1, aes(x=CENTER, y=WaistAdjBMI.Orig)) + geom_violin()); grid.arrange(grobs=plots1, top=\"$ancestry2\", nrow=2, ncol=2); dev.off();"
+
 
 done
+
+#	...abline(lm(Data1[,i] ~ Data1[,7]), col=\"RED\", lwd=2, lty=2);...
+#	...plot(factor(Data1[,7]), Data1[,i], main=paste(colnames(Data1)[i], \" vs. Center\", sep=\"\"), xlab=\"Center\", ylab=colnames(Data1)[i], cex=1.5, cex.main=1.5, cex.axis=1.5, cex.lab=1.5); }; dev.off();"
+#	...for (i in c(8,9,12,13)) { Data1[,i] <- factor(Data1[,i]); plots1 <- c(plots1, ggplot(Data1, aes(x=Center, y=colnames(Data1)[i])) + geom_violin()); }; 
+
+#From MacBook Pro
+#scp -p mturchin@ssh.ccv.brown.edu:/users/mturchin/data/ukbiobank_jun17/mturchin/subsets/*BMIAdj.wCovars.yIntrcptFix.BMIage.wAC.PhenosVsAC.plots.vs1.png /Users/mturchin20/Documents/Work/LabMisc/Data/UKBioBank/subsets/.
+
 
 for j in `cat <(echo $PAGEIPMBioMePops2 | perl -lane 'print join("\n", @F);') | head -n 3 | tail -n 3`; do
         ancestry1=`echo $j | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[0];'`
