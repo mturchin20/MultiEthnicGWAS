@@ -3701,12 +3701,13 @@ done
 
 
 
-
-
+[  mturchin@login003  ~]$move /users/mturchin/data/ukbiobank_jun17/subsets/British/British/mturchin20
+[  mturchin@login003  ~]$move dbGaP ?
+[  mturchin@login003  ~]$move old /users/mturchin/data/ukbiobank_jun17/subsets/British/British.Ran4000 one
 
 #Vs3 Runs (Vs1 -- basically test run, just Africa; Vs2 -- test run of everyone + Africa + eventual flashpca includion; Vs3 -- full, non-pruned dataset creations and corrections with in-pop flashpcas from Vs2, and with transformed, proper phenotypes)
 #/users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v2.${ancestry2}.QCed.pruned.QCed.dropRltvs.noX.PCAdrop.flashpca.pcs.txt
-for j in `cat <(echo $UKBioBankPopsRnd2 | perl -lane 'print join("\n", @F);') | tail -n 8 | head -n 1`; do
+for j in `cat <(echo $UKBioBankPopsRnd2 | perl -lane 'print join("\n", @F);') | head -n 8 | head -n 8 | head -n 8`; do
 	ancestry1=`echo $j | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[0];'`
 	ancestry2=`echo $j | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[1];'`
 
@@ -3715,13 +3716,11 @@ for j in `cat <(echo $UKBioBankPopsRnd2 | perl -lane 'print join("\n", @F);') | 
 #	join <(cat /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.Covars.txt | awk '{ print $1 "_" $2 "\t" $0 }' | sort -k 1,1) <(cat /users/mturchin/data/ukbiobank_jun17/mturchin/FullDataset/ukb_chrAll_v3.All.QCed.reqDrop.QCed.dropRltvs.PCAdrop.SNPoverlap.pruned.flashpca.pcs.txt.wInfo.${ancestry2}.txt | awk '{ print $1 "_" $2 "\t" "\t" $3 "\t" $4 "\t" $5 "\t" $6 "\t" $7 "\t" $8 "\t" $9 "\t" $10 "\t" $11 "\t" $12 }' | sort -k 1,1) | grep -v PC1 | perl -lane 'print join("\t", @F[1..$#F]);' | cat <(echo -e "FID\tIID\tSEX\tANCESTRY\tAGE\tPC1\tPC2\tPC3\tPC4\tPC5\tPC6\tPC7\tPC8\tPC9\tPC10") - > /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v3.${ancestry2}.QCed.reqDrop.QCed.dropRltvs.PCAdrop.FullDataset.pruned.flashpca.pcs.wFullCovars.txt
 	join <(cat /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v3.${ancestry2}.QCed.reqDrop.QCed.dropRltvs.PCAdrop.FullDataset.pruned.flashpca.pcs.wFullCovars.txt | awk '{ print $1 "_" $2 "\t" $0 }' | sort -k 1,1) <(cat /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.AssessmentCenter.csv | awk -F, '{ print $1 "_" $1 "\t" $2 }' | sort -k 1,1) | perl -lane 'splice(@F, 6, 0, $F[$#F]); print join("\t", @F[1..$#F-1]);' | cat <(echo -e "FID\tIID\tSEX\tANCESTRY\tAGE\tCENTER\tPC1\tPC2\tPC3\tPC4\tPC5\tPC6\tPC7\tPC8\tPC9\tPC10") - > /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v3.${ancestry2}.QCed.reqDrop.QCed.dropRltvs.PCAdrop.FullDataset.pruned.flashpca.pcs.wFullCovars.wAC.txt 
 
-	/users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.AssessmentCenter.csv
-	
-	/users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v3.${ancestry2}.QCed.reqDrop.QCed.dropRltvs.PCAdrop.FullDataset.pruned.flashpca.pcs.wFullCovars.wAssesmentCenter.txt
-
-	regress out from main phenos actually
-
 done	
+
+#	/users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.AssessmentCenter.csv
+#	/users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v3.${ancestry2}.QCed.reqDrop.QCed.dropRltvs.PCAdrop.FullDataset.pruned.flashpca.pcs.wFullCovars.wAssesmentCenter.txt
+#	regress out from main phenos actually
 
 #20180525 NOTE -- Moved this part to earlier in the sequence, to right after '*QCed.bed/bim/fam', though kept 'QCed.pruned.QCed' for ease of file orginization, even though technically the order is now (as it should be) 'QCed.QCed.pruned'
 #for j in `cat <(echo $UKBioBankPops | perl -lane 'print join("\n", @F);') | grep African`; do
