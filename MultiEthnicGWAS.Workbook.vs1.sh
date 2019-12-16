@@ -3700,10 +3700,13 @@ done
 
 
 
-
+#20191215
 [  mturchin@login003  ~]$move /users/mturchin/data/ukbiobank_jun17/subsets/British/British/mturchin20
+moving /users/mturchin/data/ukbiobank_jun17/subsets/British/British
 [  mturchin@login003  ~]$move dbGaP ?
+moving IPMBioMe
 [  mturchin@login003  ~]$move old /users/mturchin/data/ukbiobank_jun17/subsets/British/British.Ran4000 one
+moving /users/mturchin/data/ukbiobank_jun17/subsets/British/OLD1.British.Ran10000
 
 #Vs3 Runs (Vs1 -- basically test run, just Africa; Vs2 -- test run of everyone + Africa + eventual flashpca includion; Vs3 -- full, non-pruned dataset creations and corrections with in-pop flashpcas from Vs2, and with transformed, proper phenotypes)
 #/users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v2.${ancestry2}.QCed.pruned.QCed.dropRltvs.noX.PCAdrop.flashpca.pcs.txt
