@@ -432,6 +432,7 @@ for j in `cat <(echo $UKBioBankPopsRnd2 | perl -lane 'print join("\n", @F);') | 
 	echo $ancestry1 $ancestry2
 
 	join <(cat /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.Phenos.Edit.pre.wCovars.txt | sort -k 1,1) <(cat /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.Covars.$ancestry2.FIDIIDs | awk '{ print $1 "_" $2 }' | sort) | cat <(echo "FID_IID FID IID SEX ANCESTRY AGE FID IID Height BMI Waist Hip") - | perl -lane 'splice(@F, 6, 1); splice(@F, 6, 1); print join("\t", @F);' > /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.Phenos.$ancestry2.txt 
+	cat /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.Phenos.$ancestry2.txt | awk '{ print $2 "\t" $3 "\t" $7 "\t" $8 "\t" $9 "\t" $10 }' > /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.Phenos.$ancestry2.Edit.txt 
 
 done
 
