@@ -427,6 +427,13 @@ cat /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.P
 #20190819
 
 #/users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.Covars.$ancestry2.FIDIIDs
+for j in `cat <(echo $UKBioBankPopsRnd2 | perl -lane 'print join("\n", @F);') | head -n 8 | head -n 8 | tail -n 8 | head -n 2`; do
+        ancestry1=`echo $j | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[0];'`; ancestry2=`echo $j | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[1];'`
+	echo $ancestry1 $ancestry2
+
+	join <(cat /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.Phenos.Edit.pre.wCovars.txt | sort -k 1,1) <(cat /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.Covars.$ancestry2.FIDIIDs | awk '{ print $1 "_" $2 }' | sort) | cat <(echo "FID_IID FID IID SEX ANCESTRY AGE FID IID Height BMI Waist Hip") - | perl -lane 'splice(@F, 6, 1); splice(@F, 6, 1); print join("\t", @F);' > /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.Phenos.$ancestry2.txt 
+
+done
 
 #20191119 NOTE -- yIntrcptFix (include '- 1'), BMIage (use age-adjusted BMI for Waist/Hip adjustment) 
 #From https://stats.idre.ucla.edu/r/modules/coding-for-categorical-variables-in-regression-models/, https://stats.idre.ucla.edu/r/modules/coding-for-categorical-variables-in-regression-models/
