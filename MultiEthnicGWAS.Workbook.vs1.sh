@@ -3117,7 +3117,7 @@ done
 #	plink --bfile /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v2_2.${ancestry2}.QCed.pruned.QCed.onlyRltvs.noX --remove /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v3.${ancestry2}.QCed.pruned.QCed.dropRltvs.noX.flashpca.pcs.wInfo.PCAdrops.FIDIIDs --make-bed --out /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v3.${ancestry2}.QCed.pruned.QCed.onlyRltvs.noX.PCAdrop
 
 #NOTE -- switch to conda environment 'flashpca1' before doing/running these jobs
-for j in `cat <(echo $UKBioBankPopsRnd2 | perl -lane 'print join("\n", @F);') | tail -n 8 | head -n 8 | head -n 1`; do
+for j in `cat <(echo $UKBioBankPopsRnd2 | perl -lane 'print join("\n", @F);') | tail -n 8 | head -n 8 | head -n 8`; do
 	ancestry1=`echo $j | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[0];'`
 	ancestry2=`echo $j | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[1];'`
 
@@ -3132,7 +3132,7 @@ done
 
 #	flashpca1 <- flashpca(File1, ndim=20, do_loadings=TRUE, verbose=TRUE); HelpFiles.T <- t(HelpFiles); HelpFiles.T.Alleles <- HelpFiles.T[2,]; names(HelpFiles.T.Alleles) <- HelpFiles.T[1,]; flashpca1.proj <- project(File2, loadings=flashpca1\\\$loadings, ref_alleles=HelpFiles.T.Alleles, orig_mean=flashpca1\\\$center, orig_sd=flashpca1\\\$scale, verbose=TRUE); \	
 
-for j in `cat <(echo $UKBioBankPopsRnd2 | perl -lane 'print join("\n", @F);') | head -n 8 | head -n 8 | tail -n 6`; do
+for j in `cat <(echo $UKBioBankPopsRnd2 | perl -lane 'print join("\n", @F);') | tail -n 8 | head -n 8 | head -n 8`; do
 	ancestry1=`echo $j | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[0];'`; ancestry2=`echo $j | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[1];'`; ancestry3=`echo $j | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[2];'`
 
 	echo $ancestry1 $ancestry2 $ancestry3
@@ -3774,7 +3774,7 @@ moving /users/mturchin/data/ukbiobank_jun17/subsets/British/OLD1.British.Ran1000
 
 #Vs3 Runs (Vs1 -- basically test run, just Africa; Vs2 -- test run of everyone + Africa + eventual flashpca includion; Vs3 -- full, non-pruned dataset creations and corrections with in-pop flashpcas from Vs2, and with transformed, proper phenotypes)
 #/users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v2.${ancestry2}.QCed.pruned.QCed.dropRltvs.noX.PCAdrop.flashpca.pcs.txt
-for j in `cat <(echo $UKBioBankPopsRnd2 | perl -lane 'print join("\n", @F);') | head -n 8 | head -n 8 | tail -n 6`; do
+for j in `cat <(echo $UKBioBankPopsRnd2 | perl -lane 'print join("\n", @F);') | tail -n 8 | head -n 8 | head -n 8`; do
 	ancestry1=`echo $j | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[0];'`
 	ancestry2=`echo $j | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[1];'`
 
