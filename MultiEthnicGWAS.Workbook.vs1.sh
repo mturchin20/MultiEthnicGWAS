@@ -3183,7 +3183,31 @@ module load R/3.4.3_mkl gcc; for j in `cat <(echo $UKBioBankPopsRnd2 | perl -lan
 
 	echo $ancestry1 $ancestry2
 
-	zcat /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v3.${ancestry2}.QCed.pruned.QCed.dropRltvs.noX.PCAdrop.raw.edit.gz | R -q -e " \
+	echo -e " ptm <- proc.time(); Data3 <- fread('zcat /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v3.${ancestry2}.QCed.pruned.QCed.dropRltvs.noX.PCAdrop.raw.edit.gz', header=T); print(proc.time() - ptm);"
+
+done
+
+        R -q -e "library(\"data.table\"); \
+	ptm <- proc.time(); Data3 <- fread('zcat /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v3.${ancestry2}.QCed.pruned.QCed.dropRltvs.noX.PCAdrop.raw.edit.gz', header=T); print(proc.time() - ptm); \
+	ptm <- proc.time(); Data3.mean <- apply(Data3, 2, mean); Data3.sd <- apply(Data3, 2, sd); Data3 <- t((t(Data3)-Data3.mean)/Data3.sd); print(proc.time() - ptm); \
+	ptm <- proc.time(); Data3.cov <- 1/ncol(Data3) * (as.matrix(Data3) %*% t(as.matrix(Data3))); print(proc.time() - ptm); \
+	write.table(Data3.cov, \"/users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v3.${ancestry2}.QCed.pruned.QCed.dropRltvs.noX.PCAdrop.raw.edit.cov.ColCrct.txt\", quote=FALSE, col.name=FALSE, row.name=FALSE);"
+done
+#	ptm <- proc.time(); Data3.cov <- 1/ncol(Data3) * tcrossprod(as.matrix(Data3)); print(proc.time() - ptm); \
+
+module load R/3.4.3_mkl gcc; for j in `cat <(echo $UKBioBankPopsRnd2 | perl -lane 'print join("\n", @F);') | head -n 8 | head -n 8 | head -n 8`; do
+	ancestry1=`echo $j | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[0];'`
+	ancestry2=`echo $j | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[1];'`
+
+	echo $ancestry1 $ancestry2
+
+	R -q -e "Data1 <- read.table(\"/users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v3.${ancestry2}.QCed.pruned.QCed.dropRltvs.noX.PCAdrop.raw.edit.cov.ColCrct.txt\", header=F); \
+		Data2 <- read.table(\"/users/mturchin/data/ukbiobank_jun17/subsets/African/African/mturchin20/ukb_chrAll_v3.African.QCed.pruned.QCed.dropRltvs.noX.PCAdrop.flashpca.values.txt\", header=F); \
+		Data1.trace <- sum(diag(Data1)); \
+		Data2.pve <- Data2[,1] / Data1.trace; \
+		write.table(Data2.pve, \"/users/mturchin/data/ukbiobank_jun17/subsets/African/African/mturchin20/ukb_chrAll_v3.African.QCed.pruned.QCed.dropRltvs.noX.PCAdrop.flashpca.selfR.pve.txt\", quote=FALSE, row.names=FALSE, col.names=FALSE); \
+	"
+done
 
         R -q -e "library("data.table"); library("feather"); \
         ptm <- proc.time(); Data3 <- fread('zcat /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v3.${ancestry2}.QCed.pruned.QCed.dropRltvs.noX.PCAdrop.raw.edit.gz', header=T); print(proc.time() - ptm); \
@@ -3191,24 +3215,6 @@ module load R/3.4.3_mkl gcc; for j in `cat <(echo $UKBioBankPopsRnd2 | perl -lan
         ptm <- proc.time(); Data3.cov <- 1/ncol(Data3) * tcrossprod(as.matrix(Data3)); print(proc.time() - ptm); \
         write.table(Data3.cov, \"/users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v3.${ancestry2}.QCed.pruned.QCed.dropRltvs.noX.PCAdrop.raw.edit.cov.ColCrct.txt\", quote=FALSE, col.name=FALSE, row.name=FALSE);"
 done
-/users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/Analyses/InterPath/ukb_chrAll_v3.${ancestry2}.QCed.reqDrop.QCed.dropRltvs.PCAdrop.sort.ImptHRC.dose.100geno.raw.edit.noFix.cov.ColCrct.txt\", quote=FALSE, col.name=FALSE, row.name=FALSE);"
-done
-
-
-
-        ptm <- proc.time(); Data3.mean <- apply(Data3, 2, mean); Data3.sd <- apply(Data3, 2, sd); Data3 <- t((t(Data3)-Data3.mean)/Data3.sd); print(proc.time() - ptm); \
-	        ptm <- proc.time(); Data3.cov <- 1/ncol(Data3) * tcrossprod(as.matrix(Data3)); print(proc.time() - ptm); \
-
-
-done
-
-
-	cat  
-
-	write.table(flashpca1\\\$projection, \\\"/users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v3.${ancestry2}.QCed.pruned.QCed.dropRltvs.noX.PCAdrop.flashpca.pcs.txt\\\", quote=FALSE, row.names=FALSE, col.names=FALSE); write.table(flashpca1\\\$loadings, \\\"/users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v3.${ancestry2}.QCed.pruned.QCed.dropRltvs.noX.PCAdrop.flashpca.loads.txt\\\", quote=FALSE, row.names=FALSE, col.names=FALSE); write.table(flashpca1\\\$vectors, \\\"/users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v3.${ancestry2}.QCed.pruned.QCed.dropRltvs.noX.PCAdrop.flashpca.vectors.txt\\\", quote=FALSE, row.names=FALSE, col.names=FALSE); write.table(flashpca1\\\$values, \\\"/users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v3.${ancestry2}.QCed.pruned.QCed.dropRltvs.noX.PCAdrop.flashpca.values.txt\\\", quote=FALSE, row.names=FALSE, col.names=FALSE); write.table(flashpca1\\\$center, \\\"/users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v3.${ancestry2}.QCed.pruned.QCed.dropRltvs.noX.PCAdrop.flashpca.means.txt\\\", quote=FALSE, row.names=FALSE, col.names=FALSE); write.table(flashpca1\\\$scale, \\\"/users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v3.${ancestry2}.QCed.pruned.QCed.dropRltvs.noX.PCAdrop.flashpca.sds.txt\\\", quote=FALSE, row.names=FALSE, col.names=FALSE);\"";)
-
-done	
-
 
 
 
