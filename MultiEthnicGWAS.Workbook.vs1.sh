@@ -3281,7 +3281,7 @@ for j in `cat <(echo $UKBioBankPopsRnd2 | perl -lane 'print join("\n", @F);') | 
 
 done	
 
-for j in `cat <(echo $UKBioBankPopsRnd2 | perl -lane 'print join("\n", @F);') | head -n 8 | head -n 8 | tail -n 8 | head -n 1`; do
+for j in `cat <(echo $UKBioBankPopsRnd2 | perl -lane 'print join("\n", @F);') | head -n 8 | head -n 8 | tail -n 8`; do
 	ancestry1=`echo $j | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[0];'`
 	ancestry2=`echo $j | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[1];'`
 
@@ -3294,11 +3294,13 @@ for j in `cat <(echo $UKBioBankPopsRnd2 | perl -lane 'print join("\n", @F);') | 
 		TotalEigenValue <- sum(Data3[1:19,1]) + sum(rep(MeanEigenValue, nrow(Data1) - 19)) - 1; \
 		Data3.sub <- Data3[91:100,]; Data3.sub.diff <- Data3.sub[1] - Data3.sub[10]; CorrectionFactor <- Data3.sub.diff * (floor(nrow(Data1) / 10) - 100); TotalEigenValue.Correction <- TotalEigenValue - CorrectionFactor; \ 
 		Data2.pve <- Data2[,1] / TotalEigenValue.Correction; \ 
-		print(MeanEigenValue); print(sum(Data3[1:19,1])); print(sum(rep(MeanEigenValue, nrow(Data1) - 19))); print(TotalEigenValue); print(Data3.sub.diff); print(Data3.sub); print(CorrectionFactor); print(TotalEigenValue.Correction); \
+		print(MeanEigenValue); print(sum(Data3[1:19,1])); print(sum(rep(MeanEigenValue, nrow(Data1) - 19))); print(TotalEigenValue); print(Data3.sub.diff); print(CorrectionFactor); print(TotalEigenValue.Correction); \
 		write.table(Data2.pve, \"/users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v3.${ancestry2}.QCed.pruned.QCed.dropRltvs.noX.PCAdrop.flashpca.selfR.vs2.ndim100.pve.txt\", quote=FALSE, row.names=FALSE, col.names=FALSE); \
 	"
 done	
 
+#		print(MeanEigenValue); print(sum(Data3[1:19,1])); print(sum(rep(MeanEigenValue, nrow(Data1) - 19))); print(TotalEigenValue); print(Data3.sub.diff); print(Data3.sub); print(CorrectionFactor); print(TotalEigenValue.Correction); \
+#		print(c(MeanEigenValue, sum(Data3[1:19,1]), sum(rep(MeanEigenValue, nrow(Data1) - 19)), TotalEigenValue, Data3.sub.diff, Data3.sub, CorrectionFactor, TotalEigenValue.Correction)); \
 
 
 
@@ -12339,7 +12341,110 @@ FID_IID FID IID SEX ANCESTRY AGE Height BMI Waist Hip WaistAdjBMI HipAdjBMI
 [1] 10
 [1] 12.7912
 [1] 12.7912
-
+#20200316
+[  mturchin@node1118  ~]$for j in `cat <(echo $UKBioBankPopsRnd2 | perl -lane 'print join("\n", @F);') | head -n 8 | head -n 8 | tail -n 8`; do
+>         ancestry1=`echo $j | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[0];'`
+>         ancestry2=`echo $j | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[1];'`
+>
+>         echo $ancestry1 $ancestry2
+>
+>         R -q -e "Data1 <- read.table(\"/users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v3.${ancestry2}.QCed.pruned.QCed.dropRltvs.noX.PCAdrop.fam\", header=F); \
+>                 Data2 <- read.table(\"/users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v3.${ancestry2}.QCed.pruned.QCed.dropRltvs.noX.PCAdrop.flashpca.values.txt\", header=F); \
+>                 Data3 <- read.table(\"/users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v3.${ancestry2}.QCed.pruned.QCed.dropRltvs.noX.PCAdrop.forPVE.ndim100.flashpca.values.txt\", header=F); \
+>                 MeanEigenValue <- mean(Data3[20:nrow(Data3),1]); \
+>                 TotalEigenValue <- sum(Data3[1:19,1]) + sum(rep(MeanEigenValue, nrow(Data1) - 19)) - 1; \
+>                 Data3.sub <- Data3[91:100,]; Data3.sub.diff <- Data3.sub[1] - Data3.sub[10]; CorrectionFactor <- Data3.sub.diff * (floor(nrow(Data1) / 10) - 100); TotalEigenValue.Correction <- TotalEigenValue - CorrectionFactor; \
+>                 Data2.pve <- Data2[,1] / TotalEigenValue.Correction; \
+>                 print(MeanEigenValue); print(sum(Data3[1:19,1])); print(sum(rep(MeanEigenValue, nrow(Data1) - 19))); print(TotalEigenValue); print(Data3.sub.diff); print(CorrectionFactor); print(TotalEigenValue.Correction); \
+>                 write.table(Data2.pve, \"/users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v3.${ancestry2}.QCed.pruned.QCed.dropRltvs.noX.PCAdrop.flashpca.selfR.vs2.ndim100.pve.txt\", quote=FALSE, row.names=FALSE, col.names=FALSE); \
+>         "
+> done
+African African
+> Data1 <- read.table("/users/mturchin/data/ukbiobank_jun17/subsets/African/African/mturchin20/ukb_chrAll_v3.African.QCed.pruned.QCed.dropRltvs.noX.PCAdrop.fam", header=F);                 Data2 <- read.table("/users/mturchin/data/ukbiobank_jun17/subsets/African/African/mturchin20/ukb_chrAll_v3.African.QCed.pruned.QCed.dropRltvs.noX.PCAdrop.flashpca.values.txt", header=F);                 Data3 <- read.table("/users/mturchin/data/ukbiobank_jun17/subsets/African/African/mturchin20/ukb_chrAll_v3.African.QCed.pruned.QCed.dropRltvs.noX.PCAdrop.forPVE.ndim100.flashpca.values.txt", header=F);                 MeanEigenValue <- mean(Data3[20:nrow(Data3),1]);                 TotalEigenValue <- sum(Data3[1:19,1]) + sum(rep(MeanEigenValue, nrow(Data1) - 19)) - 1;                 Data3.sub <- Data3[91:100,]; Data3.sub.diff <- Data3.sub[1] - Data3.sub[10]; CorrectionFactor <- Data3.sub.diff * (floor(nrow(Data1) / 10) - 100); TotalEigenValue.Correction <- TotalEigenValue - CorrectionFactor;                 Data2.pve <- Data2[,1] / TotalEigenValue.Correction;                 print(MeanEigenValue); print(sum(Data3[1:19,1])); print(sum(rep(MeanEigenValue, nrow(Data1) - 19))); print(TotalEigenValue); print(Data3.sub.diff); print(CorrectionFactor); print(TotalEigenValue.Correction);                 write.table(Data2.pve, "/users/mturchin/data/ukbiobank_jun17/subsets/African/African/mturchin20/ukb_chrAll_v3.African.QCed.pruned.QCed.dropRltvs.noX.PCAdrop.flashpca.selfR.vs2.ndim100.pve.txt", quote=FALSE, row.names=FALSE, col.names=FALSE);
+[1] 1.562977
+[1] 94.89713
+[1] 4832.724
+[1] 4926.621
+[1] 0.01342279
+[1] 2.832208
+[1] 4923.789
+British British.Ran4000
+> Data1 <- read.table("/users/mturchin/data/ukbiobank_jun17/subsets/British/British.Ran4000/mturchin20/ukb_chrAll_v3.British.Ran4000.QCed.pruned.QCed.dropRltvs.noX.PCAdrop.fam", header=F);                 Data2 <- read.table("/users/mturchin/data/ukbiobank_jun17/subsets/British/British.Ran4000/mturchin20/ukb_chrAll_v3.British.Ran4000.QCed.pruned.QCed.dropRltvs.noX.PCAdrop.flashpca.values.txt", header=F);                 Data3 <- read.table("/users/mturchin/data/ukbiobank_jun17/subsets/British/British.Ran4000/mturchin20/ukb_chrAll_v3.British.Ran4000.QCed.pruned.QCed.dropRltvs.noX.PCAdrop.forPVE.ndim100.flashpca.values.txt", header=F);                 MeanEigenValue <- mean(Data3[20:nrow(Data3),1]);                 TotalEigenValue <- sum(Data3[1:19,1]) + sum(rep(MeanEigenValue, nrow(Data1) - 19)) - 1;                 Data3.sub <- Data3[91:100,]; Data3.sub.diff <- Data3.sub[1] - Data3.sub[10]; CorrectionFactor <- Data3.sub.diff * (floor(nrow(Data1) / 10) - 100); TotalEigenValue.Correction <- TotalEigenValue - CorrectionFactor;                 Data2.pve <- Data2[,1] / TotalEigenValue.Correction;                 print(MeanEigenValue); print(sum(Data3[1:19,1])); print(sum(rep(MeanEigenValue, nrow(Data1) - 19))); print(TotalEigenValue); print(Data3.sub.diff); print(CorrectionFactor); print(TotalEigenValue.Correction);                 write.table(Data2.pve, "/users/mturchin/data/ukbiobank_jun17/subsets/British/British.Ran4000/mturchin20/ukb_chrAll_v3.British.Ran4000.QCed.pruned.QCed.dropRltvs.noX.PCAdrop.flashpca.selfR.vs2.ndim100.pve.txt", quote=FALSE, row.names=FALSE, col.names=FALSE);
+[1] 1.458029
+[1] 28.81969
+[1] 5582.791
+[1] 5610.611
+[1] 0.004706817
+[1] 1.336736
+[1] 5609.274
+>
+>
+British British.Ran10000 
+> Data1 <- read.table("/users/mturchin/data/ukbiobank_jun17/subsets/British/British.Ran10000/mturchin20/ukb_chrAll_v3.British.Ran10000.QCed.pruned.QCed.dropRltvs.noX.PCAdrop.fam", header=F);                 Data2 <- read.table("/users/mturchin/data/ukbiobank_jun17/subsets/British/British.Ran10000/mturchin20/ukb_chrAll_v3.British.Ran10000.QCed.pruned.QCed.dropRltvs.noX.PCAdrop.flashpca.values.txt", header=F);                 Data3 <- read.table("/users/mturchin/data/ukbiobank_jun17/subsets/British/British.Ran10000/mturchin20/ukb_chrAll_v3.British.Ran10000.QCed.pruned.QCed.dropRltvs.noX.PCAdrop.forPVE.ndim100.flashpca.values.txt", header=F);                 MeanEigenValue <- mean(Data3[20:nrow(Data3),1]);                 TotalEigenValue <- sum(Data3[1:19,1]) + sum(rep(MeanEigenValue, nrow(Data1) - 19)) - 1;                 Data3.sub <- Data3[91:100,]; Data3.sub.diff <- Data3.sub[1] - Data3.sub[10]; CorrectionFactor <- Data3.sub.diff * (floor(nrow(Data1) / 10) - 100); TotalEigenValue.Correction <- TotalEigenValue - CorrectionFactor;                 Data2.pve <- Data2[,1] / TotalEigenValue.Correction;                 print(MeanEigenValue); print(sum(Data3[1:19,1])); print(sum(rep(MeanEigenValue, nrow(Data1) - 19))); print(TotalEigenValue); print(Data3.sub.diff); print(CorrectionFactor); print(TotalEigenValue.Correction);                 write.table(Data2.pve, "/users/mturchin/data/ukbiobank_jun17/subsets/British/British.Ran10000/mturchin20/ukb_chrAll_v3.British.Ran10000.QCed.pruned.QCed.dropRltvs.noX.PCAdrop.flashpca.selfR.vs2.ndim100.pve.txt", quote=FALSE, row.names=FALSE, col.names=FALSE);
+[1] 1.813959
+[1] 36.52173
+[1] 17384.99
+[1] 17420.51
+[1] 0.004835493
+[1] 4.158524
+[1] 17416.35
+>
+>
+Caribbean Caribbean
+> Data1 <- read.table("/users/mturchin/data/ukbiobank_jun17/subsets/Caribbean/Caribbean/mturchin20/ukb_chrAll_v3.Caribbean.QCed.pruned.QCed.dropRltvs.noX.PCAdrop.fam", header=F);                 Data2 <- read.table("/users/mturchin/data/ukbiobank_jun17/subsets/Caribbean/Caribbean/mturchin20/ukb_chrAll_v3.Caribbean.QCed.pruned.QCed.dropRltvs.noX.PCAdrop.flashpca.values.txt", header=F);                 Data3 <- read.table("/users/mturchin/data/ukbiobank_jun17/subsets/Caribbean/Caribbean/mturchin20/ukb_chrAll_v3.Caribbean.QCed.pruned.QCed.dropRltvs.noX.PCAdrop.forPVE.ndim100.flashpca.values.txt", header=F);                 MeanEigenValue <- mean(Data3[20:nrow(Data3),1]);                 TotalEigenValue <- sum(Data3[1:19,1]) + sum(rep(MeanEigenValue, nrow(Data1) - 19)) - 1;                 Data3.sub <- Data3[91:100,]; Data3.sub.diff <- Data3.sub[1] - Data3.sub[10]; CorrectionFactor <- Data3.sub.diff * (floor(nrow(Data1) / 10) - 100); TotalEigenValue.Correction <- TotalEigenValue - CorrectionFactor;                 Data2.pve <- Data2[,1] / TotalEigenValue.Correction;                 print(MeanEigenValue); print(sum(Data3[1:19,1])); print(sum(rep(MeanEigenValue, nrow(Data1) - 19))); print(TotalEigenValue); print(Data3.sub.diff); print(CorrectionFactor); print(TotalEigenValue.Correction);                 write.table(Data2.pve, "/users/mturchin/data/ukbiobank_jun17/subsets/Caribbean/Caribbean/mturchin20/ukb_chrAll_v3.Caribbean.QCed.pruned.QCed.dropRltvs.noX.PCAdrop.flashpca.selfR.vs2.ndim100.pve.txt", quote=FALSE, row.names=FALSE, col.names=FALSE);
+[1] 1.676139
+[1] 75.51842
+[1] 6392.796
+[1] 6467.314
+[1] 0.01856558
+[1] 5.25406
+[1] 6462.06
+>
+>
+Chinese Chinese
+> Data1 <- read.table("/users/mturchin/data/ukbiobank_jun17/subsets/Chinese/Chinese/mturchin20/ukb_chrAll_v3.Chinese.QCed.pruned.QCed.dropRltvs.noX.PCAdrop.fam", header=F);                 Data2 <- read.table("/users/mturchin/data/ukbiobank_jun17/subsets/Chinese/Chinese/mturchin20/ukb_chrAll_v3.Chinese.QCed.pruned.QCed.dropRltvs.noX.PCAdrop.flashpca.values.txt", header=F);                 Data3 <- read.table("/users/mturchin/data/ukbiobank_jun17/subsets/Chinese/Chinese/mturchin20/ukb_chrAll_v3.Chinese.QCed.pruned.QCed.dropRltvs.noX.PCAdrop.forPVE.ndim100.flashpca.values.txt", header=F);                 MeanEigenValue <- mean(Data3[20:nrow(Data3),1]);                 TotalEigenValue <- sum(Data3[1:19,1]) + sum(rep(MeanEigenValue, nrow(Data1) - 19)) - 1;                 Data3.sub <- Data3[91:100,]; Data3.sub.diff <- Data3.sub[1] - Data3.sub[10]; CorrectionFactor <- Data3.sub.diff * (floor(nrow(Data1) / 10) - 100); TotalEigenValue.Correction <- TotalEigenValue - CorrectionFactor;                 Data2.pve <- Data2[,1] / TotalEigenValue.Correction;                 print(MeanEigenValue); print(sum(Data3[1:19,1])); print(sum(rep(MeanEigenValue, nrow(Data1) - 19))); print(TotalEigenValue); print(Data3.sub.diff); print(CorrectionFactor); print(TotalEigenValue.Correction);                 write.table(Data2.pve, "/users/mturchin/data/ukbiobank_jun17/subsets/Chinese/Chinese/mturchin20/ukb_chrAll_v3.Chinese.QCed.pruned.QCed.dropRltvs.noX.PCAdrop.flashpca.selfR.vs2.ndim100.pve.txt", quote=FALSE, row.names=FALSE, col.names=FALSE);
+[1] 1.346333
+[1] 36.65538
+[1] 1923.91
+[1] 1959.565
+[1] 0.007898039
+[1] 0.3475137
+[1] 1959.217
+>
+>
+Indian Indian
+> Data1 <- read.table("/users/mturchin/data/ukbiobank_jun17/subsets/Indian/Indian/mturchin20/ukb_chrAll_v3.Indian.QCed.pruned.QCed.dropRltvs.noX.PCAdrop.fam", header=F);                 Data2 <- read.table("/users/mturchin/data/ukbiobank_jun17/subsets/Indian/Indian/mturchin20/ukb_chrAll_v3.Indian.QCed.pruned.QCed.dropRltvs.noX.PCAdrop.flashpca.values.txt", header=F);                 Data3 <- read.table("/users/mturchin/data/ukbiobank_jun17/subsets/Indian/Indian/mturchin20/ukb_chrAll_v3.Indian.QCed.pruned.QCed.dropRltvs.noX.PCAdrop.forPVE.ndim100.flashpca.values.txt", header=F);                 MeanEigenValue <- mean(Data3[20:nrow(Data3),1]);                 TotalEigenValue <- sum(Data3[1:19,1]) + sum(rep(MeanEigenValue, nrow(Data1) - 19)) - 1;                 Data3.sub <- Data3[91:100,]; Data3.sub.diff <- Data3.sub[1] - Data3.sub[10]; CorrectionFactor <- Data3.sub.diff * (floor(nrow(Data1) / 10) - 100); TotalEigenValue.Correction <- TotalEigenValue - CorrectionFactor;                 Data2.pve <- Data2[,1] / TotalEigenValue.Correction;                 print(MeanEigenValue); print(sum(Data3[1:19,1])); print(sum(rep(MeanEigenValue, nrow(Data1) - 19))); print(TotalEigenValue); print(Data3.sub.diff); print(CorrectionFactor); print(TotalEigenValue.Correction);                 write.table(Data2.pve, "/users/mturchin/data/ukbiobank_jun17/subsets/Indian/Indian/mturchin20/ukb_chrAll_v3.Indian.QCed.pruned.QCed.dropRltvs.noX.PCAdrop.flashpca.selfR.vs2.ndim100.pve.txt", quote=FALSE, row.names=FALSE, col.names=FALSE);
+[1] 1.636333
+[1] 65.25366
+[1] 8276.572
+[1] 8340.826
+[1] 0.006703571
+[1] 2.728353
+[1] 8338.097
+>
+>
+Irish Irish
+> Data1 <- read.table("/users/mturchin/data/ukbiobank_jun17/subsets/Irish/Irish/mturchin20/ukb_chrAll_v3.Irish.QCed.pruned.QCed.dropRltvs.noX.PCAdrop.fam", header=F);                 Data2 <- read.table("/users/mturchin/data/ukbiobank_jun17/subsets/Irish/Irish/mturchin20/ukb_chrAll_v3.Irish.QCed.pruned.QCed.dropRltvs.noX.PCAdrop.flashpca.values.txt", header=F);                 Data3 <- read.table("/users/mturchin/data/ukbiobank_jun17/subsets/Irish/Irish/mturchin20/ukb_chrAll_v3.Irish.QCed.pruned.QCed.dropRltvs.noX.PCAdrop.forPVE.ndim100.flashpca.values.txt", header=F);                 MeanEigenValue <- mean(Data3[20:nrow(Data3),1]);                 TotalEigenValue <- sum(Data3[1:19,1]) + sum(rep(MeanEigenValue, nrow(Data1) - 19)) - 1;                 Data3.sub <- Data3[91:100,]; Data3.sub.diff <- Data3.sub[1] - Data3.sub[10]; CorrectionFactor <- Data3.sub.diff * (floor(nrow(Data1) / 10) - 100); TotalEigenValue.Correction <- TotalEigenValue - CorrectionFactor;                 Data2.pve <- Data2[,1] / TotalEigenValue.Correction;                 print(MeanEigenValue); print(sum(Data3[1:19,1])); print(sum(rep(MeanEigenValue, nrow(Data1) - 19))); print(TotalEigenValue); print(Data3.sub.diff); print(CorrectionFactor); print(TotalEigenValue.Correction);                 write.table(Data2.pve, "/users/mturchin/data/ukbiobank_jun17/subsets/Irish/Irish/mturchin20/ukb_chrAll_v3.Irish.QCed.pruned.QCed.dropRltvs.noX.PCAdrop.flashpca.selfR.vs2.ndim100.pve.txt", quote=FALSE, row.names=FALSE, col.names=FALSE);
+[1] 1.954114
+[1] 41.31179
+[1] 22581.74
+[1] 22622.05
+[1] 0.006302957
+[1] 6.662226
+[1] 22615.39
+>
+>
+Pakistani Pakistani
+> Data1 <- read.table("/users/mturchin/data/ukbiobank_jun17/subsets/Pakistani/Pakistani/mturchin20/ukb_chrAll_v3.Pakistani.QCed.pruned.QCed.dropRltvs.noX.PCAdrop.fam", header=F);                 Data2 <- read.table("/users/mturchin/data/ukbiobank_jun17/subsets/Pakistani/Pakistani/mturchin20/ukb_chrAll_v3.Pakistani.QCed.pruned.QCed.dropRltvs.noX.PCAdrop.flashpca.values.txt", header=F);                 Data3 <- read.table("/users/mturchin/data/ukbiobank_jun17/subsets/Pakistani/Pakistani/mturchin20/ukb_chrAll_v3.Pakistani.QCed.pruned.QCed.dropRltvs.noX.PCAdrop.forPVE.ndim100.flashpca.values.txt", header=F);                 MeanEigenValue <- mean(Data3[20:nrow(Data3),1]);                 TotalEigenValue <- sum(Data3[1:19,1]) + sum(rep(MeanEigenValue, nrow(Data1) - 19)) - 1;                 Data3.sub <- Data3[91:100,]; Data3.sub.diff <- Data3.sub[1] - Data3.sub[10]; CorrectionFactor <- Data3.sub.diff * (floor(nrow(Data1) / 10) - 100); TotalEigenValue.Correction <- TotalEigenValue - CorrectionFactor;                 Data2.pve <- Data2[,1] / TotalEigenValue.Correction;                 print(MeanEigenValue); print(sum(Data3[1:19,1])); print(sum(rep(MeanEigenValue, nrow(Data1) - 19))); print(TotalEigenValue); print(Data3.sub.diff); print(CorrectionFactor); print(TotalEigenValue.Correction);                 write.table(Data2.pve, "/users/mturchin/data/ukbiobank_jun17/subsets/Pakistani/Pakistani/mturchin20/ukb_chrAll_v3.Pakistani.QCed.pruned.QCed.dropRltvs.noX.PCAdrop.flashpca.selfR.vs2.ndim100.pve.txt", quote=FALSE, row.names=FALSE, col.names=FALSE);
+[1] 1.330063
+[1] 31.55892
+[1] 2077.559
+[1] 2108.118
+[1] 0.007399813
+[1] 0.4291891
+[1] 2107.688
+>
+>
 
 
 ~~~
