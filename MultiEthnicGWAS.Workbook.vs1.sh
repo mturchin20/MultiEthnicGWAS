@@ -3196,8 +3196,15 @@ module load R/3.4.3_mkl gcc; for j in `cat <(echo $UKBioBankPopsRnd2 | perl -lan
 done
 #	ptm <- proc.time(); Data3.cov <- 1/ncol(Data3) * tcrossprod(as.matrix(Data3)); print(proc.time() - ptm); \
 
+#library("data.table") 
+#ptm <- proc.time(); Data3 <- fread('zcat /users/mturchin/data/ukbiobank_jun17/subsets/African/African/mturchin20/ukb_chrAll_v3.African.QCed.pruned.QCed.dropRltvs.noX.PCAdrop.raw.edit.gz', header=T); print(proc.time() - ptm); 
+#ptm <- proc.time(); Data3.mean <- apply(Data3, 2, mean); Data3.sd <- apply(Data3, 2, sd); Data3 <- t((t(Data3)-Data3.mean)/Data3.sd); print(proc.time() - ptm);         
+#ptm <- proc.time(); Data3.cov <- 1/ncol(Data3) * (as.matrix(Data3) %*% t(as.matrix(Data3))); print(proc.time() - ptm);         
+#write.table(Data3.cov, "/users/mturchin/data/ukbiobank_jun17/subsets/African/African/mturchin20/ukb_chrAll_v3.African.QCed.pruned.QCed.dropRltvs.noX.PCAdrop.raw.edit.cov.ColCrct.txt", quote=FALSE, col.name=FALSE, row.name=FALSE);
+#Data3 <- NULL;
 library("data.table") 
 ptm <- proc.time(); Data3 <- fread('zcat /users/mturchin/data/ukbiobank_jun17/subsets/African/African/mturchin20/ukb_chrAll_v3.African.QCed.pruned.QCed.dropRltvs.noX.PCAdrop.raw.edit.gz', header=T); print(proc.time() - ptm); 
+ptm <- proc.time(); Data3 <- apply(Data3, 2, function(x) { mean1 <- mean(x, na.rm=TRUE); x[is.na(x)] <- mean1; return(x) }); print(proc.time() - ptm);
 ptm <- proc.time(); Data3.mean <- apply(Data3, 2, mean); Data3.sd <- apply(Data3, 2, sd); Data3 <- t((t(Data3)-Data3.mean)/Data3.sd); print(proc.time() - ptm);         
 ptm <- proc.time(); Data3.cov <- 1/ncol(Data3) * (as.matrix(Data3) %*% t(as.matrix(Data3))); print(proc.time() - ptm);         
 write.table(Data3.cov, "/users/mturchin/data/ukbiobank_jun17/subsets/African/African/mturchin20/ukb_chrAll_v3.African.QCed.pruned.QCed.dropRltvs.noX.PCAdrop.raw.edit.cov.ColCrct.txt", quote=FALSE, col.name=FALSE, row.name=FALSE);
@@ -3301,6 +3308,19 @@ done
 
 #		print(MeanEigenValue); print(sum(Data3[1:19,1])); print(sum(rep(MeanEigenValue, nrow(Data1) - 19))); print(TotalEigenValue); print(Data3.sub.diff); print(Data3.sub); print(CorrectionFactor); print(TotalEigenValue.Correction); \
 #		print(c(MeanEigenValue, sum(Data3[1:19,1]), sum(rep(MeanEigenValue, nrow(Data1) - 19)), TotalEigenValue, Data3.sub.diff, Data3.sub, CorrectionFactor, TotalEigenValue.Correction)); \
+
+
+#More PCA/SVD work
+
+#From: https://www.rdocumentation.org/packages/stats/versions/3.6.2/topics/prcomp, https://cmdlinetips.com/2019/04/introduction-to-pca-with-r-using-prcomp/, https://stats.stackexchange.com/questions/22569/pca-and-proportion-of-variance-explained, https://stat.ethz.ch/pipermail/r-help/2005-August/076610.html, 
+Data1 <- read.table("/users/mturchin/data/ukbiobank_jun17/subsets/African/African/mturchin20/ukb_chrAll_v3.African.QCed.pruned.QCed.dropRltvs.noX.PCAdrop.raw.edit.gz", header=T);
+Data1.crct <- apply(Data1[,1:10], 2, function(x) { mean1 <- mean(x, na.rm=TRUE); x[is.na(x)] <- mean1; return(x) });
+Data1.adj <- apply(Data1, 2, function(x) { mean1 <- mean(x, na.rm=TRUE); x[is.na(x)] <- mean1; return(x) });
+#Data1.mean <- apply(Data1, 2, function(x) { return(mean(x, na.rm=TRUE)); }); Data1.sd <- apply(Data1, 2, function(x) { return(sd(x, na.rm=TRUE)); }); Data1.adj <- t((t(Data1)-Data1.mean)/Data1.sd);
+Data1.adj.mean <- apply(Data1.adj, 2, function(x) { return(mean(x, na.rm=TRUE)); }); Data1.adj.sd <- apply(Data1.adj, 2, function(x) { return(sd(x, na.rm=TRUE)); }); Data1.adj.stand <- t((t(Data1.adj)-Data1.adj.mean)/Data1.adj.sd);
+Data1.cov.pca <- prcomp(Data1.cov)
+c(Data3.cov.pca$sdev^2 / sum(Data3.cov.pca$sdev^2))[1:10]
+
 
 
 
