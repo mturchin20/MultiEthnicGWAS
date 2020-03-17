@@ -3142,16 +3142,16 @@ for j in `cat <(echo $UKBioBankPopsRnd2 | perl -lane 'print join("\n", @F);') | 
 done
 
 R -q -e "library(\"RColorBrewer\"); \
-	Data1 <- read.table(\"/users/mturchin/data/ukbiobank_jun17/subsets/African/African/mturchin20/ukb_chrAll_v3.African.QCed.pruned.QCed.dropRltvs.noX.PCAdrop.flashpca.values.txt\", header=F); \
-	Data2 <- read.table(\"/users/mturchin/data/ukbiobank_jun17/subsets/British/British.Ran4000/mturchin20/ukb_chrAll_v3.British.Ran4000.QCed.pruned.QCed.dropRltvs.noX.PCAdrop.flashpca.values.txt\", header=F); \
-	Data3 <- read.table(\"/users/mturchin/data/ukbiobank_jun17/subsets/British/British.Ran10000/mturchin20/ukb_chrAll_v3.British.Ran10000.QCed.pruned.QCed.dropRltvs.noX.PCAdrop.flashpca.values.txt\", header=F); \
-	Data4 <- read.table(\"/users/mturchin/data/ukbiobank_jun17/subsets/Caribbean/Caribbean/mturchin20/ukb_chrAll_v3.Caribbean.QCed.pruned.QCed.dropRltvs.noX.PCAdrop.flashpca.values.txt\", header=F); \
-	Data5 <- read.table(\"/users/mturchin/data/ukbiobank_jun17/subsets/Chinese/Chinese/mturchin20/ukb_chrAll_v3.Chinese.QCed.pruned.QCed.dropRltvs.noX.PCAdrop.flashpca.values.txt\", header=F); \
-	Data6 <- read.table(\"/users/mturchin/data/ukbiobank_jun17/subsets/Indian/Indian/mturchin20/ukb_chrAll_v3.Indian.QCed.pruned.QCed.dropRltvs.noX.PCAdrop.flashpca.values.txt\", header=F); \
-	Data7 <- read.table(\"/users/mturchin/data/ukbiobank_jun17/subsets/Irish/Irish/mturchin20/ukb_chrAll_v3.Irish.QCed.pruned.QCed.dropRltvs.noX.PCAdrop.flashpca.values.txt\", header=F); \
-	Data8 <- read.table(\"/users/mturchin/data/ukbiobank_jun17/subsets/Pakistani/Pakistani/mturchin20/ukb_chrAll_v3.Pakistani.QCed.pruned.QCed.dropRltvs.noX.PCAdrop.flashpca.values.txt\", header=F); \
-	png(\"/users/mturchin/data/ukbiobank_jun17/mturchin/ukb_chrAll_v3.AllPops.QCed.pruned.QCed.dropRltvs.noX.PCAdrop.flashpca.values.plot.vs1.png\", height=2000, width=2250, res=300); par(oma=c(1,1,2,10), mar=c(5,5,4,2)); \
-	plot(c(1:10), Data1[1:10,], main=\"UK BioBank Population Subsets:\nTop 10 Local PC Eigenvalues\", xlab=\"PC\", ylab=\"Eigenvalue\", pch=16, col=brewer.pal(12, \"Paired\")[5], cex=1.5, cex.main=1.5, cex.axis=1.5, cex.lab=1.5); \ 
+	Data1 <- read.table(\"/users/mturchin/data/ukbiobank_jun17/subsets/African/African/mturchin20/ukb_chrAll_v3.African.QCed.pruned.QCed.dropRltvs.noX.PCAdrop.flashpca.selfR.pve.txt\", header=F); \
+	Data2 <- read.table(\"/users/mturchin/data/ukbiobank_jun17/subsets/British/British.Ran4000/mturchin20/ukb_chrAll_v3.British.Ran4000.QCed.pruned.QCed.dropRltvs.noX.PCAdrop.flashpca.selfR.pve.txt\", header=F); \
+	Data3 <- read.table(\"/users/mturchin/data/ukbiobank_jun17/subsets/British/British.Ran10000/mturchin20/ukb_chrAll_v3.British.Ran10000.QCed.pruned.QCed.dropRltvs.noX.PCAdrop.flashpca.selfR.pve.txt\", header=F); \
+	Data4 <- read.table(\"/users/mturchin/data/ukbiobank_jun17/subsets/Caribbean/Caribbean/mturchin20/ukb_chrAll_v3.Caribbean.QCed.pruned.QCed.dropRltvs.noX.PCAdrop.flashpca.selfR.pve.txt\", header=F); \
+	Data5 <- read.table(\"/users/mturchin/data/ukbiobank_jun17/subsets/Chinese/Chinese/mturchin20/ukb_chrAll_v3.Chinese.QCed.pruned.QCed.dropRltvs.noX.PCAdrop.flashpca.selfR.pve.txt\", header=F); \
+	Data6 <- read.table(\"/users/mturchin/data/ukbiobank_jun17/subsets/Indian/Indian/mturchin20/ukb_chrAll_v3.Indian.QCed.pruned.QCed.dropRltvs.noX.PCAdrop.flashpca.selfR.pve.txt\", header=F); \
+	Data7 <- read.table(\"/users/mturchin/data/ukbiobank_jun17/subsets/Irish/Irish/mturchin20/ukb_chrAll_v3.Irish.QCed.pruned.QCed.dropRltvs.noX.PCAdrop.flashpca.selfR.pve.txt\", header=F); \
+	Data8 <- read.table(\"/users/mturchin/data/ukbiobank_jun17/subsets/Pakistani/Pakistani/mturchin20/ukb_chrAll_v3.Pakistani.QCed.pruned.QCed.dropRltvs.noX.PCAdrop.flashpca.selfR.pve.txt\", header=F); \
+	png(\"/users/mturchin/data/ukbiobank_jun17/mturchin/ukb_chrAll_v3.AllPops.QCed.pruned.QCed.dropRltvs.noX.PCAdrop.flashpca.selfR.pve.plot.vs1.png\", height=2000, width=2250, res=300); par(oma=c(1,1,2,10), mar=c(5,5,4,2)); \
+	plot(c(1:10), Data1[1:10,], main=\"UK BioBank Population Subsets:\nTop 10 Local PCs\", xlab=\"PC\", ylab=\"PVE\", pch=16, col=brewer.pal(12, \"Paired\")[5], cex=1.5, cex.main=1.5, cex.axis=1.5, cex.lab=1.5); \ 
 	points(c(1:10), Data2[1:10,], pch=16, col=brewer.pal(12, \"Paired\")[1], cex=1.5); \
 	points(c(1:10), Data3[1:10,], pch=16, col=brewer.pal(12, \"Paired\")[2], cex=1.5); \
 	points(c(1:10), Data4[1:10,], pch=16, col=brewer.pal(12, \"Paired\")[3], cex=1.5); \
@@ -3162,9 +3162,13 @@ R -q -e "library(\"RColorBrewer\"); \
 	par(fig = c(0, 1, 0, 1), mfrow=c(1,1), oma = c(0, 0, 0, 0), mar = c(0, 0, 0, 0), new = TRUE); plot(0, 0, type = \"n\", bty = \"n\", xaxt = \"n\", yaxt = \"n\"); legend(\"topright\", c(\"African\", \"Brit.Ran4k\", \"Brit.Ran10k\", \"Caribbean\", \"Chinese\", \"Indian\", \"Irish\", \"Pakistani\"), pch=c(16,16,16,16,16,16,16,16), col=c(brewer.pal(12, \"Paired\")[5], brewer.pal(12, \"Paired\")[1], brewer.pal(12, \"Paired\")[2], brewer.pal(12, \"Paired\")[3], brewer.pal(12, \"Set3\")[8], brewer.pal(12, \"Paired\")[9], brewer.pal(11, \"RdYlBu\")[11], brewer.pal(12, \"Paired\")[7]), xpd=TRUE, inset=c(.035,.1175), bg=\"transparent\", cex=1.5, y.intersp=2); \
 	dev.off(); \
 "
+	
+#	Data1 <- read.table(\"/users/mturchin/data/ukbiobank_jun17/subsets/African/African/mturchin20/ukb_chrAll_v3.African.QCed.pruned.QCed.dropRltvs.noX.PCAdrop.flashpca.values.txt\", header=F); \
+#	png(\"/users/mturchin/data/ukbiobank_jun17/mturchin/ukb_chrAll_v3.AllPops.QCed.pruned.QCed.dropRltvs.noX.PCAdrop.flashpca.values.plot.vs1.png\", height=2000, width=2250, res=300); par(oma=c(1,1,2,10), mar=c(5,5,4,2)); \
+#	plot(c(1:10), Data1[1:10,], main=\"UK BioBank Population Subsets:\nTop 10 Local PC Eigenvalues\", xlab=\"PC\", ylab=\"Eigenvalue\", pch=16, col=brewer.pal(12, \"Paired\")[5], cex=1.5, cex.main=1.5, cex.axis=1.5, cex.lab=1.5); \ 
 
 #On MacBook Pro
-#scp -p mturchin@ssh.ccv.brown.edu:/users/mturchin/data/ukbiobank_jun17/mturchin/ukb_chrAll_v3.AllPops.QCed.pruned.QCed.dropRltvs.noX.PCAdrop.flashpca.values.plot.vs1.png /Users/mturchin20/Documents/Work/LabMisc/RamachandranLab/InterPath/Vs1/Production/Manuscript/Figures/Suppl/. 
+#scp -p mturchin@ssh.ccv.brown.edu:/users/mturchin/data/ukbiobank_jun17/mturchin/ukb_chrAll_v3.AllPops.QCed.pruned.QCed.dropRltvs.noX.PCAdrop.flashpca.*.plot.vs1.png /Users/mturchin20/Documents/Work/LabMisc/RamachandranLab/InterPath/Vs1/Production/Manuscript/Figures/Suppl/. 
 
 #20200306 NOTE -- to test that the sum of the diagnol of a covariance matrix is equal to the total sum of a covariance matrix's PCA eigenvalues
 #From: https://stats.stackexchange.com/questions/22569/pca-and-proportion-of-variance-explained
@@ -3252,17 +3256,21 @@ ptm <- proc.time(); Data3.cov <- 1/ncol(Data3) * (as.matrix(Data3) %*% t(as.matr
 write.table(Data3.cov, "/users/mturchin/data/ukbiobank_jun17/subsets/Pakistani/Pakistani/mturchin20/ukb_chrAll_v3.Pakistani.QCed.pruned.QCed.dropRltvs.noX.PCAdrop.raw.edit.cov.ColCrct.txt", quote=FALSE, col.name=FALSE, row.name=FALSE);
 Data3 <- NULL;
 
-module load R/3.4.3_mkl gcc; for j in `cat <(echo $UKBioBankPopsRnd2 | perl -lane 'print join("\n", @F);') | head -n 8 | head -n 8 | head -n 8 | head -n 1`; do
+module load R/3.4.3_mkl gcc; for j in `cat <(echo $UKBioBankPopsRnd2 | perl -lane 'print join("\n", @F);') | head -n 8 | head -n 8 | head -n 8`; do
 	ancestry1=`echo $j | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[0];'`
 	ancestry2=`echo $j | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[1];'`
 
 	echo $ancestry1 $ancestry2
 
-	R -q -e "Data1 <- read.table(\"/users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v3.${ancestry2}.QCed.pruned.QCed.dropRltvs.noX.PCAdrop.raw.edit.cov.ColCrct.txt\", header=F); \
+	R -q -e "library(\"data.table\"); \
+		Data1 <- as.matrix(fread(\"/users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v3.${ancestry2}.QCed.pruned.QCed.dropRltvs.noX.PCAdrop.raw.edit.cov.ColCrct.txt\", header=F)); \
 		Data2 <- read.table(\"/users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v3.${ancestry2}.QCed.pruned.QCed.dropRltvs.noX.PCAdrop.flashpca.values.txt\", header=F); \
 		print(Data1[1:5,1:5]); \
-		Data1.trace <- sum(diag(as.numeric(Data1))); \
+		Data1.diag <- as.numeric(c(diag(Data1))); \
+		print(Data1.diag[1:10]); \
+		Data1.trace <- sum(Data1.diag); \
 		Data2.pve <- Data2[,1] / Data1.trace; \
+		print(Data2.pve[1:5]); \
 		write.table(Data2.pve, \"/users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v3.${ancestry2}.QCed.pruned.QCed.dropRltvs.noX.PCAdrop.flashpca.selfR.pve.txt\", quote=FALSE, row.names=FALSE, col.names=FALSE); \
 	"
 done
@@ -3273,49 +3281,60 @@ for j in `cat <(echo $UKBioBankPopsRnd2 | perl -lane 'print join("\n", @F);') | 
 
 	echo $ancestry1 $ancestry2
 
-	sbatch -t 72:00:00 --mem 8g -p bigmem -o /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v3.${ancestry2}.fastpca.run.PCAdrop.forPVE.Full.slurm.output -e /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v3.${ancestry2}.fastpca.run.PCAdrop.forPVE.Full.slurm.error --comment "$ancestry1 $ancestry2 $i" <(echo -e '#!/bin/sh'; \ 
-	echo -e "\nR -q -e \"library(\\\"flashpcaR\\\"); File1 <- \\\"/users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v3.${ancestry2}.QCed.pruned.QCed.dropRltvs.noX.PCAdrop\\\"; File2 <- \\\"/users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v3.${ancestry2}.QCed.pruned.QCed.onlyRltvs.noX.PCAdrop\\\"; HelpFiles <- read.table(\\\"/users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v3.${ancestry2}.QCed.pruned.QCed.dropRltvs.noX.PCAdrop.bim.flashpca.projhelpfiles\\\", header=F); File3 <- \\\"/users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v3.${ancestry2}.QCed.pruned.QCed.dropRltvs.noX.PCAdrop\\\"; File2 <- \\\"/users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v3.${ancestry2}.QCed.pruned.QCed.onlyRltvs.noX.PCAdrop.fam\\\"; \ 
-	ndimVal1 <- nrow(File3); flashpca1 <- flashpca(File1, ndim=ndimVal1, do_loadings=TRUE, verbose=TRUE); \	
-	write.table(flashpca1\\\$values, \\\"/users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v3.${ancestry2}.QCed.pruned.QCed.dropRltvs.noX.PCAdrop.forPVE.Full.flashpca.values.txt\\\", quote=FALSE, row.names=FALSE, col.names=FALSE);\"";)
+	cat /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v3.${ancestry2}.QCed.pruned.QCed.dropRltvs.noX.PCAdrop.flashpca.selfR.pve.txt | head -n 5
 
-done	
+	echo ""
 
-#Not Chinese/Pakistani: 1000
-#Chinese/Pakistani: 500
+done
 
-for j in `cat <(echo $UKBioBankPopsRnd2 | perl -lane 'print join("\n", @F);') | head -n 8 | head -n 8 | tail -n 8`; do
-	ancestry1=`echo $j | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[0];'`
-	ancestry2=`echo $j | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[1];'`
-
-	echo $ancestry1 $ancestry2
-
-	cat /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v3.${ancestry2}.QCed.pruned.QCed.dropRltvs.noX.PCAdrop.forPVE.ndim100.flashpca.values.txt | wc
-#	cat /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v3.${ancestry2}.QCed.pruned.QCed.dropRltvs.noX.PCAdrop.forPVE.ndim100.flashpca.values.txt | tail -n 10
-	cat /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v3.${ancestry2}.QCed.pruned.QCed.dropRltvs.noX.PCAdrop.forPVE.ndim100.flashpca.values.txt | R -q -e "Data1 <- read.table(file('stdin'), header=F); for (i in 1:10) { Data1.sub <- matrix(Data1[i:(i+10),], ncol=1); Diff1 <- Data1.sub[1,1] - Data1.sub[nrow(Data1.sub),1]; print(Diff1); };"
-
-done	
-
-for j in `cat <(echo $UKBioBankPopsRnd2 | perl -lane 'print join("\n", @F);') | head -n 8 | head -n 8 | tail -n 8`; do
-	ancestry1=`echo $j | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[0];'`
-	ancestry2=`echo $j | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[1];'`
-
-	echo $ancestry1 $ancestry2
-
-	R -q -e "Data1 <- read.table(\"/users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v3.${ancestry2}.QCed.pruned.QCed.dropRltvs.noX.PCAdrop.fam\", header=F); \
-		Data2 <- read.table(\"/users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v3.${ancestry2}.QCed.pruned.QCed.dropRltvs.noX.PCAdrop.flashpca.values.txt\", header=F); \
-		Data3 <- read.table(\"/users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v3.${ancestry2}.QCed.pruned.QCed.dropRltvs.noX.PCAdrop.forPVE.ndim100.flashpca.values.txt\", header=F); \
-		MeanEigenValue <- mean(Data3[20:nrow(Data3),1]); \
-		TotalEigenValue <- sum(Data3[1:19,1]) + sum(rep(MeanEigenValue, nrow(Data1) - 19)) - 1; \
-		Data3.sub <- Data3[91:100,]; Data3.sub.diff <- Data3.sub[1] - Data3.sub[10]; CorrectionFactor <- Data3.sub.diff * (floor(nrow(Data1) / 10) - 100); TotalEigenValue.Correction <- TotalEigenValue - CorrectionFactor; \ 
-		Data2.pve <- Data2[,1] / TotalEigenValue.Correction; \ 
-		print(MeanEigenValue); print(sum(Data3[1:19,1])); print(sum(rep(MeanEigenValue, nrow(Data1) - 19))); print(TotalEigenValue); print(Data3.sub.diff); print(CorrectionFactor); print(TotalEigenValue.Correction); \
-		write.table(Data2.pve, \"/users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v3.${ancestry2}.QCed.pruned.QCed.dropRltvs.noX.PCAdrop.flashpca.selfR.vs2.ndim100.pve.txt\", quote=FALSE, row.names=FALSE, col.names=FALSE); \
-	"
-done	
-
-#		print(MeanEigenValue); print(sum(Data3[1:19,1])); print(sum(rep(MeanEigenValue, nrow(Data1) - 19))); print(TotalEigenValue); print(Data3.sub.diff); print(Data3.sub); print(CorrectionFactor); print(TotalEigenValue.Correction); \
-#		print(c(MeanEigenValue, sum(Data3[1:19,1]), sum(rep(MeanEigenValue, nrow(Data1) - 19)), TotalEigenValue, Data3.sub.diff, Data3.sub, CorrectionFactor, TotalEigenValue.Correction)); \
-
+~for j in `cat <(echo $UKBioBankPopsRnd2 | perl -lane 'print join("\n", @F);') | head -n 8 | head -n 8 | head -n 8`; do
+~	ancestry1=`echo $j | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[0];'`
+~	ancestry2=`echo $j | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[1];'`
+~
+~	echo $ancestry1 $ancestry2
+~
+~	sbatch -t 72:00:00 --mem 8g -p bigmem -o /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v3.${ancestry2}.fastpca.run.PCAdrop.forPVE.Full.slurm.output -e /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v3.${ancestry2}.fastpca.run.PCAdrop.forPVE.Full.slurm.error --comment "$ancestry1 $ancestry2 $i" <(echo -e '#!/bin/sh'; \ 
+~	echo -e "\nR -q -e \"library(\\\"flashpcaR\\\"); File1 <- \\\"/users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v3.${ancestry2}.QCed.pruned.QCed.dropRltvs.noX.PCAdrop\\\"; File2 <- \\\"/users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v3.${ancestry2}.QCed.pruned.QCed.onlyRltvs.noX.PCAdrop\\\"; HelpFiles <- read.table(\\\"/users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v3.${ancestry2}.QCed.pruned.QCed.dropRltvs.noX.PCAdrop.bim.flashpca.projhelpfiles\\\", header=F); File3 <- \\\"/users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v3.${ancestry2}.QCed.pruned.QCed.dropRltvs.noX.PCAdrop\\\"; File2 <- \\\"/users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v3.${ancestry2}.QCed.pruned.QCed.onlyRltvs.noX.PCAdrop.fam\\\"; \ 
+~	ndimVal1 <- nrow(File3); flashpca1 <- flashpca(File1, ndim=ndimVal1, do_loadings=TRUE, verbose=TRUE); \	
+~	write.table(flashpca1\\\$values, \\\"/users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v3.${ancestry2}.QCed.pruned.QCed.dropRltvs.noX.PCAdrop.forPVE.Full.flashpca.values.txt\\\", quote=FALSE, row.names=FALSE, col.names=FALSE);\"";)
+~
+~done	
+~
+~#Not Chinese/Pakistani: 1000
+~#Chinese/Pakistani: 500
+~
+~for j in `cat <(echo $UKBioBankPopsRnd2 | perl -lane 'print join("\n", @F);') | head -n 8 | head -n 8 | tail -n 8`; do
+~	ancestry1=`echo $j | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[0];'`
+~	ancestry2=`echo $j | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[1];'`
+~
+~	echo $ancestry1 $ancestry2
+~
+~	cat /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v3.${ancestry2}.QCed.pruned.QCed.dropRltvs.noX.PCAdrop.forPVE.ndim100.flashpca.values.txt | wc
+~#	cat /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v3.${ancestry2}.QCed.pruned.QCed.dropRltvs.noX.PCAdrop.forPVE.ndim100.flashpca.values.txt | tail -n 10
+~	cat /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v3.${ancestry2}.QCed.pruned.QCed.dropRltvs.noX.PCAdrop.forPVE.ndim100.flashpca.values.txt | R -q -e "Data1 <- read.table(file('stdin'), header=F); for (i in 1:10) { Data1.sub <- matrix(Data1[i:(i+10),], ncol=1); Diff1 <- Data1.sub[1,1] - Data1.sub[nrow(Data1.sub),1]; print(Diff1); };"
+~
+~done	
+~
+~for j in `cat <(echo $UKBioBankPopsRnd2 | perl -lane 'print join("\n", @F);') | head -n 8 | head -n 8 | tail -n 8`; do
+~	ancestry1=`echo $j | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[0];'`
+~	ancestry2=`echo $j | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[1];'`
+~
+~	echo $ancestry1 $ancestry2
+~
+~	R -q -e "Data1 <- read.table(\"/users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v3.${ancestry2}.QCed.pruned.QCed.dropRltvs.noX.PCAdrop.fam\", header=F); \
+~		Data2 <- read.table(\"/users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v3.${ancestry2}.QCed.pruned.QCed.dropRltvs.noX.PCAdrop.flashpca.values.txt\", header=F); \
+~		Data3 <- read.table(\"/users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v3.${ancestry2}.QCed.pruned.QCed.dropRltvs.noX.PCAdrop.forPVE.ndim100.flashpca.values.txt\", header=F); \
+~		MeanEigenValue <- mean(Data3[20:nrow(Data3),1]); \
+~		TotalEigenValue <- sum(Data3[1:19,1]) + sum(rep(MeanEigenValue, nrow(Data1) - 19)) - 1; \
+~		Data3.sub <- Data3[91:100,]; Data3.sub.diff <- Data3.sub[1] - Data3.sub[10]; CorrectionFactor <- Data3.sub.diff * (floor(nrow(Data1) / 10) - 100); TotalEigenValue.Correction <- TotalEigenValue - CorrectionFactor; \ 
+~		Data2.pve <- Data2[,1] / TotalEigenValue.Correction; \ 
+~		print(MeanEigenValue); print(sum(Data3[1:19,1])); print(sum(rep(MeanEigenValue, nrow(Data1) - 19))); print(TotalEigenValue); print(Data3.sub.diff); print(CorrectionFactor); print(TotalEigenValue.Correction); \
+~		write.table(Data2.pve, \"/users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v3.${ancestry2}.QCed.pruned.QCed.dropRltvs.noX.PCAdrop.flashpca.selfR.vs2.ndim100.pve.txt\", quote=FALSE, row.names=FALSE, col.names=FALSE); \
+~	"
+~done	
+~
+~#		print(MeanEigenValue); print(sum(Data3[1:19,1])); print(sum(rep(MeanEigenValue, nrow(Data1) - 19))); print(TotalEigenValue); print(Data3.sub.diff); print(Data3.sub); print(CorrectionFactor); print(TotalEigenValue.Correction); \
+~#		print(c(MeanEigenValue, sum(Data3[1:19,1]), sum(rep(MeanEigenValue, nrow(Data1) - 19)), TotalEigenValue, Data3.sub.diff, Data3.sub, CorrectionFactor, TotalEigenValue.Correction)); \
 
 #More PCA/SVD work
 
@@ -12472,6 +12491,75 @@ Pakistani Pakistani
 [1] 2107.688
 >
 >
+[  mturchin@node1603  ~]$for j in `cat <(echo $UKBioBankPopsRnd2 | perl -lane 'print join("\n", @F);') | head -n 8 | head -n 8 | head -n 8`; do
+>         ancestry1=`echo $j | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[0];'`
+>         ancestry2=`echo $j | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[1];'`
+>
+>         echo $ancestry1 $ancestry2
+>
+>         cat /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v3.${ancestry2}.QCed.pruned.QCed.dropRltvs.noX.PCAdrop.flashpca.selfR.pve.txt | head -n 5
+>
+>         echo ""
+>
+> done
+African African
+0.0155569660397904
+0.00274790378473189
+0.00164058729176067
+0.00125442432553016
+0.000966361516795318
+
+British British.Ran4000  
+0.000459036163265053
+0.000417607245774996
+0.000392441073470294
+0.000391682690198123
+0.000391179536121562
+
+British British.Ran10000 
+0.000296281572814055
+0.000216347167434864
+0.000202129143041739
+0.000194764683287376
+0.00019413966605955
+
+Caribbean Caribbean
+0.00896480080125347
+0.00148589779660819
+0.000579449315350284
+0.000570277332837662
+0.000566829608845391
+
+Chinese Chinese
+0.00435206618663739
+0.00253119098692887
+0.00118395657691423
+0.00112906885188773
+0.00111463643227087
+
+Indian Indian
+0.00327930983691363
+0.00120098225825174
+0.000937843720980597
+0.000653147587653357
+0.000606126218506032
+
+Irish Irish
+0.000344364912921258
+0.000259726105925897
+0.000191039273067119
+0.000182552723066012
+0.000177282654367198
+
+Pakistani Pakistani
+0.00197169595066194
+0.00159309794987306
+0.00131151716282687
+0.00106668599777213
+0.00102026925858942
+
+
+
 
 
 ~~~
