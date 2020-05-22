@@ -3347,6 +3347,50 @@ Data1.adj.mean <- apply(Data1.adj, 2, function(x) { return(mean(x, na.rm=TRUE));
 Data1.cov.pca <- prcomp(Data1.cov)
 c(Data3.cov.pca$sdev^2 / sum(Data3.cov.pca$sdev^2))[1:10]
 
+#Full SNP matrix loading misc
+#20200521
+
+zcat /users/mturchin/data/ukbiobank_jun17/subsets/African/African/mturchin20/ukb_chrAll_v3.African.QCed.pruned.QCed.dropRltvs.noX.PCAdrop.raw.edit.gz | perl -lane 'print join("\t", @F[0..10000]);' | gzip > /users/mturchin/data/ukbiobank_jun17/subsets/African/African/mturchin20/ukb_chrAll_v3.African.QCed.pruned.QCed.dropRltvs.noX.PCAdrop.raw.edit.first10000.gz
+
+R -q -e "
+TestSNPs <- read.table("/users/mturchin/data/ukbiobank_jun17/subsets/African/African/mturchin20/ukb_chrAll_v3.African.QCed.pruned.QCed.dropRltvs.noX.PCAdrop.raw.edit.first10000.gz", header=T);
+PCs <- read.table("/users/mturchin/data/ukbiobank_jun17/subsets/African/African/mturchin20/ukb_chrAll_v3.African.QCed.pruned.QCed.dropRltvs.noX.PCAdrop.flashpca.pcs.txt", header=F);
+Values <- read.table("/users/mturchin/data/ukbiobank_jun17/subsets/African/African/mturchin20/ukb_chrAll_v3.African.QCed.pruned.QCed.dropRltvs.noX.PCAdrop.flashpca.values.txt", header=F);
+OrigSNPs.loadings <- read.table("/users/mturchin/data/ukbiobank_jun17/subsets/African/African/mturchin20/ukb_chrAll_v3.African.QCed.pruned.QCed.dropRltvs.noX.PCAdrop.flashpca.loads.txt", header=F);
+
+TestSNPs.mean <- apply(TestSNPs, 2, function(x) { return(mean(x, na.rm=T))});
+TestSNPs.sd <- apply(TestSNPs, 2, function(x) { return(sd(x, na.rm=T))});
+TestSNPs.adj <- t((t(TestSNPs) - TestSNPs.mean) / TestSNPs.sd)
+TestSNPs.adj[is.na(TestSNPs.adj)] <- 0
+#TestSNPs.adj.top10 <- TestSNPs.adj[,1:10]
+TestSNPs.adj.trans <- t(TestSNPs.adj)
+TestSNPs.adj.trans.top10 <- TestSNPs.adj.trans[1:10,]
+TestSNPs.adj.trans.top10.scores <- as.matrix(TestSNPs.adj.trans.top10) %*% as.matrix(PCs) %*% diag(1/sqrt(unlist(Values)))
+TestSNPs.adj.trans.top100 <- TestSNPs.adj.trans[1:100,]
+TestSNPs.adj.trans.top100.scores <- as.matrix(TestSNPs.adj.trans.top100) %*% as.matrix(PCs) %*% diag(1/sqrt(unlist(Values)))
+
+
+
+for j in `cat <(echo $UKBioBankPopsRnd2 | perl -lane 'print join("\n", @F);') | head -n 8 | head -n 8 | head -n 8`; do
+	ancestry1=`echo $j | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[0];'`
+	ancestry2=`echo $j | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[1];'`
+
+	echo $ancestry1 $ancestry2
+
+	cat /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v3.${ancestry2}.QCed.pruned.QCed.dropRltvs.noX.PCAdrop.flashpca.selfR.pve.txt | head -n 5
+
+	echo ""
+
+done
+
+
+
+
+
+
+
+
+
 
 
 
