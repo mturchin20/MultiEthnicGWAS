@@ -3377,14 +3377,20 @@ for j in `cat <(echo $UKBioBankPopsRnd2 | perl -lane 'print join("\n", @F);') | 
 
 	echo $ancestry1 $ancestry2
 
+	if [ ! -d /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/Imputation/mturchin20/subfiles ]; then
+		mkdir /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/Imputation/mturchin20/subfiles
+	fi
+
 #	zcat /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/Imputation/mturchin20/ukb_chrAll_v3.${ancestry2}.QCed.reqDrop.QCed.dropRltvs.PCAdrop.sort.ImptHRC.dose.100geno.raw.edit.gz | R -q -e "Data1 <- read.table(file('stdin'), header=T); \
 	zcat /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v3.${ancestry2}.QCed.pruned.QCed.dropRltvs.noX.PCAdrop.raw.edit.gz | R -q -e "Data1 <- read.table(file('stdin'), header=T); \
 	PCs <- read.table(\"/users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v3.${ancestry2}.QCed.pruned.QCed.dropRltvs.noX.PCAdrop.flashpca.pcs.txt\", header=F); \
 	Values <- read.table(\"/users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v3.${ancestry2}.QCed.pruned.QCed.dropRltvs.noX.PCAdrop.flashpca.values.txt\", header=F); \
-	Data1.mean <- apply(Data1, 2, function(x) { return(mean(x, na.rm=T))}); \
-	Data1.sd <- apply(Data1, 2, function(x) { return(sd(x, na.rm=T))}); \
-	Data1.adj <- t((t(Data1) - Data1.mean) / Data1.sd); \
-	Data1.adj.trans.scores <- t(as.matrix(Data1.adj)) %*% as.matrix(PCs) %*% diag(1/sqrt(unlist(Values))); \
+	for (i in seq(1,ncol(Data1), by=50000)) { begin1 <- i; end1 <- i + 49999; if (end1 > ncol(Data1)) { end1 <- ncol(Data1); }; \
+		Data1.mean <- apply(Data1, 2, function(x) { return(mean(x, na.rm=T))}); \
+		Data1.sd <- apply(Data1, 2, function(x) { return(sd(x, na.rm=T))}); \
+		Data1.adj <- t((t(Data1) - Data1.mean) / Data1.sd); \
+		Data1.adj[is.na(Data1.adj)] <- 0
+		Data1.adj.trans.scores <- t(as.matrix(Data1.adj)) %*% as.matrix(PCs) %*% diag(1/sqrt(unlist(Values))); \
 	write.table(Data1.adj.trans.scores, file=\"\", quote=FALSE, row.names=TRUE, col.names=FALSE);" | gzip > /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v3.${ancestry2}.QCed.pruned.QCed.dropRltvs.noX.PCAdrop.raw.edit.flashpca.loads.txt.gz
 #	write.table(Data1.adj.trans.scores, file=\"\", quote=FALSE, row.names=TRUE, col.names=FALSE);" | gzip > /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/Imputation/mturchin20/ukb_chrAll_v3.${ancestry2}.QCed.reqDrop.QCed.dropRltvs.PCAdrop.sort.ImptHRC.dose.100geno.raw.edit.flashpca.loads.txt.gz
 
