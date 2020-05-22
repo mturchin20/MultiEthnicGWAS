@@ -3412,8 +3412,8 @@ done
 for j in `cat <(echo $UKBioBankPopsRnd2 | perl -lane 'print join("\n", @F);') | head -n 8 | head -n 8 | head -n 8 | head -n 1`; do
 	ancestry1=`echo $j | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[0];'`
 	ancestry2=`echo $j | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[1];'`
-#	NumSNPs=`zcat /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/Imputation/mturchin20/ukb_chrAll_v3.${ancestry2}.QCed.reqDrop.QCed.dropRltvs.PCAdrop.sort.ImptHRC.dose.100geno.raw.edit.gz | head -n 1 | perl -lane 'print scalar(@F);'`
-	NumSNPs=125000
+	NumSNPs=`zcat /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/Imputation/mturchin20/ukb_chrAll_v3.${ancestry2}.QCed.reqDrop.QCed.dropRltvs.PCAdrop.sort.ImptHRC.dose.100geno.raw.edit.gz | head -n 1 | perl -lane 'print scalar(@F);'`
+#	NumSNPs=125000
 
 	echo $ancestry1 $ancestry2
 
@@ -3426,7 +3426,7 @@ for j in `cat <(echo $UKBioBankPopsRnd2 | perl -lane 'print join("\n", @F);') | 
 		Data1.sd <- apply(Data1, 2, function(x) { return(sd(x, na.rm=T))}); \
 		Data1.adj <- t((t(Data1) - Data1.mean) / Data1.sd); \
 		Data1.adj.trans.scores <- t(as.matrix(Data1.adj)) %*% as.matrix(PCs) %*% diag(1/sqrt(unlist(Values))); \
-		write.table(Data1.adj.trans.scores, file=\"\", quote=FALSE, row.names=TRUE, col.names=FALSE);" | grep -v ^\> | gzip > /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/Imputation/mturchin20/subfiles/ukb_chrAll_v3.${ancestry2}.QCed.reqDrop.QCed.dropRltvs.PCAdrop.sort.ImptHRC.dose.100geno.raw.edit.part${SNPNum}.flashpca.loads.txt.vs2.gz
+		write.table(Data1.adj.trans.scores, file=\"\", quote=FALSE, row.names=TRUE, col.names=FALSE);" | grep -v ^\> | gzip > /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/Imputation/mturchin20/subfiles/ukb_chrAll_v3.${ancestry2}.QCed.reqDrop.QCed.dropRltvs.PCAdrop.sort.ImptHRC.dose.100geno.raw.edit.part${SNPNum}.flashpca.loads.txt.gz
 	done
 
 done
