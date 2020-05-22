@@ -3381,9 +3381,9 @@ for j in `cat <(echo $UKBioBankPopsRnd2 | perl -lane 'print join("\n", @F);') | 
 	Data1.mean <- apply(Data1, 2, function(x) { return(mean(x, na.rm=T))}); \
 	Data1.sd <- apply(Data1, 2, function(x) { return(sd(x, na.rm=T))}); \
 	Data1.adj <- t((t(Data1) - Data1.mean) / Data1.sd); \
-	TestSNPs.adj[is.na(TestSNPs.adj)] <- 0
+	TestSNPs.adj[is.na(TestSNPs.adj)] <- 0; \
 	Data1.adj.trans.scores <- t(as.matrix(Data1.adj)) %*% as.matrix(PCs) %*% diag(1/sqrt(unlist(Values))); \
-	write.table(Data1.adj.trans.scores, file=\"\", quote=FALSE, row.names=TRUE, col.names=FALSE);" | gzip > /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v3.${ancestry2}.QCed.pruned.QCed.dropRltvs.noX.PCAdrop.raw.edit.flashpca.loads.txt.gz
+	write.table(Data1.adj.trans.scores, file=\"\", quote=FALSE, row.names=TRUE, col.names=FALSE);" | grep -v ^\> | gzip > /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v3.${ancestry2}.QCed.pruned.QCed.dropRltvs.noX.PCAdrop.raw.edit.flashpca.loads.txt.gz
 
 done
 
@@ -3400,12 +3400,12 @@ for j in `cat <(echo $UKBioBankPopsRnd2 | perl -lane 'print join("\n", @F);') | 
 	zcat /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/Imputation/mturchin20/ukb_chrAll_v3.${ancestry2}.QCed.reqDrop.QCed.dropRltvs.PCAdrop.sort.ImptHRC.dose.100geno.raw.edit.gz | R -q -e "Data1 <- read.table(file('stdin'), header=T); \
 	PCs <- read.table(\"/users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v3.${ancestry2}.QCed.pruned.QCed.dropRltvs.noX.PCAdrop.flashpca.pcs.txt\", header=F); \
 	Values <- read.table(\"/users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v3.${ancestry2}.QCed.pruned.QCed.dropRltvs.noX.PCAdrop.flashpca.values.txt\", header=F); \
-	for (i in seq(1,ncol(Data1), by=50000)) { begin1 <- i; end1 <- i + 49999; if (end1 > ncol(Data1)) { end1 <- ncol(Data1); }; \
+	for (i in seq(1,125000, by=50000)) { begin1 <- i; end1 <- i + 49999; if (end1 > ncol(Data1)) { end1 <- ncol(Data1); }; \
+		print(i); \
 		Data2 <- Data1[begin1:end1,]; \
 		Data2.mean <- apply(Data2, 2, function(x) { return(mean(x, na.rm=T))}); \
 		Data2.sd <- apply(Data2, 2, function(x) { return(sd(x, na.rm=T))}); \
 		Data2.adj <- t((t(Data2) - Data2.mean) / Data2.sd); \
-		Data2.adj[is.na(Data2.adj)] <- 0
 		Data2.adj.trans.scores <- t(as.matrix(Data2.adj)) %*% as.matrix(PCs) %*% diag(1/sqrt(unlist(Values))); \
 		write.table(Data2.adj.trans.scores, file=paste(\"/users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/Imputation/mturchin20/subfiles/ukb_chrAll_v3.${ancestry2}.QCed.reqDrop.QCed.dropRltvs.PCAdrop.sort.ImptHRC.dose.100geno.raw.edit.flashpca.loads.part\", as.character(i), \".txt\", sep=\"\"), quote=FALSE, row.names=TRUE, col.names=FALSE); \
 	};"
