@@ -3391,6 +3391,7 @@ for j in `cat <(echo $UKBioBankPopsRnd2 | perl -lane 'print join("\n", @F);') | 
 	ancestry1=`echo $j | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[0];'`
 	ancestry2=`echo $j | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[1];'`
 	NumSNPs=`zcat /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/Imputation/mturchin20/ukb_chrAll_v3.${ancestry2}.QCed.reqDrop.QCed.dropRltvs.PCAdrop.sort.ImptHRC.dose.100geno.raw.edit.gz | head -n 1 | perl -lane 'print scalar(@F);'`
+#	NumSNPs=125000
 
 	echo $ancestry1 $ancestry2
 
@@ -3398,29 +3399,27 @@ for j in `cat <(echo $UKBioBankPopsRnd2 | perl -lane 'print join("\n", @F);') | 
 		mkdir /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/Imputation/mturchin20/subfiles
 	fi
 
-	for (( SNPNum=1; SNPNum <= 125000; SNPNum=SNPNum+50000 )); do
-		echo $SNPNum; Begin1=$SNPNum; End1=$(($SNPNum+49999));
+	for (( SNPNum=1; SNPNum <= $NumSNPs; SNPNum=SNPNum+50000 )); do
+		echo $SNPNum; Begin1=$SNPNum; End1=$(($SNPNum+49999)); if [ $End1 -gt $NumSNPs ]; then End1=$NumSNPs; fi; 
 		zcat /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/Imputation/mturchin20/ukb_chrAll_v3.${ancestry2}.QCed.reqDrop.QCed.dropRltvs.PCAdrop.sort.ImptHRC.dose.100geno.raw.edit.gz | perl -slane 'if ($. == 1) { print STDERR $Begin2, "\t", $End2; } print join("\t", @F[($Begin2-1)..($End2-1)]);' -- -Begin2=$Begin1 -End2=$End1 | gzip > /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/Imputation/mturchin20/subfiles/ukb_chrAll_v3.${ancestry2}.QCed.reqDrop.QCed.dropRltvs.PCAdrop.sort.ImptHRC.dose.100geno.raw.edit.part${SNPNum}.txt.gz
 	done
 
 done
 
+#	for (( SNPNum=1; SNPNum <= 125000; SNPNum=SNPNum+50000 )); do
 #	awk -v Begin2=$Begin1 -v End2=$End1 '{ if ((NR >= Begin2) && (NR <= End2)) { print $0 } }' | 
 
 for j in `cat <(echo $UKBioBankPopsRnd2 | perl -lane 'print join("\n", @F);') | head -n 8 | head -n 8 | head -n 8 | head -n 1`; do
 	ancestry1=`echo $j | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[0];'`
 	ancestry2=`echo $j | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[1];'`
-	NumSNPs=`zcat /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/Imputation/mturchin20/ukb_chrAll_v3.${ancestry2}.QCed.reqDrop.QCed.dropRltvs.PCAdrop.sort.ImptHRC.dose.100geno.raw.edit.gz | head -n 1 | perl -lane 'print scalar(@F);'`
+#	NumSNPs=`zcat /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/Imputation/mturchin20/ukb_chrAll_v3.${ancestry2}.QCed.reqDrop.QCed.dropRltvs.PCAdrop.sort.ImptHRC.dose.100geno.raw.edit.gz | head -n 1 | perl -lane 'print scalar(@F);'`
+	NumSNPs=125000
 
 	echo $ancestry1 $ancestry2
 
-	if [ ! -d /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/Imputation/mturchin20/subfiles ]; then
-		mkdir /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/Imputation/mturchin20/subfiles
-	fi
-
-	for (( SNPNum=1; SNPNum <= 125000; SNPNum=SNPNum+50000 )); do
+	for (( SNPNum=1; SNPNum <= $NumSNPs; SNPNum=SNPNum+50000 )); do
 		echo $SNPNum; Begin1=$SNPNum; End1=$(($SNPNum+49999));
-		zcat /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/Imputation/mturchin20/ukb_chrAll_v3.${ancestry2}.QCed.reqDrop.QCed.dropRltvs.PCAdrop.sort.ImptHRC.dose.100geno.raw.edit.part${SNPNum}.txt.gz | perl -slane 'if ($. == 1) { print STDERR $Begin2, "\t", $End2; } print join("\t", @F[($Begin2-1)..($End2-1)]);' -- -Begin2=$Begin1 -End2=$End1 | R -q -e "Data1 <- read.table(file('stdin'), header=T); \
+		zcat /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/Imputation/mturchin20/subfiles/ukb_chrAll_v3.${ancestry2}.QCed.reqDrop.QCed.dropRltvs.PCAdrop.sort.ImptHRC.dose.100geno.raw.edit.part${SNPNum}.txt.gz | R -q -e "Data1 <- read.table(file('stdin'), header=T); \
 		PCs <- read.table(\"/users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v3.${ancestry2}.QCed.pruned.QCed.dropRltvs.noX.PCAdrop.flashpca.pcs.txt\", header=F); \
 		Values <- read.table(\"/users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v3.${ancestry2}.QCed.pruned.QCed.dropRltvs.noX.PCAdrop.flashpca.values.txt\", header=F); \
 		Data1.mean <- apply(Data1, 2, function(x) { return(mean(x, na.rm=T))}); \
@@ -3448,6 +3447,7 @@ done
 #		write.table(Data2.adj.trans.scores, file=paste(\"/users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/Imputation/mturchin20/subfiles/ukb_chrAll_v3.${ancestry2}.QCed.reqDrop.QCed.dropRltvs.PCAdrop.sort.ImptHRC.dose.100geno.raw.edit.flashpca.loads.part\", as.character(i), \".txt\", sep=\"\"), quote=FALSE, row.names=TRUE, col.names=FALSE); \
 #	};"
 #		...| awk -v Begin2=$Begin1 -v End2=$End1 '{ if ((NR >= Begin2) && (NR <= End2)) { print $0 } }' |...
+#		zcat /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/Imputation/mturchin20/ukb_chrAll_v3.${ancestry2}.QCed.reqDrop.QCed.dropRltvs.PCAdrop.sort.ImptHRC.dose.100geno.raw.edit.part${SNPNum}.txt.gz | perl -slane 'if ($. == 1) { print STDERR $Begin2, "\t", $End2; } print join("\t", @F[($Begin2-1)..($End2-1)]);' -- -Begin2=$Begin1 -End2=$End1 | R -q -e "Data1 <- read.table(file('stdin'), header=T); \
 
 
 
