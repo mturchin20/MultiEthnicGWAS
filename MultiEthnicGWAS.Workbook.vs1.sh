@@ -3418,14 +3418,14 @@ for j in `cat <(echo $UKBioBankPopsRnd2 | perl -lane 'print join("\n", @F);') | 
 
 	for (( SNPNum=1; SNPNum <= 125000; SNPNum=SNPNum+50000 )); do
 		echo $SNPNum; Begin1=$SNPNum; End1=$(($SNPNum+50000));
-		zcat /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/Imputation/mturchin20/ukb_chrAll_v3.${ancestry2}.QCed.reqDrop.QCed.dropRltvs.PCAdrop.sort.ImptHRC.dose.100geno.raw.edit.gz | awk -v Begin2=$Begin1 -v End2=$End1 '{ if ((NR >= Begin2) && (NR <= End2)) { print $0 } }' | R -q -e "Data1 <- read.table(file('stdin'), header=T); \
+		zcat /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/Imputation/mturchin20/ukb_chrAll_v3.${ancestry2}.QCed.reqDrop.QCed.dropRltvs.PCAdrop.sort.ImptHRC.dose.100geno.raw.edit.gz | perl -slane 'print join("\t", @F[($Begin2-1)..($End2-1)]);' -- -Begin2=$Begin1 -End2=$End2 | R -q -e "Data1 <- read.table(file('stdin'), header=T); \
 		PCs <- read.table(\"/users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v3.${ancestry2}.QCed.pruned.QCed.dropRltvs.noX.PCAdrop.flashpca.pcs.txt\", header=F); \
 		Values <- read.table(\"/users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v3.${ancestry2}.QCed.pruned.QCed.dropRltvs.noX.PCAdrop.flashpca.values.txt\", header=F); \
 		Data1.mean <- apply(Data1, 2, function(x) { return(mean(x, na.rm=T))}); \
 		Data1.sd <- apply(Data1, 2, function(x) { return(sd(x, na.rm=T))}); \
 		Data1.adj <- t((t(Data1) - Data1.mean) / Data1.sd); \
 		Data1.adj.trans.scores <- t(as.matrix(Data1.adj)) %*% as.matrix(PCs) %*% diag(1/sqrt(unlist(Values))); \
-		write.table(Data1.adj.trans.scores, file=\"\", quote=FALSE, row.names=TRUE, col.names=FALSE);" | grep -v ^\> | gzip > /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/Imputation/mturchin20/subfiles/ukb_chrAll_v3.${ancestry2}.QCed.reqDrop.QCed.dropRltvs.PCAdrop.sort.ImptHRC.dose.100geno.raw.edit.flashpca.loads.txt.vs2.gz
+		write.table(Data1.adj.trans.scores, file=\"\", quote=FALSE, row.names=TRUE, col.names=FALSE);" | grep -v ^\> | gzip > /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/Imputation/mturchin20/subfiles/ukb_chrAll_v3.${ancestry2}.QCed.reqDrop.QCed.dropRltvs.PCAdrop.sort.ImptHRC.dose.100geno.raw.edit.part${SNPNum}.flashpca.loads.txt.vs2.gz
 	done
 
 done
@@ -3445,7 +3445,7 @@ done
 #		Data2.adj.trans.scores <- t(as.matrix(Data2.adj)) %*% as.matrix(PCs) %*% diag(1/sqrt(unlist(Values))); \
 #		write.table(Data2.adj.trans.scores, file=paste(\"/users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/Imputation/mturchin20/subfiles/ukb_chrAll_v3.${ancestry2}.QCed.reqDrop.QCed.dropRltvs.PCAdrop.sort.ImptHRC.dose.100geno.raw.edit.flashpca.loads.part\", as.character(i), \".txt\", sep=\"\"), quote=FALSE, row.names=TRUE, col.names=FALSE); \
 #	};"
-
+#		...| awk -v Begin2=$Begin1 -v End2=$End1 '{ if ((NR >= Begin2) && (NR <= End2)) { print $0 } }' |...
 
 
 
