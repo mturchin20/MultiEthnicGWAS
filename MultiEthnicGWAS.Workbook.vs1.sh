@@ -3467,6 +3467,25 @@ done
 
 #	rm -f /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/Imputation/mturchin20/subfiles/ukb_chrAll_v3.${ancestry2}.QCed.reqDrop.QCed.dropRltvs.PCAdrop.sort.ImptHRC.dose.100geno.raw.edit.partAll.flashpca.loads.code.sh; echo "paste \\" >> /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/Imputation/mturchin20/subfiles/ukb_chrAll_v3.${ancestry2}.QCed.reqDrop.QCed.dropRltvs.PCAdrop.sort.ImptHRC.dose.100geno.raw.edit.partAll.flashpca.loads.code.sh;
 	
+for j in `cat <(echo $UKBioBankPopsRnd2 | perl -lane 'print join("\n", @F);') | head -n 8 | head -n 8 | head -n 8 | head -n 1`; do
+	ancestry1=`echo $j | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[0];'`
+	ancestry2=`echo $j | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[1];'`
+
+	echo $ancestry1 $ancestry2
+
+	rm -f /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/Imputation/mturchin20/subfiles/ukb_chrAll_v3.${ancestry2}.QCed.reqDrop.QCed.dropRltvs.PCAdrop.sort.ImptHRC.dose.100geno.raw.edit.partAll.flashpca.loads.code.sh; echo "cat \\" >> /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/Imputation/mturchin20/subfiles/ukb_chrAll_v3.${ancestry2}.QCed.reqDrop.QCed.dropRltvs.PCAdrop.sort.ImptHRC.dose.100geno.raw.edit.partAll.flashpca.loads.code.sh;
+	for (( SNPNum=1; SNPNum <= $NumSNPs; SNPNum=SNPNum+50000 )); do
+		echo "<(zcat /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/Imputation/mturchin20/subfiles/ukb_chrAll_v3.${ancestry2}.QCed.reqDrop.QCed.dropRltvs.PCAdrop.sort.ImptHRC.dose.100geno.raw.edit.part${SNPNum}.flashpca.loads.txt.gz) \\" >> /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/Imputation/mturchin20/subfiles/ukb_chrAll_v3.${ancestry2}.QCed.reqDrop.QCed.dropRltvs.PCAdrop.sort.ImptHRC.dose.100geno.raw.edit.partAll.flashpca.loads.code.sh
+	done
+	echo " | gzip > /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/Imputation/mturchin20/ukb_chrAll_v3.${ancestry2}.QCed.reqDrop.QCed.dropRltvs.PCAdrop.sort.ImptHRC.dose.100geno.raw.edit.partAll.flashpca.loads.txt.gz" >> /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/Imputation/mturchin20/subfiles/ukb_chrAll_v3.${ancestry2}.QCed.reqDrop.QCed.dropRltvs.PCAdrop.sort.ImptHRC.dose.100geno.raw.edit.partAll.flashpca.loads.code.sh
+	
+#	bash /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/Imputation/mturchin20/subfiles/ukb_chrAll_v3.${ancestry2}.QCed.reqDrop.QCed.dropRltvs.PCAdrop.sort.ImptHRC.dose.100geno.raw.edit.partAll.flashpca.loads.code.sh
+
+done
+
+
+
+
 
 
 
@@ -12733,6 +12752,25 @@ X22.51224208_A
 22      22:51193629     0       51193629        G       A
 22      22:51217954     0       51217954        A       G
 22      22:51224208     0       51224208        A       G
+[  mturchin@node1135  ~]$zcat /users/mturchin/data/ukbiobank_jun17/subsets/African/African/Imputation/mturchin20/ukb_chrAll_v3.African.QCed.reqDrop.QCed.dropRltvs.PCAdrop.sort.ImptHRC.dose.100geno.raw.edit.partAll.flashpca.loads.txt.gz | R -q -e "Data1 <- read.table(file('stdin'), header=F, row.names=1); head(Data1[,1:5]); apply(Data1[,1:5], 2, quantile); quantile(Data1[,1], c(.025,.05,.95,.975))"
+> Data1 <- read.table(file('stdin'), header=F, row.names=1); head(Data1[,1:5]); apply(Data1[,1:5], 2, quantile); quantile(Data1[,1], c(.025,.05,.95,.975))
+                    V2        V3        V4        V5          V6
+X1.729632_T  -3.614986 -1.701134 -1.037666 -1.368497 -1.25653850
+X1.752721_G -14.529669  3.112291  3.247868  4.322379 -0.02689115
+X1.754105_T  -3.845653 -1.993072 -1.193039 -1.395710 -1.26919977
+X1.756604_G -11.812089  3.542001  2.529288  3.164832 -0.80536862
+X1.759036_A  -4.138474 -1.871492 -1.678370 -1.348549 -1.34221593
+X1.761147_C -10.848715  4.144752  2.936991  3.203551 -0.95783017
+             V2         V3          V4          V5          V6
+0%   -34.182776 -13.290547 -16.1030480 -13.5862098 -9.25600039
+25%   -6.981361  -2.208091  -1.2512867  -1.3511669 -1.12327293
+50%   -1.700920  -0.272932   0.1835008  -0.0460338 -0.01736643
+75%    2.422848   1.779829   1.5720176   1.2912721  1.08902088
+100%  17.927401  15.041264  23.8992892  11.6303956 12.11969812
+      2.5%         5%        95%      97.5% 
+-19.240670 -16.163073   7.239719   8.724917 
+> 
+> 
 
 
 
