@@ -3387,7 +3387,7 @@ for j in `cat <(echo $UKBioBankPopsRnd2 | perl -lane 'print join("\n", @F);') | 
 
 done
 
-for j in `cat <(echo $UKBioBankPopsRnd2 | perl -lane 'print join("\n", @F);') | head -n 8 | head -n 8 | head -n 8 | head -n 1`; do
+for j in `cat <(echo $UKBioBankPopsRnd2 | perl -lane 'print join("\n", @F);') | head -n 8 | head -n 8 | head -n 8 | grep -vE "Ran10000|Irish" | grep -v African`; do
 	ancestry1=`echo $j | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[0];'`
 	ancestry2=`echo $j | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[1];'`
 	NumSNPs=`zcat /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/Imputation/mturchin20/ukb_chrAll_v3.${ancestry2}.QCed.reqDrop.QCed.dropRltvs.PCAdrop.sort.ImptHRC.dose.100geno.raw.edit.gz | head -n 1 | perl -lane 'print scalar(@F);'`
@@ -3409,7 +3409,7 @@ done
 #	for (( SNPNum=1; SNPNum <= 125000; SNPNum=SNPNum+50000 )); do
 #	awk -v Begin2=$Begin1 -v End2=$End1 '{ if ((NR >= Begin2) && (NR <= End2)) { print $0 } }' | 
 
-for j in `cat <(echo $UKBioBankPopsRnd2 | perl -lane 'print join("\n", @F);') | head -n 8 | head -n 8 | head -n 8 | head -n 1`; do
+for j in `cat <(echo $UKBioBankPopsRnd2 | perl -lane 'print join("\n", @F);') | head -n 8 | head -n 8 | head -n 8 | grep -vE "Ran10000|Irish" | grep -v African`; do
 	ancestry1=`echo $j | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[0];'`
 	ancestry2=`echo $j | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[1];'`
 	NumSNPs=`zcat /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/Imputation/mturchin20/ukb_chrAll_v3.${ancestry2}.QCed.reqDrop.QCed.dropRltvs.PCAdrop.sort.ImptHRC.dose.100geno.raw.edit.gz | head -n 1 | perl -lane 'print scalar(@F);'`
@@ -3449,7 +3449,7 @@ done
 #		...| awk -v Begin2=$Begin1 -v End2=$End1 '{ if ((NR >= Begin2) && (NR <= End2)) { print $0 } }' |...
 #		zcat /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/Imputation/mturchin20/ukb_chrAll_v3.${ancestry2}.QCed.reqDrop.QCed.dropRltvs.PCAdrop.sort.ImptHRC.dose.100geno.raw.edit.part${SNPNum}.txt.gz | perl -slane 'if ($. == 1) { print STDERR $Begin2, "\t", $End2; } print join("\t", @F[($Begin2-1)..($End2-1)]);' -- -Begin2=$Begin1 -End2=$End1 | R -q -e "Data1 <- read.table(file('stdin'), header=T); \
 
-for j in `cat <(echo $UKBioBankPopsRnd2 | perl -lane 'print join("\n", @F);') | head -n 8 | head -n 8 | head -n 8 | head -n 1`; do
+for j in `cat <(echo $UKBioBankPopsRnd2 | perl -lane 'print join("\n", @F);') | head -n 8 | head -n 8 | head -n 8 | grep -vE "Ran10000|Irish" | grep -v African`; do
 	ancestry1=`echo $j | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[0];'`
 	ancestry2=`echo $j | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[1];'`
 
@@ -3467,28 +3467,21 @@ done
 
 #	rm -f /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/Imputation/mturchin20/subfiles/ukb_chrAll_v3.${ancestry2}.QCed.reqDrop.QCed.dropRltvs.PCAdrop.sort.ImptHRC.dose.100geno.raw.edit.partAll.flashpca.loads.code.sh; echo "paste \\" >> /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/Imputation/mturchin20/subfiles/ukb_chrAll_v3.${ancestry2}.QCed.reqDrop.QCed.dropRltvs.PCAdrop.sort.ImptHRC.dose.100geno.raw.edit.partAll.flashpca.loads.code.sh;
 	
-for j in `cat <(echo $UKBioBankPopsRnd2 | perl -lane 'print join("\n", @F);') | head -n 8 | head -n 8 | head -n 8 | head -n 1`; do
+for j in `cat <(echo $UKBioBankPopsRnd2 | perl -lane 'print join("\n", @F);') | head -n 8 | head -n 8 | head -n 8 | grep -vE "Ran10000|Irish"`; do
 	ancestry1=`echo $j | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[0];'`
 	ancestry2=`echo $j | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[1];'`
 
 	echo $ancestry1 $ancestry2
 
-	zcat /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/Imputation/mturchin20/ukb_chrAll_v3.${ancestry2}.QCed.reqDrop.QCed.dropRltvs.PCAdrop.sort.ImptHRC.dose.100geno.raw.edit.partAll.flashpca.loads.txt.gz | R -q -e "Data1 <- read.table(file('stdin'), header=F, row.names=1); quantVals1 <- quantile(Data1[,1], c(.025,.05,.95,.975)); \
-		Data1 <- cbind(Data1, sapply(Data1[,1], function(x) { val1 <- 0; if ((x < quantVals1[1]) || (x > quantVals1[4])) { val1 <- 1; }; return(val1); })); \
-		Data1 <- cbind(Data1, sapply(Data1[,1], function(x) { val1 <- 0; if ((x < quantVals1[2]) || (x > quantVals1[3])) { val1 <- 1; }; return(val1); })); \
+	zcat /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/Imputation/mturchin20/ukb_chrAll_v3.${ancestry2}.QCed.reqDrop.QCed.dropRltvs.PCAdrop.sort.ImptHRC.dose.100geno.raw.edit.partAll.flashpca.loads.txt.gz | R -q -e "Data1 <- read.table(file('stdin'), header=F, row.names=1); quantVals1 <- quantile(Data1[,1], c(.025,.05,.1,.2,.8,.9,.95,.975)); \
+		Data1 <- cbind(Data1, sapply(Data1[,1], function(x) { val1 <- 0; if ((x < quantVals1[1]) || (x > quantVals1[8])) { val1 <- 1; }; return(val1); })); \
+		Data1 <- cbind(Data1, sapply(Data1[,1], function(x) { val1 <- 0; if ((x < quantVals1[2]) || (x > quantVals1[7])) { val1 <- 1; }; return(val1); })); \
+		Data1 <- cbind(Data1, sapply(Data1[,1], function(x) { val1 <- 0; if ((x < quantVals1[3]) || (x > quantVals1[6])) { val1 <- 1; }; return(val1); })); \
+		Data1 <- cbind(Data1, sapply(Data1[,1], function(x) { val1 <- 0; if ((x < quantVals1[4]) || (x > quantVals1[5])) { val1 <- 1; }; return(val1); })); \
 		write.table(Data1, file=\"\", quote=F, col.names=F, row.names=T); " | \
-	sed 's/X//g' | sed 's/\./:/' | head -n 10
+	sed 's/X//g' | sed 's/\./:/' | gzip > /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/Imputation/mturchin20/ukb_chrAll_v3.${ancestry2}.QCed.reqDrop.QCed.dropRltvs.PCAdrop.sort.ImptHRC.dose.100geno.raw.edit.partAll.flashpca.loads.wQuantFlags.txt.gz
 done
 
-	rm -f /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/Imputation/mturchin20/subfiles/ukb_chrAll_v3.${ancestry2}.QCed.reqDrop.QCed.dropRltvs.PCAdrop.sort.ImptHRC.dose.100geno.raw.edit.partAll.flashpca.loads.code.sh; echo "cat \\" >> /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/Imputation/mturchin20/subfiles/ukb_chrAll_v3.${ancestry2}.QCed.reqDrop.QCed.dropRltvs.PCAdrop.sort.ImptHRC.dose.100geno.raw.edit.partAll.flashpca.loads.code.sh;
-	for (( SNPNum=1; SNPNum <= $NumSNPs; SNPNum=SNPNum+50000 )); do
-		echo "<(zcat /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/Imputation/mturchin20/subfiles/ukb_chrAll_v3.${ancestry2}.QCed.reqDrop.QCed.dropRltvs.PCAdrop.sort.ImptHRC.dose.100geno.raw.edit.part${SNPNum}.flashpca.loads.txt.gz) \\" >> /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/Imputation/mturchin20/subfiles/ukb_chrAll_v3.${ancestry2}.QCed.reqDrop.QCed.dropRltvs.PCAdrop.sort.ImptHRC.dose.100geno.raw.edit.partAll.flashpca.loads.code.sh
-	done
-	echo " | gzip > /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/Imputation/mturchin20/ukb_chrAll_v3.${ancestry2}.QCed.reqDrop.QCed.dropRltvs.PCAdrop.sort.ImptHRC.dose.100geno.raw.edit.partAll.flashpca.loads.txt.gz" >> /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/Imputation/mturchin20/subfiles/ukb_chrAll_v3.${ancestry2}.QCed.reqDrop.QCed.dropRltvs.PCAdrop.sort.ImptHRC.dose.100geno.raw.edit.partAll.flashpca.loads.code.sh
-	
-#	bash /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/Imputation/mturchin20/subfiles/ukb_chrAll_v3.${ancestry2}.QCed.reqDrop.QCed.dropRltvs.PCAdrop.sort.ImptHRC.dose.100geno.raw.edit.partAll.flashpca.loads.code.sh
-
-done
 
 
 
