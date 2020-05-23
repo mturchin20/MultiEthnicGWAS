@@ -3455,7 +3455,7 @@ for j in `cat <(echo $UKBioBankPopsRnd2 | perl -lane 'print join("\n", @F);') | 
 
 	echo $ancestry1 $ancestry2
 
-	rm -f /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/Imputation/mturchin20/subfiles/ukb_chrAll_v3.${ancestry2}.QCed.reqDrop.QCed.dropRltvs.PCAdrop.sort.ImptHRC.dose.100geno.raw.edit.partAll.flashpca.loads.code.sh; echo "paste \\" >> /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/Imputation/mturchin20/subfiles/ukb_chrAll_v3.${ancestry2}.QCed.reqDrop.QCed.dropRltvs.PCAdrop.sort.ImptHRC.dose.100geno.raw.edit.partAll.flashpca.loads.code.sh;
+	rm -f /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/Imputation/mturchin20/subfiles/ukb_chrAll_v3.${ancestry2}.QCed.reqDrop.QCed.dropRltvs.PCAdrop.sort.ImptHRC.dose.100geno.raw.edit.partAll.flashpca.loads.code.sh; echo "cat \\" >> /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/Imputation/mturchin20/subfiles/ukb_chrAll_v3.${ancestry2}.QCed.reqDrop.QCed.dropRltvs.PCAdrop.sort.ImptHRC.dose.100geno.raw.edit.partAll.flashpca.loads.code.sh;
 	for (( SNPNum=1; SNPNum <= $NumSNPs; SNPNum=SNPNum+50000 )); do
 		echo "<(zcat /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/Imputation/mturchin20/subfiles/ukb_chrAll_v3.${ancestry2}.QCed.reqDrop.QCed.dropRltvs.PCAdrop.sort.ImptHRC.dose.100geno.raw.edit.part${SNPNum}.flashpca.loads.txt.gz) \\" >> /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/Imputation/mturchin20/subfiles/ukb_chrAll_v3.${ancestry2}.QCed.reqDrop.QCed.dropRltvs.PCAdrop.sort.ImptHRC.dose.100geno.raw.edit.partAll.flashpca.loads.code.sh
 	done
@@ -3465,6 +3465,8 @@ for j in `cat <(echo $UKBioBankPopsRnd2 | perl -lane 'print join("\n", @F);') | 
 
 done
 
+#	rm -f /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/Imputation/mturchin20/subfiles/ukb_chrAll_v3.${ancestry2}.QCed.reqDrop.QCed.dropRltvs.PCAdrop.sort.ImptHRC.dose.100geno.raw.edit.partAll.flashpca.loads.code.sh; echo "paste \\" >> /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/Imputation/mturchin20/subfiles/ukb_chrAll_v3.${ancestry2}.QCed.reqDrop.QCed.dropRltvs.PCAdrop.sort.ImptHRC.dose.100geno.raw.edit.partAll.flashpca.loads.code.sh;
+	
 
 
 
@@ -12686,6 +12688,51 @@ Pakistani Pakistani
 0.00131151716282687
 0.00106668599777213
 0.00102026925858942
+#20200522
+[  mturchin@node1135  ~]$zcat /users/mturchin/data/ukbiobank_jun17/subsets/African/African/Imputation/mturchin20/ukb_chrAll_v3.African.QCed.reqDrop.QCed.dropRltvs.PCAdrop.sort.ImptHRC.dose.100geno.raw.edit.partAll.flashpca.loads.txt.gz | head -n 10 | awk '{ print $1 }' 
+X1.729632_T
+X1.752721_G
+X1.754105_T
+X1.756604_G
+X1.759036_A
+X1.761147_C
+X1.767096_G
+X1.768448_A
+X1.779322_G
+X1.808631_A
+[  mturchin@node1135  ~]$zcat /users/mturchin/data/ukbiobank_jun17/subsets/African/African/Imputation/mturchin20/ukb_chrAll_v3.African.QCed.reqDrop.QCed.dropRltvs.PCAdrop.sort.ImptHRC.dose.100geno.raw.edit.partAll.flashpca.loads.txt.gz | tail -n 10 | awk '{ print $1 }' 
+X22.51161093_T
+X22.51161620_T
+X22.51162059_A
+X22.51165664_G
+X22.51171497_A
+X22.51175626_G
+X22.51183255_A
+X22.51193629_G
+X22.51217954_A
+X22.51224208_A
+[  mturchin@node1135  ~]$cat /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/Imputation/mturchin20/ukb_chrAll_v3.${ancestry2}.QCed.reqDrop.QCed.dropRltvs.PCAdrop.sort.ImptHRC.dose.100geno.bim | head -n 10
+1       1:729632        0       729632  T       C
+1       1:752721        0       752721  G       A
+1       1:754105        0       754105  T       C
+1       1:756604        0       756604  G       A
+1       1:759036        0       759036  A       G
+1       1:761147        0       761147  C       T
+1       1:767096        0       767096  G       A
+1       1:768448        0       768448  A       G
+1       1:779322        0       779322  G       A
+1       1:808631        0       808631  A       G
+[  mturchin@node1135  ~]$cat /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/Imputation/mturchin20/ukb_chrAll_v3.${ancestry2}.QCed.reqDrop.QCed.dropRltvs.PCAdrop.sort.ImptHRC.dose.100geno.bim | tail -n 10
+22      22:51161093     0       51161093        T       C
+22      22:51161620     0       51161620        T       C
+22      22:51162059     0       51162059        A       G
+22      22:51165664     0       51165664        G       A
+22      22:51171497     0       51171497        A       G
+22      22:51175626     0       51175626        G       A
+22      22:51183255     0       51183255        A       G
+22      22:51193629     0       51193629        G       A
+22      22:51217954     0       51217954        A       G
+22      22:51224208     0       51224208        A       G
 
 
 
