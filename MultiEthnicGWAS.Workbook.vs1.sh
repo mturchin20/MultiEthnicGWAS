@@ -3409,7 +3409,7 @@ done
 #	for (( SNPNum=1; SNPNum <= 125000; SNPNum=SNPNum+50000 )); do
 #	awk -v Begin2=$Begin1 -v End2=$End1 '{ if ((NR >= Begin2) && (NR <= End2)) { print $0 } }' | 
 
-for j in `cat <(echo $UKBioBankPopsRnd2 | perl -lane 'print join("\n", @F);') | head -n 8 | head -n 8 | head -n 8 | grep -vE "Ran10000|Irish" | grep -v African`; do
+for j in `cat <(echo $UKBioBankPopsRnd2 | perl -lane 'print join("\n", @F);') | head -n 8 | head -n 8 | head -n 8 | grep -vE "Ran10000|Irish" | grep -v African | head -n 5 | tail -n 1`; do
 	ancestry1=`echo $j | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[0];'`
 	ancestry2=`echo $j | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[1];'`
 	NumSNPs=`zcat /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/Imputation/mturchin20/ukb_chrAll_v3.${ancestry2}.QCed.reqDrop.QCed.dropRltvs.PCAdrop.sort.ImptHRC.dose.100geno.raw.edit.gz | head -n 1 | perl -lane 'print scalar(@F);'`
