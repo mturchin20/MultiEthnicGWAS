@@ -1154,7 +1154,7 @@ for i in `echo "LWK GWD MSL"`; do #20200616 NOTE -- doing this again now for the
 		mkdir /users/mturchin/data/1000G/subsets/$i/mturchin20
 	fi 
 	
-	for j in `echo {22..22}`; do 
+	for j in `echo {1..21}`; do 
 		sbatch -t 72:00:00 --mem 8g -o /users/mturchin/data/1000G/subsets/$i/$i.chr${j}.phase3.genotypes.slurm.output -e /users/mturchin/data/1000G/subsets/$i/$i.chr${j}.phase3.genotypes.slurm.error --comment "$i $j" <(echo -e '#!/bin/sh'; \ 
 		echo -e "\n echo $i $j; vcftools --gzvcf /users/mturchin/data/1000G/ALL.chr${j}.phase3_shapeit2_mvncall_integrated_v5a.20130502.genotypes.vcf.gz --keep /users/mturchin/data/1000G/subsets/integrated_call_samples_v3.20130502.ALL.panel.$i.IIDs --recode --recode-INFO-all --out /users/mturchin/data/1000G/subsets/$i/$i.chr${j}.phase3_shapeit2_mvncall_integrated_v5a.20130502.genotypes"; \ 
 		echo -e "\ngzip -f /users/mturchin/data/1000G/subsets/$i/$i.chr${j}.phase3_shapeit2_mvncall_integrated_v5a.20130502.genotypes.recode.vcf"; \
