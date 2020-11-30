@@ -556,6 +556,7 @@ UKBioBankPops=`echo "African;African Any_other_white_background;Any_other_white_
 UKBioBankPops=`echo "British;British.Ran4000"`;
 UKBioBankPops=`echo "African;African;Afr;472840 British;British.Ran4000;Brit4k;138503 British;British.Ran10000;Brit10k;9827442 Caribbean;Caribbean;Carib;328593 Chinese;Chinese;Chi;842743 Indian;Indian;Indn;549281 Irish;Irish;Irish;902143 Pakistani;Pakistani;Pkstn;232849"`;
 UKBioBankPopsRnd2=`echo "African;African;Afr;472840 British;British.Ran4000;Brit4k;138503 British;British.Ran10000;Brit10k;9827442 Caribbean;Caribbean;Carib;328593 Chinese;Chinese;Chi;842743 Indian;Indian;Indn;549281 Irish;Irish;Irish;902143 Pakistani;Pakistani;Pkstn;232849 British;British.Ran4000.2;Brit4k2;847242 British;British.Ran4000.3;Brit4k3;925683 British;British.Ran4000.4;Brit4k4;394757 British;British.Ran4000.5;Brit4k5;642245 British;British.Ran10000.2;Brit10k2;2045872 British;British.Ran10000.3;Brit10k3;5892624 British;British.Ran10000.4;Brit10k4;9574998 British;British.Ran10000.5;Brit10k5;3741930"`;
+UKBioBankPopsRvs1=`echo "
 
 #African;African
 #Any_other_Asian_background;Any_other_Asian_background
@@ -587,7 +588,7 @@ UKBioBankPopsRnd2=`echo "African;African;Afr;472840 British;British.Ran4000;Brit
 #cp -p /users/mturchin/data/ukbiobank_jun17/2017WinterHack/2017WinterHack.plink.GetAncestrySubsets.sh /users/mturchin/LabMisc/RamachandranLab/MultiEthnicGWAS/scripts/Intro/2017WinterHack.plink.GetAncestrySubsets.sh
 #cp -p /users/mturchin/data/ukbiobank_jun17/2017WinterHack/2017WinterHack.plink.GetAncestrySubsets.vs2.sh /users/mturchin/LabMisc/RamachandranLab/MultiEthnicGWAS/scripts/Intro/2017WinterHack.plink.GetAncestrySubsets.vs2.sh
 
-for j in `cat <(echo $UKBioBankPops | perl -lane 'print join("\n", @F);') | grep British.Ran`; do
+for j in `cat <(echo $UKBioBankPopsRev3 | perl -lane 'print join("\n", @F);')`; do
 	ancestry1=`echo $j | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[0];'`
 	ancestry2=`echo $j | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[1];'`
 
@@ -601,7 +602,7 @@ for j in `cat <(echo $UKBioBankPops | perl -lane 'print join("\n", @F);') | grep
 		fi
 	
 		echo $ancestry1 $ancestry2 $chr	
-		sbatch -t 1:00:00 --mem 8g -o /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/ukb_chr${chr}_v2.$ancestry2.slurm.output -e /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/ukb_chr${chr}_v2.$ancestry2.slurm.error /users/mturchin/LabMisc/RamachandranLab/MultiEthnicGWAS/scripts/Intro/2017WinterHack.plink.GetAncestrySubsets.vs2.sh $ancestry1 $ancestry2 /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.Covars.$ancestry2.FIDIIDs $chr
+#		sbatch -t 1:00:00 --mem 8g -o /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/ukb_chr${chr}_v2.$ancestry2.slurm.output -e /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/ukb_chr${chr}_v2.$ancestry2.slurm.error /users/mturchin/LabMisc/RamachandranLab/MultiEthnicGWAS/scripts/Intro/2017WinterHack.plink.GetAncestrySubsets.vs2.sh $ancestry1 $ancestry2 /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.Covars.$ancestry2.FIDIIDs $chr
 	
 	done
 	sleep 2
@@ -1146,7 +1147,6 @@ cat /users/mturchin/data/ukbiobank_jun17/subsets/African/African/mturchin20/ukb_
 for i in `echo "CEU GBR YRI ESN CHB JPT ACB ASW MXL PEL ITU PJL TSI IBS FIN"`; do
 #for i in `echo "TSI IBS FIN"`; do #20180419 NOTE -- as of this date, TSi/IBS only being included here for hirschhorn polygenic height re-up work, not anything to do with the collection of 1kG pops used for ukb PCAs/analysis (just fyi)
 for i in `echo "LWK GWD MSL"`; do #20200616 NOTE -- doing this again now for these remaining African populations 
-for i in `echo "MSL"`; do 
 	
 	if [ ! -d /users/mturchin/data/1000G/subsets/$i ]; then
 		mkdir /users/mturchin/data/1000G/subsets/$i
@@ -1155,17 +1155,16 @@ for i in `echo "MSL"`; do
 		mkdir /users/mturchin/data/1000G/subsets/$i/mturchin20
 	fi 
 	
-	for j in `echo {2..2}`; do 
-		sbatch -t 72:00:00 --mem 20g -o /users/mturchin/data/1000G/subsets/$i/$i.chr${j}.phase3.genotypes.slurm.output -e /users/mturchin/data/1000G/subsets/$i/$i.chr${j}.phase3.genotypes.slurm.error --comment "$i $j" <(echo -e '#!/bin/sh'; \ 
+	for j in `echo {1..21}`; do 
+		sbatch -t 72:00:00 --mem 8g -o /users/mturchin/data/1000G/subsets/$i/$i.chr${j}.phase3.genotypes.slurm.output -e /users/mturchin/data/1000G/subsets/$i/$i.chr${j}.phase3.genotypes.slurm.error --comment "$i $j" <(echo -e '#!/bin/sh'; \ 
+		echo -e "\n echo $i $j; vcftools --gzvcf /users/mturchin/data/1000G/ALL.chr${j}.phase3_shapeit2_mvncall_integrated_v5a.20130502.genotypes.vcf.gz --keep /users/mturchin/data/1000G/subsets/integrated_call_samples_v3.20130502.ALL.panel.$i.IIDs --recode --recode-INFO-all --out /users/mturchin/data/1000G/subsets/$i/$i.chr${j}.phase3_shapeit2_mvncall_integrated_v5a.20130502.genotypes"; \ 
+		echo -e "\ngzip -f /users/mturchin/data/1000G/subsets/$i/$i.chr${j}.phase3_shapeit2_mvncall_integrated_v5a.20130502.genotypes.recode.vcf"; \
 		echo -e "\nvcftools --gzvcf /users/mturchin/data/1000G/subsets/$i/$i.chr${j}.phase3_shapeit2_mvncall_integrated_v5a.20130502.genotypes.recode.vcf.gz --min-alleles 2 --max-alleles 2 --remove-indels --plink --out /users/mturchin/data/1000G/subsets/$i/$i.chr${j}.phase3_shapeit2_mvncall_integrated_v5a.20130502.genotypes.SNPs"; \
 		echo -e "\nplink --file /users/mturchin/data/1000G/subsets/$i/$i.chr${j}.phase3_shapeit2_mvncall_integrated_v5a.20130502.genotypes.SNPs --make-bed --out /users/mturchin/data/1000G/subsets/$i/$i.chr${j}.phase3_shapeit2_mvncall_integrated_v5a.20130502.genotypes.SNPs"; \ 
 		echo -e "\nrm /users/mturchin/data/1000G/subsets/$i/$i.chr${j}.phase3_shapeit2_mvncall_integrated_v5a.20130502.genotypes.SNPs.ped /users/mturchin/data/1000G/subsets/$i/$i.chr${j}.phase3_shapeit2_mvncall_integrated_v5a.20130502.genotypes.SNPs.map"; \
 		echo -e "\nplink --bfile /users/mturchin/data/1000G/subsets/$i/$i.chr${j}.phase3_shapeit2_mvncall_integrated_v5a.20130502.genotypes.SNPs --extract /users/mturchin/data/ukbiobank_jun17/mturchin/ukb_chrAll_v2.All.QCed.pruned.QCed.bim.noX.rsIDs --make-bed --out /users/mturchin/data/1000G/subsets/$i/mturchin20/$i.chr${j}.phase3_shapeit2_mvncall_integrated_v5a.20130502.genotypes.SNPs.ukb";) ##20180524 NOTE -- deprecated, don't use these versions of 1000G files, use ukb-subset specific 1000G files, eg `*.ukb.${ancestry2}.*` type files
 	done
 done
-		
-		echo -e "\n echo $i $j; vcftools --gzvcf /users/mturchin/data/1000G/ALL.chr${j}.phase3_shapeit2_mvncall_integrated_v5a.20130502.genotypes.vcf.gz --keep /users/mturchin/data/1000G/subsets/integrated_call_samples_v3.20130502.ALL.panel.$i.IIDs --recode --recode-INFO-all --out /users/mturchin/data/1000G/subsets/$i/$i.chr${j}.phase3_shapeit2_mvncall_integrated_v5a.20130502.genotypes"; \ 
-		echo -e "\ngzip -f /users/mturchin/data/1000G/subsets/$i/$i.chr${j}.phase3_shapeit2_mvncall_integrated_v5a.20130502.genotypes.recode.vcf"; \
 
 #	j="X"; sbatch -t 72:00:00 --mem 8g -o /users/mturchin/data/1000G/subsets/$i/$i.chr${j}.phase3.genotypes.slurm.output -e /users/mturchin/data/1000G/subsets/$i/$i.chr${j}.phase3.genotypes.slurm.error --comment "$i $j" <(echo -e '#!/bin/sh'; echo -e "\necho $i $j"; echo -e "\nvcftools --gzvcf /users/mturchin/data/1000G/ALL.chr${j}.phase3_shapeit2_mvncall_integrated_v1b.20130502.genotypes.vcf.gz --keep /users/mturchin/data/1000G/subsets/integrated_call_samples_v3.20130502.ALL.panel.$i.IIDs --recode --recode-INFO-all --out /users/mturchin/data/1000G/subsets/$i/$i.chr${j}.phase3_shapeit2_mvncall_integrated_v1b.20130502.genotypes"; echo -e "\ngzip -f /users/mturchin/data/1000G/subsets/$i/$i.chr${j}.phase3_shapeit2_mvncall_integrated_v1b.20130502.genotypes.recode.vcf"; echo -e "\nvcftools --gzvcf /users/mturchin/data/1000G/subsets/$i/$i.chr${j}.phase3_shapeit2_mvncall_integrated_v1b.20130502.genotypes.recode.vcf.gz --min-alleles 2 --max-alleles 2 --remove-indels --plink --out /users/mturchin/data/1000G/subsets/$i/$i.chr${j}.phase3_shapeit2_mvncall_integrated_v1b.20130502.genotypes.SNPs"; echo -e "\nplink --file /users/mturchin/data/1000G/subsets/$i/$i.chr${j}.phase3_shapeit2_mvncall_integrated_v1b.20130502.genotypes.SNPs --make-bed --out /users/mturchin/data/1000G/subsets/$i/$i.chr${j}.phase3_shapeit2_mvncall_integrated_v1b.20130502.genotypes.SNPs"; echo -e "\nrm /users/mturchin/data/1000G/subsets/$i/$i.chr${j}.phase3_shapeit2_mvncall_integrated_v1b.20130502.genotypes.SNPs.ped /users/mturchin/data/1000G/subsets/$i/$i.chr${j}.phase3_shapeit2_mvncall_integrated_v1b.20130502.genotypes.SNPs.map";)
 #	j="Y"; sbatch -t 72:00:00 --mem 8g -o /users/mturchin/data/1000G/subsets/$i/$i.chr${j}.phase3.genotypes.slurm.output -e /users/mturchin/data/1000G/subsets/$i/$i.chr${j}.phase3.genotypes.slurm.error --comment "$i $j" <(echo -e '#!/bin/sh'; echo -e "\necho $i $j"; echo -e "\nvcftools --gzvcf /users/mturchin/data/1000G/ALL.chr${j}.phase3_integrated_v2a.20130502.genotypes.vcf.gz --keep /users/mturchin/data/1000G/subsets/integrated_call_samples_v3.20130502.ALL.panel.$i.IIDs --recode --recode-INFO-all --out /users/mturchin/data/1000G/subsets/$i/$i.chr${j}.phase3_integrated_v2a.20130502.genotypes"; echo -e "\ngzip -f /users/mturchin/data/1000G/subsets/$i/$i.chr${j}.phase3_integrated_v2a.20130502.genotypes.recode.vcf"; echo -e "\nvcftools --gzvcf /users/mturchin/data/1000G/subsets/$i/$i.chr${j}.phase3_integrated_v2a.20130502.genotypes.recode.vcf.gz --min-alleles 2 --max-alleles 2 --remove-indels --plink --out /users/mturchin/data/1000G/subsets/$i/$i.chr${j}.phase3_integrated_v2a.20130502.genotypes.SNPs"; echo -e "\nplink --file /users/mturchin/data/1000G/subsets/$i/$i.chr${j}.phase3_integrated_v2a.20130502.genotypes.SNPs --make-bed --out /users/mturchin/data/1000G/subsets/$i/$i.chr${j}.phase3_integrated_v2a.20130502.genotypes.SNPs"; echo -e "\nrm /users/mturchin/data/1000G/subsets/$i/$i.chr${j}.phase3_integrated_v2a.20130502.genotypes.SNPs.ped /users/mturchin/data/1000G/subsets/$i/$i.chr${j}.phase3_integrated_v2a.20130502.genotypes.SNPs.map";)
@@ -2398,6 +2397,7 @@ UKBioBankPops=`echo "African;African Any_other_Asian_background;Any_other_Asian_
 UKBioBankPops=`echo "British;British.Admix.TSI9;BritTSI9 British;British.Admix.TSI95;BritTSI95 British;British.Admix.TSI9Ran10k;BritTSI9Ran10k British;British.Admix.TSI8;BritTSI8 British;British.Admix.TSI9Ran20k;BritTSI9Ran20k British;British.Admix.TSI89Ran10k;BritTSI89Ran10k British;British.Admix.IBS9;BritIBS9 British;British.Admix.IBS95;BritIBS95 British;British.Admix.IBS9Ran10k;BritIBS9Ran10k British;British.Admix.IBS8;BritIBS8 British;British.Admix.IBS9Ran20k;BritIBS9Ran20k British;British.Admix.IBS89Ran10k;BritIBS89Ran10k"`;
 UKBioBankPops2=`echo "African;African;Afr;472840 British;British.Ran4000;Brit4k;138503 British;British.Ran10000;Brit10k;9827442 Caribbean;Caribbean;Carib;328593 Chinese;Chinese;Chi;842743 Indian;Indian;Indn;549281 Irish;Irish;Irish;902143 Pakistani;Pakistani;Pkstn;232849 British;British.Ran4000.2;Brit4k2;294757 British;British.Ran4000.3;Brit4k3;832614 British;British.Ran4000.4;Brit4k4;357134"`;
 UKBioBankPopsRnd2=`echo "African;African;Afr;472840 British;British.Ran4000;Brit4k;138503 British;British.Ran10000;Brit10k;9827442 Caribbean;Caribbean;Carib;328593 Chinese;Chinese;Chi;842743 Indian;Indian;Indn;549281 Irish;Irish;Irish;902143 Pakistani;Pakistani;Pkstn;232849 British;British.Ran4000.2;Brit4k2;847242 British;British.Ran4000.3;Brit4k3;925683 British;British.Ran4000.4;Brit4k4;394757 British;British.Ran4000.5;Brit4k5;642245 British;British.Ran10000.2;Brit10k2;2045872 British;British.Ran10000.3;Brit10k3;5892624 British;British.Ran10000.4;Brit10k4;9574998 British;British.Ran10000.5;Brit10k5;3741930"`;
+UKBioBankPopsRev3=`echo "British;British.Ran6000;Brit6k1;298474 British;British.PlusEuro;Brit4kEuro;916465 Asian;Southasian;SAS;467901"`;
 
 mkdir /users/mturchin/LabMisc/RamachandranLab/MultiEthnicGWAS/Rnd1
 mkdir /users/mturchin/LabMisc/RamachandranLab/MultiEthnicGWAS/Rnd1/AncCmps
@@ -2423,6 +2423,15 @@ join -v 1 <(cat /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_Win
 join -v 1 <(cat /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.Covars.British.FIDIIDs | sort -g) <(cat /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.Covars.British.Ran4000.FIDIIDs /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.Covars.British.Ran4000.2.FIDIIDs /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.Covars.British.Ran4000.3.FIDIIDs /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.Covars.British.Ran4000.4.FIDIIDs /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.Covars.British.Ran4000.5.FIDIIDs /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.Covars.British.Ran10000.FIDIIDs /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.Covars.British.Ran10000.2.FIDIIDs /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.Covars.British.Ran10000.3.FIDIIDs /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.Covars.British.Ran10000.4.FIDIIDs | sort -g) | sort -R --random-source=<(echo -e "4218757329457\nPLACEHOLDER") | head -n 10000 > /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.Covars.British.Ran10000.5.FIDIIDs
 
 cat /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.Covars.British.Ran4000.FIDIIDs /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.Covars.British.Ran4000.2.FIDIIDs /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.Covars.British.Ran4000.3.FIDIIDs /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.Covars.British.Ran4000.4.FIDIIDs /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.Covars.British.Ran4000.5.FIDIIDs /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.Covars.British.Ran10000.FIDIIDs /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.Covars.British.Ran10000.2.FIDIIDs /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.Covars.British.Ran10000.3.FIDIIDs /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.Covars.British.Ran10000.4.FIDIIDs /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.Covars.British.Ran10000.5.FIDIIDs | sort | uniq -c | wc
+
+
+join -v 1 <(cat /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.Covars.British.FIDIIDs | sort -g) <(cat /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.Covars.British.Ran4000.FIDIIDs | sort -g) | sort -R --random-source=<(echo -e "25486794724\nPLACEHOLDER") | head -n 4000 > /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.Covars.British.Ran4000.2.FIDIIDs
+join -v 1 <(cat /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.Covars.British.FIDIIDs | sort -g) <(cat /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.Covars.British.Ran4000.FIDIIDs /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.Covars.British.Ran4000.2.FIDIIDs /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.Covars.British.Ran4000.3.FIDIIDs /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.Covars.British.Ran4000.4.FIDIIDs /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.Covars.British.Ran4000.5.FIDIIDs | sort -g) | sort -R --random-source=<(echo -e "61365869382\nPLACEHOLDER") | head -n 10000 > /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.Covars.British.Ran10000.FIDIIDs
+
+cat indn + paki fidiids
+cat brit 4k + 6k ran subset of everything else
+
+
 
 #20190913 NOTE -- put full-ukb analysis/setup/code-buildup here since, conceptually, it should 'precede' the creation/analysis of any within-population setups. This will be only for getting a QCed set of global PCs for all individuals in the dataset (and to develop the list of PCA outlier removals)
 #20191101 NOTE -- ended up not going with the 'full dataset' for PCA outlier removal; sticking with 'within population' for PCA outlier removal via >=7 SDs and using 'full global PCA' for covariate correction (where 'full global' is using all the post-QC individuals remaining within each population subset)
@@ -2783,6 +2792,17 @@ for i in `cat <(echo $UKBioBankPopsRnd2 | perl -lane 'print join("\n", @F);') | 
 	join <(cat /users/mturchin/data/ukbiobank_jun17/mturchin/FullDataset/ukb_chrAll_v3.All.QCed.reqDrop.QCed.dropRltvs.PCAdrop.Replicates.$ancestry2a.SNPoverlap.pruned.flashpca.pcs.txt.wInfo.txt | awk '{ print $1 "_" $2 "\t" $0 }' | sort -k 1,1) <(cat /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.Covars.${ancestry2a}.FIDIIDs | awk '{ print $1 "_" $2 }' | sort) | perl -lane 'print join("\t", @F[1..$#F]);' | cat <(echo -e "FID\tIID\tPC1\tPC2\tPC3\tPC4\tPC5\tPC6\tPC7\tPC8\tPC9\tPC10\tPC11\tPC12\tPC13\tPC14\tPC15\tPC16\tPC17\tPC18\tPC19\tPC20") - > /users/mturchin/data/ukbiobank_jun17/mturchin/FullDataset/ukb_chrAll_v3.All.QCed.reqDrop.QCed.dropRltvs.PCAdrop.SNPoverlap.pruned.flashpca.pcs.txt.wInfo.${ancestry2a}.txt
 
 done
+
+#20201129
+#Revisions pops
+
+# ~6k from Brit 10k
+# ~6k from non-European indivs
+# Southeast Asian pops (paki + indn)
+
+cat 
+cat /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.Covars.Indian.FIDIIDs /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.Covars.Pakistani.FIDIIDs > /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.Covars.SoutheastAsian.FIDIIDs
+
 
 
 
