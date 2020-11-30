@@ -2397,7 +2397,7 @@ UKBioBankPops=`echo "African;African Any_other_Asian_background;Any_other_Asian_
 UKBioBankPops=`echo "British;British.Admix.TSI9;BritTSI9 British;British.Admix.TSI95;BritTSI95 British;British.Admix.TSI9Ran10k;BritTSI9Ran10k British;British.Admix.TSI8;BritTSI8 British;British.Admix.TSI9Ran20k;BritTSI9Ran20k British;British.Admix.TSI89Ran10k;BritTSI89Ran10k British;British.Admix.IBS9;BritIBS9 British;British.Admix.IBS95;BritIBS95 British;British.Admix.IBS9Ran10k;BritIBS9Ran10k British;British.Admix.IBS8;BritIBS8 British;British.Admix.IBS9Ran20k;BritIBS9Ran20k British;British.Admix.IBS89Ran10k;BritIBS89Ran10k"`;
 UKBioBankPops2=`echo "African;African;Afr;472840 British;British.Ran4000;Brit4k;138503 British;British.Ran10000;Brit10k;9827442 Caribbean;Caribbean;Carib;328593 Chinese;Chinese;Chi;842743 Indian;Indian;Indn;549281 Irish;Irish;Irish;902143 Pakistani;Pakistani;Pkstn;232849 British;British.Ran4000.2;Brit4k2;294757 British;British.Ran4000.3;Brit4k3;832614 British;British.Ran4000.4;Brit4k4;357134"`;
 UKBioBankPopsRnd2=`echo "African;African;Afr;472840 British;British.Ran4000;Brit4k;138503 British;British.Ran10000;Brit10k;9827442 Caribbean;Caribbean;Carib;328593 Chinese;Chinese;Chi;842743 Indian;Indian;Indn;549281 Irish;Irish;Irish;902143 Pakistani;Pakistani;Pkstn;232849 British;British.Ran4000.2;Brit4k2;847242 British;British.Ran4000.3;Brit4k3;925683 British;British.Ran4000.4;Brit4k4;394757 British;British.Ran4000.5;Brit4k5;642245 British;British.Ran10000.2;Brit10k2;2045872 British;British.Ran10000.3;Brit10k3;5892624 British;British.Ran10000.4;Brit10k4;9574998 British;British.Ran10000.5;Brit10k5;3741930"`;
-UKBioBankPopsRev3=`echo "British;British.Ran6000;Brit6k1;298474 British;British.PlusEuro;Brit4kEuro;916465 Asian;Southasian;SAS;467901"`;
+UKBioBankPopsRev3=`echo "British;British.Plus6000;Brit4k6k;298474 British;British.PlusEuro;Brit4kEuro;916465 Asian;Southasian;SAS;467901"`;
 
 mkdir /users/mturchin/LabMisc/RamachandranLab/MultiEthnicGWAS/Rnd1
 mkdir /users/mturchin/LabMisc/RamachandranLab/MultiEthnicGWAS/Rnd1/AncCmps
@@ -2800,8 +2800,53 @@ done
 # ~6k from non-European indivs
 # Southeast Asian pops (paki + indn)
 
-cat 
-cat /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.Covars.Indian.FIDIIDs /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.Covars.Pakistani.FIDIIDs > /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.Covars.SoutheastAsian.FIDIIDs
+##cat /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.Covars.British.Ran10000.FIDIIDs | R -q -e "set.seed(4386234); Data1 <- read.table(file('stdin'), header=F); Data1.subset <- sample(1:nrow(Data1), 6000, replace=F); write.table(Data1[Data1.subset,], quote=FALSE, col.names=FALSE, row.names=FALSE);" > /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.Covars.British.Ran6000.FIDIIDs
+##cat /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.Covars.British.Ran4000.FIDIIDs /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.Covars.British.Ran6000.FIDIIDs > /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.Covars.British.Plus6000.FIDIIDs 
+cat /users/mturchin/data/ukbiobank_jun17/subsets/British/British.Ran4000/mturchin20/ukb_chr1_v3.British.Ran4000.QCed.reqDrop.QCed.dropRltvs.PCAdrop.fam | wc
+```
+(MultiEthnicGWAS) [  mturchin@login004  ~/LabMisc/RamachandranLab/MultiEthnicGWAS]$cat /users/mturchin/data/ukbiobank_jun17/subsets/British/British.Ran4000/mturchin20/ukb_chr1_v3.British.Ran4000.QCed.reqDrop.QCed.dropRltvs.PCAdrop.fam | wc
+   3848   23088   96200
+(MultiEthnicGWAS) [  mturchin@login004  ~/LabMisc/RamachandranLab/MultiEthnicGWAS]$R -q -e "10000 - 3848"
+> 10000 - 3848
+[1] 6152
+```
+cat /users/mturchin/data/ukbiobank_jun17/subsets/British/British.Ran10000/mturchin20/ukb_chr1_v3.British.Ran10000.QCed.reqDrop.QCed.dropRltvs.PCAdrop.fam | awk '{ print $1 "\t" $2 }' | R -q -e "set.seed(4386234); Data1 <- read.table(file('stdin'), header=F); Data1.subset <- sample(1:nrow(Data1), 6152, replace=F); write.table(Data1[Data1.subset,], quote=FALSE, col.names=FALSE, row.names=FALSE);" > /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.Covars.British.Ran6000.FIDIIDs 
+cat <(cat /users/mturchin/data/ukbiobank_jun17/subsets/British/British.Ran4000/mturchin20/ukb_chr1_v3.British.Ran4000.QCed.reqDrop.QCed.dropRltvs.PCAdrop.fam | awk '{ print $1 "\t" $2 }') /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.Covars.British.Ran6000.FIDIIDs > /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.Covars.British.Plus6000.FIDIIDs 
+
+cat /users/mturchin/data/ukbiobank_jun17/subsets/African/African/mturchin20/ukb_chr1_v3.African.QCed.reqDrop.QCed.dropRltvs.PCAdrop.fam /users/mturchin/data/ukbiobank_jun17/subsets/Caribbean/Caribbean/mturchin20/ukb_chr1_v3.Caribbean.QCed.reqDrop.QCed.dropRltvs.PCAdrop.fam /users/mturchin/data/ukbiobank_jun17/subsets/Chinese/Chinese/mturchin20/ukb_chr1_v3.Chinese.QCed.reqDrop.QCed.dropRltvs.PCAdrop.fam /users/mturchin/data/ukbiobank_jun17/subsets/Indian/Indian/mturchin20/ukb_chr1_v3.Indian.QCed.reqDrop.QCed.dropRltvs.PCAdrop.fam /users/mturchin/data/ukbiobank_jun17/subsets/Pakistani/Pakistani/mturchin20/ukb_chr1_v3.Pakistani.QCed.reqDrop.QCed.dropRltvs.PCAdrop.fam | awk '{ print $1 "\t" $2 }' > /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.Covars.FullDataset.NonEuropeans.FIDIIDs
+cat /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.Covars.FullDataset.NonEuropeans.FIDIIDs | awk '{ print $1 "\t" $2 }' | R -q -e "set.seed(7382346); Data1 <- read.table(file('stdin'), header=F); Data1.subset <- sample(1:nrow(Data1), 6152, replace=F); write.table(Data1[Data1.subset,], quote=FALSE, col.names=FALSE, row.names=FALSE);" > /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.Covars.FullDataset.NonEuropeans.Ran6000.FIDIIDs
+cat <(cat /users/mturchin/data/ukbiobank_jun17/subsets/British/British.Ran4000/mturchin20/ukb_chr1_v3.British.Ran4000.QCed.reqDrop.QCed.dropRltvs.PCAdrop.fam | awk '{ print $1 "\t" $2 }') /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.Covars.FullDataset.NonEuropeans.Ran6000.FIDIIDs > /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.Covars.British.PlusEuro.FIDIIDs 
+
+##cat /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.Covars.Indian.FIDIIDs /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.Covars.Pakistani.FIDIIDs > /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.Covars.SoutheastAsian.FIDIIDs
+cat /users/mturchin/data/ukbiobank_jun17/subsets/Indian/Indian/mturchin20/ukb_chr1_v3.Indian.QCed.reqDrop.QCed.dropRltvs.PCAdrop.fam /users/mturchin/data/ukbiobank_jun17/subsets/Pakistani/Pakistani/mturchin20/ukb_chr1_v3.Pakistani.QCed.reqDrop.QCed.dropRltvs.PCAdrop.fam | awk '{ print $1 "\t" $2 }' > /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.Covars.Southasian.FIDIIDs
+
+full plink bed/bim/fam
+genotype matrix (--recodeAD)
+phenos
+    re-quantile normalize after combining (?)
+covars
+    get PCs from FullDataset PCs
+    combine Indian/Paki local PCs
+pathway files
+genotype subset files
+
+
+
+/users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v3.${ancestry2}.QCed.pruned.QCed.dropRltvs.noX.PCAdrop.flashpca.pcs.wFullCovars.wAC.txt
+
+UKBioBankPopsRev3=`echo "British;British.Plus6000;Brit4k6k;298474 British;British.PlusEuro;Brit4kEuro;916465 Asian;Southasian;SAS;467901"`;
+for j in `cat <(echo $UKBioBankPopsRev3 | perl -lane 'print join("\n", @F);')`; do
+	ancestry1=`echo $j | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[0];'`
+	ancestry2=`echo $j | perl -ane 'my @vals1 = split(/;/, $F[0]); print $vals1[1];'`
+
+		if [ ! -d /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1 ]; then
+			mkdir /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1	
+		fi
+		if [ ! -d /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2 ]; then
+			mkdir /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2
+		fi
+	
+done
 
 
 
