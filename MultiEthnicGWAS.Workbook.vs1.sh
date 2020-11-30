@@ -2840,12 +2840,28 @@ plink --bfile /users/mturchin/data/ukbiobank_jun17/subsets/Indian/Indian/Imputat
 plink --bfile /users/mturchin/data/ukbiobank_jun17/subsets/Pakistani/Pakistani/Imputation/mturchin20/ukb_chrAll_v3.Pakistani.QCed.reqDrop.QCed.dropRltvs.PCAdrop.sort.ImptHRC.dose.100geno --extract /users/mturchin/data/ukbiobank_jun17/subsets/British/British.PlusNonEuro/Imputation/mturchin20/ukb_chrAll_v3.British.Ran4000.QCed.reqDrop.QCed.dropRltvs.PCAdrop.sort.ImptHRC.dose.100geno.Overlap.British.PlusNonEuro.bim.SNPIDs --keep /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.Covars.British.PlusNonEuro.FIDIIDs --make-bed --out /users/mturchin/data/ukbiobank_jun17/subsets/British/British.PlusNonEuro/Imputation/mturchin20/ukb_chrAll_v3.Pakistani.QCed.reqDrop.QCed.dropRltvs.PCAdrop.sort.ImptHRC.dose.100geno.Subset.British.PlusNonEuro 
 plink --bfile /users/mturchin/data/ukbiobank_jun17/subsets/British/British.Ran4000/Imputation/mturchin20/ukb_chrAll_v3.British.Ran4000.QCed.reqDrop.QCed.dropRltvs.PCAdrop.sort.ImptHRC.dose.100geno --extract /users/mturchin/data/ukbiobank_jun17/subsets/British/British.PlusNonEuro/Imputation/mturchin20/ukb_chrAll_v3.British.Ran4000.QCed.reqDrop.QCed.dropRltvs.PCAdrop.sort.ImptHRC.dose.100geno.Overlap.British.PlusNonEuro.bim.SNPIDs --make-bed --out /users/mturchin/data/ukbiobank_jun17/subsets/British/British.PlusNonEuro/Imputation/mturchin20/ukb_chrAll_v3.British.Ran4000.QCed.reqDrop.QCed.dropRltvs.PCAdrop.sort.ImptHRC.dose.100geno.Subset.British.PlusNonEuro 
 
+plink --bfile /users/mturchin/data/ukbiobank_jun17/subsets/Indian/Indian/Imputation/mturchin20/ukb_chrAll_v3.Indian.QCed.reqDrop.QCed.dropRltvs.PCAdrop.sort.ImptHRC.dose.100geno --extract /users/mturchin/data/ukbiobank_jun17/subsets/Asian/Southasian/Imputation/mturchin20/ukb_chrAll_v3.Indian.QCed.reqDrop.QCed.dropRltvs.PCAdrop.sort.ImptHRC.dose.100geno.Overlap.Pakistani.bim.SNPIDs --make-bed --out /users/mturchin/data/ukbiobank_jun17/subsets/Asian/Southasian/Imputation/mturchin20/ukb_chrAll_v3.Indian.QCed.reqDrop.QCed.dropRltvs.PCAdrop.sort.ImptHRC.dose.100geno.Subset.Pakistani
+plink --bfile /users/mturchin/data/ukbiobank_jun17/subsets/Pakistani/Pakistani/Imputation/mturchin20/ukb_chrAll_v3.Pakistani.QCed.reqDrop.QCed.dropRltvs.PCAdrop.sort.ImptHRC.dose.100geno --extract /users/mturchin/data/ukbiobank_jun17/subsets/Asian/Southasian/Imputation/mturchin20/ukb_chrAll_v3.Indian.QCed.reqDrop.QCed.dropRltvs.PCAdrop.sort.ImptHRC.dose.100geno.Overlap.Pakistani.bim.SNPIDs --make-bed --out /users/mturchin/data/ukbiobank_jun17/subsets/Asian/Southasian/Imputation/mturchin20/ukb_chrAll_v3.Pakistani.QCed.reqDrop.QCed.dropRltvs.PCAdrop.sort.ImptHRC.dose.100geno.Subset.Indian
+
+echo -e "/users/mturchin/data/ukbiobank_jun17/subsets/British/British.PlusNonEuro/Imputation/mturchin20/ukb_chrAll_v3.Caribbean.QCed.reqDrop.QCed.dropRltvs.PCAdrop.sort.ImptHRC.dose.100geno.Subset.British.PlusNonEuro.bed /users/mturchin/data/ukbiobank_jun17/subsets/British/British.PlusNonEuro/Imputation/mturchin20/ukb_chrAll_v3.Caribbean.QCed.reqDrop.QCed.dropRltvs.PCAdrop.sort.ImptHRC.dose.100geno.Subset.British.PlusNonEuro.bim /users/mturchin/data/ukbiobank_jun17/subsets/British/British.PlusNonEuro/Imputation/mturchin20/ukb_chrAll_v3.Caribbean.QCed.reqDrop.QCed.dropRltvs.PCAdrop.sort.ImptHRC.dose.100geno.Subset.British.PlusNonEuro.fam\n/users/mturchin/data/ukbiobank_jun17/subsets/British/British.PlusNonEuro/Imputation/mturchin20/ukb_chrAll_v3.Chinese.QCed.reqDrop.QCed.dropRltvs.PCAdrop.sort.ImptHRC.dose.100geno.Subset.British.PlusNonEuro.bed /users/mturchin/data/ukbiobank_jun17/subsets/British/British.PlusNonEuro/Imputation/mturchin20/ukb_chrAll_v3.Chinese.QCed.reqDrop.QCed.dropRltvs.PCAdrop.sort.ImptHRC.dose.100geno.Subset.British.PlusNonEuro.bim /users/mturchin/data/ukbiobank_jun17/subsets/British/British.PlusNonEuro/Imputation/mturchin20/ukb_chrAll_v3.Chinese.QCed.reqDrop.QCed.dropRltvs.PCAdrop.sort.ImptHRC.dose.100geno.Subset.British.PlusNonEuro.fam\n/users/mturchin/data/ukbiobank_jun17/subsets/British/British.PlusNonEuro/Imputation/mturchin20/ukb_chrAll_v3.Indian.QCed.reqDrop.QCed.dropRltvs.PCAdrop.sort.ImptHRC.dose.100geno.Subset.British.PlusNonEuro.bed /users/mturchin/data/ukbiobank_jun17/subsets/British/British.PlusNonEuro/Imputation/mturchin20/ukb_chrAll_v3.Indian.QCed.reqDrop.QCed.dropRltvs.PCAdrop.sort.ImptHRC.dose.100geno.Subset.British.PlusNonEuro.bim /users/mturchin/data/ukbiobank_jun17/subsets/British/British.PlusNonEuro/Imputation/mturchin20/ukb_chrAll_v3.Indian.QCed.reqDrop.QCed.dropRltvs.PCAdrop.sort.ImptHRC.dose.100geno.Subset.British.PlusNonEuro.fam\n/users/mturchin/data/ukbiobank_jun17/subsets/British/British.PlusNonEuro/Imputation/mturchin20/ukb_chrAll_v3.Pakistani.QCed.reqDrop.QCed.dropRltvs.PCAdrop.sort.ImptHRC.dose.100geno.Subset.British.PlusNonEuro.bed /users/mturchin/data/ukbiobank_jun17/subsets/British/British.PlusNonEuro/Imputation/mturchin20/ukb_chrAll_v3.Pakistani.QCed.reqDrop.QCed.dropRltvs.PCAdrop.sort.ImptHRC.dose.100geno.Subset.British.PlusNonEuro.bim /users/mturchin/data/ukbiobank_jun17/subsets/British/British.PlusNonEuro/Imputation/mturchin20/ukb_chrAll_v3.Pakistani.QCed.reqDrop.QCed.dropRltvs.PCAdrop.sort.ImptHRC.dose.100geno.Subset.British.PlusNonEuro.fam\n/users/mturchin/data/ukbiobank_jun17/subsets/British/British.PlusNonEuro/Imputation/mturchin20/ukb_chrAll_v3.British.Ran4000.QCed.reqDrop.QCed.dropRltvs.PCAdrop.sort.ImptHRC.dose.100geno.Subset.British.PlusNonEuro.bed /users/mturchin/data/ukbiobank_jun17/subsets/British/British.PlusNonEuro/Imputation/mturchin20/ukb_chrAll_v3.British.Ran4000.QCed.reqDrop.QCed.dropRltvs.PCAdrop.sort.ImptHRC.dose.100geno.Subset.British.PlusNonEuro.bim /users/mturchin/data/ukbiobank_jun17/subsets/British/British.PlusNonEuro/Imputation/mturchin20/ukb_chrAll_v3.British.Ran4000.QCed.reqDrop.QCed.dropRltvs.PCAdrop.sort.ImptHRC.dose.100geno.Subset.British.PlusNonEuro.fam" > /users/mturchin/data/ukbiobank_jun17/subsets/British/British.PlusNonEuro/Imputation/mturchin20/ukb_chrAll_v3.British.Ran4000.QCed.reqDrop.QCed.dropRltvs.PCAdrop.sort.ImptHRC.dose.100geno.Overlap.British.PlusNonEuro.MergeList.vs1.txt
+
+plink --bfile /users/mturchin/data/ukbiobank_jun17/subsets/British/British.Plus6000/Imputation/mturchin20/ukb_chrAll_v3.British.Ran4000.QCed.reqDrop.QCed.dropRltvs.PCAdrop.sort.ImptHRC.dose.100geno.Subset.British.Ran10000 --bmerge /users/mturchin/data/ukbiobank_jun17/subsets/British/British.Plus6000/Imputation/mturchin20/ukb_chrAll_v3.British.Ran6000.QCed.reqDrop.QCed.dropRltvs.PCAdrop.sort.ImptHRC.dose.100geno.Subset.British.Ran40000 --make-bed --out /users/mturchin/data/ukbiobank_jun17/subsets/British/British.Plus6000/Imputation/mturchin20/ukb_chrAll_v3.British.Plus6000.QCed.reqDrop.QCed.dropRltvs.PCAdrop.sort.ImptHRC.dose.100geno 
+
+plink --bfile /users/mturchin/data/ukbiobank_jun17/subsets/British/British.PlusNonEuro/Imputation/mturchin20/ukb_chrAll_v3.African.QCed.reqDrop.QCed.dropRltvs.PCAdrop.sort.ImptHRC.dose.100geno.Subset.British.PlusNonEuro --merge-list /users/mturchin/data/ukbiobank_jun17/subsets/British/British.PlusNonEuro/Imputation/mturchin20/ukb_chrAll_v3.British.Ran4000.QCed.reqDrop.QCed.dropRltvs.PCAdrop.sort.ImptHRC.dose.100geno.Overlap.British.PlusNonEuro.MergeList.vs1.txt --make-bed --out  /users/mturchin/data/ukbiobank_jun17/subsets/British/British.PlusNonEuro/Imputation/mturchin20/ukb_chrAll_v3.British.PlusNonEuro.QCed.reqDrop.QCed.dropRltvs.PCAdrop.sort.ImptHRC.dose.100geno 
+
+plink --bfile /users/mturchin/data/ukbiobank_jun17/subsets/Asian/Southasian/Imputation/mturchin20/ukb_chrAll_v3.Indian.QCed.reqDrop.QCed.dropRltvs.PCAdrop.sort.ImptHRC.dose.100geno.Subset.Pakistani --bmerge /users/mturchin/data/ukbiobank_jun17/subsets/Asian/Southasian/Imputation/mturchin20/ukb_chrAll_v3.Pakistani.QCed.reqDrop.QCed.dropRltvs.PCAdrop.sort.ImptHRC.dose.100geno.Subset.Indian --make-bed --out  /users/mturchin/data/ukbiobank_jun17/subsets/Asian/Southasian/Imputation/mturchin20/ukb_chrAll_v3.Southasian.QCed.reqDrop.QCed.dropRltvs.PCAdrop.sort.ImptHRC.dose.100geno
+
+plink --bfile /users/mturchin/data/ukbiobank_jun17/subsets/British/British.Plus6000/Imputation/mturchin20/ukb_chrAll_v3.British.Plus6000.QCed.reqDrop.QCed.dropRltvs.PCAdrop.sort.ImptHRC.dose.100geno --freq --out /users/mturchin/data/ukbiobank_jun17/subsets/British/British.Plus6000/Imputation/mturchin20/ukb_chrAll_v3.British.Plus6000.QCed.reqDrop.QCed.dropRltvs.PCAdrop.sort.ImptHRC.dose.100geno
+plink --bfile /users/mturchin/data/ukbiobank_jun17/subsets/British/British.PlusNonEuro/Imputation/mturchin20/ukb_chrAll_v3.British.PlusNonEuro.QCed.reqDrop.QCed.dropRltvs.PCAdrop.sort.ImptHRC.dose.100geno --freq --out /users/mturchin/data/ukbiobank_jun17/subsets/British/British.PlusNonEuro/Imputation/mturchin20/ukb_chrAll_v3.British.PlusNonEuro.QCed.reqDrop.QCed.dropRltvs.PCAdrop.sort.ImptHRC.dose.100geno
+plink --bfile /users/mturchin/data/ukbiobank_jun17/subsets/Asian/Southasian/Imputation/mturchin20/ukb_chrAll_v3.Southasian.QCed.reqDrop.QCed.dropRltvs.PCAdrop.sort.ImptHRC.dose.100geno --freq --out /users/mturchin/data/ukbiobank_jun17/subsets/Asian/Southasian/Imputation/mturchin20/ukb_chrAll_v3.Southasian.QCed.reqDrop.QCed.dropRltvs.PCAdrop.sort.ImptHRC.dose.100geno
+
+cat /users/mturchin/data/ukbiobank_jun17/subsets/British/British.Plus6000/Imputation/mturchin20/ukb_chrAll_v3.British.Plus6000.QCed.reqDrop.QCed.dropRltvs.PCAdrop.sort.ImptHRC.dose.100geno.frq | sort -g -k 5,5 | head -n 10
+cat /users/mturchin/data/ukbiobank_jun17/subsets/British/British.PlusNonEuro/Imputation/mturchin20/ukb_chrAll_v3.British.PlusNonEuro.QCed.reqDrop.QCed.dropRltvs.PCAdrop.sort.ImptHRC.dose.100geno.frq | sort -g -k 5,5 | head -n 10
+cat /users/mturchin/data/ukbiobank_jun17/subsets/Asian/Southasian/Imputation/mturchin20/ukb_chrAll_v3.Southasian.QCed.reqDrop.QCed.dropRltvs.PCAdrop.sort.ImptHRC.dose.100geno.frq | sort -g -k 5,5 | head -n 10
 
 
-/users/mturchin/data/ukbiobank_jun17/subsets/British/British.Ran4000/mturchin20/ukb_chr1_v3.British.Ran4000.QCed.reqDrop.QCed.dropRltvs.PCAdrop. 
 
 
-/users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/Imputation/mturchin20/ukb_chrAll_v3.${ancestry2}.QCed.reqDrop.QCed.dropRltvs.PCAdrop.sort.ImptHRC.dose.100geno";
 
 ```
 (MultiEthnicGWAS) [  mturchin@login004  ~/LabMisc/RamachandranLab/MultiEthnicGWAS]$cat /users/mturchin/data/ukbiobank_jun17/subsets/African/African/Imputation/mturchin20/ukb_chrAll_v3.African.QCed.reqDrop.QCed.dropRltvs.PCAdrop.sort.ImptHRC.dose.100geno.bim | wc
@@ -12890,6 +12906,39 @@ X1.761147_C -10.848715  4.144752  2.936991  3.203551 -0.95783017
  597298 3583788 17499509
 (MultiEthnicGWAS) [  mturchin@login004  ~/LabMisc/RamachandranLab/MultiEthnicGWAS]$cat /users/mturchin/data/ukbiobank_jun17/subsets/British/British.Plus6000/Imputation/mturchin20/ukb_chrAll_v3.British.Ran4000.QCed.reqDrop.QCed.dropRltvs.PCAdrop.sort.ImptHRC.dose.100geno.Overlap.British.Ran10000.bim.SNPIDs | wc
  592751  592751 6902906
+[  mturchin@node1302  ~/LabMisc/RamachandranLab/MultiEthnicGWAS]$cat /users/mturchin/data/ukbiobank_jun17/subsets/British/British.Plus6000/Imputation/mturchin20/ukb_chrAll_v3.British.Plus6000.QCed.reqDrop.QCed.dropRltvs.PCAdrop.sort.ImptHRC.dose.100geno.frq | sort -g -k 5,5 | head -n 10
+ CHR           SNP   A1   A2          MAF  NCHROBS
+  11   11:17554913    A    C        5e-05    20000
+  15   15:81355306    T    G       0.0001    20000
+   1    1:84417500    A    T      0.00015    20000
+   1    1:16376457    G    C      0.00025    20000
+  12  12:129556884    T    C       0.0003    20000
+  19    19:5696646    T    C      0.00045    20000
+  12  12:119909959    A   AC       0.0005    20000
+  11  11:117076972    A    C      0.00075    20000
+  13   13:52883003    A    G      0.00105    20000
+[  mturchin@node1302  ~/LabMisc/RamachandranLab/MultiEthnicGWAS]$cat /users/mturchin/data/ukbiobank_jun17/subsets/British/British.PlusNonEuro/Imputation/mturchin20/ukb_chrAll_v3.British.PlusNonEuro.QCed.reqDrop.QCed.dropRltvs.PCAdrop.sort.ImptHRC.dose.100geno.frq | sort -g -k 5,5 | head -n 10
+ CHR           SNP   A1   A2          MAF  NCHROBS
+   6    6:30693314    T    C       0.0121    20000
+  15   15:42272247    C    T      0.01335    20000
+  17   17:17267613    A    G      0.01345    20000
+   1    1:12176031    A    G       0.0138    20000
+   6    6:88826275    A    C       0.0139    20000
+   2   2:106979334    G    A      0.01405    20000
+  17   17:63268725    A    G      0.01415    20000
+  22   22:32113164    G    T      0.01435    20000
+  17   17:39863431    A    G       0.0146    20000
+[  mturchin@node1302  ~/LabMisc/RamachandranLab/MultiEthnicGWAS]$cat /users/mturchin/data/ukbiobank_jun17/subsets/Asian/Southasian/Imputation/mturchin20/ukb_chrAll_v3.Southasian.QCed.reqDrop.QCed.dropRltvs.PCAdrop.sort.ImptHRC.dose.100geno.frq | sort -g -k 5,5 | head -n 10
+ CHR           SNP   A1   A2          MAF  NCHROBS
+   9   9:135946390    A    G    0.0003755    13316
+   7    7:24805833    C    T    0.0005257    13316
+  10  10:124917226    C CCTTTTTTTTTCT    0.0005257    13316
+  11   11:55111118    G    A     0.000751    13316
+  19    19:5696646    T    C     0.002178    13316
+  11   11:55110903    A    C     0.002704    13316
+   7     7:7635839  TCC    T     0.003379    13316
+   4   4:187880397    G    A     0.003605    13316
+   4   4:144757669    C    T     0.003755    13316
 
 
 
