@@ -2870,10 +2870,10 @@ cat /users/mturchin/data/ukbiobank_jun17/subsets/Asian/Southasian/Imputation/mtu
      10 374465
 ```
 
-find overlap in snps, subset down to overlapped snps, then merge files
+X find overlap in snps, subset down to overlapped snps, then merge files
 
-full plink bed/bim/fam
-genotype matrix (--recodeAD)
+X full plink bed/bim/fam
+~ genotype matrix (--recodeAD)
 phenos
     re-quantile normalize after combining (?)
 covars
@@ -2881,6 +2881,15 @@ covars
     combine Indian/Paki local PCs
 pathway files
 genotype subset files
+cov files
+
+- do pathway files
+- do cov files
+- do genotype subset files
+- do phenotypes
+- do and figure out covars
+- test run analyses
+- run analyses
 
 /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v3.${ancestry2}.QCed.pruned.QCed.dropRltvs.noX.PCAdrop.flashpca.pcs.wFullCovars.wAC.txt
 
