@@ -2871,6 +2871,14 @@ cat /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.P
 
 cat /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.Phenos.Transformed.wthnPop.Indian.BMIAdj.wCovars.yIntrcptFix.BMIage.wAC.Edit.txt /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.Phenos.Transformed.wthnPop.Pakistani.BMIAdj.wCovars.yIntrcptFix.BMIage.wAC.Edit.txt | grep -v FID | cat <(echo -e "FID\tIID\tHeight\tBMI\tWaist\tHip\tWaistAdjBMI\tHipAdjBMI") - > /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.Phenos.Transformed.wthnPop.Southasian.BMIAdj.wCovars.yIntrcptFix.BMIage.wAC.Edit.txt
 
+/users/mturchin/data/ukbiobank_jun17/mturchin/FullDataset/ukb_chrAll_v3.All.QCed.reqDrop.QCed.dropRltvs.PCAdrop.SNPoverlap.pruned.flashpca.pcs.txt.wInfo.txt
+
+cat /users/mturchin/data/ukbiobank_jun17/subsets/Indian/Indian/mturchin20/ukb_chrAll_v3.Indian.QCed.pruned.QCed.dropRltvs.noX.PCAdrop.flashpca.pcs.wFullCovars.wAC.txt
+
+
+/users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/ukb_chrAll_v3.${ancestry2}.QCed.pruned.QCed.dropRltvs.noX.PCAdrop.flashpca.pcs.wFullCovars.wAC.txt
+
+
 
 ```
 (MultiEthnicGWAS) [  mturchin@login004  ~/LabMisc/RamachandranLab/MultiEthnicGWAS]$cat /users/mturchin/data/ukbiobank_jun17/subsets/African/African/Imputation/mturchin20/ukb_chrAll_v3.African.QCed.reqDrop.QCed.dropRltvs.PCAdrop.sort.ImptHRC.dose.100geno.bim | wc
@@ -2885,7 +2893,7 @@ X full plink bed/bim/fam
 X genotype matrix (--recodeAD)
 X phenos
     O re-quantile normalize after combining (?; no, would not make sense after AC adjustments too now)
-covars
+~ covars
     get PCs from FullDataset PCs
     combine Indian/Paki local PCs
 X pathway files
@@ -2896,7 +2904,7 @@ X do pathway files
 X do cov files
 ~ do genotype subset files
 X do phenotypes
-- do and figure out covars
+~ do and figure out covars
 - test run analyses
 - run analyses
 
