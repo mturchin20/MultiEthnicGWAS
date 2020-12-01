@@ -2871,15 +2871,6 @@ cat /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.P
 
 cat /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.Phenos.Transformed.wthnPop.Indian.BMIAdj.wCovars.yIntrcptFix.BMIage.wAC.Edit.txt /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.Phenos.Transformed.wthnPop.Pakistani.BMIAdj.wCovars.yIntrcptFix.BMIage.wAC.Edit.txt | grep -v FID | cat <(echo -e "FID\tIID\tHeight\tBMI\tWaist\tHip\tWaistAdjBMI\tHipAdjBMI") - > /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.Phenos.Transformed.wthnPop.Southasian.BMIAdj.wCovars.yIntrcptFix.BMIage.wAC.Edit.txt
 
-cat /users/mturchin/data/ukbiobank_jun17/subsets/British/British.Ran10000/mturchin20/ukb_chr1_v3.British.Ran10000.QCed.reqDrop.QCed.dropRltvs.PCAdrop.fam | awk '{ print $1 "\t" $2 }' | R -q -e "set.seed(4386234); Data1 <- read.table(file('stdin'), header=F); Data1.subset <- sample(1:nrow(Data1), 6152, replace=F); write.table(Data1[Data1.subset,], quote=FALSE, col.names=FALSE, row.names=FALSE);" | grep -v ^\> > /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.Covars.British.Ran6000.FIDIIDs 
-cat <(cat /users/mturchin/data/ukbiobank_jun17/subsets/British/British.Ran4000/mturchin20/ukb_chr1_v3.British.Ran4000.QCed.reqDrop.QCed.dropRltvs.PCAdrop.fam | awk '{ print $1 "\t" $2 }') /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.Covars.British.Ran6000.FIDIIDs > /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.Covars.British.Plus6000.FIDIIDs 
-cat /users/mturchin/data/ukbiobank_jun17/subsets/African/African/mturchin20/ukb_chr1_v3.African.QCed.reqDrop.QCed.dropRltvs.PCAdrop.fam /users/mturchin/data/ukbiobank_jun17/subsets/Caribbean/Caribbean/mturchin20/ukb_chr1_v3.Caribbean.QCed.reqDrop.QCed.dropRltvs.PCAdrop.fam /users/mturchin/data/ukbiobank_jun17/subsets/Chinese/Chinese/mturchin20/ukb_chr1_v3.Chinese.QCed.reqDrop.QCed.dropRltvs.PCAdrop.fam /users/mturchin/data/ukbiobank_jun17/subsets/Indian/Indian/mturchin20/ukb_chr1_v3.Indian.QCed.reqDrop.QCed.dropRltvs.PCAdrop.fam /users/mturchin/data/ukbiobank_jun17/subsets/Pakistani/Pakistani/mturchin20/ukb_chr1_v3.Pakistani.QCed.reqDrop.QCed.dropRltvs.PCAdrop.fam | awk '{ print $1 "\t" $2 }' > /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.Covars.FullDataset.NonEuropeans.FIDIIDs
-cat /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.Covars.FullDataset.NonEuropeans.FIDIIDs | awk '{ print $1 "\t" $2 }' | R -q -e "set.seed(7382346); Data1 <- read.table(file('stdin'), header=F); Data1.subset <- sample(1:nrow(Data1), 6152, replace=F); write.table(Data1[Data1.subset,], quote=FALSE, col.names=FALSE, row.names=FALSE);" | grep -v ^\> > /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.Covars.FullDataset.NonEuropeans.Ran6000.FIDIIDs
-cat <(cat /users/mturchin/data/ukbiobank_jun17/subsets/British/British.Ran4000/mturchin20/ukb_chr1_v3.British.Ran4000.QCed.reqDrop.QCed.dropRltvs.PCAdrop.fam | awk '{ print $1 "\t" $2 }') /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.Covars.FullDataset.NonEuropeans.Ran6000.FIDIIDs > /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.Covars.British.PlusNonEuro.FIDIIDs 
-
-cat /users/mturchin/data/ukbiobank_jun17/subsets/Indian/Indian/mturchin20/ukb_chr1_v3.Indian.QCed.reqDrop.QCed.dropRltvs.PCAdrop.fam /users/mturchin/data/ukbiobank_jun17/subsets/Pakistani/Pakistani/mturchin20/ukb_chr1_v3.Pakistani.QCed.reqDrop.QCed.dropRltvs.PCAdrop.fam | awk '{ print $1 "\t" $2 }' > /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.Covars.Southasian.FIDIIDs
-
-
 
 ```
 (MultiEthnicGWAS) [  mturchin@login004  ~/LabMisc/RamachandranLab/MultiEthnicGWAS]$cat /users/mturchin/data/ukbiobank_jun17/subsets/African/African/Imputation/mturchin20/ukb_chrAll_v3.African.QCed.reqDrop.QCed.dropRltvs.PCAdrop.sort.ImptHRC.dose.100geno.bim | wc
@@ -2892,8 +2883,8 @@ X find overlap in snps, subset down to overlapped snps, then merge files
 
 X full plink bed/bim/fam
 X genotype matrix (--recodeAD)
-phenos
-    re-quantile normalize after combining (?)
+X phenos
+    O re-quantile normalize after combining (?; no, would not make sense after AC adjustments too now)
 covars
     get PCs from FullDataset PCs
     combine Indian/Paki local PCs
@@ -2904,7 +2895,7 @@ X cov files
 X do pathway files
 X do cov files
 ~ do genotype subset files
-- do phenotypes
+X do phenotypes
 - do and figure out covars
 - test run analyses
 - run analyses
