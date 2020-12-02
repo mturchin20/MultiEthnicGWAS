@@ -2882,6 +2882,9 @@ cat /users/mturchin/data/ukbiobank_jun17/subsets/Indian/Indian/mturchin20/ukb_ch
 
 
 
+Pathways.Check <- read.table(\\\"/users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/Analyses/InterPath/c2.all.v6.1.wcp_comps.symbols.${ancestry2}.v3.ImptHRC.dose.100geno.Regions.c2.${k}.noDups.txt\\\", header=F); 
+
+
 
 
 ```
@@ -2903,17 +2906,19 @@ X covars
 X pathway files
 X genotype subset files
 X cov files
-- pheno/geno regress files
+X pheno/geno regress files
+- pathwaychkfile
 
 X do pathway files
 X do cov files
 X do genotype subset files
 X do phenotypes
 X do and figure out covars
-- do pheno/geno regress files
+X do pheno/geno regress files
+- do pathwaychkfile
 - test run analyses
 - run analyses
-
+- collect first set of sim runs and see how things look
 
 
 
