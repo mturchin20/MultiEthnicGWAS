@@ -2377,6 +2377,7 @@ export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/users/mturchin/conda/MultiEthnicGWAS/li
 
 #20180313 Note -- as of this date, the first version of this file downloaded appears to be the 'old' version in circulation (see 'http://www.ukbiobank.ac.uk/wp-content/uploads/2017/07/ukb_genetic_file_description.txt'); going to attempt to find/locate/access the most recent, up-to-date one soon
 cd /users/mturchin/data/ukbiobank_jun17
+#20201202 NOTE -- combining the .fam file with the .sqc_v2 file in this way below is fine; the orders are the same.
 ftp ftp.ega.ebi.ac.uk
 #See Slack for login & PW
 cd EGAD00010001226
@@ -2880,11 +2881,8 @@ ln -s /users/mturchin/data/ukbiobank_jun17/subsets/British/British.PlusNonEuro/m
 
 cat /users/mturchin/data/ukbiobank_jun17/subsets/Indian/Indian/mturchin20/ukb_chrAll_v3.Indian.QCed.pruned.QCed.dropRltvs.noX.PCAdrop.flashpca.pcs.wFullCovars.wAC.txt /users/mturchin/data/ukbiobank_jun17/subsets/Pakistani/Pakistani/mturchin20/ukb_chrAll_v3.Pakistani.QCed.pruned.QCed.dropRltvs.noX.PCAdrop.flashpca.pcs.wFullCovars.wAC.txt > /users/mturchin/data/ukbiobank_jun17/subsets/Asian/Southasian/mturchin20/ukb_chrAll_v3.Southasian.QCed.pruned.QCed.dropRltvs.noX.PCAdrop.flashpca.pcs.wFullCovars.wAC.txt
 
-
-
-Pathways.Check <- read.table(\\\"/users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/Analyses/InterPath/c2.all.v6.1.wcp_comps.symbols.${ancestry2}.v3.ImptHRC.dose.100geno.Regions.c2.${k}.noDups.txt\\\", header=F); 
-
-
+#Took care of 'Pathways.Check' file as well, code is in other workbook 
+#Pathways.Check <- read.table(\\\"/users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/Analyses/InterPath/c2.all.v6.1.wcp_comps.symbols.${ancestry2}.v3.ImptHRC.dose.100geno.Regions.c2.${k}.noDups.txt\\\", header=F); 
 
 
 ```
@@ -2907,7 +2905,7 @@ X pathway files
 X genotype subset files
 X cov files
 X pheno/geno regress files
-- pathwaychkfile
+X pathwaychkfile
 
 X do pathway files
 X do cov files
@@ -2915,7 +2913,7 @@ X do genotype subset files
 X do phenotypes
 X do and figure out covars
 X do pheno/geno regress files
-- do pathwaychkfile
+X do pathwaychkfile
 - test run analyses
 - run analyses
 - collect first set of sim runs and see how things look
