@@ -2881,6 +2881,31 @@ ln -s /users/mturchin/data/ukbiobank_jun17/subsets/British/British.PlusNonEuro/m
 
 cat /users/mturchin/data/ukbiobank_jun17/subsets/Indian/Indian/mturchin20/ukb_chrAll_v3.Indian.QCed.pruned.QCed.dropRltvs.noX.PCAdrop.flashpca.pcs.wFullCovars.wAC.txt <(cat /users/mturchin/data/ukbiobank_jun17/subsets/Pakistani/Pakistani/mturchin20/ukb_chrAll_v3.Pakistani.QCed.pruned.QCed.dropRltvs.noX.PCAdrop.flashpca.pcs.wFullCovars.wAC.txt | grep -v CENTER) > /users/mturchin/data/ukbiobank_jun17/subsets/Asian/Southasian/mturchin20/ukb_chrAll_v3.Southasian.QCed.pruned.QCed.dropRltvs.noX.PCAdrop.flashpca.pcs.wFullCovars.wAC.txt
 
+#20210219 -- putting the Afr/Brit subgroup together 
+
+cat /users/mturchin/data/ukbiobank_jun17/subsets/African/African/mturchin20/ukb_chr1_v3.African.QCed.reqDrop.QCed.dropRltvs.PCAdrop.fam | awk '{ print $1 "\t" $2 }' | R -q -e "set.seed(7382346); Data1 <- read.table(file('stdin'), header=F); Data1.subset <- sample(1:nrow(Data1), 2000, replace=F); write.table(Data1[Data1.subset,], quote=FALSE, col.names=FALSE, row.names=FALSE);" | grep -v ^\> > /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.Covars.AfricanRan2k.FIDIIDs
+cat /users/mturchin/data/ukbiobank_jun17/subsets/British/British.Ran4000/mturchin20/ukb_chr1_v3.British.Ran4000.QCed.reqDrop.QCed.dropRltvs.PCAdrop.fam | awk '{ print $1 "\t" $2 }' | R -q -e "set.seed(7382346); Data1 <- read.table(file('stdin'), header=F); Data1.subset <- sample(1:nrow(Data1), 2000, replace=F); write.table(Data1[Data1.subset,], quote=FALSE, col.names=FALSE, row.names=FALSE);" | grep -v ^\> > /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.Covars.BritishRan2k.FIDIIDs
+
+join <(cat /users/mturchin/data/ukbiobank_jun17/subsets/African/African/Imputation/mturchin20/ukb_chrAll_v3.African.QCed.reqDrop.QCed.dropRltvs.PCAdrop.sort.ImptHRC.dose.100geno.bim | awk '{ print $2 }' | sort) <(cat /users/mturchin/data/ukbiobank_jun17/subsets/Caribbean/Caribbean/Imputation/mturchin20/ukb_chrAll_v3.Caribbean.QCed.reqDrop.QCed.dropRltvs.PCAdrop.sort.ImptHRC.dose.100geno.bim | awk '{ print $2 }' | sort) | \
+join - <(cat /users/mturchin/data/ukbiobank_jun17/subsets/Chinese/Chinese/Imputation/mturchin20/ukb_chrAll_v3.Chinese.QCed.reqDrop.QCed.dropRltvs.PCAdrop.sort.ImptHRC.dose.100geno.bim | awk '{ print $2 }' | sort) | \
+join - <(cat /users/mturchin/data/ukbiobank_jun17/subsets/Indian/Indian/Imputation/mturchin20/ukb_chrAll_v3.Indian.QCed.reqDrop.QCed.dropRltvs.PCAdrop.sort.ImptHRC.dose.100geno.bim | awk '{ print $2 }' | sort) | \
+join - <(cat /users/mturchin/data/ukbiobank_jun17/subsets/Pakistani/Pakistani/Imputation/mturchin20/ukb_chrAll_v3.Pakistani.QCed.reqDrop.QCed.dropRltvs.PCAdrop.sort.ImptHRC.dose.100geno.bim | awk '{ print $2 }' | sort) | \
+join - <(cat /users/mturchin/data/ukbiobank_jun17/subsets/British/British.Ran4000/Imputation/mturchin20/ukb_chrAll_v3.British.Ran4000.QCed.reqDrop.QCed.dropRltvs.PCAdrop.sort.ImptHRC.dose.100geno.bim | awk '{ print $2 }' | sort) > /users/mturchin/data/ukbiobank_jun17/subsets/British/British.PlusNonEuro/Imputation/mturchin20/ukb_chrAll_v3.British.Ran4000.QCed.reqDrop.QCed.dropRltvs.PCAdrop.sort.ImptHRC.dose.100geno.Overlap.British.PlusNonEuro.bim.SNPIDs 
+
+cat 
+
+
+cat /users/mturchin/data/ukbiobank_jun17/subsets/African/African/mturchin20/ukb_chr1_v3.African.QCed.reqDrop.QCed.dropRltvs.PCAdrop.fam /users/mturchin/data/ukbiobank_jun17/subsets/Caribbean/Caribbean/mturchin20/ukb_chr1_v3.Caribbean.QCed.reqDrop.QCed.dropRltvs.PCAdrop.fam /users/mturchin/data/ukbiobank_jun17/subsets/Chinese/Chinese/mturchin20/ukb_chr1_v3.Chinese.QCed.reqDrop.QCed.dropRltvs.PCAdrop.fam /users/mturchin/data/ukbiobank_jun17/subsets/Indian/Indian/mturchin20/ukb_chr1_v3.Indian.QCed.reqDrop.QCed.dropRltvs.PCAdrop.fam /users/mturchin/data/ukbiobank_jun17/subsets/Pakistani/Pakistani/mturchin20/ukb_chr1_v3.Pakistani.QCed.reqDrop.QCed.dropRltvs.PCAdrop.fam | awk '{ print $1 "\t" $2 }' > /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.Covars.FullDataset.NonEuropeans.FIDIIDs
+cat /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.Covars.FullDataset.NonEuropeans.FIDIIDs | awk '{ print $1 "\t" $2 }' | R -q -e "set.seed(7382346); Data1 <- read.table(file('stdin'), header=F); Data1.subset <- sample(1:nrow(Data1), 6152, replace=F); write.table(Data1[Data1.subset,], quote=FALSE, col.names=FALSE, row.names=FALSE);" | grep -v ^\> > /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.Covars.FullDataset.NonEuropeans.Ran6000.FIDIIDs
+cat <(cat /users/mturchin/data/ukbiobank_jun17/subsets/British/British.Ran4000/mturchin20/ukb_chr1_v3.British.Ran4000.QCed.reqDrop.QCed.dropRltvs.PCAdrop.fam | awk '{ print $1 "\t" $2 }') /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.Covars.FullDataset.NonEuropeans.Ran6000.FIDIIDs > /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.Covars.British.PlusNonEuro.FIDIIDs 
+
+
+
+
+
+
+
+
 #Took care of 'Pathways.Check' file as well, code is in other workbook 
 #Pathways.Check <- read.table(\\\"/users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/mturchin20/Analyses/InterPath/c2.all.v6.1.wcp_comps.symbols.${ancestry2}.v3.ImptHRC.dose.100geno.Regions.c2.${k}.noDups.txt\\\", header=F); 
 
