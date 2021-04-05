@@ -2899,7 +2899,15 @@ plink --bfile /users/mturchin/data/ukbiobank_jun17/subsets/African/African/Imput
 plink --bfile /users/mturchin/data/ukbiobank_jun17/subsets/British/British.Ran4000/Imputation/mturchin20/ukb_chrAll_v3.British.Ran4000.QCed.reqDrop.QCed.dropRltvs.PCAdrop.sort.ImptHRC.dose.100geno --extract /users/mturchin/data/ukbiobank_jun17/subsets/British/British.PlusNonEuro/Imputation/mturchin20/ukb_chrAll_v3.British.Ran4000.QCed.reqDrop.QCed.dropRltvs.PCAdrop.sort.ImptHRC.dose.100geno.Overlap.British.PlusAfrican.bim.SNPIDs --keep /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.Covars.BritishRan2k.FIDIIDs --make-bed --out /users/mturchin/data/ukbiobank_jun17/subsets/British/British.PlusAfrican/Imputation/mturchin20/ukb_chrAll_v3.British.Ran4000.QCed.reqDrop.QCed.dropRltvs.PCAdrop.sort.ImptHRC.dose.100geno.Subset.British.PlusAfrican
 
 plink --bfile /users/mturchin/data/ukbiobank_jun17/subsets/British/British.PlusAfrican/Imputation/mturchin20/ukb_chrAll_v3.African.QCed.reqDrop.QCed.dropRltvs.PCAdrop.sort.ImptHRC.dose.100geno.Subset.British.PlusAfrican --bmerge /users/mturchin/data/ukbiobank_jun17/subsets/British/British.PlusAfrican/Imputation/mturchin20/ukb_chrAll_v3.British.Ran4000.QCed.reqDrop.QCed.dropRltvs.PCAdrop.sort.ImptHRC.dose.100geno.Subset.British.PlusAfrican --make-bed --out /users/mturchin/data/ukbiobank_jun17/subsets/British/British.PlusAfrican/Imputation/mturchin20/ukb_chrAll_v3.British.PlusAfrican.QCed.reqDrop.QCed.dropRltvs.PCAdrop.sort.ImptHRC.dose.100geno 
+cat /users/mturchin/data/ukbiobank_jun17/subsets/British/British.PlusAfrican/Imputation/mturchin20/ukb_chrAll_v3.British.PlusAfrican.QCed.reqDrop.QCed.dropRltvs.PCAdrop.sort.ImptHRC.dose.100geno.fam | awk '{ print $1 "\t" $2 }' > /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.Covars.British.PlusAfrican.FIDIIDs
 
+mkdir /users/mturchin/data/ukbiobank_jun17/subsets/British/British.PlusAfrican/mturchin20
+join <(join <(cat /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.Covars.txt | awk '{ print $1 "_" $2 "\t" $0 }' | sort -k 1,1) <(join <(cat /users/mturchin/data/ukbiobank_jun17/mturchin/FullDataset/ukb_chrAll_v3.All.QCed.reqDrop.QCed.dropRltvs.PCAdrop.SNPoverlap.pruned.flashpca.pcs.txt.wInfo.txt | awk '{ print $1 "_" $2 "\t" $0 }' | sort -k 1,1) <(cat /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.Covars.British.PlusAfrican.FIDIIDs | awk '{ print $1 "_" $2 }' | sort))) <(cat /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.AssessmentCenter.csv | awk -F, '{ print $1 "_" $1 "\t" $2 }' | sort -k 1,1) | perl -lane 'splice(@F, 6, 0, $F[$#F]); splice(@F, 7, 1); splice(@F, 7, 1); print join("\t", @F[1..$#F-11]);' | cat <(echo -e "FID\tIID\tSEX\tANCESTRY\tAGE\tCENTER\tPC1\tPC2\tPC3\tPC4\tPC5\tPC6\tPC7\tPC8\tPC9\tPC10") - > /users/mturchin/data/ukbiobank_jun17/subsets/British/British.PlusAfrican/mturchin20/ukb_chrAll_v3.British.PlusAfrican.QCed.reqDrop.QCed.dropRltvs.PCAdrop.FullDataset.pruned.flashpca.pcs.wFullCovars.wAC.txt
+ln -s /users/mturchin/data/ukbiobank_jun17/subsets/British/British.PlusAfrican/mturchin20/ukb_chrAll_v3.British.PlusAfrican.QCed.reqDrop.QCed.dropRltvs.PCAdrop.FullDataset.pruned.flashpca.pcs.wFullCovars.wAC.txt /users/mturchin/data/ukbiobank_jun17/subsets/British/British.PlusAfrican/mturchin20/ukb_chrAll_v3.British.PlusAfrican.QCed.pruned.QCed.dropRltvs.noX.PCAdrop.flashpca.pcs.wFullCovars.wAC.txt
+
+
+join <(join <(cat /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.Covars.txt | awk '{ print $1 "_" $2 "\t" $0 }' | sort -k 1,1) <(join <(cat /users/mturchin/data/ukbiobank_jun17/mturchin/FullDataset/ukb_chrAll_v3.All.QCed.reqDrop.QCed.dropRltvs.PCAdrop.SNPoverlap.pruned.flashpca.pcs.txt.wInfo.txt | awk '{ print $1 "_" $2 "\t" $0 }' | sort -k 1,1) <(cat /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.Covars.British.PlusNonEuro.FIDIIDs | awk '{ print $1 "_" $2 }' | sort))) <(cat /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.AssessmentCenter.csv | awk -F, '{ print $1 "_" $1 "\t" $2 }' | sort -k 1,1) | perl -lane 'splice(@F, 6, 0, $F[$#F]); splice(@F, 7, 1); splice(@F, 7, 1); print join("\t", @F[1..$#F-11]);' | cat <(echo -e "FID\tIID\tSEX\tANCESTRY\tAGE\tCENTER\tPC1\tPC2\tPC3\tPC4\tPC5\tPC6\tPC7\tPC8\tPC9\tPC10") - > /users/mturchin/data/ukbiobank_jun17/subsets/British/British.PlusNonEuro/mturchin20/ukb_chrAll_v3.British.PlusNonEuro.QCed.reqDrop.QCed.dropRltvs.PCAdrop.FullDataset.pruned.flashpca.pcs.wFullCovars.wAC.txt
+ln -s /users/mturchin/data/ukbiobank_jun17/subsets/British/British.PlusNonEuro/mturchin20/ukb_chrAll_v3.British.PlusNonEuro.QCed.reqDrop.QCed.dropRltvs.PCAdrop.FullDataset.pruned.flashpca.pcs.wFullCovars.wAC.txt /users/mturchin/data/ukbiobank_jun17/subsets/British/British.PlusNonEuro/mturchin20/ukb_chrAll_v3.British.PlusNonEuro.QCed.pruned.QCed.dropRltvs.noX.PCAdrop.flashpca.pcs.wFullCovars.wAC.txt
 
 
 
@@ -2913,6 +2921,29 @@ plink --bfile /users/mturchin/data/ukbiobank_jun17/subsets/British/British.PlusA
  374466 2246796 10965719
 (MultiEthnicGWAS) [  mturchin@login004  ~/LabMisc/RamachandranLab/MultiEthnicGWAS]$zcat /users/mturchin/data/ukbiobank_jun17/subsets/$ancestry1/$ancestry2/Imputation/mturchin20/ukb_chrAll_v3.${ancestry2}.QCed.reqDrop.QCed.dropRltvs.PCAdrop.sort.ImptHRC.dose.100geno.raw.edit.gz | head -n 10 | perl -lane 'print $#F;' | sort | uniq -c
      10 374465
+#20210404
+(MultiEthnicGWAS) [  mturchin@node1314  ~]$paste <(cat /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.Covars.British.PlusAfrican.FIDIIDs) <(cat /users/mturchin/data/ukbiobank_jun17/subsets/British/British.PlusAfrican/mturchin20/ukb_chrAll_v3.British.PlusAfrican.QCed.reqDrop.QCed.dropRltvs.PCAdrop.FullDataset.pruned.flashpca.pcs.wFullCovars.wAC.txt | awk '{ print $1 }' | grep -v FID) | head -n 10
+1000775 1000775 1000775
+1001592 1001592 1001592
+1002785 1002785 1002785
+1003036 1003036 1003036
+1008167 1008167 1008167
+1009965 1009965 1009965
+1010953 1010953 1010953
+1012491 1012491 1012491
+1013297 1013297 1013297
+1013689 1013689 1013689
+(MultiEthnicGWAS) [  mturchin@node1314  ~]$paste <(cat /users/mturchin/data/ukbiobank_jun17/mturchin/ukb9200.2017_8_WinterRetreat.Covars.British.PlusAfrican.FIDIIDs) <(cat /users/mturchin/data/ukbiobank_jun17/subsets/British/British.PlusAfrican/mturchin20/ukb_chrAll_v3.British.PlusAfrican.QCed.reqDrop.QCed.dropRltvs.PCAdrop.FullDataset.pruned.flashpca.pcs.wFullCovars.wAC.txt | awk '{ print $1 }' | grep -v FID) | tail -n 10
+6010753 6010753 6010753
+6010896 6010896 6010896
+6011864 6011864 6011864
+6014349 6014349 6014349
+6016914 6016914 6016914
+6023159 6023159 6023159
+6023508 6023508 6023508
+6023600 6023600 6023600
+6025294 6025294 6025294
+6026322 6026322 6026322
 ```
 
 X find overlap in snps, subset down to overlapped snps, then merge files
